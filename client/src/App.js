@@ -37,7 +37,6 @@ const GlobalStyles = createGlobalStyle`
         }
     }
     button {
-        border: 1px solid #38d9a9;
         background: none;
         cursor: pointer;
     }
@@ -79,7 +78,7 @@ function App() {
 		const url = `${naverurl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
 		window.location.assign(url);
 	}
-  
+
 	return (
 		<Router>
 			<GlobalStyles />
@@ -91,8 +90,8 @@ function App() {
 				<Route path="/login">{/* <Signin /> */}</Route>
 				<Route path="/signup">{/* <Signup /> */}</Route>
 				<Route path="/make">{/* <Signup /> */}</Route>
-//        <button onClick={kakaoclick}>kakao</button>
-// 				<button onClick={naverclick}>naver</button>
+				<button onClick={kakaoclick}>kakao</button>
+				<button onClick={naverclick}>naver</button>
 			</Switch>
 		</Router>
 	);
