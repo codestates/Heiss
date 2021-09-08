@@ -2,7 +2,7 @@ require("dotenv").config();
 const https = require("https");
 const cors = require("cors");
 const fs = require("fs");
-
+const userRouter = require("./route/user");
 const express = require("express");
 const app = express();
 
@@ -11,9 +11,10 @@ app.use(
 	cors({
 		origin: true,
 		credentials: true,
-		methods: ["GET", "POST", "OPTIONS"],
+		methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
 	})
 );
+app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
 	res.send("hello world~~~");
