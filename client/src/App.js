@@ -3,18 +3,20 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import axios from "axios";
 import dotenv from "dotenv";
+import Mainpage from "./page/Mainpage";
 
 dotenv.config();
 
 const GlobalStyles = createGlobalStyle`
     * {
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-    list-style: none;
-    text-decoration: none;
-  }
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+      list-style: none;
+      text-decoration: none;
+    }
+
     body {
         @import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
         font-family: "Noto Sans KR", sans-serif !important;
@@ -77,24 +79,20 @@ function App() {
 		const url = `${naverurl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
 		window.location.assign(url);
 	}
+  
 	return (
 		<Router>
 			<GlobalStyles />
 			<Switch>
 				<Route exact path="/">
-					{/* <Mainpage /> */}
-					<button onClick={kakaoclick}>kakao</button>
-					<button onClick={naverclick}>naver</button>
+					<Mainpage />
 				</Route>
-				<Route exact path="/review">
-					{/* <Review /> */}
-				</Route>
-				<Route exact path="/login">
-					{/* <Signin /> */}
-				</Route>
-				<Route exact path="/signup">
-					{/* <Signup /> */}
-				</Route>
+				<Route path="/review">{/* <Review /> */}</Route>
+				<Route path="/login">{/* <Signin /> */}</Route>
+				<Route path="/signup">{/* <Signup /> */}</Route>
+				<Route path="/make">{/* <Signup /> */}</Route>
+//        <button onClick={kakaoclick}>kakao</button>
+// 				<button onClick={naverclick}>naver</button>
 			</Switch>
 		</Router>
 	);
