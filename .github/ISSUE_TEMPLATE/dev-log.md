@@ -1,6 +1,6 @@
 ---
 name: Dev Log
-about: Suggest an idea for this project
+about: Dev Log
 title: Dev Log
 labels: ''
 assignees: ''
