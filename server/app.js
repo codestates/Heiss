@@ -19,6 +19,6 @@ app.get("/", (req, res) => {
 });
 const PORT = 80;
 
-const server = app.listen(PORT, () => {});
+const server = app.listen(PORT, () => console.log("서버가 열려따..!"));
 
 module.exports = server;
