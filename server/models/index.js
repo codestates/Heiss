@@ -43,6 +43,27 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// const { user, review, customcase, phone, like, source } = sequelize.models;
+const { users, review, customCase, phone, like, source } = sequelize.models;
+
+review.hasMany(source);
+source.belongsTo(review);
+
+// phone.belongsTo(customcase);
+// customcase.hasMany(phone);
+
+phone.hasOne(customCase);
+customCase.belongsTo(phone);
+
+customCase.hasMany(review, { foreignKey: "caseId" });
+review.belongsTo(customCase, { foreignKey: "caseId" });
+
+users.hasMany(customCase);
+customCase.belongsTo(users);
+
+users.hasMany(review);
+review.belongsTo(users);
+
+users.belongsToMany(review, { through: like });
+review.belongsToMany(users, { through: like });
 
 module.exports = db;

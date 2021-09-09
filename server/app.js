@@ -12,6 +12,7 @@ app.use(
 		methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
 	})
 );
+
 app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
