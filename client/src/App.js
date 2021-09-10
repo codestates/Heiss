@@ -1,47 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import axios from "axios";
 import dotenv from "dotenv";
+
 import Mainpage from "./page/Mainpage";
 import Review from "./page/Review";
 
 dotenv.config();
 
 const GlobalStyles = createGlobalStyle`
-    * {
-      margin: 0;
-      padding: 0;
-      border: none;
-      outline: none;
-      list-style: none;
-      text-decoration: none;
-    }
+	* {
+		margin: 0;
+		padding: 0;
+		border: none;
+		outline: none;
+		list-style: none;
+		text-decoration: none;
+	}
 
-    body {
-        @import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
-        font-family: "Noto Sans KR", sans-serif !important;
-        /* background-color: #F5F5F3; */
-        /* background-color: black; */
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-    }
-    input {
-        background-color: rgba(0, 0, 0, 0);
-        /* border: 1px solid #38d9a9; */
-        /* color: #38d9a9; */
-        &::placeholder {
-            color: #f5f5f3;
-            font-weight: bold;
-            font-size: 18px;
-        }
-    }
-    button {
-        border: 1px solid #38d9a9;
-        background: none;
-        cursor: pointer;
-    }
+
+	body {
+		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
+		font-family: "Noto Sans KR", sans-serif !important;
+		background-color: #F5F5F3;
+		/* background-color: black; */
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		-ms-overflow-style: none;
+	}
+	input {
+		background-color: rgba(0, 0, 0, 0);
+		border: 3px solid #f47676;
+		color: #f47676;
+		padding: 13px;
+		&::placeholder {
+			color: #f5f5f3;
+			font-weight: bold;
+			font-size: 18px;
+		}
+	}
+	button {
+		background: none;
+		cursor: pointer;
+	}
 `;
 
 const App = () => {
@@ -94,8 +97,8 @@ const App = () => {
 				<Route path="/login">{/* <Signin /> */}</Route>
 				<Route path="/signup">{/* <Signup /> */}</Route>
 				<Route path="/make">{/* <Signup /> */}</Route>
-				// <button onClick={kakaoclick}>kakao</button>
-				// <button onClick={naverclick}>naver</button>
+				<button onClick={kakaoclick}>kakao</button>
+				<button onClick={naverclick}>naver</button>
 			</Switch>
 		</Router>
 	);
