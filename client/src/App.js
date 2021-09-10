@@ -5,6 +5,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 
 import Mainpage from "./page/Mainpage";
+import Review from "./page/Review";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const GlobalStyles = createGlobalStyle`
 		list-style: none;
 		text-decoration: none;
 	}
+
 
 	body {
 		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
@@ -45,7 +47,7 @@ const GlobalStyles = createGlobalStyle`
 	}
 `;
 
-function App() {
+const App = () => {
 	const getAccessToken = async (authorizationCode, platform) => {
 		const url = process.env.REACT_APP_API_URL + "user/oauth";
 		await axios
@@ -89,7 +91,9 @@ function App() {
 				<Route exact path="/">
 					<Mainpage />
 				</Route>
-				<Route path="/review">{/* <Review /> */}</Route>
+				<Route path="/review">
+					<Review />
+				</Route>
 				<Route path="/login">{/* <Signin /> */}</Route>
 				<Route path="/signup">{/* <Signup /> */}</Route>
 				<Route path="/make">{/* <Signup /> */}</Route>
@@ -98,6 +102,6 @@ function App() {
 			</Switch>
 		</Router>
 	);
-}
+};
 
 export default App;

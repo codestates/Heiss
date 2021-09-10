@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Nav from "./Nav";
-
 import video from "../video/mainpage.mp4";
 import logo from "../img/heiss.svg";
 
