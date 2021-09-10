@@ -1,5 +1,5 @@
 const {
-	customcase,
+	customCase,
 	like,
 	phone,
 	review,
@@ -14,7 +14,6 @@ module.exports = {
 	getAllReview: async (req, res) => {
 		try {
 			const reviewList = await review.findAll({
-				// attributes: ["id", "score", "userId", "caseId", "title", "desc"],
 				include: [
 					{
 						model: users,
@@ -35,7 +34,6 @@ module.exports = {
 		const reviewId = req.params.id;
 		try {
 			const detailReview = await review.findOne({
-				// attributes: ["id", "score", "userId", "caseId", "title", "desc"],
 				where: { id: reviewId },
 				include: [
 					{
@@ -46,7 +44,11 @@ module.exports = {
 					{ model: source, reqiured: true, attributes: ["imgUrl"] },
 				],
 			});
-			res.status(201).json({ data: detailReview });
+			if (detailReview) {
+				res.status(201).json({ data: detailReview });
+			} else if (!detailReview) {
+				res.status(404).json({ message: "Post not found" });
+			}
 		} catch (err) {
 			res.status(500).send(console.log(err));
 		}
@@ -68,7 +70,7 @@ module.exports = {
 				});
 				res.status(200).json({ message: "ok" });
 			} catch (err) {
-				res.status(500).json({ message: "server error" });
+				res.status(500).send(console.log(err));
 			}
 		} else {
 			res.status(422).json({ message: "insufficient parameters supplied" });
@@ -78,19 +80,49 @@ module.exports = {
 	//! 리뷰 수정하기
 	patchEditReview: async (req, res) => {
 		const reviewId = req.params.id;
+		const { score, title, desc } = req.body;
 		// const accessToken = req.cookies.accessToken;
 		// const userInfo = await jwt.verify(accessToken, process.env.ACCESS_TOKEN);
-		// try{
-		//   if(userInfo.id === reviewId.userId){
-		//     const
-		//   }
-		// }catch (err) {
-		// 		res.status(500).json({ message: "server error" });
+		// try {
+		// 	if (userInfo.id === reviewId.userId) {
+		try {
+			if (score && title && desc) {
+				await review.update(
+					{ score, title, desc },
+					{
+						where: { id: reviewId },
+					}
+				);
+				res.status(200).json({ message: "ok" });
+			}
+		} catch (err) {
+			res.status(422).json({ message: "insufficient parameters supplied" });
+		}
 		// 	}
+		// } catch (err) {
+		// 	res.status(401).json({ message: "Unauthorized request" });
+		// }
 	},
 
 	//! 리뷰 삭제하기
-	deleteReview: async (req, res) => {},
+	deleteReview: async (req, res) => {
+		const reviewId = req.params.id;
+		const accessToken = req.cookies.accessToken;
+		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_TOKEN);
+		const findReview = await review.findOne({ where: { id: reviewId } });
+		const findUser = findReview.userId;
+
+		try {
+			if (findUser === userInfo.id) {
+				await review.destroy({ where: { id: reviewId } });
+				res.status(200).json({ message: "ok" });
+			} else if (findUser !== userInfo.id) {
+				res.status(401).json({ message: "Unauthorized request" });
+			}
+		} catch (err) {
+			res.status(500).send(console.log(err));
+		}
+	},
 
 	//! 리뷰 좋아요
 	getLikeReview: async (req, res) => {},
