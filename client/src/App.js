@@ -50,7 +50,7 @@ function App() {
 		const url = process.env.REACT_APP_API_URL + "user/oauth";
 		await axios
 			.post(url, { authorizationCode: authorizationCode, platform: platform })
-			.then((response) => console.log("oauth login response"));
+			.then((response) => console.log(response));
 	};
 
 	useEffect(() => {
