@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import axios from "axios";
 import dotenv from "dotenv";
 import Mainpage from "./page/Mainpage";
+import Review from "./page/Review";
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         @import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
         font-family: "Noto Sans KR", sans-serif !important;
-        background-color: #F5F5F3;
+        /* background-color: #F5F5F3; */
         /* background-color: black; */
         height: 100%;
         width: 100%;
@@ -28,8 +29,8 @@ const GlobalStyles = createGlobalStyle`
     }
     input {
         background-color: rgba(0, 0, 0, 0);
-        border: 1px solid #38d9a9;
-        color: #38d9a9;
+        /* border: 1px solid #38d9a9; */
+        /* color: #38d9a9; */
         &::placeholder {
             color: #f5f5f3;
             font-weight: bold;
@@ -43,7 +44,7 @@ const GlobalStyles = createGlobalStyle`
     }
 `;
 
-function App() {
+const App = () => {
 	const getAccessToken = async (authorizationCode, platform) => {
 		const url = process.env.REACT_APP_API_URL + "user/oauth";
 		await axios
@@ -79,7 +80,7 @@ function App() {
 		const url = `${naverurl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
 		window.location.assign(url);
 	}
-  
+
 	return (
 		<Router>
 			<GlobalStyles />
@@ -87,15 +88,17 @@ function App() {
 				<Route exact path="/">
 					<Mainpage />
 				</Route>
-				<Route path="/review">{/* <Review /> */}</Route>
+				<Route path="/review">
+					<Review />
+				</Route>
 				<Route path="/login">{/* <Signin /> */}</Route>
 				<Route path="/signup">{/* <Signup /> */}</Route>
 				<Route path="/make">{/* <Signup /> */}</Route>
-//        <button onClick={kakaoclick}>kakao</button>
-// 				<button onClick={naverclick}>naver</button>
+				// <button onClick={kakaoclick}>kakao</button>
+				// <button onClick={naverclick}>naver</button>
 			</Switch>
 		</Router>
 	);
-}
+};
 
 export default App;

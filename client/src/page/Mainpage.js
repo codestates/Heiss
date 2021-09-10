@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import theme from "../components/utils/theme";
 import Nav from "./Nav";
-
 import video from "../video/mainpage.mp4";
 import logo from "../img/heiss.png";
 
