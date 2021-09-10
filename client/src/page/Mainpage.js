@@ -43,6 +43,9 @@ const MainpageBoxFirst = styled.ul`
 			margin: 15px;
 			letter-spacing: 3px;
 			line-height: 27px;
+			@media ${(props) => props.theme.tablet} {
+				font-size: 13px;
+			}
 		}
 
 		@media ${(props) => props.theme.mobileL} {
@@ -55,11 +58,15 @@ const MainpageBoxFirst = styled.ul`
 	}
 
 	.mainLogo {
-		height: 20rem;
-
 		@media ${(props) => props.theme.mobileL} {
 			height: 6rem;
 		}
+
+		@media ${(props) => props.theme.tablet} {
+			height: 6rem;
+		}
+		height: 20rem;
+		margin-bottom: 1rem;
 	}
 
 	video {
@@ -99,6 +106,11 @@ const MainpageBoxFirst = styled.ul`
 		@media ${(props) => props.theme.mobileL} {
 			margin-top: 2rem;
 		}
+
+		@media ${(props) => props.theme.tablet} {
+			width: 11rem;
+			margin-left: 1.5rem;
+		}
 	}
 
 	iframe {
@@ -107,6 +119,17 @@ const MainpageBoxFirst = styled.ul`
 
 	.animationText {
 		display: flex;
+		@media ${(props) => props.theme.tablet} {
+			flex-direction: column;
+		}
+		h2 {
+			@media ${(props) => props.theme.tablet} {
+				font-size: 20px;
+				&:last-child {
+					margin-left: 3rem;
+				}
+			}
+		}
 	}
 
 	.slide__box {
@@ -126,6 +149,9 @@ const MainpageBoxFirst = styled.ul`
 		text-align: center;
 		font-size: 40px;
 		line-height: 52px;
+		@media ${(props) => props.theme.tablet} {
+			font-size: 20px;
+		}
 	}
 
 	/* 첫번째부터 시작되도록함 이걸 안하면 슬라이더들이 제각각 움직임 */
@@ -174,7 +200,7 @@ const Mainpage = () => {
 		}
 	};
 
-	console.log(window.scrollY);
+	// console.log(window.scrollY);
 	return (
 		<MainpageSection>
 			<Nav />
