@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const axios = require("axios");
 const model = require("../../models");
 dotenv.config();
+axios.defaults.withCredentials = true;
 
 module.exports = (req, res) => {
 	const { authorizationCode, platform } = req.body;
