@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect, useHistory } from "react-router-dom";
+import axios from "axios";
 
 const SignupSection = styled.form`
 	display: flex;
@@ -44,13 +46,59 @@ const SignupSection = styled.form`
 `;
 
 const Singup = () => {
+	const [userInfo, setUserInfo] = useState({
+		email: "",
+		nickname: "",
+		password: "",
+	});
+	const history = useHistory();
+	const handleInputValue = (key) => (e) => {
+		setUserInfo({ ...userInfo, [key]: e.target.value });
+	};
+
+	const checkPassword = (e) => {
+		//  8 ~ 10자 영문, 숫자 조합
+		let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
+		console.log(regExp);
+	};
+
+	const handleSignup = (e) => {
+		const { email, username, password } = userInfo;
+
+		e.preventDefault();
+		axios
+			.post(``, userInfo)
+			.then(() => {
+				alert("회원가입 되었습니다! 로그인 해주세요.");
+			})
+			.then(() => {
+				return history.push("/");
+			});
+	};
+
 	return (
 		<SignupSection>
-			<input type="email" placeholder="이메일을 입력해주세요" />
-			<input type="nickname" placeholder="닉네임을 입력해주세요" />
-			<input type="password" placeholder="비밀번호를 입력해주세요" />
-			<input type="password" placeholder="비밀번호를 한번 더 입력해주세요" />
-			<button>회원가입</button>
+			<input
+				placeholder="이메일을 입력해주세요"
+				type="email"
+				onChange={handleInputValue("email")}
+			/>
+			<input
+				type="nickname"
+				placeholder="닉네임을 입력해주세요"
+				onChange={handleInputValue("nickname")}
+			/>
+			<input
+				type="password"
+				placeholder="비밀번호를 입력해주세요"
+				onChange={handleInputValue("password")}
+			/>
+			<input
+				type="password"
+				placeholder="비밀번호를 한번 더 입력해주세요"
+				onBlur={checkPassword}
+			/>
+			<button onClick={handleSignup}>회원가입</button>
 		</SignupSection>
 	);
 };

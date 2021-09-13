@@ -102,18 +102,46 @@ const BtnBox = styled.div`
 	}
 `;
 
-const Signin = () => {
+const Signin = ({ loginHandler }) => {
 	const [warring, setWarning] = useState(false);
-
+	const [loginInfo, setLoginInfo] = useState({
+		email: "",
+		password: "",
+	});
+	const [errorMessage, setErrorMessage] = useState("");
+	const onClickLogin = (key) => (e) => {
+		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+	};
+	const onSignIn = () => {
+		axios
+			.post(``, loginInfo, {
+				withCredentials: true,
+			})
+			.then((res) => loginHandler(res.data));
+		if (!loginInfo.email || !loginInfo.password) {
+			setErrorMessage("이메일과 비밀번호를 입력하세요");
+			return;
+		}
+	};
 	return (
 		<SigninSection>
-			<input type="email" placeholder="이메일을 입력해주세요" />
-			<input type="password" placeholder="비밀번호를 입력해주세요" />
+			<input
+				type="email"
+				placeholder="이메일을 입력해주세요"
+				onChange={onClickLogin("email")}
+			/>
+			<input
+				type="password"
+				placeholder="비밀번호를 입력해주세요"
+				onChange={onClickLogin("password")}
+			/>
 			{warring && <div className="warring warPwd">다시 입력해주세요</div>}
 			<BtnBox>
 				<button className="desktopBtn kakao">카카오 로그인</button>
 				<button className="desktopBtn naver">네이버 로그인</button>
-				<button className="desktopBtn">로그인</button>
+				<button className="desktopBtn" onClick={onSignIn}>
+					로그인
+				</button>
 				<button className="mobileBtn kakao">
 					<img src={kakao} alt="kakao" />
 				</button>
@@ -123,6 +151,7 @@ const Signin = () => {
 				<button className="mobileBtn loginBtn">
 					<img src={loginSVG} alt="loginSVG" />
 				</button>
+				<div className="alert-box">{errorMessage}</div>
 			</BtnBox>
 		</SigninSection>
 	);
