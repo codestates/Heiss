@@ -14,18 +14,21 @@ const reviewModal = {
 };
 
 const Test = () => {
-	const [boo, setBoo] = useState(false);
+	const [boo, setBoo] = useState(true);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
 	};
+
 	return (
 		<Modal
 			isOpen={boo}
 			style={reviewModal}
 			onRequestClose={() => reverseBoo()}
 			ariaHideApp={false}
-		/>
+		>
+			test
+		</Modal>
 	);
 };
 

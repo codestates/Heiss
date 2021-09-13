@@ -9,6 +9,8 @@ import caseIcon from "../img/case.svg";
 import imageIcon from "../img/image.svg";
 import shapeIcon from "../img/shape.svg";
 import textIcon from "../img/text.svg";
+import palleteIcon from "../img/pallete.svg";
+import sizeIcon from "../img/size.svg";
 
 const CanvasSection = styled.div`
 	display: flex;
@@ -185,6 +187,14 @@ function Canvas() {
 					<li>
 						<img src={imageIcon} alt="imageIcon" />
 						<div>이미지</div>
+					</li>
+					<li>
+						<img src={palleteIcon} alt="palleteIcon" />
+						<div>색상</div>
+					</li>
+					<li>
+						<img src={sizeIcon} alt="sizeIcon" />
+						<div>사이즈</div>
 					</li>
 					<button>저장</button>
 				</MenuSection>

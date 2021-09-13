@@ -10,10 +10,13 @@ const NewNav = styled.div`
 `;
 
 const Review = () => {
+	const [boo, setBoo] = useState(false);
+
 	return (
 		<NewNav>
 			<Nav />
-			<Thumbnail />
+			{/* <Thumbnail /> */}
+			<Test />
 		</NewNav>
 	);
 };

@@ -22,9 +22,6 @@ const Makepage = () => {
 			<li>
 				<Canvas />
 			</li>
-			<li>
-				<div style={{ width: "100%", height: "100%" }}>review</div>
-			</li>
 		</MakepageSection>
 	);
 };
