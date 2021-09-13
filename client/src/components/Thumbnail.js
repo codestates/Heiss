@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Test from "../modal/Test";
+import Modal from "react-modal";
 
 const Wrap = styled.div`
 	padding-bottom: 6%;
@@ -25,19 +27,7 @@ const Figure = styled.div`
 const Image = styled.img`
 	width: 100%;
 `;
-const CafeSectionMenu = styled.div`
-	display: flex;
-	flex-direction: column;
-	border-radius: 2vh;
-	border: none;
-	height: 70vh;
-	width: 45vw;
-	background-color: rgba(255, 255, 255, 0.05);
-	padding: 0.5em;
-	box-sizing: border-box;
-	margin-right: 2rem;
-	margin-bottom: 1rem;
-`;
+
 const Thumbnail = () => {
 	const sample = [
 		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
@@ -62,25 +52,29 @@ const Thumbnail = () => {
 	return (
 		<>
 			<Wrap>
-				{!isOpen
-					? sample.map((x, y) => {
-							return (
-								<Items key={y}>
-									<Figure>
-										<Image src={x} onClick={openModalHandler}></Image>
-									</Figure>
-								</Items>
-							);
-					  })
-					: sample.map((x, y) => {
-							return (
-								<Items key={y}>
-									<Figure>
-										<Image src={x} />
-									</Figure>
-								</Items>
-							);
-					  })}
+				<Modal
+					isOpen={
+						!isOpen
+							? sample.map((x, y) => {
+									return (
+										<Items key={y}>
+											<Figure>
+												<Image src={x} onClick={() => openModalHandler(true)} />
+											</Figure>
+										</Items>
+									);
+							  })
+							: sample.map((x, y) => {
+									return (
+										<Items key={y}>
+											<Figure>
+												<Image src={x} />
+											</Figure>
+										</Items>
+									);
+							  })
+					}
+				></Modal>
 			</Wrap>
 		</>
 	);
