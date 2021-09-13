@@ -121,4 +121,6 @@ module.exports = (req, res) => {
 };
 //https://kauth.kakao.com/oauth/authorize?client_id=7904e316af3f17cb62573b7acbc2bee1&redirect_uri=http://localhost:3000&response_type=code&state=kakao
 
+//https://kauth.kakao.com/oauth/authorize?client_id=7904e316af3f17cb62573b7acbc2bee1&redirect_uri=https://heiss.shop&response_type=code&state=kakao
+
 //https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=PXdmwzsrOkyH0uRxF3pw&redirect_uri=http://localhost:3000&state=naver
