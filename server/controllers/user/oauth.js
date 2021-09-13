@@ -9,16 +9,26 @@ module.exports = (req, res) => {
 	if (platform === "kakao") {
 		//카카오 로그인
 
+		// let body = `grant_type=authorization_code&client_id=${parameters.client_id}&redirect_uri=${parameters.redirect_uri}&code=${parameters.code}`;
+		// // 카카오에게 토큰 요청
+		// let kakaoToken = await axios.post(
+		// 	"https://kauth.kakao.com/oauth/token",
+		// 	body,
+		// 	{
+		// 		headers: {
+		// 			"Content-type": `application/x-www-form-urlencoded;charset=utf-8`,
+		// 		},
+		// 	}
+		// );
+
 		axios
-			.post(
-				`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&code=${authorizationCode}&client_secret=${process.env.KAKAO_CLIENT_SECRET}`,
-				{
-					headers: {
-						"Content-type": "application/x-www-form-urlencoded",
-					},
-				}
-			)
+			.post("https://kauth.kakao.com/oauth/token", body, {
+				headers: {
+					"Content-type": `application/x-www-form-urlencoded;charset=utf-8`,
+				},
+			})
 			.then((response) => {
+				console.log(response);
 				const { access_token, refresh_token } = response.data;
 				axios
 					.get("https://kapi.kakao.com/v2/user/me", {
