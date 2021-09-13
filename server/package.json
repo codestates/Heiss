@@ -24,10 +24,10 @@
 		"mysql": "^2.18.1",
 		"mysql2": "^2.3.0",
 		"path": "^0.12.7",
-		"sequelize": "^6.6.5"
+		"sequelize": "^6.6.5",
+		"sequelize-cli": "^6.2.0"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.12",
-		"sequelize-cli": "^6.2.0"
+		"nodemon": "^2.0.12"
 	}
 }

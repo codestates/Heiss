@@ -138,10 +138,10 @@ const Signin = ({ loginHandler }) => {
 	};
 	const onSignIn = () => {
 		axios
-			.post(``, loginInfo, {
+			.post(`${process.env.REACT_APP_API_URL}user/signin`, loginInfo, {
 				withCredentials: true,
 			})
-			.then((res) => loginHandler(res.data));
+			.then((res) => console.log(res));
 		if (!loginInfo.email || !loginInfo.password) {
 			setErrorMessage("이메일과 비밀번호를 입력하세요");
 			return;
@@ -149,6 +149,7 @@ const Signin = ({ loginHandler }) => {
 	};
 	return (
 		<SigninSection>
+			<div onClick={onSignIn}>테스트</div>
 			<input
 				type="email"
 				placeholder="이메일을 입력해주세요"
