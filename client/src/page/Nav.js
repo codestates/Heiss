@@ -59,6 +59,7 @@ const signModal = {
 
 const Nav = () => {
 	const [boo, setBoo] = useState(false);
+	const [login, setLogin] = useState(false);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
@@ -78,7 +79,13 @@ const Nav = () => {
 			<Link to="/">
 				<img id="heissLogo" src={logo} alt="heiss" />
 			</Link>
-			<button onClick={reverseBoo}>LOGIN</button>
+			{login ? (
+				<button onClick={reverseBoo}>LOGIN</button>
+			) : (
+				<Link to="/mypage">
+					<button>NICKNAME</button>
+				</Link>
+			)}
 		</NavSection>
 	);
 };

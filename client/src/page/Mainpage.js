@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Nav from "./Nav";
@@ -140,7 +140,7 @@ const MainpageBoxFirst = styled.ul`
 		width: 13rem;
 		height: 60px;
 		&:hover {
-			color: #f47676;
+			color: #00c300;
 		}
 	}
 
@@ -187,6 +187,7 @@ const MainpageBoxFirst = styled.ul`
 
 const Mainpage = () => {
 	const [navBarState, setNavBarState] = useState("hidden");
+
 	useEffect(() => {
 		window.addEventListener("scroll", getCurrentScroll);
 		return () => window.removeEventListener("scroll", getCurrentScroll);

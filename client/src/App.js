@@ -5,6 +5,8 @@ import axios from "axios";
 import dotenv from "dotenv";
 
 import Mainpage from "./page/Mainpage";
+import Makepage from "./page/Makepage";
+import Mypage from "./page/Mypage";
 
 dotenv.config();
 
@@ -21,7 +23,7 @@ const GlobalStyles = createGlobalStyle`
 	body {
 		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
 		font-family: "Noto Sans KR", sans-serif !important;
-		background-color: #F5F5F3;
+		background-color: #343421;
 		/* background-color: black; */
 		height: 100%;
 		width: 100%;
@@ -90,9 +92,12 @@ function App() {
 					<Mainpage />
 				</Route>
 				<Route path="/review">{/* <Review /> */}</Route>
-				<Route path="/login">{/* <Signin /> */}</Route>
-				<Route path="/signup">{/* <Signup /> */}</Route>
-				<Route path="/make">{/* <Signup /> */}</Route>
+				<Route path="/make">
+					<Makepage />
+				</Route>
+				<Route path="/mypage">
+					<Mypage />
+				</Route>
 				<button onClick={kakaoclick}>kakao</button>
 				<button onClick={naverclick}>naver</button>
 			</Switch>
