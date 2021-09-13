@@ -51,9 +51,13 @@ const GlobalStyles = createGlobalStyle`
 
 const App = () => {
 	const getAccessToken = async (authorizationCode, platform) => {
-		const url = process.env.REACT_APP_API_URL + "user/oauth";
+		const url = process.env.REACT_APP_API_URL + "/user/oauth";
 		await axios
-			.post(url, { authorizationCode: authorizationCode, platform: platform })
+			.post(
+				url,
+				{ authorizationCode: authorizationCode, platform: platform },
+				{ "Content-Type": "application/json", withCredentials: true }
+			)
 			.then((response) => console.log(response));
 	};
 
