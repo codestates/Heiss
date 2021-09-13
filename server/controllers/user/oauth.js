@@ -7,26 +7,6 @@ axios.defaults.withCredentials = true;
 module.exports = (req, res) => {
 	const { authorizationCode, platform } = req.body;
 	if (platform === "kakao") {
-		//카카오 로그인
-		// let parameters = {
-		// 	grant_type: "authorization_code",
-		// 	client_id: process.env.KAKAO_CLIENT_ID, //***********************
-		// 	redirect_uri: process.env.REDIRECT_URI, //여기  환경변수로 만들어줘야함
-		// 	code: authorizationCode,
-		// };
-
-		// let body = `grant_type=authorization_code&client_id=${parameters.client_id}&redirect_uri=${parameters.redirect_uri}&code=${parameters.code}&client_secret=${process.env.KAKAO_CLIENT_SECRET}`;
-		// 카카오에게 토큰 요청
-		// let kakaoToken = await axios.post(
-		// 	"https://kauth.kakao.com/oauth/token",
-		// 	body,
-		// 	{
-		// 		headers: {
-		// 			"Content-type": `application/x-www-form-urlencoded;charset=utf-8`,
-		// 		},
-		// 	}
-		// );
-
 		axios
 			.post(
 				`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&code=${authorizationCode}&client_secret=${process.env.KAKAO_CLIENT_SECRET}`,
