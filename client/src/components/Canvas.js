@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Shapes from "./Shapes";
 
 // 이미지
-import favicon from "../img/favicon.ico";
+// import favicon from "../img/favicon.ico";
 import caseIcon from "../img/case.svg";
 import imageIcon from "../img/image.svg";
 import shapeIcon from "../img/shape.svg";
@@ -26,17 +26,19 @@ const MenuSection = styled.ul`
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	background: #5e5d49;
+	background: #171717;
 	width: 130px;
 	height: 83.4%;
 	right: 0;
 	z-index: 1;
+	color: #ffffe7;
 
 	li {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
+		cursor: pointer;
 	}
 
 	img {
@@ -45,12 +47,13 @@ const MenuSection = styled.ul`
 	}
 
 	button {
-		background: #707056;
+		background: #3d3d3d;
 		width: 40px;
 		padding: 0.3rem;
 		box-sizing: border-box;
 		border-radius: 1vh;
 		margin-bottom: 3px;
+		color: #ffffe7;
 	}
 
 	@media ${(props) => props.theme.tablet} {
@@ -66,10 +69,10 @@ const ListBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: #343421;
-	/* background: none; */
+	/* background: #343421; */
+	background: #171717;
 	width: 50%;
-	height: 17rem;
+	height: 15rem;
 	position: absolute;
 	border-radius: 1vh 1vh 0 0;
 	margin-top: 3rem;
@@ -114,7 +117,6 @@ function Canvas() {
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
-			// height: canvasHeight,
 			height: canvasHeight,
 			width: canvasWidth,
 			position: "absolute",
@@ -200,9 +202,9 @@ function Canvas() {
 				</MenuSection>
 			</>
 			<ListBox>
-				<div class="toggleBtnBox">
+				{/* <div class="toggleBtnBox">
 					<img className="toggleBtn" src={favicon} alt="btn" />
-				</div>
+				</div> */}
 				<Shapes />
 			</ListBox>
 		</CanvasSection>
