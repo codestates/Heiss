@@ -74,7 +74,9 @@ const Thumbnail = () => {
 									);
 							  })
 					}
-				></Modal>
+				>
+					test
+				</Modal>
 			</Wrap>
 		</>
 	);
