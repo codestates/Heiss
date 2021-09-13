@@ -102,8 +102,6 @@ module.exports = {
 				} catch (err) {
 					res.status(422).json({ message: "insufficient parameters supplied" });
 				}
-				// imgUrl이 있었으면 변경이나 그대로반영
-				// imgUrl이 없었으면 새로 추가
 				if (imgUrl) {
 					const addSource = await source.bulkCreate([{ reviewId }, { imgUrl }]);
 				}

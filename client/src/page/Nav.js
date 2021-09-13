@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
 
-
 const NavSection = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -79,7 +78,7 @@ const Nav = () => {
 			<Link to="/">
 				<img id="heissLogo" src={logo} alt="heiss" />
 			</Link>
-			{login ? (
+			{!login ? (
 				<button onClick={reverseBoo}>LOGIN</button>
 			) : (
 				<Link to="/mypage">
