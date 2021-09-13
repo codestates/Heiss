@@ -42,14 +42,13 @@ const signModal = {
 		zIndex: 2,
 	},
 	content: {
-		position: "absolute",
-		top: "80px",
-		left: "3rem",
-		right: "3rem",
-		bottom: "3rem",
+		display: "flex",
+		justifyContent: "center",
 		border: "1px solid #0f0d00",
 		background: "#0f0d00",
+		margin: "0 auto",
 		overflow: "auto",
+		width: "70vw",
 		WebkitOverflowScrolling: "touch",
 		borderRadius: "4px",
 		outline: "none",
@@ -60,6 +59,7 @@ const signModal = {
 
 const Nav = () => {
 	const [boo, setBoo] = useState(false);
+	const [login, setLogin] = useState(false);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
@@ -75,10 +75,17 @@ const Nav = () => {
 			>
 				<Sign reverseBoo={reverseBoo} />
 			</Modal>
+
 			<Link to="/">
 				<img id="heissLogo" src={logo} alt="heiss" />
 			</Link>
-			<button onClick={reverseBoo}>LOGIN</button>
+			{login ? (
+				<button onClick={reverseBoo}>LOGIN</button>
+			) : (
+				<Link to="/mypage">
+					<button>NICKNAME</button>
+				</Link>
+			)}
 		</NavSection>
 	);
 };
