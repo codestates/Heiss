@@ -26,12 +26,18 @@ const BtnSection = styled.div`
 	margin-top: 30px;
 	button {
 		width: 100%;
+		min-width: 5.5rem;
 		padding: 5px;
 		font-size: 2.4rem;
 		color: gray;
+		border: none;
 
 		@media ${(props) => props.theme.mobileL} {
-			font-size: 1rem;
+			font-size: 1.1rem;
+		}
+
+		@media ${(props) => props.theme.table} {
+			font-size: 1.3rem;
 		}
 	}
 	.signinBtn {

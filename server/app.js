@@ -2,7 +2,6 @@ require("dotenv").config();
 const cors = require("cors");
 const morgan = require("morgan");
 const multer = require("multer");
-const form_data = multer();
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
@@ -11,7 +10,6 @@ const reviewRouter = require("./route/review");
 
 app.use(express.json());
 app.use(morgan("tiny"));
-app.use(form_data.array());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(

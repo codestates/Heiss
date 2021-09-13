@@ -11,17 +11,27 @@ const SigninSection = styled.form`
 	justify-content: center;
 	align-items: center;
 	height: 30vh;
+	width: 40vw;
 	border: 3px solid #f47676;
 	padding: 3rem;
+	margin: 0;
+	@media ${(props) => props.theme.mobileL} {
+		width: 6rem;
+	}
+
 	input {
 		margin-top: 1rem;
-		width: 50vw;
+		width: 30vw;
 		margin-bottom: 20px;
 		height: 30px;
 		border: 2px solid #f47676;
+		border-radius: 1vh;
 		@media ${(props) => props.theme.mobileL} {
 			width: 9rem;
 			font-size: 0.5rem;
+			&:first-child {
+				margin-top: 3rem;
+			}
 			&::placeholder {
 				font-size: 0.5rem;
 			}
@@ -40,22 +50,29 @@ const SigninSection = styled.form`
 		color: #f5f5f3;
 		font-weight: bold;
 		font-size: 18px;
-		border: 3px solid white;
+		border: 3px solid #ffffe7;
+		border-radius: 1.4vh;
 		padding: 0.4rem;
-		width: 130px;
+		margin: 0.7rem;
+		width: 7rem;
+		min-height: 20px;
 
 		@media ${(props) => props.theme.mobileL} {
 			width: 10rem;
-			height: 1rem;
+			height: 3rem;
 			font-size: 0.3rem;
+		}
+
+		@media ${(props) => props.theme.table} {
+			font-size: 11px;
 		}
 	}
 `;
 
 const BtnBox = styled.div`
 	display: flex;
-	justify-content: space-around;
-	width: 60%;
+	justify-content: center;
+	width: 100%;
 	margin-top: 2rem;
 	@media ${(props) => props.theme.mobileL} {
 		display: flex;
@@ -69,15 +86,23 @@ const BtnBox = styled.div`
 		background: #ffe10c;
 	}
 	.naver {
-		border: 3px solid #21c84d;
-		background: #21c84d;
+		border: 3px solid #00c300;
+		background: #00c300;
 	}
 	.loginBtn {
-		background: white;
+		background: #ffffe7;
 	}
 	.desktopBtn {
 		display: flex;
 		justify-content: center;
+		align-items: center;
+		img {
+			height: 2rem;
+			margin-right: 0.4rem;
+			@media ${(props) => props.theme.table} {
+				height: 1rem;
+			}
+		}
 		@media ${(props) => props.theme.mobileL} {
 			display: none;
 		}
@@ -89,9 +114,8 @@ const BtnBox = styled.div`
 			justify-content: center;
 			align-items: center;
 			padding: 0;
-			margin: 0;
 			width: 100%;
-			height: 1rem;
+			height: 1.5rem;
 
 			img {
 				height: 1rem;
@@ -102,17 +126,49 @@ const BtnBox = styled.div`
 	}
 `;
 
-const Signin = () => {
+const Signin = ({ loginHandler }) => {
 	const [warring, setWarning] = useState(false);
-
+	const [loginInfo, setLoginInfo] = useState({
+		email: "",
+		password: "",
+	});
+	const [errorMessage, setErrorMessage] = useState("");
+	const onClickLogin = (key) => (e) => {
+		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+	};
+	const onSignIn = () => {
+		axios
+			.post(``, loginInfo, {
+				withCredentials: true,
+			})
+			.then((res) => loginHandler(res.data));
+		if (!loginInfo.email || !loginInfo.password) {
+			setErrorMessage("이메일과 비밀번호를 입력하세요");
+			return;
+		}
+	};
 	return (
 		<SigninSection>
-			<input type="email" placeholder="이메일을 입력해주세요" />
-			<input type="password" placeholder="비밀번호를 입력해주세요" />
+			<input
+				type="email"
+				placeholder="이메일을 입력해주세요"
+				onChange={onClickLogin("email")}
+			/>
+			<input
+				type="password"
+				placeholder="비밀번호를 입력해주세요"
+				onChange={onClickLogin("password")}
+			/>
 			{warring && <div className="warring warPwd">다시 입력해주세요</div>}
 			<BtnBox>
-				<button className="desktopBtn kakao">카카오 로그인</button>
-				<button className="desktopBtn naver">네이버 로그인</button>
+				<button className="desktopBtn kakao">
+					<img src={kakao} alt="kakao" />
+					로그인
+				</button>
+				<button className="desktopBtn naver">
+					<img src={naver} alt="naver" />
+					로그인
+				</button>
 				<button className="desktopBtn">로그인</button>
 				<button className="mobileBtn kakao">
 					<img src={kakao} alt="kakao" />
@@ -123,6 +179,7 @@ const Signin = () => {
 				<button className="mobileBtn loginBtn">
 					<img src={loginSVG} alt="loginSVG" />
 				</button>
+				<div className="alert-box">{errorMessage}</div>
 			</BtnBox>
 		</SigninSection>
 	);
