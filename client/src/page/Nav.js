@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
 
+
 const NavSection = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -20,7 +21,6 @@ const NavSection = styled.div`
 		height: 30px;
 		margin-left: 10px;
 	}
-
 	button {
 		color: #f6f7df;
 		font-size: 1rem;
