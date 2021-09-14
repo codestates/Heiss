@@ -2,12 +2,11 @@ const dotenv = require("dotenv");
 const axios = require("axios");
 const model = require("../../models");
 dotenv.config();
+axios.defaults.withCredentials = true;
 
 module.exports = (req, res) => {
 	const { authorizationCode, platform } = req.body;
 	if (platform === "kakao") {
-		//카카오 로그인
-
 		axios
 			.post(
 				`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&code=${authorizationCode}&client_secret=${process.env.KAKAO_CLIENT_SECRET}`,
@@ -27,6 +26,7 @@ module.exports = (req, res) => {
 						},
 					})
 					.then(async (response) => {
+						console.log(response);
 						const email = response.data.kakao_account.email;
 						const username = response.data.properties.nickname;
 						const profileImage = response.data.properties.profile_image;
