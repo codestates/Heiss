@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 import Shapes from "./Shapes";
+import Modal from "react-modal";
 
 // 이미지
-import favicon from "../img/favicon.ico";
+// import favicon from "../img/favicon.ico";
 import caseIcon from "../img/case.svg";
 import imageIcon from "../img/image.svg";
 import shapeIcon from "../img/shape.svg";
 import textIcon from "../img/text.svg";
 import palleteIcon from "../img/pallete.svg";
 import sizeIcon from "../img/size.svg";
+import ReviewWriteModal from "../modal/ReviewWriteModal";
 
 const CanvasSection = styled.div`
 	display: flex;
@@ -26,17 +28,19 @@ const MenuSection = styled.ul`
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	background: #5e5d49;
+	background: #171717;
 	width: 130px;
 	height: 83.4%;
 	right: 0;
 	z-index: 1;
+	color: #ffffe7;
 
 	li {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
+		cursor: pointer;
 	}
 
 	img {
@@ -45,12 +49,13 @@ const MenuSection = styled.ul`
 	}
 
 	button {
-		background: #707056;
+		background: #3d3d3d;
 		width: 40px;
 		padding: 0.3rem;
 		box-sizing: border-box;
 		border-radius: 1vh;
 		margin-bottom: 3px;
+		color: #ffffe7;
 	}
 
 	@media ${(props) => props.theme.tablet} {
@@ -66,10 +71,10 @@ const ListBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: #343421;
-	/* background: none; */
+	/* background: #343421; */
+	background: #171717;
 	width: 50%;
-	height: 17rem;
+	height: 15rem;
 	position: absolute;
 	border-radius: 1vh 1vh 0 0;
 	margin-top: 3rem;
@@ -87,11 +92,11 @@ const ListBox = styled.div`
 		height: 4rem;
 	}
 
-	.toggleBtn {
+	/* .toggleBtn {
 		top: 0;
 		margin-top: 3px;
 		height: 2.5rem;
-	}
+	} */
 
 	@media ${(props) => props.theme.tablet} {
 		height: 11rem;
@@ -108,13 +113,39 @@ const ListBox = styled.div`
 	}
 `;
 
+const reviewModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 2,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
+		margin: "0 auto",
+		overflow: "auto",
+		width: "40vw",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "0.1rem",
+		zIndex: 2,
+	},
+};
+
 function Canvas() {
+	const [boo, setBoo] = useState(false);
 	const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
 	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
-			// height: canvasHeight,
 			height: canvasHeight,
 			width: canvasWidth,
 			position: "absolute",
@@ -167,8 +198,20 @@ function Canvas() {
 		return window.removeEventListener("resize", handleResizeEvent);
 	}, []);
 
+	const reverseBoo = () => {
+		setBoo(!boo);
+	};
+
 	return (
 		<CanvasSection>
+			<Modal
+				isOpen={boo}
+				style={reviewModal}
+				onRequestClose={() => reverseBoo()}
+				ariaHideApp={false}
+			>
+				<ReviewWriteModal />
+			</Modal>
 			<>
 				<canvas id="canvas" />
 				<MenuSection>
@@ -196,13 +239,13 @@ function Canvas() {
 						<img src={sizeIcon} alt="sizeIcon" />
 						<div>사이즈</div>
 					</li>
-					<button>저장</button>
+					<button onClick={reverseBoo}>저장</button>
 				</MenuSection>
 			</>
 			<ListBox>
-				<div class="toggleBtnBox">
+				{/* <div class="toggleBtnBox">
 					<img className="toggleBtn" src={favicon} alt="btn" />
-				</div>
+				</div> */}
 				<Shapes />
 			</ListBox>
 		</CanvasSection>

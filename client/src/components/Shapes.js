@@ -27,7 +27,7 @@ const ShapesSection = styled.div`
 		min-height: 8rem;
 		border-radius: 1vh;
 		border: 0.7px solid #2f301e;
-		background-color: #2f301e;
+		background-color: #3d3d3d;
 		margin: 1rem;
 
 		@media ${(props) => props.theme.tablet} {

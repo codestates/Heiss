@@ -21,12 +21,11 @@ const GlobalStyles = createGlobalStyle`
 		text-decoration: none;
 	}
 
-
 	body {
 		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
 		font-family: "Noto Sans KR", sans-serif !important;
-		background-color: #343421;
-		/* background-color: black; */
+		/* background-color: #343421; */
+		background-color: #171717;
 		height: 100%;
 		width: 100%;
 		overflow: hidden;

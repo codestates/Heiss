@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Nav from "./Nav";
 import video from "../video/mainpage.mp4";
 import logo from "../img/heiss.svg";
+import Thumbnail from "../components/Thumbnail";
 
 const MainpageSection = styled.div`
 	display: flex;
@@ -139,7 +140,7 @@ const MainpageBoxFirst = styled.ul`
 		width: 13rem;
 		height: 60px;
 		&:hover {
-			color: #00c300;
+			color: #005900;
 		}
 	}
 
@@ -182,6 +183,33 @@ const MainpageBoxFirst = styled.ul`
 			margin-top: 0;
 		}
 	}
+
+	.moreBtn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #f47676;
+		font-weight: bold;
+		height: 2rem;
+		width: 5rem;
+		border: 4px solid #f47676;
+		border-radius: 1vh;
+		transition: all 0.3s;
+		margin-top: 3rem;
+
+		&:hover {
+			background: #343421;
+		}
+	}
+`;
+
+const ReviewBox = styled.div`
+	display: flex;
+	width: 100%;
+	overflow: auto;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 const Mainpage = () => {
@@ -200,7 +228,19 @@ const Mainpage = () => {
 		}
 	};
 
-	// console.log(window.scrollY);
+	const sample = [
+		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
+		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
+		"https://cdn.pixabay.com/photo/2020/05/25/20/14/holland-iris-5220407__340.jpg",
+		"https://cdn.pixabay.com/photo/2020/10/08/17/39/waves-5638587__340.jpg",
+		"https://cdn.pixabay.com/photo/2019/01/30/11/17/zebra-3964360__340.jpg",
+		"https://cdn.pixabay.com/photo/2021/02/01/13/37/cars-5970663__340.png",
+		"https://cdn.pixabay.com/photo/2019/06/05/10/34/mimosa-4253396__340.jpg",
+		"https://cdn.pixabay.com/photo/2020/08/04/14/42/sky-5463015__340.jpg",
+		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
+		"https://cdn.pixabay.com/photo/2020/01/09/01/00/the-eye-on-the-greek-4751572__340.png",
+	];
+
 	return (
 		<MainpageSection>
 			<Nav />
@@ -267,14 +307,14 @@ const Mainpage = () => {
 				</li>
 				<li className="columnSection">
 					<h2>이렇게 많은 사용자분들이 리뷰를 남겨주셨습니다!</h2>
-					<iframe
-						src="https://giphy.com/embed/fdiWBMyTEAhjy"
-						width="480"
-						height="199"
-						frameBorder="0"
-						class="giphy-embed"
-						allowFullScreen
-					></iframe>
+					<ReviewBox>
+						{sample.map((data, key) => (
+							<Thumbnail data={data} key={key} />
+						))}
+					</ReviewBox>
+					<Link to="/review" className="moreBtn">
+						더보기
+					</Link>
 				</li>
 				<li>
 					<Link to="/make" className="startBtn">
