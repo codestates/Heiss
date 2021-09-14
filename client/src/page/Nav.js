@@ -91,7 +91,7 @@ const Nav = () => {
 			<Link to="/">
 				<img id="heissLogo" src={logo} alt="heiss" />
 			</Link>
-			{login ? (
+			{!login ? (
 				<button onClick={reverseBoo}>LOGIN</button>
 			) : (
 				<Link to="/mypage">

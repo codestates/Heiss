@@ -62,15 +62,12 @@ const SignupSection = styled.form`
 const Singup = () => {
 	const [auth, setAuth] = useState(false);
 
-  const [userInfo, setUserInfo] = useState({
+	const [userInfo, setUserInfo] = useState({
 		email: "",
 		nickname: "",
 		password: "",
 	});
 	const history = useHistory();
-	const handleInputValue = (key) => (e) => {
-		setUserInfo({ ...userInfo, [key]: e.target.value });
-	};
 
 	const checkPassword = (e) => {
 		//  8 ~ 10자 영문, 숫자 조합
@@ -78,6 +75,9 @@ const Singup = () => {
 		console.log(regExp);
 	};
 
+	const onClickLogin = (key) => (e) => {
+		setUserInfo({ ...userInfo, [key]: e.target.value });
+	};
 	const handleSignup = (e) => {
 		const { email, username, password } = userInfo;
 
@@ -96,14 +96,31 @@ const Singup = () => {
 		<SignupSection>
 			{!auth ? (
 				<>
-					<input type="email" placeholder="이메일을 입력해주세요" />
-					<input type="nickname" placeholder="닉네임을 입력해주세요" />
-					<input type="password" placeholder="비밀번호를 입력해주세요" />
+					<input
+						type="email"
+						placeholder="이메일을 입력해주세요"
+						onChange={onClickLogin("email")}
+					/>
+					<input
+						type="nickname"
+						placeholder="닉네임을 입력해주세요"
+						onChange={onClickLogin("nickname")}
+					/>
+					<input
+						type="password"
+						placeholder="비밀번호를 입력해주세요"
+						onChange={onClickLogin("password")}
+					/>
 					<input
 						type="password"
 						placeholder="비밀번호를 한번 더 입력해주세요"
+						onChange={onClickLogin("password")}
 					/>
-					<button onClick={() => setAuth(!auth)}>회원가입</button>
+					<div>
+						<button type="submit" onClick={() => setAuth(!auth)}>
+							회원가입
+						</button>
+					</div>
 				</>
 			) : (
 				<>
