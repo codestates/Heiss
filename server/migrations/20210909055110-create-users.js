@@ -18,7 +18,7 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			profileImg: {
-				type: Sequelize.BLOB,
+				type: Sequelize.STRING,
 			},
 			provider: {
 				type: Sequelize.STRING,

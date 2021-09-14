@@ -7,7 +7,7 @@ module.exports = {
 		const reviewId = req.params.id;
 		const { score, title, desc, caseId } = req.body;
 		const accessToken = req.cookies.accessToken;
-		const imgUrl = req.files.location;
+		const imgUrl = req.file.location;
 		try {
 			const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 			if (userInfo.id === reviewId.userId) {
