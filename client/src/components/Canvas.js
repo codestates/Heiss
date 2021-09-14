@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 import Shapes from "./Shapes";
+import Modal from "react-modal";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -11,6 +12,7 @@ import shapeIcon from "../img/shape.svg";
 import textIcon from "../img/text.svg";
 import palleteIcon from "../img/pallete.svg";
 import sizeIcon from "../img/size.svg";
+import ReviewWriteModal from "../modal/ReviewWriteModal";
 
 const CanvasSection = styled.div`
 	display: flex;
@@ -90,11 +92,11 @@ const ListBox = styled.div`
 		height: 4rem;
 	}
 
-	.toggleBtn {
+	/* .toggleBtn {
 		top: 0;
 		margin-top: 3px;
 		height: 2.5rem;
-	}
+	} */
 
 	@media ${(props) => props.theme.tablet} {
 		height: 11rem;
@@ -111,7 +113,34 @@ const ListBox = styled.div`
 	}
 `;
 
+const reviewModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 2,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
+		margin: "0 auto",
+		overflow: "auto",
+		width: "40vw",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "0.1rem",
+		zIndex: 2,
+	},
+};
+
 function Canvas() {
+	const [boo, setBoo] = useState(false);
 	const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
 	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
 
@@ -169,8 +198,20 @@ function Canvas() {
 		return window.removeEventListener("resize", handleResizeEvent);
 	}, []);
 
+	const reverseBoo = () => {
+		setBoo(!boo);
+	};
+
 	return (
 		<CanvasSection>
+			<Modal
+				isOpen={boo}
+				style={reviewModal}
+				onRequestClose={() => reverseBoo()}
+				ariaHideApp={false}
+			>
+				<ReviewWriteModal />
+			</Modal>
 			<>
 				<canvas id="canvas" />
 				<MenuSection>
@@ -198,7 +239,7 @@ function Canvas() {
 						<img src={sizeIcon} alt="sizeIcon" />
 						<div>사이즈</div>
 					</li>
-					<button>저장</button>
+					<button onClick={reverseBoo}>저장</button>
 				</MenuSection>
 			</>
 			<ListBox>

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Thumbnail from "../components/Thumbnail";
 import Nav from "./Nav";
 
+import profile from "../img/cat.jpeg";
+
 const MypageSection = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -30,14 +32,55 @@ const MypageBox = styled.div`
 const CategoryBox = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 10vw;
-	height: 60vh;
+	width: 200px;
+	height: 30vh;
 	position: sticky;
 	top: 0;
-	background: #5e5d49;
+	background: #3d3d3d;
 	border-radius: 1vh;
 	box-sizing: border-box;
 	padding: 15px;
+
+	.userinfoBox {
+		display: flex;
+		align-items: flex-end;
+
+		img {
+			border-radius: 50%;
+			min-width: 4rem;
+			min-height: 4rem;
+			width: 4rem;
+			height: 4rem;
+		}
+
+		.username {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
+
+		@media ${(props) => props.theme.tablet} {
+			flex-direction: column;
+			align-items: center;
+
+			.username {
+				margin-top: 0.8rem;
+				font-size: 1rem;
+			}
+		}
+	}
+
+	.navigator {
+		margin-top: 3rem;
+
+		div {
+			margin-bottom: 1rem;
+			cursor: pointer;
+
+			@media ${(props) => props.theme.tablet} {
+				font-size: 0.8rem;
+			}
+		}
+	}
 
 	@media ${(props) => props.theme.tablet} {
 		width: 13vw;
@@ -62,6 +105,7 @@ const MainSection = styled.ul`
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
+		margin-bottom: 3rem;
 	}
 
 	@media ${(props) => props.theme.tablet} {
@@ -82,9 +126,34 @@ const SaveBox = styled.div`
 const PutUserInfoBox = styled.div`
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	input {
+		margin-bottom: 1rem;
+		width: 60%;
+		border-radius: 1.3vh;
+		&:first-child {
+			margin-top: 5rem;
+		}
+	}
 
 	button {
-		border-radius: 2vh;
+		display: flex;
+		justify-content: center;
+		color: #f47676;
+		background: none;
+		border: 3px solid #f47676;
+		width: 14rem;
+		font-weight: bold;
+		font-size: 2rem;
+		margin-top: 2rem;
+
+		transition: all 0.3s;
+		position: relative;
+		&:hover {
+			background: #ffffe7;
+		}
 	}
 `;
 
@@ -110,7 +179,15 @@ const Mypage = () => {
 			<Nav />
 			<MypageBox>
 				<CategoryBox>
-					<div className="title">category</div>
+					<div className="userinfoBox">
+						<img src={profile} alt="profile" />
+						<div className="username">NICKNAME</div>
+					</div>
+					<div className="navigator">
+						{/* <div>장바구니</div> */}
+						<div>보관함</div>
+						<div>회원정보수정</div>
+					</div>
 				</CategoryBox>
 				<MainSection>
 					{/* <li className="title">장바구니</li> */}

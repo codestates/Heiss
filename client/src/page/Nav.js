@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
 
+import profile from "../img/cat.jpeg";
+
 const NavSection = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -56,6 +58,17 @@ const signModal = {
 	},
 };
 
+const ProfileBox = styled.div`
+	display: flex;
+
+	img {
+		border-radius: 50%;
+		height: 2.5rem;
+		width: 2.5rem;
+		margin-right: 0.5rem;
+	}
+`;
+
 const Nav = () => {
 	const [boo, setBoo] = useState(false);
 	const [login, setLogin] = useState(false);
@@ -82,7 +95,10 @@ const Nav = () => {
 				<button onClick={reverseBoo}>LOGIN</button>
 			) : (
 				<Link to="/mypage">
-					<button>NICKNAME</button>
+					<ProfileBox>
+						<img src={profile} alt="profile" />
+						<button>NICKNAME</button>
+					</ProfileBox>
 				</Link>
 			)}
 		</NavSection>
