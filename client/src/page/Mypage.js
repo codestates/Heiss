@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import Modal from "react-modal";
 import Thumbnail from "../components/Thumbnail";
 import Nav from "./Nav";
 
-import profile from "../img/cat.jpeg";
+import profile from "../img/profile.png";
+import Signdel from "../modal/Signdel";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -32,7 +34,7 @@ const MypageBox = styled.div`
 const CategoryBox = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 200px;
+	width: 220px;
 	height: 30vh;
 	position: sticky;
 	top: 0;
@@ -130,11 +132,17 @@ const PutUserInfoBox = styled.div`
 	align-items: center;
 
 	input {
-		margin-bottom: 1rem;
-		width: 60%;
+		margin-bottom: 2rem;
+		width: 70%;
 		border-radius: 1.3vh;
 		&:first-child {
 			margin-top: 5rem;
+		}
+
+		@media ${(props) => props.theme.mobileL} {
+			&::placeholder {
+				font-size: 0.5rem;
+			}
 		}
 	}
 
@@ -155,9 +163,58 @@ const PutUserInfoBox = styled.div`
 			background: #ffffe7;
 		}
 	}
+	.btnBox {
+		display: flex;
+		justify-content: center;
+		.delUser {
+			background: #f47676;
+			margin-left: 2rem;
+			color: #ffffe7;
+		}
+		@media ${(props) => props.theme.tablet} {
+			flex-direction: column;
+
+			.delUser {
+				margin-left: 0;
+			}
+		}
+	}
 `;
 
+// 모달 디자인
+const signdelModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 2,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
+		margin: "0 auto",
+		overflow: "auto",
+		height: "30vh",
+		width: "40vw",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "0.1rem",
+		zIndex: 2,
+	},
+};
+
 const Mypage = () => {
+	const [boo, setBoo] = useState(false);
+	const [scrollToShop, setScrollToShop] = useState(0);
+	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
+	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
+
 	const sample = [
 		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
 		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
@@ -174,8 +231,40 @@ const Mypage = () => {
 		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
 	];
 
+	const reverseBoo = () => {
+		setBoo(!boo);
+	};
+
+	const handleToShop = useCallback(() => {
+		setScrollToShop(
+			document.querySelector(".shop").scrollIntoView({ behavior: "smooth" })
+		);
+	}, []);
+
+	const handleToSaveBox = useCallback(() => {
+		setScorllToSaveBox(
+			document.querySelector(".save-box").scrollIntoView({ behavior: "smooth" })
+		);
+	}, []);
+
+	const handleToPutUserinfo = useCallback(() => {
+		setScrollToPutUserinfo(
+			document
+				.querySelector(".put-userinfo")
+				.scrollIntoView({ behavior: "smooth" })
+		);
+	}, []);
+
 	return (
 		<MypageSection>
+			<Modal
+				isOpen={boo}
+				style={signdelModal}
+				onRequestClose={() => reverseBoo()}
+				ariaHideApp={false}
+			>
+				<Signdel reverseBoo={reverseBoo} />
+			</Modal>
 			<Nav />
 			<MypageBox>
 				<CategoryBox>
@@ -184,14 +273,18 @@ const Mypage = () => {
 						<div className="username">NICKNAME</div>
 					</div>
 					<div className="navigator">
-						{/* <div>장바구니</div> */}
-						<div>보관함</div>
-						<div>회원정보수정</div>
+						{/* <div value={scrollToShop} onClick={handleToShop}>장바구니</div> */}
+						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
+							보관함
+						</div>
+						<div value={scrollToPutUserinfo} onClick={handleToPutUserinfo}>
+							회원정보수정
+						</div>
 					</div>
 				</CategoryBox>
 				<MainSection>
-					{/* <li className="title">장바구니</li> */}
-					<li>
+					{/* <li className="shop">장바구니</li> */}
+					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>
 							{sample.map((data, key) => (
@@ -199,7 +292,7 @@ const Mypage = () => {
 							))}
 						</SaveBox>
 					</li>
-					<li>
+					<li className="put-userinfo">
 						<div className="title">회원정보수정</div>
 						<PutUserInfoBox>
 							<input
@@ -211,7 +304,12 @@ const Mypage = () => {
 								placeholder="변경하실 비밀번호를 한번 더 입력해주세요"
 							/>
 							<input type="text" placeholder="변경하실 닉네임을 입력해주세요" />
-							<button>변경</button>
+							<div className="btnBox" style={{ display: "flex" }}>
+								<button>변경</button>
+								<button className="delUser" onClick={reverseBoo}>
+									회원탈퇴
+								</button>
+							</div>
 						</PutUserInfoBox>
 					</li>
 				</MainSection>
