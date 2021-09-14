@@ -7,6 +7,7 @@ const express = require("express");
 const app = express();
 const userRouter = require("./route/user");
 const reviewRouter = require("./route/review");
+// const cartRouter = require("./route/cart");
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -22,6 +23,7 @@ app.use(
 
 app.use("/user", userRouter);
 app.use("/review", reviewRouter);
+// app.use("/cart", cartRouter);
 
 app.get("/", (req, res) => {
 	res.send("hello world~~~");
