@@ -1,82 +1,112 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Test from "../modal/Test";
 import Modal from "react-modal";
+import ReviewModal from "../modal/ReviewModal";
 
-const Wrap = styled.div`
-	padding-bottom: 6%;
-	column-count: 4;
-	column-gap: 1em;
-`;
+import heartIcon from "../img/heart.svg";
+import noneheartIcon from "../img/noneheart.svg";
 
-const Items = styled.div`
+const ThumbnailSection = styled.div`
 	display: flex;
-	justify-content: center;
-	margin-bottom: 1em;
+	flex-direction: column;
+	min-height: 300px;
+	height: 300px;
+	min-width: 220px;
+	width: 220px;
+	margin: 1rem;
+	position: relative;
 	cursor: pointer;
-`;
 
-const Figure = styled.div`
-	display: inline-block;
-	filter: grayscale(0.8);
+	img {
+		width: 100%;
+		height: 100%;
+		border-radius: 2vh;
+	}
+
 	&:hover {
-		filter: none;
+		.hover-thumb {
+			display: flex;
+		}
 	}
 `;
 
-const Image = styled.img`
+const HoverThumb = styled.div`
+	display: none;
 	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: rgba(128, 128, 128, 0.5);
+	border-radius: 2vh;
+
+	img {
+		height: 2rem;
+		margin: 1rem;
+		margin-left: 10rem;
+	}
 `;
 
-const Thumbnail = () => {
-	const sample = [
-		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/05/25/20/14/holland-iris-5220407__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/10/08/17/39/waves-5638587__340.jpg",
-		"https://cdn.pixabay.com/photo/2019/01/30/11/17/zebra-3964360__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/01/13/37/cars-5970663__340.png",
-		"https://cdn.pixabay.com/photo/2019/06/05/10/34/mimosa-4253396__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/08/04/14/42/sky-5463015__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/01/09/01/00/the-eye-on-the-greek-4751572__340.png",
-		"https://cdn.pixabay.com/photo/2021/01/30/12/19/couple-5963678__340.png",
-		"https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
-	];
-	const [isOpen, setIsOpen] = useState(false);
-	const openModalHandler = () => {
-		setIsOpen(!isOpen);
+// 모달 스타일
+const ThumbnailModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 2,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
+		margin: "0 auto",
+		overflow: "auto",
+		width: "70vw",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "0.1rem",
+		zIndex: 2,
+	},
+};
+
+const Thumbnail = ({ data, key }) => {
+	const [boo, setBoo] = useState(false);
+	const [toggleH, setToggleH] = useState(false);
+
+	const reverseBoo = () => {
+		setBoo(!boo);
 	};
 
 	return (
-		<>
-			<Wrap>
-				<Modal
-					isOpen={
-						!isOpen
-							? sample.map((x, y) => {
-									return (
-										<Items key={y}>
-											<Figure>
-												<Image src={x} onClick={() => openModalHandler(true)} />
-											</Figure>
-										</Items>
-									);
-							  })
-							: sample.map((x, y) => {
-									return (
-										<Items key={y}>
-											<Figure>
-												<Image src={x} />
-											</Figure>
-										</Items>
-									);
-							  })
-					}
-				></Modal>
-			</Wrap>
-		</>
+		<ThumbnailSection onClick={reverseBoo}>
+			<Modal
+				isOpen={boo}
+				style={ThumbnailModal}
+				onRequestClose={() => reverseBoo()}
+				ariaHideApp={false}
+			>
+				<ReviewModal data={data} />
+			</Modal>
+			<img src={data} key={key} alt="img" />
+			<HoverThumb className="hover-thumb">
+				{toggleH ? (
+					<img
+						src={heartIcon}
+						alt="heartIcon"
+						onClick={() => setToggleH(!toggleH)}
+					/>
+				) : (
+					<img
+						src={noneheartIcon}
+						alt="noneheartIcon"
+						onClick={() => setToggleH(!toggleH)}
+					/>
+				)}
+			</HoverThumb>
+		</ThumbnailSection>
 	);
 };
 

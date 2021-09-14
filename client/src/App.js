@@ -21,12 +21,11 @@ const GlobalStyles = createGlobalStyle`
 		text-decoration: none;
 	}
 
-
 	body {
 		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
 		font-family: "Noto Sans KR", sans-serif !important;
-		background-color: #343421;
-		/* background-color: black; */
+		/* background-color: #343421; */
+		background-color: #171717;
 		height: 100%;
 		width: 100%;
 		overflow: hidden;
@@ -53,7 +52,11 @@ const App = () => {
 	const getAccessToken = async (authorizationCode, platform) => {
 		const url = process.env.REACT_APP_API_URL + "user/oauth";
 		await axios
-			.post(url, { authorizationCode: authorizationCode, platform: platform })
+			.post(
+				url,
+				{ authorizationCode: authorizationCode, platform: platform },
+				{ "Content-Type": "application/json", withCredentials: true }
+			)
 			.then((response) => console.log(response));
 	};
 
