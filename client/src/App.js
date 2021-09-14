@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
 	}
 
 	body {
-		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
+		/* @import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css'); */
 		font-family: "Noto Sans KR", sans-serif !important;
 		/* background-color: #343421; */
 		background-color: #171717;

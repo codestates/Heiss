@@ -74,6 +74,7 @@ const BtnBox = styled.div`
 	justify-content: center;
 	width: 100%;
 	margin-top: 2rem;
+
 	@media ${(props) => props.theme.mobileL} {
 		display: flex;
 		justify-content: space-around;
@@ -96,6 +97,7 @@ const BtnBox = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		font-size: 0.8rem;
 		img {
 			height: 2rem;
 			margin-right: 0.4rem;
@@ -109,17 +111,18 @@ const BtnBox = styled.div`
 	}
 	.mobileBtn {
 		display: none;
+		margin: 3px;
 		@media ${(props) => props.theme.mobileL} {
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			padding: 0;
-			width: 100%;
+			width: 90%;
 			height: 1.5rem;
 
 			img {
 				height: 1rem;
-				padding: 0;
+				padding: 15px;
 				margin: 0;
 			}
 		}

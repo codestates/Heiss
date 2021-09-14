@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
 
-import profile from "../img/cat.jpeg";
+import profile from "../img/profile.png";
 
 const NavSection = styled.div`
 	display: flex;
@@ -49,7 +49,7 @@ const signModal = {
 		background: "#0f0d00",
 		margin: "0 auto",
 		overflow: "auto",
-		width: "70vw",
+		width: "80vw",
 		WebkitOverflowScrolling: "touch",
 		borderRadius: "4px",
 		outline: "none",
@@ -60,6 +60,13 @@ const signModal = {
 
 const ProfileBox = styled.div`
 	display: flex;
+
+	.profileBox {
+		background: #3d3d3d;
+		height: 2.5rem;
+		width: 2.5rem;
+		border-radius: 50%;
+	}
 
 	img {
 		border-radius: 50%;
@@ -94,12 +101,12 @@ const Nav = () => {
 			{login ? (
 				<button onClick={reverseBoo}>LOGIN</button>
 			) : (
-				<Link to="/mypage">
-					<ProfileBox>
+				<ProfileBox>
+					<Link className="profileBox" to="/mypage">
 						<img src={profile} alt="profile" />
-						<button>NICKNAME</button>
-					</ProfileBox>
-				</Link>
+					</Link>
+					<button onClick={() => setLogin(!login)}>LOGOUT</button>
+				</ProfileBox>
 			)}
 		</NavSection>
 	);
