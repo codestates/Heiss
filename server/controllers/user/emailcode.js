@@ -10,8 +10,8 @@ const fromEmail = "heiss_veri@daum.net";
 module.exports = async (req, res) => {
 	const email = req.body.email;
 	console.log(email);
-	console.log(authPass);
-	console.log(authUser);
+	console.log("!!!!!!!!!!!!", authPass);
+	console.log("????????????", authUser);
 	const generateRandom = function (min, max) {
 		var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
 		return ranNum;
