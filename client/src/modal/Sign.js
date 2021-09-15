@@ -9,8 +9,11 @@ const SignSection = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	text-align: center;
-	padding: 3rem;
+	width: 100%;
+	height: 100%;
+
 	img {
 		height: 6rem;
 
@@ -18,12 +21,26 @@ const SignSection = styled.div`
 			height: 4rem;
 		}
 	}
+
+	@media ${(props) => props.theme.mobileL} {
+		padding: 0.4rem;
+	}
 `;
 
 const BtnSection = styled.div`
 	display: flex;
 	justify-content: space-around;
 	margin-top: 30px;
+	width: 60%;
+
+	@media ${(props) => props.theme.tablet} {
+		width: 80%;
+	}
+
+	@media ${(props) => props.theme.mobileL} {
+		width: 100%;
+	}
+
 	button {
 		width: 100%;
 		min-width: 5.5rem;
@@ -33,7 +50,7 @@ const BtnSection = styled.div`
 		border: none;
 
 		@media ${(props) => props.theme.mobileL} {
-			font-size: 1.1rem;
+			font-size: 0.8rem;
 		}
 
 		@media ${(props) => props.theme.table} {
@@ -52,7 +69,15 @@ const BtnSection = styled.div`
 
 const InputSection = styled.div`
 	display: flex;
-	flex-direction: column;
+	width: 60%;
+
+	@media ${(props) => props.theme.tablet} {
+		width: 80%;
+	}
+
+	@media ${(props) => props.theme.mobileL} {
+		width: 100%;
+	}
 `;
 
 const Sign = ({ reverseBoo }) => {

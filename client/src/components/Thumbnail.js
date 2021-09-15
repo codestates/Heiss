@@ -6,6 +6,11 @@ import ReviewModal from "../modal/ReviewModal";
 import heartIcon from "../img/heart.svg";
 import noneheartIcon from "../img/noneheart.svg";
 
+const ThumbnailAllBox = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
 const ThumbnailSection = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -45,6 +50,18 @@ const HoverThumb = styled.div`
 	}
 `;
 
+const HeartHowMany = styled.div`
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 1px;
+	margin-left: 1rem;
+
+	img {
+		height: 1rem;
+		margin-left: 3px;
+	}
+`;
+
 // 모달 스타일
 const ThumbnailModal = {
 	overlay: {
@@ -81,32 +98,38 @@ const Thumbnail = ({ data, key }) => {
 	};
 
 	return (
-		<ThumbnailSection onClick={reverseBoo}>
-			<Modal
-				isOpen={boo}
-				style={ThumbnailModal}
-				onRequestClose={() => reverseBoo()}
-				ariaHideApp={false}
-			>
-				<ReviewModal data={data} />
-			</Modal>
-			<img src={data} key={key} alt="img" />
-			<HoverThumb className="hover-thumb">
-				{toggleH ? (
-					<img
-						src={heartIcon}
-						alt="heartIcon"
-						onClick={() => setToggleH(!toggleH)}
-					/>
-				) : (
-					<img
-						src={noneheartIcon}
-						alt="noneheartIcon"
-						onClick={() => setToggleH(!toggleH)}
-					/>
-				)}
-			</HoverThumb>
-		</ThumbnailSection>
+		<ThumbnailAllBox>
+			<ThumbnailSection onClick={reverseBoo}>
+				<Modal
+					isOpen={boo}
+					style={ThumbnailModal}
+					onRequestClose={() => reverseBoo()}
+					ariaHideApp={false}
+				>
+					<ReviewModal data={data} />
+				</Modal>
+				<img src={data} key={key} alt="img" />
+				<HoverThumb className="hover-thumb">
+					{toggleH ? (
+						<img
+							src={heartIcon}
+							alt="heartIcon"
+							onClick={() => setToggleH(!toggleH)}
+						/>
+					) : (
+						<img
+							src={noneheartIcon}
+							alt="noneheartIcon"
+							onClick={() => setToggleH(!toggleH)}
+						/>
+					)}
+				</HoverThumb>
+			</ThumbnailSection>
+			<HeartHowMany>
+				<div>996</div>
+				<img src={heartIcon} alt="heartIcon" />
+			</HeartHowMany>
+		</ThumbnailAllBox>
 	);
 };
 
