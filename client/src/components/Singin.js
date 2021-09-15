@@ -10,27 +10,30 @@ const SigninSection = styled.form`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 30vh;
-	width: 40vw;
-	border: 3px solid #f47676;
+	height: 35vh;
+	width: 100%;
 	padding: 3rem;
+	box-sizing: border-box;
+	border: 3px solid #f47676;
 	margin: 0;
-	@media ${(props) => props.theme.mobileL} {
-		width: 6rem;
+
+	@media ${(props) => props.theme.tablet} {
+		height: 40vh;
 	}
 
 	input {
 		margin-top: 1rem;
 		width: 30vw;
 		margin-bottom: 20px;
+		border: none;
 		height: 30px;
-		border: 2px solid #f47676;
+		background: #2c2c2c;
 		border-radius: 1vh;
 		@media ${(props) => props.theme.mobileL} {
-			width: 9rem;
+			width: 45vw;
 			font-size: 0.5rem;
 			&:first-child {
-				margin-top: 3rem;
+				margin-top: 2rem;
 			}
 			&::placeholder {
 				font-size: 0.5rem;
@@ -80,24 +83,21 @@ const BtnBox = styled.div`
 		justify-content: space-around;
 		width: 100%;
 		height: 3rem;
+		margin-bottom: 0.8rem;
 	}
 
-	.kakao {
-		border: 3px solid #ffe10c;
-		background: #ffe10c;
-	}
-	.naver {
-		border: 3px solid #00c300;
-		background: #00c300;
-	}
-	.loginBtn {
-		background: #ffffe7;
-	}
 	.desktopBtn {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		font-size: 0.8rem;
+		background: #f47676;
+		border: 1px solid #f47676;
+		color: #2c2c2c;
+		&:hover {
+			transform: scale(1.04);
+		}
+
 		img {
 			height: 2rem;
 			margin-right: 0.4rem;
@@ -108,6 +108,17 @@ const BtnBox = styled.div`
 		@media ${(props) => props.theme.mobileL} {
 			display: none;
 		}
+	}
+	.kakao {
+		border: 3px solid #ffe10c;
+		background: #ffe10c;
+	}
+	.naver {
+		border: 3px solid #00c300;
+		background: #00c300;
+	}
+	.loginBtn {
+		background: #ffffe7;
 	}
 	.mobileBtn {
 		display: none;

@@ -8,30 +8,30 @@ const SignupSection = styled.form`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 30vh;
-	width: 40vw;
+	height: 35vh;
+	width: 100%;
 	border: 3px solid #ffffe7;
 	padding: 3rem;
+	box-sizing: border-box;
 	margin: 0;
-	@media ${(props) => props.theme.mobileL} {
-		width: 6rem;
+
+	@media ${(props) => props.theme.tablet} {
+		height: 50vh;
 	}
 
 	input {
 		width: 30vw;
 		margin-bottom: 13px;
-		/* border: 2px solid #ffffe7; */
 		border: none;
+		background: #2c2c2c;
 		border-radius: 1vh;
-		min-width: 9rem;
-		background: rgba(255, 255, 231, 0.6);
 
 		&::placeholder {
 			color: #ffffe7;
 		}
 
 		@media ${(props) => props.theme.mobileL} {
-			width: 9rem;
+			width: 45vw;
 			height: 3px;
 			font-size: 0.5rem;
 			&::placeholder {
@@ -40,7 +40,7 @@ const SignupSection = styled.form`
 		}
 	}
 	button {
-		color: #f5f5f3;
+		background-color: #f5f5f3;
 		font-weight: bold;
 		font-size: 18px;
 		border-radius: 1.4vh;
@@ -49,8 +49,8 @@ const SignupSection = styled.form`
 		width: 130px;
 
 		@media ${(props) => props.theme.mobileL} {
-			width: 10rem;
-			height: 3rem;
+			width: 4rem;
+			height: 2rem;
 			font-size: 0.3rem;
 			background: #ffffe7;
 			border: 3px solid #ffffe7;
@@ -62,7 +62,7 @@ const SignupSection = styled.form`
 const Singup = () => {
 	const [auth, setAuth] = useState(false);
 
-  const [userInfo, setUserInfo] = useState({
+	const [userInfo, setUserInfo] = useState({
 		email: "",
 		nickname: "",
 		password: "",
@@ -115,6 +115,7 @@ const Singup = () => {
 							color: "#ffffe7",
 							border: "none",
 							fontSize: "0.7rem",
+							width: "100%",
 						}}
 					>
 						메일로 인증번호를 보냈습니다

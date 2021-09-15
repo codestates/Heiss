@@ -1,3 +1,6 @@
+import styled, { css } from "styled-components";
+
+// 기기 사이즈
 const size = {
 	mobileS: "320px",
 	mobileM: "375px",
@@ -8,6 +11,7 @@ const size = {
 	desktop: "2560px",
 };
 
+// 미디어 스타일
 const theme = {
 	mobileS: `(max-width: ${size.mobileS})`,
 	mobileM: `(max-width: ${size.mobileM})`,
@@ -17,6 +21,22 @@ const theme = {
 	laptopL: `(max-width: ${size.laptopL})`,
 	desktop: `(min-width: ${size.desktop})`,
 	desktopL: `(min-width: ${size.desktop})`,
+};
+
+// flex 디자인
+export const flexCenter = css`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+export const flexColum = () => {
+	return `
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  `;
 };
 
 export default theme;
