@@ -5,6 +5,7 @@ import Nav from "./Nav";
 import video from "../video/mainpage.mp4";
 import logo from "../img/heiss.svg";
 import Thumbnail from "../components/Thumbnail";
+import Footer from "./Footer";
 
 const MainpageSection = styled.div`
 	display: flex;
@@ -97,7 +98,8 @@ const MainpageBoxFirst = styled.ul`
 		transition: all 0.3s;
 		position: relative;
 		&:hover {
-			background: #ffffe7;
+			background: #f47676;
+			color: #ffffe7;
 		}
 		&:before {
 			transition: all 0.3s;
@@ -227,7 +229,7 @@ const Mainpage = () => {
 			setNavBarState("");
 		}
 	};
-
+	console.log(navBarState);
 	const sample = [
 		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
 		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
@@ -330,6 +332,7 @@ const Mainpage = () => {
 					></iframe>
 				</li>
 			</MainpageBoxFirst>
+			<Footer />
 		</MainpageSection>
 	);
 };

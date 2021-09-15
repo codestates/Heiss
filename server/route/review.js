@@ -1,15 +1,16 @@
 const express = require("express");
-const review = express.Router();
-const controller = require("../controllers/review");
+const router = express.Router();
+const controller = require("../controllers");
+const upload = require("../middleware/upload");
 
-review.get("/", controller.getAllReview);
-review.get("/:id", controller.getDetailReview);
+router.get("/", controller.getAllReview);
+router.get("/:id", controller.getDetailReview);
 
-review.post("/like", controller.postLikeReview);
-review.post("/", controller.postReview);
+router.post("/like", controller.postLikeReview);
+router.post("/", upload.array("picture", 10), controller.postReview);
 
-review.patch("/:id", controller.patchReview);
+router.patch("/:id", controller.patchReview);
 
-review.delete("/:id", controller.deleteReview);
+router.delete("/:id", controller.deleteReview);
 
-module.exports = review;
+module.exports = router;

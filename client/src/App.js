@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
 	}
 
 	body {
-		@import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css');
+		/* @import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css'); */
 		font-family: "Noto Sans KR", sans-serif !important;
 		/* background-color: #343421; */
 		background-color: #171717;
@@ -30,7 +30,7 @@ const GlobalStyles = createGlobalStyle`
 		width: 100%;
 		overflow: hidden;
 		-ms-overflow-style: none;
-	}
+	} 
 	input {
 		background-color: rgba(0, 0, 0, 0);
 		border: 3px solid #f47676;
