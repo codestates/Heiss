@@ -7,6 +7,7 @@ const express = require("express");
 const app = express();
 const userRouter = require("./route/user");
 const reviewRouter = require("./route/review");
+const { sequelize } = require("./models");
 // const cartRouter = require("./route/cart");
 
 app.use(express.json());
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 });
 
 const PORT = 80;
-const server = app.listen(PORT, () => console.log("서버가 열려따..!"));
+const server = app.listen(PORT, () => sequelize.sync({ force: true }));
+// console.log("서버가 열려따..!")
 
 module.exports = server;

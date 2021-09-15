@@ -63,7 +63,7 @@ customCase.belongsTo(users);
 users.hasMany(review);
 review.belongsTo(users);
 
-users.belongsToMany(review, { through: like });
-review.belongsToMany(users, { through: like });
+users.belongsToMany(review, { through: like, foreignKey: "userId" });
+review.belongsToMany(users, { through: like, foreignKey: "reviewId" });
 
 module.exports = db;

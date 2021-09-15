@@ -1,4 +1,4 @@
-const { review, source, users, like, sequelize } = require("../../models");
+const { review, source, users, like } = require("../../models");
 
 module.exports = async (req, res) => {
 	try {
@@ -10,6 +10,7 @@ module.exports = async (req, res) => {
 					attributes: ["id", "username", "profileImg"],
 				},
 				{ model: source, reqiured: true, attributes: ["imgUrl"] },
+				{ model: like, reqiured: true, attributes: ["userId"] },
 			],
 		});
 		res.status(201).json({ data: reviewList });
