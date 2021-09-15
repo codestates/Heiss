@@ -17,12 +17,16 @@ module.exports = async (req, res) => {
 					desc,
 					caseId,
 				});
-				for (let i = 0; i < imgUrl.length; i++) {
-					await source.create({
-						reviewId: newReview.id,
-						imgUrl: imgUrl[i].location,
-					});
-				}
+				// for (let i = 0; i < imgUrl.length; i++) {
+				// 	await source.create({
+				// 		reviewId: newReview.id,
+				// 		imgUrl: imgUrl[i].location,
+				// 	});
+				// }
+				// const img = imgUrl.map((url) => {
+				// 	return { reviewId: newReview.id, imgUrl: url.location };
+				// });
+				// await source.bulkCreate(img);
 				res.status(200).json({ message: "ok" });
 			} catch (err) {
 				console.log(err);

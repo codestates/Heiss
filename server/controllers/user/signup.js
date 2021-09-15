@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 							email: email,
 							provider: provider,
 							password: hash,
-							profileImg: req.file.location,
+							// profileImg: req.file.location,
 						})
 						.then((result) => {
 							res.status(200).send();
