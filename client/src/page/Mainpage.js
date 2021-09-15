@@ -200,7 +200,8 @@ const MainpageBoxFirst = styled.ul`
 		margin-top: 3rem;
 
 		&:hover {
-			background: #343421;
+			background: #f47676;
+			color: #ffffe7;
 		}
 	}
 `;

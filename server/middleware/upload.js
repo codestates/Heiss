@@ -1,23 +1,23 @@
 const multer = require("multer");
-const path = require("path");
-const now = path.resolve();
+const multerS3 = require("multer-s3");
+const AWS = require("aws-sdk");
 
-const imageFilter = (req, file, cb) => {
-	if (file.mimetype.startsWith("image")) {
-		cb(null, true);
-	} else {
-		cb("Please upload only images.", false);
-	}
-};
-
-var storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, now + "/resources/assets/uploads/");
-	},
-	filename: (req, file, cb) => {
-		cb(null, `${Date.now()}-${file.originalname}`);
-	},
+const s3 = new AWS.S3({
+	accessKeyId: process.env.S3_IMAGE_ID,
+	secretAccessKey: process.env.S3_IMAGE_SECRET,
+	region: "ap-northeast-2",
 });
-
-var uploadFile = multer({ storage: storage, fileFilter: imageFilter });
-module.exports = uploadFile;
+const upload = multer(
+	{
+		storage: multerS3({
+			s3: s3,
+			bucket: "heiss-images",
+			acl: "public-read",
+			key: function (req, file, cb) {
+				cb(null, Date.now() + "." + file.originalname.split(".").pop()); // 이름 설정
+			},
+		}),
+	},
+	"NONE"
+);
+module.exports = upload;
