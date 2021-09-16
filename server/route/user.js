@@ -10,5 +10,6 @@ router.post("/signup", upload.single("picture"), controller.signup);
 router.post("/emailcode", controller.emailcode);
 router.post("/emailcheck", controller.emailcheck);
 router.post("/signin", controller.signin);
+router.post("/find-pw", controller.findpw);
 
 module.exports = router;
