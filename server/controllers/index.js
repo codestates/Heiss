@@ -25,4 +25,8 @@ module.exports = {
 	getLocker: require("./locker/getLocker"),
 	postLocker: require("./locker/postLocker"),
 	deleteLocker: require("./locker/deleteLocker"),
+
+	//* case
+	getCase: require("./case/getCase"),
+	postCase: require("./case/postCase"),
 };
