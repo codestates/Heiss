@@ -134,6 +134,8 @@ const PutUserInfoBox = styled.div`
 	input {
 		margin-bottom: 2rem;
 		width: 70%;
+		border: none;
+		background-color: #2c2c2c;
 		border-radius: 1.3vh;
 		&:first-child {
 			margin-top: 5rem;
@@ -149,10 +151,13 @@ const PutUserInfoBox = styled.div`
 	button {
 		display: flex;
 		justify-content: center;
+		align-items: center;
 		color: #f47676;
 		background: none;
 		border: 3px solid #f47676;
+		border-radius: 1vh;
 		width: 14rem;
+		height: 5rem;
 		font-weight: bold;
 		font-size: 2rem;
 		margin-top: 2rem;

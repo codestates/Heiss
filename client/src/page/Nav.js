@@ -40,20 +40,20 @@ const signModal = {
 		right: 0,
 		bottom: 0,
 		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		margin: "0 auto",
 		zIndex: 2,
 	},
 	content: {
-		display: "flex",
-		justifyContent: "center",
 		border: "1px solid #0f0d00",
 		background: "#0f0d00",
-		margin: "0 auto",
 		overflow: "auto",
-		width: "80vw",
+		top: "10vh",
+		left: "10vw",
+		right: "10vw",
+		bottom: "10vh",
 		WebkitOverflowScrolling: "touch",
 		borderRadius: "4px",
 		outline: "none",
-		padding: "0.1rem",
 		zIndex: 2,
 	},
 };
@@ -66,6 +66,7 @@ const ProfileBox = styled.div`
 		height: 2.5rem;
 		width: 2.5rem;
 		border-radius: 50%;
+		margin-right: 0.5rem;
 	}
 
 	img {

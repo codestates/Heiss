@@ -15,4 +15,9 @@ module.exports = {
 	patchReview: require("./review/patchReview"),
 	deleteReview: require("./review/deleteReview"),
 	postLikeReview: require("./review/postLikeReview"),
+
+	//* cart
+	getCart: require("./cart/getCart"),
+	postCart: require("./cart/postCart"),
+	deleteCart: require("./cart/deleteCart"),
 };

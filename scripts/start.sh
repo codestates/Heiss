@@ -13,6 +13,10 @@ export KAKAO_CLIENT_SECRET=$(aws ssm get-parameters --region ap-northeast-2 --na
 export NAVER_CLIENT_ID=$(aws ssm get-parameters --region ap-northeast-2 --names NAVER_CLIENT_ID --query Parameters[0].Value | sed 's/"//g')
 export NAVER_CLIENT_SECRET=$(aws ssm get-parameters --region ap-northeast-2 --names NAVER_CLIENT_SECRET --query Parameters[0].Value | sed 's/"//g')
 export REDIRECT_URI=$(aws ssm get-parameters --region ap-northeast-2 --names REDIRECT_URI --query Parameters[0].Value | sed 's/"//g')
+export EMAIL_ID=$(aws ssm get-parameters --region ap-northeast-2 --names EMAIL_ID --query Parameters[0].Value | sed 's/"//g')
+export EMAIL_PW=$(aws ssm get-parameters --region ap-northeast-2 --names EMAIL_PW --query Parameters[0].Value | sed 's/"//g')
+export S3_IMAGE_ID=$(aws ssm get-parameters --region ap-northeast-2 --names S3_IMAGE_ID --query Parameters[0].Value | sed 's/"//g')
+export S3_IMAGE_SECRET=$(aws ssm get-parameters --region ap-northeast-2 --names S3_IMAGE_SECRET --query Parameters[0].Value | sed 's/"//g')
 
 
 authbind --deep pm2 start app.js

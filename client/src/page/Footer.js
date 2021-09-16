@@ -56,6 +56,7 @@ const GithubBox = styled.div`
 		margin-right: 0;
 	}
 `;
+// ✩ ✪ ✫ ✬ ❊ ❉ ✡︎ ✴︎ ❄︎ ❆ ❅
 
 const Footer = () => {
 	return (
@@ -68,16 +69,16 @@ const Footer = () => {
 			</LogoBox>
 			<GithubBox>
 				<li>
-					<a href="https://github.com/JangSeokJin1228">장석진</a>
+					<a href="https://github.com/JangSeokJin1228">❆ 장석진</a>
 				</li>
 				<li>
-					<a href="https://github.com/yeeun62">방예은</a>
+					<a href="https://github.com/yeeun62">✡︎ 방예은</a>
 				</li>
 				<li>
-					<a href="https://github.com/sungminyun1">윤성민</a>
+					<a href="https://github.com/sungminyun1">❊ 윤성민</a>
 				</li>
 				<li>
-					<a href="https://github.com/KAEN7">이성훈</a>
+					<a href="https://github.com/KAEN7">❅ 이성훈</a>
 				</li>
 			</GithubBox>
 		</FooterSection>
