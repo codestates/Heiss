@@ -216,6 +216,7 @@ const signdelModal = {
 
 const Mypage = () => {
 	const [boo, setBoo] = useState(false);
+
 	const [scrollToShop, setScrollToShop] = useState(0);
 	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
@@ -293,7 +294,7 @@ const Mypage = () => {
 						<div className="title">보관함</div>
 						<SaveBox>
 							{sample.map((data, key) => (
-								<Thumbnail data={data} key={key} />
+								<Thumbnail data={data} key={key} shotBtn={true} />
 							))}
 						</SaveBox>
 					</li>
