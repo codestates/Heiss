@@ -3,24 +3,27 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 module.exports = async (req, res) => {
-	const caseId = req.params.id;
+	const img = req.file;
+	const { phoneId, price, setting } = req.body;
 	const accessToken = req.cookies.accessToken;
 	if (!accessToken) {
 		res.status(401).json({ message: "please log in" });
 	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
-		const findCase = await customCase.findOne({
-			where: { userId: userInfo.id, id: caseId },
-		});
-		if (!findCase.locker) {
-			await customCase.update({ locker: true }, { where: { id: caseId } });
-		}
-		if (findCase) {
-			await customCase.update({ cart: false }, { where: { id: caseId } });
+		if (phoneId && price && setting && img) {
+			await customCase.create({
+				userId: userInfo.id,
+				phoneId,
+				price,
+				setting,
+				img,
+				cart: false,
+				locker: true,
+			});
 			res.status(200).json({ message: "ok" });
 		} else {
-			res.status(404).json({ message: "Not found" });
+			res.status(422).json({ message: "insufficient parameters supplied" });
 		}
 	} catch (err) {
 		res.status(500).send(console.log(err));
