@@ -23,9 +23,11 @@ module.exports = async (req, res) => {
 				// 		imgUrl: imgUrl[i].location,
 				// 	});
 				// }
-				// const img = imgUrl.map((url) => {
-				// 	return { reviewId: newReview.id, imgUrl: url.location };
-				// });
+				// if(imgUrl){
+				// 	const img = imgUrl.map((url) => {
+				// 		return { reviewId: newReview.id, imgUrl: url.location };
+				// 	});
+				// }
 				// await source.bulkCreate(img);
 				res.status(200).json({ message: "ok" });
 			} catch (err) {

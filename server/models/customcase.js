@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 			setting: DataTypes.STRING,
 			img: DataTypes.STRING,
 			cart: DataTypes.BOOLEAN,
+			locker: DataTypes.BOOLEAN,
 		},
 		{
 			sequelize,
