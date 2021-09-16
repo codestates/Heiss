@@ -1,17 +1,46 @@
 const { review, source, users, like, sequelize } = require("../../models");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 module.exports = async (req, res) => {
 	try {
 		const reviewList = await review.findAll({
+			required: true,
+			attributes: [
+				"id",
+				"score",
+				"title",
+				"desc",
+				[sequelize.fn("COUNT", sequelize.col("likes.reviewId")), "like"],
+			],
 			include: [
 				{
 					model: users,
-					reqiured: true,
 					attributes: ["id", "username", "profileImg"],
 				},
-				{ model: source, reqiured: true, attributes: ["imgUrl"] },
+				{ model: source, attributes: ["imgUrl"] },
+				{
+					model: like,
+					attributes: [],
+				},
 			],
+			group: "id",
 		});
+
+		const accessToken = req.cookies.accessToken;
+		if (accessToken) {
+			const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
+			if (userInfo) {
+				const userLike = await like.findAll({ where: { userId: userInfo.id } });
+				reviewList.forEach((el) => {
+					userLike.forEach((el2) => {
+						if (el.dataValues.id === el2.dataValues.reviewId) {
+							el.dataValues.liked = true;
+						}
+					});
+				});
+			}
+		}
 		res.status(201).json({ data: reviewList });
 	} catch (err) {
 		res.status(500).send(console.log(err));
