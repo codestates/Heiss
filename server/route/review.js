@@ -9,7 +9,7 @@ router.get("/:id", controller.getDetailReview);
 router.post("/like", controller.postLikeReview);
 router.post("/", upload.array("picture", 10), controller.postReview);
 
-router.patch("/:id", controller.patchReview);
+router.patch("/:id", upload.array("picture", 10), controller.patchReview);
 
 router.delete("/:id", controller.deleteReview);
 

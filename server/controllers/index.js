@@ -7,6 +7,7 @@ module.exports = {
 	signin: require("./user/signin"),
 	signout: require("./user/signout"),
 	findpw: require("./user/find-pw"),
+	patchUser: require("./user/patchuser"),
 
 	//* review
 	getAllReview: require("./review/getAllReview"),
