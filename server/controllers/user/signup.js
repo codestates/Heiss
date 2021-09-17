@@ -4,7 +4,9 @@ const bcrypt = require("bcrypt");
 module.exports = async (req, res) => {
 	const { email, username, password, provider } = req.body;
 	// console.log(req.files);
-	let user = await model.users.findOne({ where: { email: email } });
+	let user = await model.users.findOne({
+		where: { email: email, provider: "normal" },
+	});
 	if (user) {
 		//email 중복
 		res.status(409).send();
@@ -20,7 +22,7 @@ module.exports = async (req, res) => {
 							email: email,
 							provider: provider,
 							password: hash,
-							// profileImg: req.file.location,
+							profileImg: req.file.location,
 						})
 						.then((result) => {
 							res.status(200).send();
