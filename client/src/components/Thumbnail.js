@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
+import { Link } from "react-router-dom";
 import ReviewModal from "../modal/ReviewModal";
 
 import heartIcon from "../img/heart.svg";
 import noneheartIcon from "../img/noneheart.svg";
+import cartIcon from "../img/cart.svg";
 
 const ThumbnailAllBox = styled.div`
 	display: flex;
@@ -37,17 +39,64 @@ const ThumbnailSection = styled.div`
 
 const HoverThumb = styled.div`
 	display: none;
+	flex-direction: column;
+	justify-content: space-between;
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	background: rgba(128, 128, 128, 0.5);
+	/* background: rgba(128, 128, 128, 0.5); */
 	border-radius: 2vh;
+	z-index: 2;
 
-	img {
+	.heart {
 		height: 2rem;
 		margin: 1rem;
-		margin-left: 10rem;
+		margin-left: 5rem;
+		z-index: 2;
 	}
+`;
+
+const HoverThumbBottom = styled.div`
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 2rem;
+	margin-left: 1rem;
+	margin-bottom: 0.5rem;
+	z-index: 2;
+
+	.shareBtn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #f47676;
+		font-weight: bold;
+		height: 2rem;
+		width: 5rem;
+		border: 4px solid #f47676;
+		border-radius: 1vh;
+		transition: all 0.3s;
+		margin-right: 0.5rem;
+
+		&:hover {
+			background: #f47676;
+			color: #ffffe7;
+		}
+	}
+
+	.cart {
+		height: 2rem;
+		margin-left: 8rem;
+		/* border-radius: 50%; */
+	}
+`;
+
+const BgnHover = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(128, 128, 128, 0.5);
+	border-radius: 2vh;
 `;
 
 const HeartHowMany = styled.div`
@@ -55,6 +104,10 @@ const HeartHowMany = styled.div`
 	justify-content: flex-start;
 	margin-top: 1px;
 	margin-left: 1rem;
+
+	div {
+		color: #f47676;
+	}
 
 	img {
 		height: 1rem;
@@ -89,7 +142,7 @@ const ThumbnailModal = {
 	},
 };
 
-const Thumbnail = ({ data, key }) => {
+const Thumbnail = ({ data, key, shotBtn, shareBtn }) => {
 	const [boo, setBoo] = useState(false);
 	const [toggleH, setToggleH] = useState(false);
 
@@ -99,34 +152,45 @@ const Thumbnail = ({ data, key }) => {
 
 	return (
 		<ThumbnailAllBox>
-			<ThumbnailSection onClick={reverseBoo}>
-				<Modal
-					isOpen={boo}
-					style={ThumbnailModal}
-					onRequestClose={() => reverseBoo()}
-					ariaHideApp={false}
-				>
-					<ReviewModal data={data} />
-				</Modal>
+			<Modal
+				isOpen={boo}
+				style={ThumbnailModal}
+				onRequestClose={() => reverseBoo()}
+				ariaHideApp={false}
+			>
+				<ReviewModal data={data} />
+			</Modal>
+			<ThumbnailSection>
 				<img src={data} key={key} alt="img" />
 				<HoverThumb className="hover-thumb">
+					<BgnHover onClick={reverseBoo}></BgnHover>
 					{toggleH ? (
 						<img
 							src={heartIcon}
 							alt="heartIcon"
 							onClick={() => setToggleH(!toggleH)}
+							className="heart"
 						/>
 					) : (
 						<img
 							src={noneheartIcon}
 							alt="noneheartIcon"
 							onClick={() => setToggleH(!toggleH)}
+							className="heart"
 						/>
 					)}
+					<HoverThumbBottom>
+						{shareBtn && (
+							<Link to="/make">
+								<button className="shareBtn">퍼가기</button>
+							</Link>
+						)}
+						{shotBtn && <img src={cartIcon} alt="cartIcon" className="cart" />}
+					</HoverThumbBottom>
 				</HoverThumb>
 			</ThumbnailSection>
 			<HeartHowMany>
-				<div>996</div>
+				<div>687</div>
 				<img src={heartIcon} alt="heartIcon" />
 			</HeartHowMany>
 		</ThumbnailAllBox>

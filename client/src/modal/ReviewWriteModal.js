@@ -10,6 +10,7 @@ const WriteSection = styled.form`
 	input {
 		width: 30rem;
 		margin-top: 1.5rem;
+		border-radius: 1vh;
 		&::placeholder {
 			color: white;
 		}
@@ -25,7 +26,8 @@ const WriteSection = styled.form`
 		margin-top: 2rem;
 		transition: all 0.3s;
 		&:hover {
-			background: #ffffe7;
+			background: #f47676;
+			color: #ffffe7;
 		}
 	}
 `;
