@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
 import config from "../config";
+import { useDispatch, useSelector } from "react-redux";
 
 const SignupSection = styled.form`
 	display: flex;

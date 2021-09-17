@@ -1,37 +1,80 @@
 import { createAction, handleActions } from "redux-actions";
 
 const LOGIN = "user/LOGIN";
-const LOGING = "user/LOGING";
 const LOGOUT = "user/LOGOUT";
+const SIGNUP = "user/SIGNUP";
 
-const login = createAction(LOGIN, (userInfo) => ({ userInfo }));
+// const login = createAction(LOGIN, (userInfo) => ({ userInfo }));
+// const logout = createAction(LOGOUT, (userInfo) => ({ userInfo }));
 
-const loging = createAction(LOGING, (isLogin, user, tutorial) => ({
-	isLogin,
-	...user,
-}));
-const logout = createAction(LOGOUT, (userInfo) => ({ userInfo }));
+const login = () => {
+	return {
+		type: LOGIN,
+		payload: {
+			isLogin: true,
+		},
+	};
+};
+const signup = () => {
+	return {
+		type: SIGNUP,
+		payload: {
+			email,
+		},
+	};
+};
+const logout = () => {
+	return {
+		type: LOGOUT,
+		payload: {
+			email: null,
+			username: null,
+		},
+	};
+};
 
 const initialState = {
-	isLogin: false,
 	user: {
+		isLogin: false,
+		error: null,
+	},
+	signUp: {
+		email: false,
+		nickname: false,
+		userId: false,
+	},
+	logout: {
 		email: null,
-		nickname: null,
-		userId: null,
+		username: null,
 	},
 };
 
-const user = handleActions({
-	[LOGIN]: (state, action) =>
-		produce(state, (el) => {
-			el.isLogin = true;
+const user = handleActions(
+	{
+		[LOGIN]: (state, action) => ({
+			...state,
+			user: {
+				...state.user,
+				isLogin: true,
+				error: null,
+			},
 		}),
-	[LOGOUT]: (state, action) =>
-		produce(state, (el) => {
-			el.isLogin = false;
-			el.user.email = null;
-			el.user.nickname = null;
-			el.user.userId = null;
+		[LOGOUT]: (state, action) => ({
+			...state,
+			user: {
+				...state.user,
+				isLogin: false,
+				error: action.error,
+			},
 		}),
-});
+		[SIGNUP]: (state, action) => ({
+			...state,
+			signuUp: {
+				...state.signUp,
+			},
+		}),
+	},
+	initialState
+);
+
 export default users;
