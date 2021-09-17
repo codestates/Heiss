@@ -6,6 +6,8 @@ module.exports = {
 	emailcheck: require("./user/emailcheck"),
 	signin: require("./user/signin"),
 	signout: require("./user/signout"),
+	findpw: require("./user/find-pw"),
+	patchUser: require("./user/patchuser"),
 
 	//* review
 	getAllReview: require("./review/getAllReview"),
@@ -14,4 +16,18 @@ module.exports = {
 	patchReview: require("./review/patchReview"),
 	deleteReview: require("./review/deleteReview"),
 	postLikeReview: require("./review/postLikeReview"),
+
+	//* cart
+	getCart: require("./cart/getCart"),
+	postCart: require("./cart/postCart"),
+	deleteCart: require("./cart/deleteCart"),
+
+	//* locker
+	getLocker: require("./locker/getLocker"),
+	postLocker: require("./locker/postLocker"),
+	deleteLocker: require("./locker/deleteLocker"),
+
+	//* case
+	getCase: require("./case/getCase"),
+	postCase: require("./case/postCase"),
 };

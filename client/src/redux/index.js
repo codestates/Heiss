@@ -4,6 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { createAction } from "redux-actions";
 
 import review from "./modules/review";
+// import user from "./modules/user";
 
 // middlewares
 import thunk from "redux-thunk";

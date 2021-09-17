@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	source.init(
 		{
-			reviewId: DataTypes.INTEGER,
+			// reviewId: DataTypes.INTEGER,
 			imgUrl: DataTypes.STRING,
 		},
 		{

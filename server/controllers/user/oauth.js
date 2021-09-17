@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const axios = require("axios");
 const model = require("../../models");
+const jwt = require("jsonwebtoken");
 dotenv.config();
 axios.defaults.withCredentials = true;
 
@@ -26,7 +27,6 @@ module.exports = (req, res) => {
 						},
 					})
 					.then(async (response) => {
-						console.log(response);
 						const email = response.data.kakao_account.email;
 						const username = response.data.properties.nickname;
 						const profileImage = response.data.properties.profile_image;
@@ -46,7 +46,20 @@ module.exports = (req, res) => {
 									provider: "kakao",
 								});
 							}
-							res.send(username);
+							const findUser = await model.users.findOne({
+								where: { email: email, provider: "kakao" },
+							});
+							delete findUser.dataValues.password;
+							const accessToken = await jwt.sign(
+								findUser.dataValues,
+								process.env.ACCESS_SECRET
+							);
+							res
+								.status(200)
+								.cookie("accessToken", accessToken, {
+									httpOnly: true,
+								})
+								.json({ message: "ok" });
 						} catch (err) {
 							console.log("kakao DB 입출력 오류");
 							res.send("kakao DB 입출력 오류");
@@ -102,7 +115,20 @@ module.exports = (req, res) => {
 									provider: "naver",
 								});
 							}
-							res.send(username);
+							const findUser = await model.users.findOne({
+								where: { email: email, provider: "naver" },
+							});
+							delete findUser.dataValues.password;
+							const accessToken = await jwt.sign(
+								findUser.dataValues,
+								process.env.ACCESS_SECRET
+							);
+							res
+								.status(200)
+								.cookie("accessToken", accessToken, {
+									httpOnly: true,
+								})
+								.json({ message: "ok" });
 						} catch (err) {
 							console.log(err);
 							res.send("naver DB 입출력 에러");

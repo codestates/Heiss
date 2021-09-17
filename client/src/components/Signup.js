@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
+import config from "../config";
 
 const SignupSection = styled.form`
 	display: flex;
@@ -83,7 +84,7 @@ const Singup = () => {
 
 		e.preventDefault();
 		axios
-			.post(``, userInfo)
+			.post(`${config.serverUrl}`, userInfo)
 			.then(() => {
 				alert("회원가입 되었습니다! 로그인 해주세요.");
 			})

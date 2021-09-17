@@ -15,7 +15,13 @@ module.exports = async (req, res) => {
 		}
 		if (userInfo.id === findReview.dataValues.userId) {
 			if (imgUrl) {
-				const addSource = await source.bulkCreate([{ reviewId }, { imgUrl }]);
+				await source.destroy({ where: { reviewId: reviewId } });
+				for (let i = 0; i < imgUrl.length; i++) {
+					await source.create({
+						reviewId: newReview.id,
+						imgUrl: imgUrl[i].location,
+					});
+				}
 			}
 			if (score && title && desc && caseId) {
 				await review.update(
