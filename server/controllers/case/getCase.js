@@ -2,23 +2,18 @@ const { customCase } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+//* 케이스 수정하기
 module.exports = async (req, res) => {
 	const caseId = req.params.id;
 	const accessToken = req.cookies.accessToken;
-	if (!accessToken) {
-		res.status(401).json({ message: "please log in" });
-	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 		const findCase = await customCase.findOne({
-			where: { userId: userInfo.id, id: caseId },
+			attributes: ["id", "userId", "phoneId", "price", "setting"],
+			where: { id: caseId, userId: userInfo.id },
 		});
-		if (!findCase.locker) {
-			await customCase.update({ locker: true }, { where: { id: caseId } });
-		}
 		if (findCase) {
-			await customCase.update({ cart: false }, { where: { id: caseId } });
-			res.status(200).json({ message: "ok" });
+			res.status(200).json({ data: findCase });
 		} else {
 			res.status(404).json({ message: "Not found" });
 		}

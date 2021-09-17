@@ -20,4 +20,13 @@ module.exports = {
 	getCart: require("./cart/getCart"),
 	postCart: require("./cart/postCart"),
 	deleteCart: require("./cart/deleteCart"),
+
+	//* locker
+	getLocker: require("./locker/getLocker"),
+	postLocker: require("./locker/postLocker"),
+	deleteLocker: require("./locker/deleteLocker"),
+
+	//* case
+	getCase: require("./case/getCase"),
+	postCase: require("./case/postCase"),
 };

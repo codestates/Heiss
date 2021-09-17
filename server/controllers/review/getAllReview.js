@@ -2,10 +2,11 @@ const { review, source, users, like, sequelize } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+//! SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 module.exports = async (req, res) => {
 	try {
 		const reviewList = await review.findAll({
-			required: true,
+			// required: true,
 			attributes: [
 				"id",
 				"score",
