@@ -1,4 +1,4 @@
-const { customCase } = require("../../models");
+const { customCase, phone } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -10,10 +10,11 @@ module.exports = async (req, res) => {
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 		const findCase = await customCase.findAll({
-			attributes: ["id", "userId", "phoneId", "price", "setting", "img"],
-			where: { userId: userInfo.id, cart: 1 },
+			attributes: ["id", "userId", "price", "setting", "img"],
+			include: [{ model: phone, attributes: ["type"] }],
+			where: { userId: userInfo.id, locker: true },
 		});
-		if (findCase.length >= 1) {
+		if (findCase) {
 			res.status(200).json({ data: findCase });
 		}
 	} catch (err) {
