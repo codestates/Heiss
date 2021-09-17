@@ -2,6 +2,7 @@ const { customCase, review } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+//* 리뷰에서 케이스 퍼오기
 module.exports = async (req, res) => {
 	const reviewId = req.body.id;
 	const accessToken = req.cookies.accessToken;

@@ -15,8 +15,6 @@ module.exports = async (req, res) => {
 		});
 		if (findCase.length >= 1) {
 			res.status(200).json({ data: findCase });
-		} else {
-			res.status(404).json({ message: "Your shopping cart is empty" });
 		}
 	} catch (err) {
 		res.status(500).send(console.log(err));

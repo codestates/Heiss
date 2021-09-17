@@ -2,6 +2,7 @@ const { review, source, users, like, sequelize } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+//! SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 module.exports = async (req, res) => {
 	try {
 		const reviewList = await review.findAll({
@@ -18,7 +19,7 @@ module.exports = async (req, res) => {
 					model: users,
 					attributes: ["id", "username", "profileImg"],
 				},
-				// { model: source, attributes: ["imgUrl"] },
+				{ model: source, attributes: ["imgUrl"] },
 				{
 					model: like,
 					attributes: [],

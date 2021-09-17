@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 module.exports = async (req, res) => {
-	const img = req.file;
+	const img = req.file.location;
 	const { phoneId, price, setting, caseId } = req.body;
 	const accessToken = req.cookies.accessToken;
 	if (!accessToken) {

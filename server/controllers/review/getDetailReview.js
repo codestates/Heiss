@@ -1,4 +1,11 @@
-const { review, source, users, like } = require("../../models");
+const {
+	review,
+	source,
+	users,
+	like,
+	phone,
+	customCase,
+} = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -15,6 +22,11 @@ module.exports = async (req, res) => {
 				},
 				{ model: source, attributes: ["imgUrl"] },
 				{ model: like },
+				{
+					model: customCase,
+					attributes: ["id", "price", "setting", "img"],
+					include: [{ model: phone, attributes: ["type"] }],
+				},
 			],
 		});
 

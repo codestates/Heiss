@@ -2,6 +2,7 @@ const { customCase } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+//* 케이스 수정하기
 module.exports = async (req, res) => {
 	const caseId = req.params.id;
 	const accessToken = req.cookies.accessToken;
