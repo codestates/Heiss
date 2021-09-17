@@ -1,10 +1,15 @@
 import { createAction } from "redux-actions";
+import axios from "axios";
+import config from "../../config";
 
 // actions
 const REVIEW_DATAS = "review/REVIEW_DATAS";
 
 // action creator function
-export const reviewDatas = () => ({ type: REVIEW_DATAS });
+export const reviewDatas = async () => {
+	const datas = await axios.get(`${config.serverUrl}review`);
+	return { type: "REVIEW_DATAS", payload: datas };
+};
 
 // Thunk
 
@@ -25,6 +30,9 @@ const initialState = {
 		"https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898__340.jpg",
 		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
 	],
+	reviewAll: [
+		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
+	],
 };
 
 // reducer
@@ -33,7 +41,7 @@ export default function review(state = initialState, action) {
 		case REVIEW_DATAS:
 			return {
 				...state,
-				sample: action.sample,
+				reviewAll: action.reviewAll,
 			};
 		default:
 			return state;

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import config from "../config";
 
 import Nav from "./Nav";
 import Thumbnail from "../components/Thumbnail";
@@ -26,27 +24,16 @@ const ReviewBox = styled.div`
 `;
 
 const Review = () => {
-	const { sample } = useSelector((state) => ({
+	const { sample, reviewAll } = useSelector((state) => ({
 		sample: state.review.sample,
+		reviewAll: state.review.reviewAll,
 	}));
-
-	const dispatch = useDispatch();
-
-	// axios
-	axios
-		.get(`${config.serverUrl}review`)
-		.then((res) => {
-			console.log(res.data);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
 
 	return (
 		<ReviewSection>
 			<Nav reviewBtn={true} />
 			<ReviewBox>
-				{sample.map((data, key) => (
+				{reviewAll.map((data, key) => (
 					<Thumbnail data={data} key={key} shareBtn={true} />
 				))}
 			</ReviewBox>
