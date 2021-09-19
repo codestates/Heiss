@@ -56,15 +56,14 @@ const ReviewWriteModal = () => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		setValue("");
+		axios.post(
+			`${config.serverUrl}review`,
+			{ desc: "asdf", title: "asdf", score: 4 },
+			{
+				withCredentials: true,
+			}
+		);
 	};
-
-	axios.post(
-		`${config.serverUrl}review`,
-		{ desc: "asdf" },
-		{
-			withCredentials: true,
-		}
-	);
 
 	return (
 		<WriteSection>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { fabric } from "fabric";
 
 // 이미지
 import recIcon from "../img/Rectangle.svg";
@@ -54,10 +55,27 @@ const ShapesSection = styled.div`
 	}
 `;
 
-const Shapes = () => {
+const Shapes = ({ canvasAddHandler }) => {
+	const onClick = (e) => {
+		console.log(e.target.className);
+		switch (e.target.className) {
+			case "rect":
+				const rect = new fabric.Rect({
+					left: 100,
+					top: 100,
+					fill: "red",
+					width: 20,
+					height: 20,
+					angle: 45,
+				});
+				return canvasAddHandler(rect);
+			default:
+				return "";
+		}
+	};
 	return (
 		<ShapesSection>
-			<button>
+			<button onClick={onClick} className="rect">
 				<img src={recIcon} alt="recIcon" />
 			</button>
 			<button>
