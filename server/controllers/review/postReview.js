@@ -4,8 +4,11 @@ require("dotenv").config();
 
 module.exports = async (req, res) => {
 	const accessToken = req.cookies.accessToken;
+	if (!accessToken) {
+		res.status(401).json({ message: "please signin" });
+	}
 	const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
-	const imgUrl = req.files; // -> 배열
+	// const imgUrl = req.files; // -> 배열
 	const { score, title, desc, caseId } = req.body;
 	try {
 		if (score && title && desc && caseId) {
@@ -17,12 +20,12 @@ module.exports = async (req, res) => {
 					desc,
 					caseId,
 				});
-				for (let i = 0; i < imgUrl.length; i++) {
-					await source.create({
-						reviewId: newReview.id,
-						imgUrl: imgUrl[i].location,
-					});
-				}
+				// for (let i = 0; i < imgUrl.length; i++) {
+				// 	await source.create({
+				// 		reviewId: newReview.id,
+				// 		imgUrl: imgUrl[i].location,
+				// 	});
+				// }
 				res.status(200).json({ message: "ok" });
 			} catch (err) {
 				console.log(err);

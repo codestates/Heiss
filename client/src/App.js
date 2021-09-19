@@ -7,6 +7,7 @@ import Mainpage from "./page/Mainpage";
 import Makepage from "./page/Makepage";
 import Mypage from "./page/Mypage";
 import Review from "./page/Review";
+import Chat from "./Chat";
 
 const GlobalStyles = createGlobalStyle`
 	* {
@@ -100,6 +101,9 @@ const App = () => {
 				</Route>
 				<Route path="/mypage">
 					<Mypage />
+				</Route>
+				<Route path="/chat">
+					<Chat />
 				</Route>
 				<button onClick={kakaoclick}>kakao</button>
 				<button onClick={naverclick}>naver</button>

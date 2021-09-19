@@ -1,77 +1,56 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import io from "socket.io-client";
+
+import socketio from "socket.io-client";
 
 const ChatDiv = styled.div`
 	background-color: white;
 `;
 
 const Chat = () => {
-	const socket = io.connect(process.env.REACT_APP_API_URL);
+	const [socket, setSocket] = useState(socketio("http://localhost:80"));
 
-	const [state, setState] = useState("");
-	const [chat, setChat] = useState([]);
+	const [chat, setChat] = useState({ nickname: "", message: "" });
 
 	useEffect(() => {
-		socket.on("message", (data) => {
-			setChat([...chat, data]);
-		});
-	});
+		sockets();
+	}, []);
 
-	const onTextChange = (e) => {
-		setState({ ...state, [e.target.name]: e.target.value });
+	const sockets = () => {
+		socket.emit("online", "이야호");
+
+		socket.on("online", (message) => {
+			console.log(message);
+		});
 	};
 
-	// const onMessageSubmit = (e) => {
-	// 	e.preventDefault();
-	// 	const { name, message } = state;
-	// 	socket.emit("message", { name, message });
-	// 	setState({ message: "", name });
-	// };
+	const send = (e) => {
+		console.log(chat);
+	};
 
-	const renderChat = () => {
-		return chat.map(({ name, message }, index) => (
-			<div key={index}>
-				<h3>
-					{name}:<span>{message}</span>
-				</h3>
-			</div>
-		));
+	const inputChange = (e) => {
+		setChat({ [e.target.name]: e.target.value });
 	};
 
 	return (
 		<ChatDiv>
-			<p>으어아아아ㅏ아아아앙</p>
+			<h1>채팅방</h1>
+			이름:
+			<input
+				type="text"
+				name="nickname"
+				onChange={(e) => inputChange(e)}
+			></input>
+			<br />
+			메세지:
+			<input
+				type="text"
+				name="message"
+				onChange={(e) => inputChange(e)}
+			></input>
+			<br />
+			<button onClick={(e) => send(e)}>전송</button>
 		</ChatDiv>
-
-		// <div>
-		// 	<form onSubmit={onMessageSubmit}>
-		// 		<h1>Message</h1>
-		// 		<div className="name-field">
-		// 			<input
-		// 				name="name"
-		// 				onChange={(e) => onTextChange(e)}
-		// 				value={state.name}
-		// 				label="Name"
-		// 			/>
-		// 		</div>
-		// 		<div>
-		// 			<input
-		// 				name="message"
-		// 				onChange={(e) => onTextChange(e)}
-		// 				value={state.message}
-		// 				id="outlined-multiline-static"
-		// 				variant="outlined"
-		// 				label="Message"
-		// 			/>
-		// 		</div>
-		// 		<button>Send Message</button>
-		// 	</form>
-		// 	<div>
-		// 		<h1>Chat log</h1>
-		// 		{renderChat()}
-		// 	</div>
-		// </div>
 	);
 };
 
