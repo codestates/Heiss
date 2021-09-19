@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
-import config from "../config";
 import { useDispatch, useSelector } from "react-redux";
 
 const SignupSection = styled.form`
@@ -85,7 +84,7 @@ const Singup = () => {
 
 		e.preventDefault();
 		axios
-			.post(`${config.serverUrl}`, userInfo)
+			.post(`${process.env.REACT_APP_API_URL}`, userInfo)
 			.then(() => {
 				alert("회원가입 되었습니다! 로그인 해주세요.");
 			})
