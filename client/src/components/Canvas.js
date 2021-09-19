@@ -115,6 +115,11 @@ const ListBox = styled.div`
 function Canvas() {
 	const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
 	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
+	const [addValue, setAddValue] = useState("");
+
+	const canvasAddHandler = (data) => {
+		setAddValue(data);
+	};
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
@@ -136,7 +141,7 @@ function Canvas() {
 			angle: 45,
 		});
 
-		canvas.add(rect);
+		addValue ?? canvas.add(rect);
 
 		const rect1 = new fabric.Triangle({
 			left: 100,
@@ -149,7 +154,7 @@ function Canvas() {
 
 		canvas.add(rect1);
 
-		// const text = new fabric.Text({
+		// const text = new fabric.Text('Heiss', {
 		// 	fontSize: 30,
 		// 	originX: "center",
 		// 	originY: "center",
@@ -206,7 +211,7 @@ function Canvas() {
 				{/* <div class="toggleBtnBox">
 					<img className="toggleBtn" src={favicon} alt="btn" />
 				</div> */}
-				<Shapes />
+				<Shapes canvasAddHandler={canvasAddHandler} />
 			</ListBox>
 		</CanvasSection>
 	);

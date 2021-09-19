@@ -1,4 +1,3 @@
-import { createAction } from "redux-actions";
 import axios from "axios";
 import config from "../../config";
 
@@ -7,8 +6,8 @@ const REVIEW_DATAS = "review/REVIEW_DATAS";
 
 // action creator function
 export const reviewDatas = async () => {
-	const datas = await axios.get(`${config.serverUrl}review`);
-	return { type: "REVIEW_DATAS", payload: datas };
+	const reviewData = await axios.get(`${config.serverUrl}review`);
+	return { type: "REVIEW_DATAS", payload: reviewData.data };
 };
 
 // Thunk
@@ -28,9 +27,6 @@ const initialState = {
 		"https://cdn.pixabay.com/photo/2020/01/09/01/00/the-eye-on-the-greek-4751572__340.png",
 		"https://cdn.pixabay.com/photo/2021/01/30/12/19/couple-5963678__340.png",
 		"https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
-	],
-	reviewAll: [
 		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
 	],
 };
