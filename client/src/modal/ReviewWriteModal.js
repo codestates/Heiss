@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import config from "../config";
 import axios from "axios";
 
 const WriteSection = styled.form`
@@ -57,7 +56,7 @@ const ReviewWriteModal = () => {
 		e.preventDefault();
 		setValue("");
 		axios.post(
-			`${config.serverUrl}review`,
+			`${process.env.REACT_APP_API_URL}review`,
 			{ desc: "asdf", title: "asdf", score: 4 },
 			{
 				withCredentials: true,

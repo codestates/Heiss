@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { reviewDatas } from "./redux/modules/review";
 
 import Mainpage from "./page/Mainpage";
 import Makepage from "./page/Makepage";
@@ -46,6 +48,11 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const App = () => {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(reviewDatas());
+	}, []);
+
 	const getAccessToken = async (authorizationCode, platform) => {
 		const url = process.env.REACT_APP_API_URL + "user/oauth";
 		await axios
