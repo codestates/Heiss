@@ -294,7 +294,12 @@ const Mypage = () => {
 						<div className="title">보관함</div>
 						<SaveBox>
 							{sample.map((data, key) => (
-								<Thumbnail data={data} key={key} shotBtn={true} />
+								<Thumbnail
+									data={data}
+									key={key}
+									shotBtn={true}
+									liked={data.liked}
+								/>
 							))}
 						</SaveBox>
 					</li>

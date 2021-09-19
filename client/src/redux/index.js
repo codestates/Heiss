@@ -2,6 +2,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createAction } from "redux-actions";
+// import promiseMiddlerware from "redux-promise";
 
 import review from "./modules/review";
 // import user from "./modules/user";

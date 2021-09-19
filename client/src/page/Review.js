@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import { reviewDatas } from "../redux/modules/review";
 
 import Nav from "./Nav";
 import Thumbnail from "../components/Thumbnail";
@@ -24,17 +25,26 @@ const ReviewBox = styled.div`
 `;
 
 const Review = () => {
-	const { sample, reviewAll } = useSelector((state) => ({
+	const { sample, review } = useSelector((state) => ({
 		sample: state.review.sample,
-		reviewAll: state.review.reviewAll,
+		review: state.review,
 	}));
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		reviewDatas().then((data) => dispatch(data));
+	}, []);
+
+	const dataList = review.data ?? sample;
+	console.log(dataList);
 
 	return (
 		<ReviewSection>
 			<Nav reviewBtn={true} />
 			<ReviewBox>
-				{reviewAll.map((data, key) => (
-					<Thumbnail data={data} key={key} shareBtn={true} />
+				{dataList.map((data, key) => (
+					<Thumbnail data={data} key={key} shareBtn={true} liked={data.liked} />
 				))}
 			</ReviewBox>
 		</ReviewSection>

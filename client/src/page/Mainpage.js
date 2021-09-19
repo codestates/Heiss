@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { review } from "../redux/modules/review";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -221,23 +222,6 @@ const ReviewBox = styled.div`
 `;
 
 const Mainpage = () => {
-	// 	const [navBarState, setNavBarState] = useState("hidden");
-
-	// 	//
-	// 	useEffect(() => {
-	// 		window.addEventListener("scroll", getCurrentScroll);
-	// 		return () => window.removeEventListener("scroll", getCurrentScroll);
-	// 	});
-
-	// 	const getCurrentScroll = () => {
-	// 		if ((window.scrollY / document.body.clientHeight) * 100 < 33) {
-	// 			setNavBarState("hidden");
-	// 		} else if ((window.scrollY / document.body.clientHeight) * 100 > 33) {
-	// 			setNavBarState("");
-	// 		}
-	// 	};
-	// 	console.log(navBarState);
-
 	const { sample } = useSelector((state) => ({
 		sample: state.review.sample,
 	}));
@@ -310,7 +294,12 @@ const Mainpage = () => {
 					<h2>이렇게 많은 사용자분들이 리뷰를 남겨주셨습니다!</h2>
 					<ReviewBox>
 						{sample.map((data, key) => (
-							<Thumbnail data={data} key={key} shareBtn={true} />
+							<Thumbnail
+								data={data}
+								key={key}
+								shareBtn={true}
+								liked={data.liked}
+							/>
 						))}
 					</ReviewBox>
 					<Link to="/review" className="moreBtn">

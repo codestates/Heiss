@@ -142,7 +142,7 @@ const ThumbnailModal = {
 	},
 };
 
-const Thumbnail = ({ data, key, shotBtn, shareBtn }) => {
+const Thumbnail = ({ data, key, shotBtn, shareBtn, liked }) => {
 	const [boo, setBoo] = useState(false);
 	const [toggleH, setToggleH] = useState(false);
 
@@ -180,17 +180,13 @@ const Thumbnail = ({ data, key, shotBtn, shareBtn }) => {
 						/>
 					)}
 					<HoverThumbBottom>
-						{shareBtn && (
-							<Link to="/make">
-								<button className="shareBtn">퍼가기</button>
-							</Link>
-						)}
+						{shareBtn && <button className="shareBtn">퍼가기</button>}
 						{shotBtn && <img src={cartIcon} alt="cartIcon" className="cart" />}
 					</HoverThumbBottom>
 				</HoverThumb>
 			</ThumbnailSection>
 			<HeartHowMany>
-				<div>687</div>
+				<div>687{liked}</div>
 				<img src={heartIcon} alt="heartIcon" />
 			</HeartHowMany>
 		</ThumbnailAllBox>
