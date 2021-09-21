@@ -4,6 +4,7 @@ const LOGIN = "user/LOGIN";
 const LOGOUT = "user/LOGOUT";
 const SIGNUP = "user/SIGNUP";
 
+// const logout = createAction(LOGOUT, (userInfo) => ({ userInfo }));
 const login = createAction(LOGIN, (userInfo) => ({ userInfo }));
 const singup = createAction(SIGNUP, (userInfo) => ({ userInfo }));
 const logout = createAction(LOGOUT, (userInfo) => ({ userInfo }));
