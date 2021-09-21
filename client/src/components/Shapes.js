@@ -55,33 +55,53 @@ const ShapesSection = styled.div`
 	}
 `;
 
-const Shapes = ({ canvasAddHandler }) => {
-	const onClick = (e) => {
-		console.log(e.target.className);
-		switch (e.target.className) {
+const Shapes = ({ canvas }) => {
+	const onClick = (el) => {
+		console.log(el);
+		switch (el) {
 			case "rect":
 				const rect = new fabric.Rect({
-					left: 100,
-					top: 100,
+					left: 300,
+					top: 300,
 					fill: "red",
 					width: 20,
 					height: 20,
 					angle: 45,
 				});
-				return canvasAddHandler(rect);
+				return canvas.add(rect);
+			case "ellipse":
+				const ellipse = new fabric.Circle({
+					left: 300,
+					top: 300,
+					fill: "black",
+					width: 20,
+					height: 20,
+					angle: 45,
+				});
+				return canvas.add(ellipse);
+			case "triangle":
+				const triangle = new fabric.Triangle({
+					left: 500,
+					top: 500,
+					fill: "black",
+					width: 20,
+					height: 20,
+					angle: 45,
+				});
+				return canvas.add(triangle);
 			default:
 				return "";
 		}
 	};
 	return (
 		<ShapesSection>
-			<button onClick={onClick} className="rect">
+			<button onClick={() => onClick("rect")} className="rect">
 				<img src={recIcon} alt="recIcon" />
 			</button>
-			<button>
+			<button onClick={() => onClick("ellipse")}>
 				<img src={ellipseIcon} alt="ellipseIcon" className="circleSVG" />
 			</button>
-			<button>
+			<button onClick={() => onClick("triangle")}>
 				<img src={triangleIcon} alt="triangleIcon" />
 			</button>
 		</ShapesSection>
