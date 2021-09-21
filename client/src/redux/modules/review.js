@@ -11,7 +11,7 @@ export const reviewDatas = async () => {
 	return { type: "REVIEW_DATAS", payload: datas };
 };
 
-// Thunk
+// ThunK
 
 // initialState
 const initialState = {
