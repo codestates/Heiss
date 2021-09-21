@@ -63,7 +63,6 @@ const SignupSection = styled.form`
 
 const Singup = () => {
 	const [auth, setAuth] = useState(false);
-
 	const [userInfo, setUserInfo] = useState({
 		email: "",
 		nickname: "",
@@ -73,13 +72,6 @@ const Singup = () => {
 	const handleInputValue = (key) => (e) => {
 		setUserInfo({ ...userInfo, [key]: e.target.value });
 	};
-
-	const checkPassword = (e) => {
-		//  8 ~ 10자 영문, 숫자 조합
-		let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
-		console.log(regExp);
-	};
-
 	const handleSignup = (e) => {
 		const { email, username, password } = userInfo;
 
@@ -94,6 +86,12 @@ const Singup = () => {
 			});
 	};
 
+	// const { isLogin, error } = useSelector((state) => state.signUp);
+	// const dispatch = useDispatch();
+
+	// const handleSignup = (email, nickname, userId) => {
+	// 	dispatch(signUP(email, nickname, userId));
+	// };
 	return (
 		<SignupSection>
 			{!auth ? (
@@ -135,3 +133,9 @@ const Singup = () => {
 };
 
 export default Singup;
+
+// const checkPassword = (e) => {
+// 	//  8 ~ 10자 영문, 숫자 조합
+// 	let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
+// 	console.log(regExp);
+// };

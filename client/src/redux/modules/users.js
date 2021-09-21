@@ -6,32 +6,9 @@ const SIGNUP = "user/SIGNUP";
 
 // const login = createAction(LOGIN, (userInfo) => ({ userInfo }));
 // const logout = createAction(LOGOUT, (userInfo) => ({ userInfo }));
-
-const login = () => {
-	return {
-		type: LOGIN,
-		payload: {
-			isLogin: true,
-		},
-	};
-};
-const signup = () => {
-	return {
-		type: SIGNUP,
-		payload: {
-			email,
-		},
-	};
-};
-const logout = () => {
-	return {
-		type: LOGOUT,
-		payload: {
-			email: null,
-			username: null,
-		},
-	};
-};
+const login = createAction(LOGIN, (userInfo) => ({ userInfo }));
+const singup = createAction(SIGNUP, (userInfo) => ({ userInfo }));
+const logout = createAction(LOGOUT, (userInfo) => ({ userInfo }));
 
 const initialState = {
 	user: {

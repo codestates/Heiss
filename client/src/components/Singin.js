@@ -157,6 +157,7 @@ const Signin = ({ loginHandler }) => {
 				withCredentials: true,
 			})
 			.then((res) => loginHandler(res.data));
+
 		if (!loginInfo.email || !loginInfo.password) {
 			setErrorMessage("이메일과 비밀번호를 입력하세요");
 			return;
@@ -191,7 +192,7 @@ const Signin = ({ loginHandler }) => {
 				<button className="mobileBtn naver">
 					<img src={naver} alt="naver" />
 				</button>
-				<button className="mobileBtn loginBtn">
+				<button className="mobileBtn loginBtn" onClick={onSignIn}>
 					<img src={loginSVG} alt="loginSVG" />
 				</button>
 				<div className="alert-box">{errorMessage}</div>
