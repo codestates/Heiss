@@ -39,3 +39,4 @@ const enhancer =
 
 const store = createStore(rootReducer, enhancer);
 export default store;
+//커밋

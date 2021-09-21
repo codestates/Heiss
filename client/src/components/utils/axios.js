@@ -11,3 +11,4 @@ export const request = (method, url, data) => {
 		.then((res) => res.data)
 		.catch((err) => console.log(err));
 };
+// 커밋
