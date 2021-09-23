@@ -14,7 +14,10 @@ import palleteIcon from "../img/pallete.svg";
 import sizeIcon from "../img/size.svg";
 import Text from "./Text";
 import Case from "./Case";
+import Colorpickers from "./Colorpickers";
+import ContextMenu from "./ContextMenu";
 
+// 캔버스 전체 영역
 const CanvasSection = styled.div`
 	display: flex;
 	justify-content: center;
@@ -24,6 +27,7 @@ const CanvasSection = styled.div`
 	position: relative;
 `;
 
+// 우측 메뉴바
 const MenuSection = styled.ul`
 	display: flex;
 	flex-direction: column;
@@ -68,16 +72,16 @@ const MenuSection = styled.ul`
 	}
 `;
 
+// 하단 리스트
 const ListBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* background: #343421; */
 	background: #171717;
 	width: 50%;
 	height: 15rem;
 	position: absolute;
-	border-radius: 1vh 1vh 0 0;
+	border-radius: 2vh 2vh 0 0;
 	margin-top: 3rem;
 	bottom: 0;
 	z-index: 2;
@@ -114,7 +118,7 @@ const ListBox = styled.div`
 	}
 `;
 
-function Canvas() {
+const Canvas = () => {
 	const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
 	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
 	const [canvas, setCanvas] = useState();
@@ -129,16 +133,9 @@ function Canvas() {
 			preserveObjectStacking: true, // 맨 위 레이어만 클릭되게함
 			stopContextMenu: true, // 우클릭 및 휠클릭 활성
 			fireRightClick: true, // 우클릭 및 휠클릭 활성
+			fireMiddleClick: true, // 미들클릭 활성
 		});
 		setCanvas(canvas);
-
-		// const text = new fabric.Text('Heiss', {
-		// 	fontSize: 30,
-		// 	originX: "center",
-		// 	originY: "center",
-		// });
-
-		// canvas.add(text);
 
 		canvas.renderAll(); // useEffect를 통해 전체 랜더링
 
@@ -149,6 +146,16 @@ function Canvas() {
 
 		window.addEventListener("resize", handleResizeEvent, false);
 		handleResizeEvent();
+
+		canvas.on("mouse:down", (e) => {
+			if (e.button === 2) {
+				canvas.remove(e.target);
+			}
+			if (e.button === 3) {
+				// context menu
+				<ContextMenu />;
+			}
+		});
 
 		return window.removeEventListener("resize", handleResizeEvent);
 	}, []);
@@ -187,15 +194,16 @@ function Canvas() {
 				</div> */}
 				{
 					[
-						<Case />,
+						<Case canvas={canvas} />,
 						<Shapes canvas={canvas} />,
 						<Text canvas={canvas} />,
 						<></>,
+						<Colorpickers canvas={canvas} />,
 					][menuNum]
 				}
 			</ListBox>
 		</CanvasSection>
 	);
-}
+};
 
 export default Canvas;

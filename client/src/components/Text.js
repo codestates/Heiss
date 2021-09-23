@@ -43,7 +43,9 @@ const TextSection = styled.div`
 		}
 	}
 
-	.family {
+	select {
+		width: 6rem;
+		text-align: center;
 		outline: none;
 		background: #555555;
 		border-radius: 2vh;
@@ -52,31 +54,40 @@ const TextSection = styled.div`
 `;
 
 const Text = ({ canvas }) => {
+	// 폰트 상태
 	const [fontFamily, setFontFamily] = useState("sans-serif");
+	// 폰트 굵기
+	const [fontWeight, setFontWeight] = useState(400);
+
+	// 텍스트 추가 핸들러
 	const textOnClick = () => {
 		const textbox = new fabric.IText("내용을 입력하세요", {
 			fontFamily: fontFamily,
+			fontWeight: 800,
 		});
+
 		return canvas.add(textbox);
 	};
 
+	// 폰트 변경 핸들러
 	const handleChangeFont = (e) => {
 		e.preventDefault();
 		const items = canvas.getActiveObjects();
-		console.log(items);
 		items.forEach((item) => {
-			if (item.customType === "textbox") {
-				const text = item.text;
-				item.set("fontFamily", e.target.value);
-				item.set("text", text + " ");
-				item.set("text", text);
-
-				item._charWidthsCache = {};
-				item._clearCache();
-			}
+			item.set("fontFamily", e.target.value);
 		});
-
 		setFontFamily(e.target.value);
+		canvas.renderAll();
+	};
+
+	// 굵기 변경 핸들러
+	const handleChangeWeight = (e) => {
+		e.preventDefault();
+		const items = canvas.getActiveObjects();
+		items.forEach((item) => {
+			item.set("fontWeight", e.target.value);
+		});
+		setFontWeight(e.target.value);
 		canvas.renderAll();
 	};
 
@@ -93,14 +104,28 @@ const Text = ({ canvas }) => {
 				>
 					{["sans-serif", "serif", "Georgia", "cursive", "system-ui"].map(
 						(el, val) => (
-							<option key={val} value={val}>
+							<option key={val} value={el}>
 								{el}
 							</option>
 						)
 					)}
 				</select>
 			</button>
-			<button>굵기</button>
+			<button>
+				굵기
+				<select
+					className="weight"
+					defaultValue={fontWeight}
+					onChange={handleChangeWeight}
+					style={{ fontWeight: fontWeight }}
+				>
+					{[200, 300, 400, 500, 600, 700, 800, 900].map((el, val) => (
+						<option key={val} value={el}>
+							{el}
+						</option>
+					))}
+				</select>
+			</button>
 		</TextSection>
 	);
 };

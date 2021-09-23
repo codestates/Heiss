@@ -6,6 +6,8 @@ import { fabric } from "fabric";
 import recIcon from "../img/Rectangle.svg";
 import ellipseIcon from "../img/Ellipse 3.svg";
 import triangleIcon from "../img/triangle.svg";
+import PolygonIcon from "../img/Polygon1.svg";
+import Polygon from "../img/Polygon.svg";
 
 const ShapesSection = styled.div`
 	display: flex;
@@ -57,7 +59,6 @@ const ShapesSection = styled.div`
 
 const Shapes = ({ canvas }) => {
 	const onClick = (el) => {
-		console.log(el);
 		switch (el) {
 			case "rect":
 				const rect = new fabric.Rect({
@@ -69,16 +70,15 @@ const Shapes = ({ canvas }) => {
 					angle: 45,
 				});
 				return canvas.add(rect);
-			case "ellipse":
-				const ellipse = new fabric.Circle({
-					left: 300,
-					top: 300,
-					fill: "black",
-					width: 20,
-					height: 20,
-					angle: 45,
+			case "circle":
+				const circle = new fabric.Circle({
+					radius: 50,
+					fill: "green",
+					// stroke: "green",
+					// strokeWidth: 3,
 				});
-				return canvas.add(ellipse);
+				return canvas.add(circle);
+
 			case "triangle":
 				const triangle = new fabric.Triangle({
 					left: 500,
@@ -89,20 +89,37 @@ const Shapes = ({ canvas }) => {
 					angle: 45,
 				});
 				return canvas.add(triangle);
+			case "polygon":
+				return fabric.loadSVGFromURL(Polygon, (objects, options) => {
+					objects.forEach((object) => {
+						object.set({
+							fill: "black",
+							scaleX: 200 / object.get("width"),
+							scaleY: 200 / object.get("width"),
+						});
+
+						canvas.add(object);
+					});
+				});
 			default:
 				return "";
 		}
 	};
+
 	return (
 		<ShapesSection>
+			{/* svg 데이터 여러개 추가하면 그때 map으로 리팩토링 */}
 			<button onClick={() => onClick("rect")} className="rect">
 				<img src={recIcon} alt="recIcon" />
 			</button>
-			<button onClick={() => onClick("ellipse")}>
+			<button onClick={() => onClick("circle")}>
 				<img src={ellipseIcon} alt="ellipseIcon" className="circleSVG" />
 			</button>
 			<button onClick={() => onClick("triangle")}>
 				<img src={triangleIcon} alt="triangleIcon" />
+			</button>
+			<button onClick={() => onClick("polygon")}>
+				<img src={PolygonIcon} alt="PolygonIcon" />
 			</button>
 		</ShapesSection>
 	);
