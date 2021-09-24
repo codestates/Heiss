@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { reviewDatas } from "./redux/modules/review";
 
 import Mainpage from "./page/Mainpage";
@@ -48,6 +48,8 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const App = () => {
+	let state = useSelector((state) => state);
+	console.log(state);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(reviewDatas());

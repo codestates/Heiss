@@ -257,7 +257,7 @@ const Mainpage = () => {
 						width="480"
 						height="270"
 						frameBorder="0"
-						class="giphy-embed"
+						className="giphy-embed"
 						allowFullScreen
 					></iframe>
 				</li>
@@ -267,17 +267,17 @@ const Mainpage = () => {
 						width="480"
 						height="480"
 						frameBorder="0"
-						class="giphy-embed"
+						className="giphy-embed"
 						allowFullScreen
 					></iframe>
 					<div className="columnSection">
 						<div className="animationText">
 							<h2>저희 Heiss는 </h2>
-							<div class="slide__box">
-								<h2 class="slide__text">쉽게</h2>
-								<h2 class="slide__text">재밌게</h2>
-								<h2 class="slide__text">간편하게</h2>
-								<h2 class="slide__text">아름답게</h2>
+							<div className="slide__box">
+								<h2 className="slide__text">쉽게</h2>
+								<h2 className="slide__text">재밌게</h2>
+								<h2 className="slide__text">간편하게</h2>
+								<h2 className="slide__text">아름답게</h2>
 							</div>
 							<h2>당신의 케이스를 만들어드립니다</h2>
 						</div>
@@ -315,7 +315,7 @@ const Mainpage = () => {
 						width="480"
 						height="360"
 						frameBorder="0"
-						class="giphy-embed"
+						className="giphy-embed"
 						allowFullScreen
 					></iframe>
 				</li>

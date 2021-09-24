@@ -39,8 +39,14 @@ const Review = () => {
 		<ReviewSection>
 			<Nav reviewBtn={true} />
 			<ReviewBox>
-				{dataList.map((data, key) => (
-					<Thumbnail data={data} key={key} shareBtn={true} liked={data.liked} />
+				{dataList.map((data, index) => (
+					<Thumbnail
+						key={index}
+						data={data}
+						index={index}
+						shareBtn={true}
+						liked={data.liked}
+					/>
 				))}
 			</ReviewBox>
 		</ReviewSection>
