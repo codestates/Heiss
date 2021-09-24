@@ -4,6 +4,7 @@ import axios from "axios";
 import kakao from "../img/카카오.png";
 import naver from "../img/네이버.png";
 import loginSVG from "../img/login.png";
+import { withRouter } from "react-router-dom";
 
 const SigninSection = styled.form`
 	display: flex;
@@ -140,38 +141,47 @@ const BtnBox = styled.div`
 	}
 `;
 
-const Signin = ({ loginHandler }) => {
+const Signin = (props) => {
 	const [warring, setWarning] = useState(false);
-	const [loginInfo, setLoginInfo] = useState({
-		email: "",
-		password: "",
-	});
-	const [errorMessage, setErrorMessage] = useState("");
-	const onClickLogin = (key) => (e) => {
-		setLoginInfo({ ...loginInfo, [key]: e.target.value });
+	const [Email, setEmail] = useState("");
+	const [Password, setPassword] = useState("");
+	// const [errorMessage, setErrorMessage] = useState("");
+	// const onClickLogin = (key) => (e) => {
+	// 	setLoginInfo({ ...loginInfo, [key]: e.target.value });
+	// };
+	// const onSignIn = () => {
+	// 	axios
+	// 		.post(`${process.env.REACT_APP_API_URL}`, loginInfo, {
+	// 			withCredentials: true,
+	// 		})
+	// 		.then((res) => loginHandler(res.data));
+
+	// 	if (!loginInfo.email || !loginInfo.password) {
+	// 		setErrorMessage("이메일과 비밀번호를 입력하세요");
+	// 		return;
+	// 	}
+	// };
+	const onEmailHandler = (e) => {
+		setEmail(e.currentTarget.value);
 	};
-	const onSignIn = () => {
-		axios
-			.post(`${process.env.REACT_APP_API_URL}`, loginInfo, {
-				withCredentials: true,
-			})
-			.then((res) => loginHandler(res.data));
-		if (!loginInfo.email || !loginInfo.password) {
-			setErrorMessage("이메일과 비밀번호를 입력하세요");
-			return;
-		}
+	const onPasswordHanlder = (e) => {
+		setPassword(e.currentTarget.value);
+	};
+
+	const onSubmitHandler = (e) => {
+		e.preventDefault();
 	};
 	return (
-		<SigninSection>
+		<SigninSection onChange={onSubmitHandler}>
 			<input
 				type="email"
 				placeholder="이메일을 입력해주세요"
-				onChange={onClickLogin("email")}
+				onChange={onEmailHandler}
 			/>
 			<input
 				type="password"
 				placeholder="비밀번호를 입력해주세요"
-				onChange={onClickLogin("password")}
+				onChange={onPasswordHanlder}
 			/>
 			{warring && <div className="warring warPwd">다시 입력해주세요</div>}
 			<BtnBox>
@@ -193,10 +203,10 @@ const Signin = ({ loginHandler }) => {
 				<button className="mobileBtn loginBtn">
 					<img src={loginSVG} alt="loginSVG" />
 				</button>
-				<div className="alert-box">{errorMessage}</div>
+				<div className="alert-box" />
 			</BtnBox>
 		</SigninSection>
 	);
 };
 
-export default Signin;
+export default withRouter(Signin);
