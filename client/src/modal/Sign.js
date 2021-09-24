@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Singup from "../components/Signup";
-import Signin from "../components/Singin";
+import Signup from "../components/Signup";
+import Signin from "../components/Signin";
 import logo from "../img/heiss.svg";
 import { Link } from "react-router-dom";
 
@@ -102,7 +102,7 @@ const Sign = ({ reverseBoo }) => {
 					회원가입
 				</button>
 			</BtnSection>
-			<InputSection>{shadower ? <Signin /> : <Singup />}</InputSection>
+			<InputSection>{shadower ? <Signin /> : <Signup />}</InputSection>
 		</SignSection>
 	);
 };

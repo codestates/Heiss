@@ -4,7 +4,6 @@ import axios from "axios";
 import kakao from "../img/카카오.png";
 import naver from "../img/네이버.png";
 import loginSVG from "../img/login.png";
-import config from "../config";
 
 const SigninSection = styled.form`
 	display: flex;
@@ -153,7 +152,7 @@ const Signin = ({ loginHandler }) => {
 	};
 	const onSignIn = () => {
 		axios
-			.post(`${config.serverUrl}`, loginInfo, {
+			.post(`${process.env.REACT_APP_API_URL}`, loginInfo, {
 				withCredentials: true,
 			})
 			.then((res) => loginHandler(res.data));

@@ -15,7 +15,7 @@ const login = () => {
 		},
 	};
 };
-const signup = () => {
+const signup = (email) => {
 	return {
 		type: SIGNUP,
 		payload: {
@@ -77,4 +77,4 @@ const user = handleActions(
 	initialState
 );
 
-export default users;
+export default user;

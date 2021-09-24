@@ -1,16 +1,21 @@
 import axios from "axios";
-import config from "../../config";
 
-// actions
+// actions type
 const REVIEW_DATAS = "review/REVIEW_DATAS";
+const GET_REVIEW = "review/GET_REVIEW";
 
-// action creator function
-export const reviewDatas = async () => {
-	const reviewData = await axios.get(`${config.serverUrl}review`);
-	return { type: "REVIEW_DATAS", payload: reviewData.data };
+// action
+export const reviewDatas = () => async (dispatch) => {
+	const reviewData = await axios.get(`${process.env.REACT_APP_API_URL}review`);
+	dispatch(getReview(reviewData.data.data));
+	// return { type: REVIEW_DATAS, payload: reviewData.data };
 };
-
-// Thunk
+export const getReview = (data) => {
+	return {
+		type: GET_REVIEW,
+		payload: data,
+	};
+};
 
 // initialState
 const initialState = {
@@ -29,17 +34,21 @@ const initialState = {
 		"https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898__340.jpg",
 		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
 	],
+
+	reviewAll: [],
 };
 
 // reducer
-export default function review(state = initialState, action) {
+export const review = (state = initialState, action) => {
 	switch (action.type) {
-		case REVIEW_DATAS:
+		case GET_REVIEW:
 			return {
 				...state,
-				reviewAll: action.reviewAll,
+				reviewAll: action.payload,
 			};
 		default:
 			return state;
 	}
-}
+};
+
+export default review;

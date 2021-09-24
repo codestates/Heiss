@@ -32,10 +32,6 @@ const Review = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		reviewDatas().then((data) => dispatch(data));
-	}, []);
-
 	const dataList = review.data ?? sample;
 	console.log(dataList);
 
