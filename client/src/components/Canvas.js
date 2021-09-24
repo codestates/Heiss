@@ -16,6 +16,7 @@ import Text from "./Text";
 import Case from "./Case";
 import Colorpickers from "./Colorpickers";
 import ContextMenu from "./ContextMenu";
+import Image from "./Image";
 
 // 캔버스 전체 영역
 const CanvasSection = styled.div`
@@ -123,6 +124,7 @@ const Canvas = () => {
 	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
 	const [canvas, setCanvas] = useState();
 	const [menuNum, setMenuNum] = useState(0);
+	const [context, setContext] = useState(false);
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
@@ -137,31 +139,45 @@ const Canvas = () => {
 		});
 		setCanvas(canvas);
 
-		canvas.renderAll(); // useEffect를 통해 전체 랜더링
-
-		const handleResizeEvent = () => {
-			setCanvasWidth(document.body.clientWidth);
-			setCanvasHeight(window.innerHeight);
-		};
-
-		window.addEventListener("resize", handleResizeEvent, false);
-		handleResizeEvent();
-
+		// 마우스 클릭 이벤트
 		canvas.on("mouse:down", (e) => {
 			if (e.button === 2) {
 				canvas.remove(e.target);
 			}
 			if (e.button === 3) {
 				// context menu
-				<ContextMenu />;
+				setContext(true);
 			}
 		});
+
+		// 캔버스 반응형 이벤트
+		const handleResizeEvent = () => {
+			setCanvasWidth(document.body.clientWidth);
+			setCanvasHeight(window.innerHeight);
+		};
+
+		// 삭제 버튼
+		const deleteBtn = (e) => {
+			if (e.keyCode === 46) {
+				const items = canvas.getActiveObjects();
+				items.forEach((item) => {
+					canvas.remove(item);
+				});
+			}
+		};
+
+		window.addEventListener("keydown", deleteBtn);
+		window.addEventListener("resize", handleResizeEvent, false);
+		handleResizeEvent();
+
+		canvas.renderAll(); // useEffect를 통해 전체 랜더링
 
 		return window.removeEventListener("resize", handleResizeEvent);
 	}, []);
 
 	return (
 		<CanvasSection>
+			{context && <ContextMenu />}
 			<>
 				<canvas id="canvas" />
 				<MenuSection>
@@ -197,7 +213,7 @@ const Canvas = () => {
 						<Case canvas={canvas} />,
 						<Shapes canvas={canvas} />,
 						<Text canvas={canvas} />,
-						<></>,
+						<Image />,
 						<Colorpickers canvas={canvas} />,
 					][menuNum]
 				}

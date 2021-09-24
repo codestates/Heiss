@@ -54,21 +54,21 @@ const Case = ({ canvas }) => {
 	// img object
 	const bgImg = {
 		GalaxyS21:
-			"https://thumbnail9.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/36720533844755-feb3c8f3-ae0e-41b0-b16c-238a25b79d1e.jpg",
+			"https://cdn.discordapp.com/attachments/884357003747688478/890777202369638460/2021-09-24_10.50.28.png",
 
 		iPhone13:
-			"https://cdn.discordapp.com/attachments/884332802076717097/890524478491209748/9k.png",
+			"https://cdn.discordapp.com/attachments/884357003747688478/890774776128344104/unknown.png",
 	};
 
 	// 배경 이미지 핸들러
 	const BackgroundHandler = (e) => {
 		fabric.Image.fromURL(bgImg[e.target.textContent], (img) => {
 			img.set({
-				opacity: 0.9,
-				left: canvas.width / 3,
+				opacity: 0.6,
+				left: canvas.width / 2.5,
 				top: canvas.height / 5,
-				// scaleX: canvas.width / img.width / 2,
-				// scaleY: canvas.height / img.height / 2,
+				scaleY: 1.3,
+				scaleX: 1.3,
 			});
 			canvas.setBackgroundImage(img, canvas.requestRenderAll.bind(canvas));
 		});

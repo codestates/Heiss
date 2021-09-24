@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { fabric } from "fabric";
 
 // 이미지
-import recIcon from "../img/Rectangle.svg";
-import ellipseIcon from "../img/Ellipse 3.svg";
+import rectIcon from "../img/Rectangle.svg";
+import circleIcon from "../img/Ellipse 3.svg";
 import triangleIcon from "../img/triangle.svg";
-import PolygonIcon from "../img/Polygon1.svg";
+import polygonIcon from "../img/Polygon1.svg";
 import Polygon from "../img/Polygon.svg";
 
 const ShapesSection = styled.div`
@@ -48,7 +48,7 @@ const ShapesSection = styled.div`
 			}
 		}
 
-		.circleSVG {
+		.circle {
 			height: 7rem;
 			@media ${(props) => props.theme.tablet} {
 				height: 3rem;
@@ -65,8 +65,8 @@ const Shapes = ({ canvas }) => {
 					left: 300,
 					top: 300,
 					fill: "red",
-					width: 20,
-					height: 20,
+					width: 40,
+					height: 40,
 					angle: 45,
 				});
 				return canvas.add(rect);
@@ -78,7 +78,6 @@ const Shapes = ({ canvas }) => {
 					// strokeWidth: 3,
 				});
 				return canvas.add(circle);
-
 			case "triangle":
 				const triangle = new fabric.Triangle({
 					left: 500,
@@ -108,18 +107,17 @@ const Shapes = ({ canvas }) => {
 
 	return (
 		<ShapesSection>
-			{/* svg 데이터 여러개 추가하면 그때 map으로 리팩토링 */}
 			<button onClick={() => onClick("rect")} className="rect">
-				<img src={recIcon} alt="recIcon" />
+				<img src={rectIcon} alt="recIcon" />
 			</button>
 			<button onClick={() => onClick("circle")}>
-				<img src={ellipseIcon} alt="ellipseIcon" className="circleSVG" />
+				<img src={circleIcon} alt="circleIcon" className="circle" />
 			</button>
 			<button onClick={() => onClick("triangle")}>
 				<img src={triangleIcon} alt="triangleIcon" />
 			</button>
 			<button onClick={() => onClick("polygon")}>
-				<img src={PolygonIcon} alt="PolygonIcon" />
+				<img src={polygonIcon} alt="polygonIcon" />
 			</button>
 		</ShapesSection>
 	);
