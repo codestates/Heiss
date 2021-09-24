@@ -142,7 +142,7 @@ const ThumbnailModal = {
 	},
 };
 
-const Thumbnail = ({ data, key, shotBtn, shareBtn, liked }) => {
+const Thumbnail = ({ data, index, shotBtn, shareBtn, liked }) => {
 	const [boo, setBoo] = useState(false);
 	const [toggleH, setToggleH] = useState(false);
 
@@ -161,7 +161,7 @@ const Thumbnail = ({ data, key, shotBtn, shareBtn, liked }) => {
 				<ReviewModal data={data} />
 			</Modal>
 			<ThumbnailSection>
-				<img src={data} key={key} alt="img" />
+				<img src={data} key={index} alt="img" />
 				<HoverThumb className="hover-thumb">
 					<BgnHover onClick={reverseBoo}></BgnHover>
 					{toggleH ? (

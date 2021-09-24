@@ -37,11 +37,6 @@ app.get("/", (req, res) => {
 });
 
 //! socket
-// 1) connect: 연결 성공
-// 2) disconnect: 연결 종료
-// 3) error: 에러 발생
-// 4) 그외 : 사용자 정의 이벤트
-
 const io = require("socket.io")(server, {
 	cors: {
 		origin: ["http://localhost:3000"],

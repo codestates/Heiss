@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // actions type
-const REVIEW_DATAS = "review/REVIEW_DATAS";
-const GET_REVIEW = "review/GET_REVIEW";
+const REVIEW_DATAS = "REVIEW_DATAS";
+const GET_REVIEW = "GET_REVIEW";
 
 // action
 export const reviewDatas = () => async (dispatch) => {
@@ -10,6 +10,7 @@ export const reviewDatas = () => async (dispatch) => {
 	dispatch(getReview(reviewData.data.data));
 	// return { type: REVIEW_DATAS, payload: reviewData.data };
 };
+
 export const getReview = (data) => {
 	return {
 		type: GET_REVIEW,
@@ -39,16 +40,18 @@ const initialState = {
 };
 
 // reducer
-export const review = (state = initialState, action) => {
+export const reviewReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_REVIEW:
 			return {
 				...state,
 				reviewAll: action.payload,
 			};
+			break;
+
 		default:
 			return state;
 	}
 };
 
-export default review;
+export default reviewReducer;
