@@ -1,80 +1,71 @@
-import { createAction, handleActions } from "redux-actions";
+import { request } from "../../components/utils/axios";
 
-const LOGIN = "user/LOGIN";
-const LOGOUT = "user/LOGOUT";
-const SIGNUP = "user/SIGNUP";
+// const LOGIN = "user/LOGIN";
+// const LOGOUT = "user/LOGOUT";
+// const SIGNUP = "user/SIGNUP";
+const REGISTER_USER = "REGISTER_USER";
 
-// const login = createAction(LOGIN, (userInfo) => ({ userInfo }));
-// const logout = createAction(LOGOUT, (userInfo) => ({ userInfo }));
+const USER_URL = "/api/user";
 
-const login = () => {
+export const registerUser = (dataToSubmit) => {
+	const data = request("post", USER_URL + "/register", dataToSubmit);
 	return {
-		type: LOGIN,
-		payload: {
-			isLogin: true,
-		},
-	};
-};
-const signup = (email) => {
-	return {
-		type: SIGNUP,
-		payload: {
-			email,
-		},
-	};
-};
-const logout = () => {
-	return {
-		type: LOGOUT,
-		payload: {
-			email: null,
-			username: null,
-		},
+		type: REGISTER_USER,
+		payload: data,
 	};
 };
 
-const initialState = {
-	user: {
-		isLogin: false,
-		error: null,
-	},
-	signUp: {
-		email: false,
-		nickname: false,
-		userId: false,
-	},
-	logout: {
-		email: null,
-		username: null,
-	},
+export const users = (state = {}, action) => {
+	switch (action.type) {
+		case REGISTER_USER:
+			return { ...state, loginSuccess: action.payload };
+		default:
+			return state;
+	}
 };
 
-const user = handleActions(
-	{
-		[LOGIN]: (state, action) => ({
-			...state,
-			user: {
-				...state.user,
-				isLogin: true,
-				error: null,
-			},
-		}),
-		[LOGOUT]: (state, action) => ({
-			...state,
-			user: {
-				...state.user,
-				isLogin: false,
-				error: action.error,
-			},
-		}),
-		[SIGNUP]: (state, action) => ({
-			...state,
-			signuUp: {
-				...state.signUp,
-			},
-		}),
-	},
-	initialState
-);
+// const initialState = {
+// 	user: {
+// 		isLogin: false,
+// 		error: null,
+// 	},
+// 	signUp: {
+// 		email: false,
+// 		nickname: false,
+// 		userId: false,
+// 	},
+// 	logout: {
+// 		email: null,
+// 		username: null,
+// 	},
+// };
 
-export default user;
+// export const users = handleActions(
+// 	{
+// 		[LOGIN]: (state, action) => ({
+// 			...state,
+// 			user: {
+// 				...state.user,
+// 				isLogin: true,
+// 				error: null,
+// 			},
+// 		}),
+// 		[LOGOUT]: (state, action) => ({
+// 			...state,
+// 			user: {
+// 				...state.user,
+// 				isLogin: false,
+// 				error: action.error,
+// 			},
+// 		}),
+// 		[SIGNUP]: (state, action) => ({
+// 			...state,
+// 			signuUp: {
+// 				...state.signUp,
+// 			},
+// 		}),
+// 	},
+// 	initialState
+// );
+
+export default users;

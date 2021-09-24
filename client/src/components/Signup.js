@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { registerUser } from "../redux/modules/users";
 
 const SignupSection = styled.form`
 	display: flex;
@@ -60,49 +62,93 @@ const SignupSection = styled.form`
 	}
 `;
 
-const Singup = () => {
+const Singup = (props) => {
 	const [auth, setAuth] = useState(false);
-
-	const [userInfo, setUserInfo] = useState({
-		email: "",
-		nickname: "",
-		password: "",
-	});
+	const [Email, setEmail] = useState("");
+	const [Password, setPassword] = useState("");
+	const [Name, setName] = useState("");
+	const [ConfirmPasword, setConfirmPasword] = useState("");
 	const history = useHistory();
-	const handleInputValue = (key) => (e) => {
-		setUserInfo({ ...userInfo, [key]: e.target.value });
+	const dispatch = useDispatch();
+
+	// const handleInputValue = (key) => (e) => {
+	// 	setUserInfo({ ...userInfo, [key]: e.target.value });
+	// };
+	// const handleSignup = (e) => {
+	// 	const { email, username, password } = userInfo;
+
+	// 	e.preventDefault();
+	// 	axios
+	// 		.post(`${process.env.REACT_APP_API_URL}`, userInfo)
+	// 		.then(() => {
+	// 			alert("회원가입 되었습니다! 로그인 해주세요.");
+	// 		})
+	// 		.then(() => {
+	// 			return history.push("/");
+	// 		});
+	// };
+
+	// const { isLogin, error } = useSelector((state) => state.signUp);
+	// const dispatch = useDispatch();
+
+	// const handleSignup = (email, nickname, userId) => {
+	// 	dispatch(signUP(email, nickname, userId));
+	// };
+	const onEmailHandler = (e) => {
+		setEmail(e.currentTarget.value);
 	};
 
-	const checkPassword = (e) => {
-		//  8 ~ 10자 영문, 숫자 조합
-		let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
-		console.log(regExp);
+	const onNickHandler = (e) => {
+		setName(e.currentTarget.value);
 	};
 
-	const handleSignup = (e) => {
-		const { email, username, password } = userInfo;
+	const onPasswordHanlder = (e) => {
+		setPassword(e.currentTarget.value);
+	};
 
+	const onConfirmPasswordHandler = (e) => {
+		setConfirmPasword(e.currentTarget.value);
+	};
+
+	const onSubmitHandler = (e) => {
 		e.preventDefault();
-		axios
-			.post(`${process.env.REACT_APP_API_URL}`, userInfo)
-			.then(() => {
-				alert("회원가입 되었습니다! 로그인 해주세요.");
-			})
-			.then(() => {
-				return history.push("/");
+		if (Password === ConfirmPasword) {
+			let body = {
+				email: Email,
+				name: Name,
+				password: Password,
+			};
+			dispatch(registerUser(body)).then((res) => {
+				alert("가입이 정상적으로 완료되었습니다");
+				// props.history.push("/login");
 			});
+		} else {
+			alert("비밀번호가 일치하지 않습니다");
+		}
 	};
-
 	return (
-		<SignupSection>
+		<SignupSection onSubmit={onSubmitHandler}>
 			{!auth ? (
 				<>
-					<input type="email" placeholder="이메일을 입력해주세요" />
-					<input type="nickname" placeholder="닉네임을 입력해주세요" />
-					<input type="password" placeholder="비밀번호를 입력해주세요" />
+					<input
+						type="email"
+						placeholder="이메일을 입력해주세요"
+						onChange={onEmailHandler}
+					/>
+					<input
+						type="nickname"
+						placeholder="닉네임을 입력해주세요"
+						onChange={onNickHandler}
+					/>
+					<input
+						type="password"
+						placeholder="비밀번호를 입력해주세요"
+						onChange={onPasswordHanlder}
+					/>
 					<input
 						type="password"
 						placeholder="비밀번호를 한번 더 입력해주세요"
+						onChange={onConfirmPasswordHandler}
 					/>
 					<button onClick={() => setAuth(!auth)}>회원가입</button>
 				</>
@@ -133,4 +179,4 @@ const Singup = () => {
 	);
 };
 
-export default Singup;
+export default withRouter(Singup);
