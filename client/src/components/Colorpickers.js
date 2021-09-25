@@ -5,13 +5,13 @@ import "react-color-palette/lib/css/styles.css";
 
 const ColorPickerSection = styled.div`
 	margin-top: 10px;
-	width: 600;
-	height: 600;
+	width: 97%;
+	height: 100%;
 `;
 
 const Colorpickers = ({ canvas }) => {
 	const [color, setColor] = useColor("hex", "#121212");
-	const [width, height] = [600, 100];
+	const [width, height] = ["100%", 100];
 
 	const items = canvas.getActiveObjects();
 	items.forEach((item) => {
@@ -27,6 +27,8 @@ const Colorpickers = ({ canvas }) => {
 				color={color}
 				onChange={setColor}
 				hideHSV
+				hideHEX
+				hideRGB
 				dark
 			/>
 		</ColorPickerSection>

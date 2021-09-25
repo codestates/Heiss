@@ -2,9 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
 
-// image
-import { galaxyS21 } from "../img/galaxyS21.png";
-
 const CaseSection = styled.div`
 	display: flex;
 	/* flex-direction: column; */
@@ -64,7 +61,7 @@ const Case = ({ canvas }) => {
 	const BackgroundHandler = (e) => {
 		fabric.Image.fromURL(bgImg[e.target.textContent], (img) => {
 			img.set({
-				opacity: 0.6,
+				opacity: 1,
 				left: canvas.width / 2.5,
 				top: canvas.height / 5,
 				scaleY: 1.3,
