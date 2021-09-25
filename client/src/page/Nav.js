@@ -159,7 +159,7 @@ const Nav = ({ reviewBtn }) => {
 				onRequestClose={() => reverseReview()}
 				ariaHideApp={false}
 			>
-				<ReviewWriteModal />
+				<ReviewWriteModal closeModal={setReview} />
 			</Modal>
 
 			<Link to="/">

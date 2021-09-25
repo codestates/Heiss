@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
 	const reviewId = req.params.id;
 	try {
 		const detailReview = await review.findOne({
-			attributes: ["id", "score", "title", "desc"],
+			attributes: ["id", "score", "title", "desc", "createdAt"],
 			where: { id: reviewId },
 			include: [
 				{

@@ -8,7 +8,6 @@ const GET_REVIEW = "GET_REVIEW";
 export const reviewDatas = () => async (dispatch) => {
 	const reviewData = await axios.get(`${process.env.REACT_APP_API_URL}review`);
 	dispatch(getReview(reviewData.data.data));
-	// return { type: REVIEW_DATAS, payload: reviewData.data };
 };
 
 export const getReview = (data) => {
