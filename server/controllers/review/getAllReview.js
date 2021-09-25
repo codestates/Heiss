@@ -25,6 +25,7 @@ module.exports = async (req, res) => {
 				},
 			],
 			group: "id",
+			order: [["createdAt", "desc"]],
 		});
 
 		const accessToken = req.cookies.accessToken;

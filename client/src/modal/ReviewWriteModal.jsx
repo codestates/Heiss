@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
+import { reviewDatas } from "../redux/modules/review";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
+	width: 100%;
 	position: relative;
 	display: flex;
 	flex-direction: row;
-	/* justify-content: space-around; */
+	justify-content: space-evenly;
 	align-items: center;
 	.imgWrap {
 		position: relative;
@@ -194,8 +196,9 @@ const Select = styled.div`
 	}
 `;
 
-const ReviewWriteModal = () => {
+const ReviewWriteModal = ({ closeModal }) => {
 	const state = useSelector((state) => state.handleActions);
+	const dispatch = useDispatch();
 
 	const [review, setReview] = useState({
 		userId: 5,
@@ -234,6 +237,8 @@ const ReviewWriteModal = () => {
 				})
 				.then((el) => {
 					alert("리뷰작성이 완료되었습니다.");
+					dispatch(reviewDatas());
+					closeModal(false);
 				});
 		}
 	};
