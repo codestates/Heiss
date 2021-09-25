@@ -25,28 +25,15 @@ const ReviewBox = styled.div`
 `;
 
 const Review = () => {
-	const { sample, review } = useSelector((state) => ({
-		sample: state.review.sample,
-		review: state.review,
-	}));
-
+	const review = useSelector((state) => state.review.reviewAll);
 	const dispatch = useDispatch();
-
-	const dataList = review.data ?? sample;
-	console.log(dataList);
-
+	console.log(review);
 	return (
 		<ReviewSection>
 			<Nav reviewBtn={true} />
 			<ReviewBox>
-				{dataList.map((data, index) => (
-					<Thumbnail
-						key={index}
-						data={data}
-						index={index}
-						shareBtn={true}
-						liked={data.liked}
-					/>
+				{review.map((data, index) => (
+					<Thumbnail key={index} data={data} shareBtn={true} />
 				))}
 			</ReviewBox>
 		</ReviewSection>

@@ -222,9 +222,7 @@ const ReviewBox = styled.div`
 `;
 
 const Mainpage = () => {
-	const { sample } = useSelector((state) => ({
-		sample: state.review.sample,
-	}));
+	const review = useSelector((state) => state.review.reviewAll);
 
 	return (
 		<MainpageSection>
@@ -293,7 +291,7 @@ const Mainpage = () => {
 				<li className="columnSection">
 					<h2>이렇게 많은 사용자분들이 리뷰를 남겨주셨습니다!</h2>
 					<ReviewBox>
-						{sample.map((data, key) => (
+						{review.map((data, key) => (
 							<Thumbnail
 								data={data}
 								key={key}

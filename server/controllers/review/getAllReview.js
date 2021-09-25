@@ -6,7 +6,6 @@ require("dotenv").config();
 module.exports = async (req, res) => {
 	try {
 		const reviewList = await review.findAll({
-			// required: true,
 			attributes: [
 				"id",
 				"score",

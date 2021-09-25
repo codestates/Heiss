@@ -1,5 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import reviewDatas from "../redux/modules/review";
 
 const ReviewModalSection = styled.div`
 	display: flex;
@@ -105,15 +108,44 @@ const BtnBox = styled.div`
 	}
 `;
 
-const ReviewModal = ({ data }) => {
+const ReviewModal = ({ dataId, reverseBoo }) => {
+	const dispatch = useDispatch();
+	const [data, setData] = useState({
+		id: 29,
+		score: 5,
+		title: "",
+		desc: "",
+		sources: [],
+	});
+
+	useEffect(() => {
+		axios.get(`${process.env.REACT_APP_API_URL}review/${dataId}`).then((el) => {
+			console.log(el.data.data);
+			setData(el.data.data);
+		});
+	}, []);
+
+	const reviewDelete = (id) => {
+		axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then((el) => {
+			alert("리뷰가 삭제되었습니다!");
+			dispatch(reviewDatas());
+			reverseBoo();
+		});
+	};
+
 	return (
 		<ReviewModalSection>
-			<img src={data} alt="img" />
+			{data.sources.map((el, index) => {
+				return <img key={index} src={el.imgUrl} alt="img" />;
+			})}
 			<ReviewModalWrite>
-				<div className="reviewWrite">대충 멋진 케이스 칭찬하는 리뷰 글</div>
+				<div className="reviewWrite">{data.title}</div>
+				<div className="reviewWrite">{data.desc}</div>
 				<BtnBox>
-					<button className="btn">리뷰 삭제</button>
-					<button className="btn putBtn">케이스 수정</button>
+					<button className="btn" onClick={() => reviewDelete(data.id)}>
+						리뷰 삭제
+					</button>
+					<button className="btn putBtn">리뷰 수정</button>
 				</BtnBox>
 			</ReviewModalWrite>
 		</ReviewModalSection>

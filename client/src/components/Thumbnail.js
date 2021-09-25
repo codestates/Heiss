@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
@@ -142,13 +142,19 @@ const ThumbnailModal = {
 	},
 };
 
-const Thumbnail = ({ data, index, shotBtn, shareBtn, liked }) => {
+const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	const [boo, setBoo] = useState(false);
 	const [toggleH, setToggleH] = useState(false);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
 	};
+
+	useEffect(() => {
+		if (data.liked) {
+			setToggleH(true);
+		}
+	}, []);
 
 	return (
 		<ThumbnailAllBox>
@@ -158,10 +164,10 @@ const Thumbnail = ({ data, index, shotBtn, shareBtn, liked }) => {
 				onRequestClose={() => reverseBoo()}
 				ariaHideApp={false}
 			>
-				<ReviewModal data={data} />
+				<ReviewModal dataId={data.id} reverseBoo={reverseBoo} />
 			</Modal>
 			<ThumbnailSection>
-				<img src={data} key={index} alt="img" />
+				<img src={data.sources[0].imgUrl} alt="img" />
 				<HoverThumb className="hover-thumb">
 					<BgnHover onClick={reverseBoo}></BgnHover>
 					{toggleH ? (
@@ -186,7 +192,7 @@ const Thumbnail = ({ data, index, shotBtn, shareBtn, liked }) => {
 				</HoverThumb>
 			</ThumbnailSection>
 			<HeartHowMany>
-				<div>687{liked}</div>
+				<div>{data.like}</div>
 				<img src={heartIcon} alt="heartIcon" />
 			</HeartHowMany>
 		</ThumbnailAllBox>

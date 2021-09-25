@@ -11,6 +11,9 @@ const Wrap = styled.div`
 	flex-direction: row;
 	/* justify-content: space-around; */
 	align-items: center;
+	.imgWrap {
+		position: relative;
+	}
 `;
 
 const WriteSection = styled.form`
@@ -125,8 +128,31 @@ const ChangeImg = styled.div`
 	> div {
 		text-align: center;
 		color: #f47676;
-		font-size: 0.8rem;
 		padding-top: 0.2rem;
+		> p {
+			font-size: 1rem;
+			font-weight: bold;
+		}
+	}
+`;
+
+const ImgDelete = styled.div`
+	position: absolute;
+	top: 2rem;
+	left: 15.2rem;
+	width: 3.6rem;
+	height: 1.6rem;
+	background-color: rgba(0, 0, 0, 0.6);
+	border: 3px solid black;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 1.2rem;
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+	display: none;
+	&:hover {
+		display: block;
 	}
 `;
 
@@ -134,6 +160,11 @@ const ReviewImg = styled.img`
 	margin-top: 1rem;
 	width: 20rem;
 	height: 15rem;
+	&:hover {
+		+ div {
+			display: block;
+		}
+	}
 `;
 
 const Select = styled.div`
@@ -166,11 +197,16 @@ const Select = styled.div`
 const ReviewWriteModal = () => {
 	const state = useSelector((state) => state.handleActions);
 
-	const [review, setReview] = useState({ title: "", desc: "", score: 0 });
-	const [reviewImg, setReviewImg] = useState([
-		{ file: "", imagePreviewUrl: "" },
-	]);
+	const [review, setReview] = useState({
+		userId: 5,
+		caseId: 14,
+		title: "",
+		desc: "",
+		score: 0,
+	});
+	const [reviewImg, setReviewImg] = useState([]);
 	const [caseChoice, setCaseChoice] = useState(false);
+	const [caseName, setCaseName] = useState("케이스를 선택해 주세요.");
 	const [color, setColor] = useState([
 		"white",
 		"white",
@@ -184,46 +220,44 @@ const ReviewWriteModal = () => {
 	};
 
 	const reviewUpload = () => {
+		const formData = new FormData();
+		for (let img of reviewImg) {
+			formData.append("picture", img.file);
+		}
+		for (let re in review) {
+			formData.append(re, review[re]);
+		}
 		if (review.title && review.desc && review.score) {
-			axios.post(`${process.env.REACT_APP_API_URL}review`, {
-				userId: 1, // 나중에 없애야됨
-				caseId: 1, // 나중에 변경해야됨
-				title: review.title,
-				desc: review.desc,
-				score: review.score,
-			});
+			axios
+				.post(`${process.env.REACT_APP_API_URL}review`, formData, {
+					header: { "Content-Type": "multipart/form-data" },
+				})
+				.then((el) => {
+					alert("리뷰작성이 완료되었습니다.");
+				});
 		}
 	};
 
 	const uploadImg = (e) => {
-		if (e.target.files.length <= 10) {
-			// let reader = new FileReader();
-			// for (let i = 0; i < e.target.files.length; i++) {
-			// 	let file = e.target.files[i];
-			// 	reader.onload = () => {
-			// 		setReviewImg([
-			// 			...reviewImg,
-			// 			{
-			// 				file: file,
-			// 				imagePreviewUrl: reader.result,
-			// 			},
-			// 		]);
-			// 	};
-			// 	reader.readAsDataURL(file);
-			// }
-			let reader = new FileReader();
-			let file = e.target.files[0];
-			reader.onload = () => {
-				console.log(reader);
-				setReviewImg({
-					file: file,
-					imagePreviewUrl: reader.result,
-				});
-			};
-			reader.readAsDataURL(file);
-		} else {
-			alert("10장까지 올릴 수 있습니다!!!");
+		for (let i = 0; i < e.target.files.length; i++) {
+			imageLoader(e.target.files[i]);
 		}
+	};
+
+	const imageLoader = (file) => {
+		let reader = new FileReader();
+		reader.onload = function (ee) {
+			setReviewImg((state) => {
+				return [
+					...state,
+					{
+						file: file,
+						imagePreviewUrl: ee.target.result,
+					},
+				];
+			});
+		};
+		reader.readAsDataURL(file);
 	};
 
 	const colorChange = (index) => {
@@ -237,6 +271,22 @@ const ReviewWriteModal = () => {
 
 	const caseHandler = () => {
 		setCaseChoice(!caseChoice);
+	};
+
+	const imgDelete = (index) => {
+		let newReviewImg = reviewImg.slice();
+		newReviewImg.splice(index, 1);
+		setReviewImg(newReviewImg);
+	};
+
+	const imgNameChange = (e) => {
+		setCaseName(e.target.alt);
+		setCaseChoice(false);
+		e.stopPropagation();
+	};
+
+	const liNameChange = (e) => {
+		setCaseName(e.target.children[0].alt);
 	};
 
 	return (
@@ -256,9 +306,18 @@ const ReviewWriteModal = () => {
 						enctype="multipart/form-data"
 						method="post"
 					>
-						{reviewImg.imagePreviewUrl ? (
+						{reviewImg.length ? (
 							<>
-								<ReviewImg src={reviewImg.imagePreviewUrl} />
+								{reviewImg.map((el, index) => {
+									return (
+										<div className="imgWrap" key={index}>
+											<ReviewImg src={el.imagePreviewUrl} />
+											<ImgDelete onClick={() => imgDelete(index)}>
+												삭제
+											</ImgDelete>
+										</div>
+									);
+								})}
 								<ChangeImg>
 									<input
 										type="file"
@@ -268,7 +327,7 @@ const ReviewWriteModal = () => {
 										onChange={(e) => uploadImg(e)}
 									/>
 									<div>
-										<p>사진변경</p>
+										<p>사진추가</p>
 									</div>
 								</ChangeImg>
 							</>
@@ -290,37 +349,41 @@ const ReviewWriteModal = () => {
 				</div>
 				<div>
 					<Select onClick={caseHandler}>
-						<span>케이스를 선택해주세요</span>
+						<span>{caseName}</span>
 						{caseChoice ? (
 							<ul>
 								{/* {cases.map((el) => {
-									<li onClick={}>
+									<li onClick={liNameChange}>
 										<img
+											onClick={imgNameChange}
 											style={{ width: "100px" }}
 											src={el.img}
-											alt="아이폰"
+											alt={el}
 										/>
 									</li>;
 								})} */}
-								<li>
+								<li onClick={liNameChange}>
 									<img
+										onClick={imgNameChange}
 										style={{ width: "100px" }}
 										src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-12-white-select-2020?wid=940&hei=1112&fmt=png-alpha&.v=1604343705000"
 										alt="아이폰"
 									/>
 								</li>
-								<li>
+								<li onClick={liNameChange}>
 									<img
+										onClick={imgNameChange}
 										style={{ width: "100px" }}
 										src="https://newsimg.sedaily.com/2021/01/08/22H6CMQYK3_3.jpg"
 										alt="갤럭시"
 									/>
 								</li>
-								<li>
+								<li onClick={liNameChange}>
 									<img
+										onClick={imgNameChange}
 										style={{ width: "100px" }}
 										src="https://images.kbench.com/kbench/article/2021_01/k217730p1n1.jpg"
-										alt="갤럭시"
+										alt="접은갤럭시"
 									/>
 								</li>
 							</ul>
