@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Shapes from "./Shapes";
+import { color } from "./utils/theme";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -12,13 +13,11 @@ import imageIcon from "../img/image.svg";
 import shapeIcon from "../img/shape.svg";
 import textIcon from "../img/text.svg";
 import palleteIcon from "../img/pallete.svg";
-import strokeIcon from "../img/stroke.svg";
 import Text from "./Text";
 import Case from "./Case";
 import Colorpickers from "./Colorpickers";
 import ContextMenu from "./ContextMenu";
 import Image from "./Image";
-import Stroke from "./Stroke";
 
 // 캔버스 전체 영역
 const CanvasSection = styled.div`
@@ -36,12 +35,12 @@ const MenuSection = styled.ul`
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	background: #171717;
+	background: ${color.darkBasic};
 	width: 130px;
 	height: 83.4%;
 	right: 0;
 	z-index: 1;
-	color: #ffffe7;
+	color: ${color.white};
 
 	li {
 		display: flex;
@@ -57,13 +56,13 @@ const MenuSection = styled.ul`
 	}
 
 	button {
-		background: #3d3d3d;
+		background: ${color.basic};
 		width: 40px;
 		padding: 0.3rem;
 		box-sizing: border-box;
 		border-radius: 1vh;
 		margin-bottom: 3px;
-		color: #ffffe7;
+		color: ${color.white};
 	}
 
 	@media ${(props) => props.theme.tablet} {
@@ -80,7 +79,7 @@ const ListBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: #171717;
+	background: ${color.darkBasic};
 	width: 50%;
 	height: 240px;
 	position: absolute;
@@ -208,10 +207,6 @@ const Canvas = () => {
 						<img src={palleteIcon} alt="palleteIcon" />
 						<div>색상</div>
 					</li>
-					<li onClick={() => setMenuNum(5)}>
-						<img src={strokeIcon} alt="strokeIcon" />
-						<div>테두리</div>
-					</li>
 					<Link to="mypage">
 						<button onClick={saveHandler}>저장</button>
 					</Link>
@@ -235,7 +230,6 @@ const Canvas = () => {
 						<Text canvas={canvas} />,
 						<Image canvas={canvas} />,
 						<Colorpickers canvas={canvas} />,
-						<Stroke canvas={canvas} />,
 					][menuNum]
 				}
 			</ListBox>

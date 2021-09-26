@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
+import { flexCenter } from "./utils/theme";
 
 const ImageSection = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	${flexCenter}
 	position: relative;
 	border: 4px dashed #f47676;
 	margin-top: 2rem;
@@ -16,7 +15,7 @@ const ImageSection = styled.div`
 		transform: scale(1.1);
 	}
 
-	> input {
+	input {
 		position: absolute;
 		margin: 0;
 		padding: 0;
@@ -26,16 +25,12 @@ const ImageSection = styled.div`
 		opacity: 0;
 		cursor: pointer;
 	}
-	> div {
+	.imgText {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		color: #f47676;
 		font-weight: bold;
-	}
-
-	img {
-		display: none;
 	}
 `;
 
@@ -66,7 +61,7 @@ const Image = ({ canvas }) => {
 	return (
 		<ImageSection>
 			<input type="file" id="imgLoader" onChange={handleImage} />
-			<div>이미지를 올려주세요</div>
+			<div className="imgText">이미지를 올려주세요</div>
 		</ImageSection>
 	);
 };
