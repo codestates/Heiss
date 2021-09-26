@@ -5,6 +5,10 @@ import kakao from "../img/카카오.png";
 import naver from "../img/네이버.png";
 import loginSVG from "../img/login.png";
 import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/modules/users";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const SigninSection = styled.form`
 	display: flex;
@@ -145,43 +149,41 @@ const Signin = (props) => {
 	const [warring, setWarning] = useState(false);
 	const [Email, setEmail] = useState("");
 	const [Password, setPassword] = useState("");
-	// const [errorMessage, setErrorMessage] = useState("");
-	// const onClickLogin = (key) => (e) => {
-	// 	setLoginInfo({ ...loginInfo, [key]: e.target.value });
-	// };
-	// const onSignIn = () => {
-	// 	axios
-	// 		.post(`${process.env.REACT_APP_API_URL}`, loginInfo, {
-	// 			withCredentials: true,
-	// 		})
-	// 		.then((res) => loginHandler(res.data));
+	const dispatch = useDispatch();
 
-	// 	if (!loginInfo.email || !loginInfo.password) {
-	// 		setErrorMessage("이메일과 비밀번호를 입력하세요");
-	// 		return;
-	// 	}
-	// };
-	const onEmailHandler = (e) => {
-		setEmail(e.currentTarget.value);
-	};
-	const onPasswordHanlder = (e) => {
-		setPassword(e.currentTarget.value);
-	};
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			password: "",
+		},
 
-	const onSubmitHandler = (e) => {
-		e.preventDefault();
-	};
+		validationSchema: Yup.object({
+			email: Yup.string()
+				.email("올바른 이메일 주소가 아닙니다")
+				.required("이메일을 입력하세요"),
+			password: Yup.string().min(8, "").required("비밀번호를 입력하세요"),
+		}),
+		onSubmit: (values) => {
+			dispatch(loginUser(values));
+			alert(JSON.stringify(values, null, 2));
+		},
+	});
+
 	return (
-		<SigninSection onChange={onSubmitHandler}>
+		<SigninSection onSubmit={formik.handleSubmit}>
 			<input
+				name="email"
 				type="email"
 				placeholder="이메일을 입력해주세요"
-				onChange={onEmailHandler}
+				onChange={formik.handleChange}
+				value={formik.values.email}
 			/>
 			<input
+				name="password"
 				type="password"
 				placeholder="비밀번호를 입력해주세요"
-				onChange={onPasswordHanlder}
+				onChange={formik.handleChange}
+				value={formik.values.password}
 			/>
 			{warring && <div className="warring warPwd">다시 입력해주세요</div>}
 			<BtnBox>
