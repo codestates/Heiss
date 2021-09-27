@@ -8,11 +8,15 @@ const ImageSection = styled.div`
 	position: relative;
 	border: 4px dashed #f47676;
 	margin-top: 2rem;
-	width: 31.4rem;
+	width: 50%;
 	height: 3rem;
 	border-radius: 1vh;
 	&:hover {
-		transform: scale(1.1);
+		transform: scale(1.03);
+	}
+
+	@media ${(props) => props.theme.tablet} {
+		width: 14rem;
 	}
 
 	input {
@@ -35,28 +39,23 @@ const ImageSection = styled.div`
 `;
 
 const Image = ({ canvas }) => {
-	function handleImage(e) {
+	const handleImage = (e) => {
 		const reader = new FileReader();
-		reader.onload = (event) => {
+		const file = e.target.files[0];
+		reader.onload = () => {
 			console.log("fdsf");
-			const imgObj = new Image();
-			imgObj.src = event.target.result;
-			imgObj.onload = function () {
-				// start fabricJS stuff
-				const image = new fabric.Image(imgObj);
-				image.set({
-					left: 250,
-					top: 250,
-					padding: 10,
-					cornersize: 10,
-				});
-				//image.scale(getRandomNum(0.1, 0.25)).setCoords();
-				canvas.add(image);
-				// end fabricJS stuff
-			};
+			const image = new fabric.Image(reader.result);
+			image.set({
+				left: 250,
+				top: 250,
+				padding: 10,
+				cornersize: 10,
+			});
+			canvas.add(image);
 		};
-		reader.readAsDataURL(e.target.files[0]);
-	}
+		reader.readAsDataURL(file);
+		canvas.renderAll();
+	};
 
 	return (
 		<ImageSection>
