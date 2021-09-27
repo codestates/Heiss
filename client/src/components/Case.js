@@ -28,7 +28,9 @@ const Case = ({ canvas }) => {
 				scaleY: 1.3,
 				scaleX: 1.3,
 			});
-			canvas.setBackgroundImage(img, canvas.requestRenderAll.bind(canvas));
+			canvas.setBackgroundImage(img, canvas.requestRenderAll.bind(canvas), {
+				crossOrigin: "Anonymous",
+			});
 		});
 
 		canvas.renderAll();
