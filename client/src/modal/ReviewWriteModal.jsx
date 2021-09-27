@@ -11,16 +11,27 @@ const Wrap = styled.div`
 	position: relative;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: center;
 	align-items: center;
 
-	.imgWrap {
-		border: 4px solid #f47676;
-		border-radius: 0.5vh;
-		outline: 0;
-		position: relative;
-		width: 31.6rem;
-		height: 17.5rem;
+	.Wrap_1 {
+		width: 50%;
+	}
+
+	.picWrap {
+		width: 80%;
+		display: flex;
+
+		.imgWrap {
+			display: flex;
+			border: 4px solid #f47676;
+			border-radius: 0.5vh;
+			outline: 0;
+			position: relative;
+			width: 100%;
+			height: 18.6rem;
+			overflow: hidden;
+		}
 	}
 
 	.star {
@@ -42,12 +53,16 @@ const ReviewImg = styled.img`
 			display: block;
 		}
 	}
+
+	.test {
+		width: 50%;
+	}
 `;
 
 const WriteSection = styled.form`
 	display: flex;
 	flex-direction: column;
-
+	position: relative;
 	input {
 		width: 30rem;
 		margin-top: 1.5rem;
@@ -104,7 +119,7 @@ const ReviewBtn = styled.button`
 const ImgDiv = styled.div`
 	position: relative;
 	border: 4px dashed #f47676;
-	width: 31.4rem;
+	width: 80%;
 	height: 18.6rem;
 	border-radius: 1vh;
 	&:hover {
@@ -130,7 +145,8 @@ const ImgDiv = styled.div`
 `;
 
 const ChangeImg = styled.div`
-	position: relative;
+	position: absolute;
+	top: 20rem;
 	border: 3px dashed #f47676;
 	margin-top: 0.6rem;
 	width: 8rem;
@@ -164,8 +180,8 @@ const ChangeImg = styled.div`
 
 const ImgDelete = styled.div`
 	position: absolute;
-	top: 1rem;
-	left: 26.4rem;
+	top: 0.8rem;
+	right: 10%;
 	width: 3.8rem;
 	height: 1.8rem;
 	background-color: rgba(0, 0, 0, 0.6);
@@ -218,8 +234,8 @@ const ReviewWriteModal = ({ closeModal }) => {
 	const dispatch = useDispatch();
 
 	const [review, setReview] = useState({
-		userId: 5,
-		caseId: 14,
+		userId: 2,
+		caseId: 1,
 		title: "",
 		desc: "",
 		score: 0,
@@ -261,6 +277,9 @@ const ReviewWriteModal = ({ closeModal }) => {
 	};
 
 	const uploadImg = (e) => {
+		if (e.target.files.length + reviewImg.length > 4) {
+			return alert("사진은 4장까지 올릴 수 있습니다.");
+		}
 		for (let i = 0; i < e.target.files.length; i++) {
 			imageLoader(e.target.files[i]);
 		}
@@ -314,7 +333,7 @@ const ReviewWriteModal = ({ closeModal }) => {
 	return (
 		<>
 			<Wrap>
-				<div>
+				<div className="Wrap_1">
 					<WriteSection
 						onSubmit={(e) => e.preventDefault()}
 						enctype="multipart/form-data"
@@ -322,19 +341,18 @@ const ReviewWriteModal = ({ closeModal }) => {
 					>
 						{reviewImg.length ? (
 							<>
-								{reviewImg.map((el, index) => {
-									return (
-										<div className="imgWrap" key={index}>
-											<ReviewImg
-												src={el.imagePreviewUrl}
-												className={`${reviewImg.length === 2 ? "test" : ""}`}
-											/>
-											<ImgDelete onClick={() => imgDelete(index)}>
-												<p>삭제</p>
-											</ImgDelete>
-										</div>
-									);
-								})}
+								<div className="picWrap">
+									{reviewImg.map((el, index) => {
+										return (
+											<div className="imgWrap" key={index}>
+												<ReviewImg src={el.imagePreviewUrl} />
+												<ImgDelete onClick={() => imgDelete(index)}>
+													<p>삭제</p>
+												</ImgDelete>
+											</div>
+										);
+									})}
+								</div>
 								<ChangeImg>
 									<input
 										type="file"

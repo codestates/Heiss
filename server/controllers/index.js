@@ -1,6 +1,7 @@
 module.exports = {
 	//* user
 	oauth: require("./user/oauth"),
+	userInfo: require("./user/userInfo"),
 	signup: require("./user/signup"),
 	emailcode: require("./user/emailcode"),
 	emailcheck: require("./user/emailcheck"),

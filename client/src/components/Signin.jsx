@@ -6,9 +6,10 @@ import naver from "../img/네이버.png";
 import loginSVG from "../img/login.png";
 import { withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../redux/modules/users";
+import { getUserInfo } from "../redux/modules/users";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+axios.defaults.withCredentials = true;
 
 const SigninSection = styled.form`
 	display: flex;
@@ -21,6 +22,7 @@ const SigninSection = styled.form`
 	box-sizing: border-box;
 	border: 3px solid #f47676;
 	margin: 0;
+	background-color: #f3cdd4;
 
 	@media ${(props) => props.theme.tablet} {
 		height: 40vh;
@@ -145,47 +147,59 @@ const BtnBox = styled.div`
 	}
 `;
 
-const Signin = (props) => {
+const Signin = ({ reverseBoo }) => {
 	const [warring, setWarning] = useState(false);
 	const [Email, setEmail] = useState("");
 	const [Password, setPassword] = useState("");
 	const dispatch = useDispatch();
 
-	const formik = useFormik({
-		initialValues: {
-			email: "",
-			password: "",
-		},
+	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
+		useFormik({
+			initialValues: {
+				email: "",
+				password: "",
+				provider: "normal",
+			},
 
-		validationSchema: Yup.object({
-			email: Yup.string()
-				.email("올바른 이메일 주소가 아닙니다")
-				.required("이메일을 입력하세요"),
-			password: Yup.string().min(8, "").required("비밀번호를 입력하세요"),
-		}),
-		onSubmit: (values) => {
-			dispatch(loginUser(values));
-			alert(JSON.stringify(values, null, 2));
-		},
-	});
+			validationSchema: Yup.object().shape({
+				email: Yup.string()
+					.email("올바른 이메일 주소가 아닙니다")
+					.required("이메일을 입력하세요"),
+				password: Yup.string()
+					.min(8, "8자보다 많아야해요")
+					.required("비밀번호를 입력하세요"),
+			}),
+			onSubmit: async (values) => {
+				await axios.post(`${process.env.REACT_APP_API_URL}user/signin`, values);
+				alert("로그인이 완료되었습니다.");
+				reverseBoo();
+				dispatch(getUserInfo());
+				console.log(values);
+			},
+		});
 
 	return (
-		<SigninSection onSubmit={formik.handleSubmit}>
+		<SigninSection onSubmit={handleSubmit}>
 			<input
 				name="email"
-				type="email"
+				type="text"
 				placeholder="이메일을 입력해주세요"
-				onChange={formik.handleChange}
-				value={formik.values.email}
+				onBlur={handleBlur}
+				onChange={handleChange}
+				value={values.email}
 			/>
+			{touched.email && errors.email ? <div>{errors.email}</div> : null}
 			<input
 				name="password"
 				type="password"
 				placeholder="비밀번호를 입력해주세요"
-				onChange={formik.handleChange}
-				value={formik.values.password}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				value={values.password}
 			/>
-			{warring && <div className="warring warPwd">다시 입력해주세요</div>}
+			{touched.password && errors.password ? (
+				<div>{errors.password}</div>
+			) : null}
 			<BtnBox>
 				<button className="desktopBtn kakao">
 					<img src={kakao} alt="kakao" />
@@ -195,7 +209,9 @@ const Signin = (props) => {
 					<img src={naver} alt="naver" />
 					로그인
 				</button>
-				<button className="desktopBtn">로그인</button>
+				<button className="desktopBtn" type="submit">
+					로그인
+				</button>
 				<button className="mobileBtn kakao">
 					<img src={kakao} alt="kakao" />
 				</button>

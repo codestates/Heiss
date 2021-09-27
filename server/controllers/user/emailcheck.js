@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 
-module.exports = (req, res) => {
-	const { code } = req.body;
-	const { hashedcode } = req.body;
+module.exports = async (req, res) => {
+	const { code, hashedcode } = req.body;
+	console.log(code, hashedcode);
 
-	bcrypt.compare(code, hashedcode).then((isMatch) => {
+	bcrypt.compare(String(code), String(hashedcode)).then((isMatch) => {
 		if (!isMatch) {
 			res.status(401).send("code mismatch!");
 		} else {
