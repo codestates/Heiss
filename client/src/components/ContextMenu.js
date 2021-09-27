@@ -1,20 +1,64 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const ContextMenuSection = styled.ul`
 	display: flex;
-	width: 100%;
-	height: 100%;
+	flex-direction: column;
+	justify-content: center;
+
+	width: 180px;
+	height: 80px;
 	z-index: 1;
-	background-color: black;
+	position: absolute;
+
+	background-color: white;
+	border: 0.2px solid #cccccc;
+	border-radius: 1vh;
+	cursor: pointer;
 `;
 
-const ContextMenu = () => {
+const ContextMenu = ({ point, canvas, contextMenuHandler }) => {
+	useEffect(() => {
+		// 좌표값 기준으로 context menu가 나타나게 함
+		const menuSection = document.getElementsByClassName("menuSection")[0];
+		menuSection.setAttribute(
+			"style",
+			`top: ${point.y + 3}px; left: ${point.x + 5}px`
+		);
+	});
+
+	const sendFrontObject = () => {
+		const items = canvas.getActiveObjects();
+		items.forEach((item) => {
+			canvas.bringForward(item);
+		});
+		contextMenuHandler();
+		canvas.renderAll();
+	};
+
+	const sendBackObject = () => {
+		const items = canvas.getActiveObjects();
+		items.forEach((item) => {
+			canvas.sendBackwards(item);
+		});
+		contextMenuHandler();
+		canvas.renderAll();
+	};
+
+	const deleteBtn = () => {
+		const items = canvas.getActiveObjects();
+		items.forEach((item) => {
+			canvas.remove(item);
+		});
+		contextMenuHandler();
+		canvas.renderAll();
+	};
+
 	return (
-		<ContextMenuSection>
-			<li>앞으로 보내기</li>
-			<li>뒤로 보내기</li>
-			<li>삭제</li>
+		<ContextMenuSection className="menuSection">
+			<li onClick={sendFrontObject}>앞으로 보내기</li>
+			<li onClick={sendBackObject}>뒤로 보내기</li>
+			<li onClick={deleteBtn}>삭제</li>
 		</ContextMenuSection>
 	);
 };

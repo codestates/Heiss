@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { flexCenter } from "../components/utils/theme";
 import { review } from "../redux/modules/review";
 
 // 컴포넌트
@@ -12,6 +13,9 @@ import Footer from "./Footer";
 // 이미지
 import video from "../video/mainpage.mp4";
 import logo from "../img/heiss.svg";
+
+// gif
+import gif1 from "../img/makeSample.gif";
 
 const MainpageSection = styled.div`
 	display: flex;
@@ -25,9 +29,7 @@ const MainpageSection = styled.div`
 
 const MainpageBoxFirst = styled.ul`
 	li {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		${flexCenter}
 		width: 100%;
 		height: 100vh;
 		background: #343421;
@@ -121,10 +123,6 @@ const MainpageBoxFirst = styled.ul`
 		}
 	}
 
-	iframe {
-		margin: 3rem;
-	}
-
 	.animationText {
 		display: flex;
 		@media ${(props) => props.theme.tablet} {
@@ -193,9 +191,7 @@ const MainpageBoxFirst = styled.ul`
 	}
 
 	.moreBtn {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		${flexCenter}
 		color: #f47676;
 		font-weight: bold;
 		height: 2rem;
@@ -250,24 +246,10 @@ const Mainpage = () => {
 							이쁘고 개성있는 케이스들이 많다고 생각하시나요? <br />
 						</div>
 					</div>
-					<iframe
-						src="https://giphy.com/embed/Zd5EQ6iemgnwkgaAhm"
-						width="480"
-						height="270"
-						frameBorder="0"
-						className="giphy-embed"
-						allowFullScreen
-					></iframe>
+					<img src={gif1} alt="gif1" />
 				</li>
 				<li>
-					<iframe
-						src="https://giphy.com/embed/3o6gEfdyoCJixUpHA4"
-						width="480"
-						height="480"
-						frameBorder="0"
-						className="giphy-embed"
-						allowFullScreen
-					></iframe>
+					<img src={gif1} alt="gif1" />
 					<div className="columnSection">
 						<div className="animationText">
 							<h2>저희 Heiss는 </h2>
@@ -308,14 +290,7 @@ const Mainpage = () => {
 					<Link to="/make" className="startBtn">
 						<h1>시작하기</h1>
 					</Link>
-					<iframe
-						src="https://giphy.com/embed/MCFswP59sGKkkcTjX5"
-						width="480"
-						height="360"
-						frameBorder="0"
-						className="giphy-embed"
-						allowFullScreen
-					></iframe>
+					<img src={gif1} alt="gif1" />
 				</li>
 			</MainpageBoxFirst>
 			<Footer />

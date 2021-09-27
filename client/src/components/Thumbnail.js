@@ -86,7 +86,7 @@ const HoverThumbBottom = styled.div`
 
 	.cart {
 		height: 2rem;
-		margin-left: 8rem;
+		margin-left: 7rem;
 		/* border-radius: 50%; */
 	}
 `;
