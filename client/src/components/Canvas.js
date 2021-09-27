@@ -101,8 +101,6 @@ const Canvas = () => {
 	const [context, setContext] = useState(false); // context menu 토글
 	const [point, setPoint] = useState({ x: 0, y: 0 });
 
-	const [img, setImg] = useState("");
-
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
 			crossOrigin: "anonymous",
@@ -166,11 +164,8 @@ const Canvas = () => {
 		setContext(!context);
 	};
 
-	// 저장 핸들러
 	const saveHandler = async () => {
 		const imgdata = canvas.toDataURL("image/png", 1.0);
-		console.log(imgdata);
-		setImg(imgdata);
 		await axios
 			.post(
 				`${process.env.REACT_APP_API_URL}locker`,
