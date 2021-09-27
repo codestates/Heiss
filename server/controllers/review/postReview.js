@@ -9,14 +9,15 @@ module.exports = async (req, res) => {
 	// }
 	// const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 	const imgUrl = req.files; // -> 배열
+	console.log(imgUrl);
 	console.log(req.body);
-	console.log(req);
 	const { score, title, desc, caseId, userId } = req.body;
 	try {
 		if (score && title && desc && caseId) {
 			try {
 				const newReview = await review.create({
 					// userId: userInfo.id,
+					userId,
 					score,
 					title,
 					desc,

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { fabric } from "fabric";
 import { listBox } from "./utils/theme";
 
-
 const CaseSection = styled.div`
 	${listBox}
 	justify-content: center;
