@@ -2,7 +2,7 @@ import { request } from "../../components/utils/axios";
 
 const REGISTER_USER = "REGISTER_USER";
 const LOGIN_USER = "LOGIN_USER";
-const USER_URL = "/user";
+const USER_URL = "user";
 
 export const registerUser = (user) => {
 	const data = request("post", USER_URL + "/signup", user);
@@ -20,59 +20,30 @@ export const loginUser = (user) => {
 	};
 };
 
-export const users = (state = {}, action) => {
+const initialState = {
+	user: {
+		isLogin: false,
+		error: null,
+	},
+	signUp: {
+		email: false,
+		nickname: false,
+		userId: false,
+	},
+	logout: {
+		email: null,
+		username: null,
+	},
+};
+
+export const users = (state = initialState, action) => {
 	switch (action.type) {
 		case REGISTER_USER:
-			return { ...state, loginSuccess: action.payload };
+			return { ...state, signUp: action.payload };
 		case LOGIN_USER:
-			return { ...state, loginSuccess: action.payload };
+			return { ...state, isLogin: true, error: null };
 		default:
 			return state;
 	}
 };
-
-// const initialState = {
-// 	user: {
-// 		isLogin: false,
-// 		error: null,
-// 	},
-// 	signUp: {
-// 		email: false,
-// 		nickname: false,
-// 		userId: false,
-// 	},
-// 	logout: {
-// 		email: null,
-// 		username: null,
-// 	},
-// };
-
-// export const users = handleActions(
-// 	{
-// 		[LOGIN]: (state, action) => ({
-// 			...state,
-// 			user: {
-// 				...state.user,
-// 				isLogin: true,
-// 				error: null,
-// 			},
-// 		}),
-// 		[LOGOUT]: (state, action) => ({
-// 			...state,
-// 			user: {
-// 				...state.user,
-// 				isLogin: false,
-// 				error: action.error,
-// 			},
-// 		}),
-// 		[SIGNUP]: (state, action) => ({
-// 			...state,
-// 			signuUp: {
-// 				...state.signUp,
-// 			},
-// 		}),
-// 	},
-// 	initialState
-// );
-
 export default users;

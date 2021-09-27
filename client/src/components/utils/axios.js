@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const DOMAIN = "https://api.heiss.shop/";
-axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
+// const DOMAIN = "http://localhost:80/";
+const DOMAIN = `${process.env.REACT_APP_API_URL}`;
+console.log(DOMAIN);
+axios.defaults.withCredentials = true;
 export const request = (method, url, data) => {
 	return axios({
 		method,

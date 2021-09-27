@@ -66,10 +66,6 @@ const SignupSection = styled.form`
 
 const Singup = () => {
 	const [auth, setAuth] = useState(false);
-	const [Email, setEmail] = useState("");
-	const [Password, setPassword] = useState("");
-	const [Name, setName] = useState("");
-	const [ConfirmPasword, setConfirmPasword] = useState("");
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const formik = useFormik({
@@ -102,8 +98,8 @@ const Singup = () => {
 	});
 
 	return (
-		<SignupSection>
-			{auth ? (
+		<SignupSection onSubmit={formik.handleSubmit}>
+			{!auth ? (
 				<>
 					<input
 						name="email"
@@ -150,7 +146,7 @@ const Singup = () => {
 					>
 						메일로 인증번호를 보냈습니다
 					</button>
-					<input placeholder="인증코드를 입력해주세요" />
+					<input placeholder="인증번호를 입력해주세요" />
 					<button
 						style={{ marginTop: "10px", height: "1.8rem", width: "4rem" }}
 					>

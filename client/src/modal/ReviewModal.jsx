@@ -13,12 +13,27 @@ const ReviewModalSection = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@media ${(props) => props.theme.tablet} {
+		flex-direction: column;
+	}
 
 	.picDiv {
 		width: 50%;
 		white-space: nowrap;
 		overflow: hidden;
 		position: relative;
+
+		@media ${(props) => props.theme.tablet} {
+			height: 50%;
+			width: 100%;
+		}
 		.reviewImg {
 			transition: transform 0.5s;
 		}
@@ -74,6 +89,11 @@ const ReviewModalWrite = styled.div`
 	width: 50%;
 	margin-left: 1rem;
 	color: #ffffe7;
+
+	@media ${(props) => props.theme.tablet} {
+		height: 20%;
+		width: 100%;
+	}
 
 	.userDiv {
 		display: flex;
@@ -152,6 +172,8 @@ const BtnBox = styled.div`
 
 	@media ${(props) => props.theme.tablet} {
 		margin-top: 15rem;
+
+		align-items: center;
 	}
 
 	@media ${(props) => props.theme.mobileL} {
@@ -169,6 +191,7 @@ const BtnBox = styled.div`
 		width: 11rem;
 		height: 3rem;
 		margin: 0rem 1rem;
+		margin-bottom: 1rem;
 		border-radius: 2vh;
 
 		transition: all 0.3s;
@@ -195,10 +218,6 @@ const BtnBox = styled.div`
 			background: #ffffe7;
 			color: #f47676;
 		}
-	}
-
-	@media ${(props) => props.theme.tablet} {
-		flex-direction: column;
 	}
 `;
 
