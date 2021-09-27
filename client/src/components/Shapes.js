@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
+import { listBox } from "./utils/theme";
 
 // 이미지
 import rectIcon from "../img/Rectangle.svg";
@@ -10,49 +11,12 @@ import polygonIcon from "../img/Polygon1.svg";
 import Polygon from "../img/Polygon.svg";
 
 const ShapesSection = styled.div`
-	display: flex;
-	/* flex-direction: column; */
-	justify-content: flex-start;
-	width: 100%;
-	height: 100%;
-	overflow-x: auto;
-	&::-webkit-scrollbar {
-		display: none;
-	}
+	${listBox}
 
-	button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 8rem;
-		height: 8rem;
-		min-width: 8rem;
-		min-height: 8rem;
-		border-radius: 1vh;
-		border: 0.7px solid #2f301e;
-		background-color: #3d3d3d;
-		margin: 1rem;
-
+	.circle {
+		height: 7rem;
 		@media ${(props) => props.theme.tablet} {
-			width: 4rem;
-			height: 4rem;
-			min-width: 4rem;
-			min-height: 4rem;
-		}
-
-		img {
-			height: 5rem;
-			@media ${(props) => props.theme.tablet} {
-				min-height: 2rem;
-				height: 2rem;
-			}
-		}
-
-		.circle {
-			height: 7rem;
-			@media ${(props) => props.theme.tablet} {
-				height: 3rem;
-			}
+			height: 3rem;
 		}
 	}
 `;
