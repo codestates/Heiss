@@ -102,7 +102,13 @@ const Sign = ({ reverseBoo }) => {
 					회원가입
 				</button>
 			</BtnSection>
-			<InputSection>{shadower ? <Signin /> : <Signup />}</InputSection>
+			<InputSection>
+				{shadower ? (
+					<Signin reverseBoo={reverseBoo} />
+				) : (
+					<Signup reverseBoo={reverseBoo} />
+				)}
+			</InputSection>
 		</SignSection>
 	);
 };
