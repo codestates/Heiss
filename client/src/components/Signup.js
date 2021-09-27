@@ -4,7 +4,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { registerUser } from "../redux/modules/users";
+import users, { registerUser } from "../redux/modules/users";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
@@ -66,6 +66,7 @@ const SignupSection = styled.form`
 
 const Singup = () => {
 	const [auth, setAuth] = useState(false);
+	const [text, setText] = useState("");
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const formik = useFormik({
@@ -96,6 +97,23 @@ const Singup = () => {
 			alert(JSON.stringify(values, null, 2));
 		},
 	});
+	const onChange = (e) => {
+		setText(e.target.value);
+	};
+	const onReset = () => {
+		setAuth(!auth);
+		setText("");
+	};
+	const handleSignup = (e) => {
+		axios
+			.post("http://localhost:80/users/signup", formik)
+			.then(() => {
+				alert("회원가입 되었습니다! 로그인 해주세요.");
+			})
+			.then(() => {
+				return history.push("/login");
+			});
+	};
 
 	return (
 		<SignupSection onSubmit={formik.handleSubmit}>
@@ -129,10 +147,15 @@ const Singup = () => {
 						onChange={formik.handleChange}
 						value={formik.values.passwordConfirm}
 					/>
-					<button onClick={() => setAuth(!auth)}>회원가입</button>
+					<button onClick={onReset}>회원가입</button>
 				</>
 			) : (
 				<>
+					<input
+						onChange={onChange}
+						value={text}
+						placeholder="인증번호를 입력해주세요"
+					/>
 					<button
 						disabled
 						style={{
@@ -146,9 +169,10 @@ const Singup = () => {
 					>
 						메일로 인증번호를 보냈습니다
 					</button>
-					<input placeholder="인증번호를 입력해주세요" />
+
 					<button
 						style={{ marginTop: "10px", height: "1.8rem", width: "4rem" }}
+						onClick={handleSignup}
 					>
 						인증
 					</button>
