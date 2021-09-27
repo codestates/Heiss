@@ -103,6 +103,7 @@ const Canvas = () => {
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
+			crossOrigin: "anonymous",
 			height: canvasHeight,
 			width: canvasWidth,
 			position: "absolute",
@@ -111,6 +112,8 @@ const Canvas = () => {
 			stopContextMenu: true, // 우클릭 및 휠클릭 활성
 			fireRightClick: true, // 우클릭 및 휠클릭 활성
 			fireMiddleClick: true, // 미들클릭 활성
+			allowTaint: true,
+			foreignObjectRendering: true,
 		});
 		setCanvas(canvas);
 
@@ -205,9 +208,10 @@ const Canvas = () => {
 						<img src={palleteIcon} alt="palleteIcon" />
 						<div>색상</div>
 					</li>
-					<Link to="mypage">
-						<button onClick={saveHandler}>저장</button>
-					</Link>
+					<img src={img}></img>
+					{/* <Link to="mypage"> */}
+					<button onClick={saveHandler}>저장</button>
+					{/* </Link> */}
 				</MenuSection>
 			</>
 			{context && (

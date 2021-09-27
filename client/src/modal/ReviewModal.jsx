@@ -94,6 +94,11 @@ const ReviewModalWrite = styled.div`
 		width: 100%;
 	}
 
+	@media ${(props) => props.theme.tablet} {
+		height: 20%;
+		width: 100%;
+	}
+
 	.userDiv {
 		display: flex;
 		width: 100%;
@@ -171,7 +176,6 @@ const BtnBox = styled.div`
 
 	@media ${(props) => props.theme.tablet} {
 		margin-top: 15rem;
-		
 		align-items: center;
 	}
 
@@ -218,7 +222,6 @@ const BtnBox = styled.div`
 			color: #f47676;
 		}
 	}
-
 `;
 
 const ReviewModal = ({ dataId, reverseBoo }) => {

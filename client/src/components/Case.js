@@ -20,7 +20,9 @@ const Case = ({ canvas }) => {
 
 	// 배경 이미지 핸들러
 	const BackgroundHandler = (e) => {
-		fabric.Image.fromURL(bgImg[e.target.textContent], (img) => {
+		new fabric.Image.fromURL(bgImg[e.target.textContent], (img) => {
+			img.crossOrigin = "Anonymous";
+			console.log(img);
 			img.set({
 				opacity: 1,
 				left: canvas.width / 2.5,

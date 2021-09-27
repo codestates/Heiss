@@ -4,6 +4,7 @@ const controller = require("../controllers");
 const upload = require("../middleware/upload");
 
 router.get("/signout", controller.signout);
+router.get("/", controller.userInfo);
 
 router.post("/oauth", controller.oauth);
 router.post("/signup", upload.single("picture"), controller.signup);

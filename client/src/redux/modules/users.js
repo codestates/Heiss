@@ -1,78 +1,48 @@
-import { request } from "../../components/utils/axios";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
-const REGISTER_USER = "REGISTER_USER";
-const LOGIN_USER = "LOGIN_USER";
-const USER_URL = "/user";
+// actions type
+const GET_LOGIN = "GET_LOGIN";
+const GET_LOGOUT = "GET_LOGOUT";
 
-export const registerUser = (user) => {
-	const data = request("post", USER_URL + "/signup", user);
+// action
+export const getUserInfo = () => (dispatch) => {
+	axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
+		if (el.data.userInfo) {
+			dispatch(getLogin(el.data.userInfo));
+		}
+	});
+};
+
+export const getLogin = (data) => {
 	return {
-		type: REGISTER_USER,
+		type: GET_LOGIN,
 		payload: data,
 	};
 };
 
-export const loginUser = (user) => {
-	const data = request("post", USER_URL + "/signin", user);
+export const getLogout = () => {
 	return {
-		type: LOGIN_USER,
-		payload: data,
+		type: GET_LOGOUT,
 	};
 };
 
-export const users = (state = {}, action) => {
+// initialState
+const initialState = {
+	userInfo: {},
+	isLogin: false,
+};
+
+// reducer
+export const users = (state = initialState, action) => {
 	switch (action.type) {
-		case REGISTER_USER:
-			return { ...state, loginSuccess: action.payload };
-		case LOGIN_USER:
-			return { ...state, loginSuccess: action.payload };
+		case GET_LOGIN:
+			return { ...state, userInfo: action.payload, isLogin: true };
+		case GET_LOGOUT:
+			return { ...state, userInfo: {}, isLogin: false };
 		default:
 			return state;
 	}
 };
-
-// const initialState = {
-// 	user: {
-// 		isLogin: false,
-// 		error: null,
-// 	},
-// 	signUp: {
-// 		email: false,
-// 		nickname: false,
-// 		userId: false,
-// 	},
-// 	logout: {
-// 		email: null,
-// 		username: null,
-// 	},
-// };
-
-// export const users = handleActions(
-// 	{
-// 		[LOGIN]: (state, action) => ({
-// 			...state,
-// 			user: {
-// 				...state.user,
-// 				isLogin: true,
-// 				error: null,
-// 			},
-// 		}),
-// 		[LOGOUT]: (state, action) => ({
-// 			...state,
-// 			user: {
-// 				...state.user,
-// 				isLogin: false,
-// 				error: action.error,
-// 			},
-// 		}),
-// 		[SIGNUP]: (state, action) => ({
-// 			...state,
-// 			signuUp: {
-// 				...state.signUp,
-// 			},
-// 		}),
-// 	},
-// 	initialState
-// );
 
 export default users;
