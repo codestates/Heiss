@@ -88,6 +88,11 @@ const ReviewModalWrite = styled.div`
 	width: 50%;
 	margin-left: 1rem;
 	color: #ffffe7;
+	
+	@media ${(props) => props.theme.tablet} {
+		height: 20%;
+		width: 100%;
+	}
 
 	@media ${(props) => props.theme.tablet} {
 		height: 20%;
@@ -171,7 +176,6 @@ const BtnBox = styled.div`
 
 	@media ${(props) => props.theme.tablet} {
 		margin-top: 15rem;
-
 		align-items: center;
 	}
 

@@ -1,11 +1,12 @@
 const model = require("../../models");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
 	const { email, username, password, provider } = req.body;
 	// console.log(req.files);
 	let user = await model.users.findOne({
-		where: { email: email, provider: "normal" },
+		where: { email, provider },
 	});
 	if (user) {
 		//email 중복
@@ -18,14 +19,32 @@ module.exports = async (req, res) => {
 				} else {
 					model.users
 						.create({
-							userName: username,
-							email: email,
-							provider: provider,
+							username,
+							email,
+							provider,
 							password: hash,
-							profileImg: req.file.location,
+
+							// profileImg: req.file.location,
 						})
-						.then((result) => {
-							res.status(200).send();
+						.then(async (result) => {
+							let payload = {
+								id: result.id,
+								username,
+								email,
+								provider,
+
+								// profileImg: req.file.location,
+							};
+							const accessToken = await jwt.sign(
+								payload,
+								process.env.ACCESS_SECRET
+							);
+							res
+								.cookie("accessToken", accessToken, {
+									httpOnly: true,
+								})
+								.status(200)
+								.send();
 						});
 				}
 			});

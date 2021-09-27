@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
+import { getUserInfo, getLogout } from "../redux/modules/users";
 
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
 
 import profile from "../img/profile.png";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+axios.defaults.withCredentials = true;
 
 const NavSection = styled.div`
 	display: flex;
@@ -130,7 +134,13 @@ const reviewModal = {
 
 const Nav = ({ reviewBtn }) => {
 	const [boo, setBoo] = useState(false);
-	const [login, setLogin] = useState(false);
+	const user = useSelector((state) => state.user);
+	console.log(user);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getUserInfo());
+	}, []);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
@@ -140,6 +150,12 @@ const Nav = ({ reviewBtn }) => {
 
 	const reverseReview = () => {
 		setReview(!review);
+	};
+
+	const logout = () => {
+		axios.get(`${process.env.REACT_APP_API_URL}user/signout`).then(() => {
+			dispatch(getLogout());
+		});
 	};
 
 	return (
@@ -165,7 +181,7 @@ const Nav = ({ reviewBtn }) => {
 			<Link to="/">
 				<img id="heissLogo" src={logo} alt="heiss" />
 			</Link>
-			{login ? (
+			{!user.isLogin ? (
 				<button onClick={reverseBoo}>LOGIN</button>
 			) : (
 				<ProfileBox>
@@ -175,9 +191,9 @@ const Nav = ({ reviewBtn }) => {
 						</button>
 					)}
 					<Link className="profileBox" to="/mypage">
-						<img src={profile} alt="profile" />
+						<img src={user.userInfo.profileImg} alt="profile" />
 					</Link>
-					<button onClick={() => setLogin(!login)}>LOGOUT</button>
+					<button onClick={logout}>LOGOUT</button>
 				</ProfileBox>
 			)}
 		</NavSection>

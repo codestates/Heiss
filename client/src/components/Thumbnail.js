@@ -133,7 +133,7 @@ const ThumbnailModal = {
 		background: "#0f0d00",
 		margin: "0 auto",
 		overflow: "auto",
-		width: "70vw",
+		width: "80vw",
 		WebkitOverflowScrolling: "touch",
 		borderRadius: "4px",
 		outline: "none",
