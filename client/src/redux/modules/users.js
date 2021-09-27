@@ -1,16 +1,21 @@
 import { request } from "../../components/utils/axios";
 
-// const LOGIN = "user/LOGIN";
-// const LOGOUT = "user/LOGOUT";
-// const SIGNUP = "user/SIGNUP";
 const REGISTER_USER = "REGISTER_USER";
+const LOGIN_USER = "LOGIN_USER";
+const USER_URL = "/user";
 
-const USER_URL = "/api/user";
-
-export const registerUser = (dataToSubmit) => {
-	const data = request("post", USER_URL + "/register", dataToSubmit);
+export const registerUser = (user) => {
+	const data = request("post", USER_URL + "/signup", user);
 	return {
 		type: REGISTER_USER,
+		payload: data,
+	};
+};
+
+export const loginUser = (user) => {
+	const data = request("post", USER_URL + "/signin", user);
+	return {
+		type: LOGIN_USER,
 		payload: data,
 	};
 };
@@ -18,6 +23,8 @@ export const registerUser = (dataToSubmit) => {
 export const users = (state = {}, action) => {
 	switch (action.type) {
 		case REGISTER_USER:
+			return { ...state, loginSuccess: action.payload };
+		case LOGIN_USER:
 			return { ...state, loginSuccess: action.payload };
 		default:
 			return state;
