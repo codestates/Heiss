@@ -211,7 +211,7 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}review/${dataId}`).then((el) => {
-			console.log("이거이거", el.data.data);
+			console.log(el);
 			setData(el.data.data);
 			setColor(colorChange(el.data.data.score - 1));
 			setImgLength(el.data.data.sources.length);

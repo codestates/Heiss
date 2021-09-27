@@ -49,7 +49,6 @@ const GlobalStyles = createGlobalStyle`
 
 const App = () => {
 	let state = useSelector((state) => state);
-	console.log(state);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(reviewDatas());

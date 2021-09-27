@@ -13,8 +13,34 @@ const Wrap = styled.div`
 	flex-direction: row;
 	justify-content: space-evenly;
 	align-items: center;
+
 	.imgWrap {
+		border: 4px solid #f47676;
+		border-radius: 0.5vh;
+		outline: 0;
 		position: relative;
+		width: 31.6rem;
+		height: 17.5rem;
+	}
+
+	.star {
+		font-size: 30px;
+		padding: 0rem 0.2rem;
+	}
+
+	.starCaseDiv {
+		display: flex;
+		justify-content: space-between;
+	}
+`;
+
+const ReviewImg = styled.img`
+	width: 100%;
+	height: 100%;
+	&:hover {
+		+ div {
+			display: block;
+		}
 	}
 `;
 
@@ -42,45 +68,44 @@ const WriteSection = styled.form`
 			width: 25rem;
 		}
 	}
+
+	textarea {
+		background-color: #000;
+		color: #f47676;
+		resize: none;
+		width: 31.4rem;
+		height: 10rem;
+		margin-top: 1.5rem;
+		border-radius: 1vh;
+		border: 3px solid #f47676;
+		padding: 0.4rem 0rem 0rem 0.4rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
 `;
 
 const ReviewBtn = styled.button`
 	position: absolute;
 	top: 550px;
-	border: 3px solid #f47676;
+	background-color: #f47676;
+	color: #ffffe7;
 	width: 12rem;
 	height: 3rem;
-	color: #f47676;
 	font-size: 1.5rem;
 	font-weight: bold;
 	margin-top: 2rem;
 	transition: all 0.3s;
 	&:hover {
-		background: #f47676;
-		color: #ffffe7;
+		background: #ffffe7;
+		color: #f47676;
 	}
-`;
-
-const StyledTextarea = styled.textarea`
-	background-color: #000;
-	color: #f47676;
-	resize: none;
-	width: 31.4rem;
-	height: 10rem;
-	margin-top: 1.5rem;
-	border-radius: 1vh;
-	border: 3px solid #f47676;
-	padding: 0.4rem 0rem 0rem 0.4rem;
-	font-size: 1.2rem;
-	font-weight: bold;
 `;
 
 const ImgDiv = styled.div`
 	position: relative;
 	border: 4px dashed #f47676;
-	margin-top: 2rem;
 	width: 31.4rem;
-	height: 2.4rem;
+	height: 18.6rem;
 	border-radius: 1vh;
 	&:hover {
 		background-color: #f7caca;
@@ -97,21 +122,20 @@ const ImgDiv = styled.div`
 		opacity: 0;
 		cursor: pointer;
 	}
-	> div {
+	> h3 {
 		text-align: center;
 		color: #f47676;
-		top: rem;
-		padding-top: 0.5rem;
+		padding-top: 8.8rem;
 	}
 `;
 
 const ChangeImg = styled.div`
 	position: relative;
 	border: 3px dashed #f47676;
-	margin-top: 0.4rem;
-	width: 6rem;
+	margin-top: 0.6rem;
+	width: 8rem;
 	height: 1.4rem;
-	border-radius: 1vh;
+	border-radius: 0.5vh;
 	&:hover {
 		background-color: #f7caca;
 		border: 3px dashed #f47676;
@@ -140,40 +164,33 @@ const ChangeImg = styled.div`
 
 const ImgDelete = styled.div`
 	position: absolute;
-	top: 2rem;
-	left: 15.2rem;
-	width: 3.6rem;
-	height: 1.6rem;
+	top: 1rem;
+	left: 26.4rem;
+	width: 3.8rem;
+	height: 1.8rem;
 	background-color: rgba(0, 0, 0, 0.6);
 	border: 3px solid black;
 	border-radius: 5px;
-	color: #fff;
-	font-size: 1.2rem;
-	font-weight: bold;
-	text-align: center;
-	cursor: pointer;
 	display: none;
+	> p {
+		color: #fff;
+		font-size: 1.2rem;
+		font-weight: bold;
+		text-align: center;
+		padding-top: 0.2rem;
+		cursor: pointer;
+	}
 	&:hover {
 		display: block;
 	}
 `;
 
-const ReviewImg = styled.img`
-	margin-top: 1rem;
-	width: 20rem;
-	height: 15rem;
-	&:hover {
-		+ div {
-			display: block;
-		}
-	}
-`;
-
 const Select = styled.div`
 	position: relative;
-	padding: 5px 10px;
-	width: 200px;
-	border-radius: 5px;
+	padding: 0.4rem 0.8rem;
+	width: 13rem;
+	height: 1.2rem;
+	border-radius: 0.4rem;
 	border: 1px solid salmon;
 	background-color: linen;
 	background-image: url("https://img.icons8.com/material-rounded/24/000000/expand-arrow.png");
@@ -183,11 +200,11 @@ const Select = styled.div`
 
 	> ul {
 		position: absolute;
-		top: 30px;
+		top: 2rem;
 		left: 0;
 		width: 100%;
 		border: 1px solid salmon;
-		border-radius: 5px;
+		border-radius: 0.4rem;
 		background-color: #f19494;
 		cursor: pointer;
 		> li {
@@ -251,12 +268,12 @@ const ReviewWriteModal = ({ closeModal }) => {
 
 	const imageLoader = (file) => {
 		let reader = new FileReader();
-		reader.onload = function (ee) {
+		reader.onload = (ee) => {
 			setReviewImg((state) => {
 				return [
 					...state,
 					{
-						file: file,
+						file,
 						imagePreviewUrl: ee.target.result,
 					},
 				];
@@ -298,14 +315,6 @@ const ReviewWriteModal = ({ closeModal }) => {
 		<>
 			<Wrap>
 				<div>
-					{color.map((el, index) => (
-						<StarTwoTone
-							key={index}
-							twoToneColor={el}
-							style={{ fontSize: "30px", padding: "0rem 0.2rem" }}
-							onClick={() => colorChange(index)}
-						/>
-					))}
 					<WriteSection
 						onSubmit={(e) => e.preventDefault()}
 						enctype="multipart/form-data"
@@ -316,9 +325,12 @@ const ReviewWriteModal = ({ closeModal }) => {
 								{reviewImg.map((el, index) => {
 									return (
 										<div className="imgWrap" key={index}>
-											<ReviewImg src={el.imagePreviewUrl} />
+											<ReviewImg
+												src={el.imagePreviewUrl}
+												className={`${reviewImg.length === 2 ? "test" : ""}`}
+											/>
 											<ImgDelete onClick={() => imgDelete(index)}>
-												삭제
+												<p>삭제</p>
 											</ImgDelete>
 										</div>
 									);
@@ -332,7 +344,7 @@ const ReviewWriteModal = ({ closeModal }) => {
 										onChange={(e) => uploadImg(e)}
 									/>
 									<div>
-										<p>사진추가</p>
+										<p>사진 추가</p>
 									</div>
 								</ChangeImg>
 							</>
@@ -345,19 +357,28 @@ const ReviewWriteModal = ({ closeModal }) => {
 									accept="image/*"
 									onChange={(e) => uploadImg(e)}
 								/>
-								<div>
-									<h3>Drag and drop a file or select add Image</h3>
-								</div>
+								<h3>드레그나 클릭을 통해 케이스 사진을 올려주세요!</h3>
 							</ImgDiv>
 						)}
 					</WriteSection>
 				</div>
 				<div>
-					<Select onClick={caseHandler}>
-						<span>{caseName}</span>
-						{caseChoice ? (
-							<ul>
-								{/* {cases.map((el) => {
+					<div className="starCaseDiv">
+						<div>
+							{color.map((el, index) => (
+								<StarTwoTone
+									className="star"
+									key={index}
+									twoToneColor={el}
+									onClick={() => colorChange(index)}
+								/>
+							))}
+						</div>
+						<Select onClick={caseHandler}>
+							<span>{caseName}</span>
+							{caseChoice ? (
+								<ul>
+									{/* {cases.map((el) => {
 									<li onClick={liNameChange}>
 										<img
 											onClick={imgNameChange}
@@ -367,44 +388,41 @@ const ReviewWriteModal = ({ closeModal }) => {
 										/>
 									</li>;
 								})} */}
-								<li onClick={liNameChange}>
-									<img
-										onClick={imgNameChange}
-										style={{ width: "100px" }}
-										src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-12-white-select-2020?wid=940&hei=1112&fmt=png-alpha&.v=1604343705000"
-										alt="아이폰"
-									/>
-								</li>
-								<li onClick={liNameChange}>
-									<img
-										onClick={imgNameChange}
-										style={{ width: "100px" }}
-										src="https://newsimg.sedaily.com/2021/01/08/22H6CMQYK3_3.jpg"
-										alt="갤럭시"
-									/>
-								</li>
-								<li onClick={liNameChange}>
-									<img
-										onClick={imgNameChange}
-										style={{ width: "100px" }}
-										src="https://images.kbench.com/kbench/article/2021_01/k217730p1n1.jpg"
-										alt="접은갤럭시"
-									/>
-								</li>
-							</ul>
-						) : null}
-					</Select>
-					<WriteSection
-						onSubmit={(e) => e.preventDefault()}
-						enctype="multipart/form-data"
-						method="post"
-					>
+									<li onClick={liNameChange}>
+										<img
+											onClick={imgNameChange}
+											style={{ width: "100px" }}
+											src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-12-white-select-2020?wid=940&hei=1112&fmt=png-alpha&.v=1604343705000"
+											alt="아이폰"
+										/>
+									</li>
+									<li onClick={liNameChange}>
+										<img
+											onClick={imgNameChange}
+											style={{ width: "100px" }}
+											src="https://newsimg.sedaily.com/2021/01/08/22H6CMQYK3_3.jpg"
+											alt="갤럭시"
+										/>
+									</li>
+									<li onClick={liNameChange}>
+										<img
+											onClick={imgNameChange}
+											style={{ width: "100px" }}
+											src="https://images.kbench.com/kbench/article/2021_01/k217730p1n1.jpg"
+											alt="접은갤럭시"
+										/>
+									</li>
+								</ul>
+							) : null}
+						</Select>
+					</div>
+					<WriteSection onSubmit={(e) => e.preventDefault()}>
 						<input
 							placeholder="제목"
 							value={review.title}
 							onChange={(e) => onChange(e, "title")}
 						/>
-						<StyledTextarea
+						<textarea
 							placeholder="내용"
 							value={review.desc}
 							onChange={(e) => onChange(e, "desc")}
