@@ -11,6 +11,7 @@
     "axios": "^0.21.4",
     "dotenv": "^10.0.0",
     "fabric": "^4.6.0",
+    "formik": "^2.2.9",
     "json-loader": "^0.5.7",
     "react": "^17.0.2",
     "react-color-palette": "^6.1.0",
@@ -27,7 +28,8 @@
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^4.2.0",
     "styled-components": "^5.3.1",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -2,9 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
 
-// image
-import { galaxyS21 } from "../img/galaxyS21.png";
-
 const CaseSection = styled.div`
 	display: flex;
 	/* flex-direction: column; */
