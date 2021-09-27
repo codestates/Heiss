@@ -4,10 +4,17 @@ const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
 	const { email, username, password, provider } = req.body;
-	// console.log(req.files);
+	const img = req.file;
+	console.log(img);
+	let profileImg =
+		"http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg";
 	let user = await model.users.findOne({
 		where: { email, provider },
 	});
+	if (img) {
+		profileImg = req.file.location;
+	}
+
 	if (user) {
 		//email 중복
 		res.status(409).send();
@@ -23,17 +30,16 @@ module.exports = async (req, res) => {
 							email,
 							provider,
 							password: hash,
-
-							// profileImg: req.file.location,
+							profileImg,
 						})
 						.then(async (result) => {
+							console.log(result);
 							let payload = {
 								id: result.id,
 								username,
 								email,
 								provider,
-
-								// profileImg: req.file.location,
+								profileImg,
 							};
 							const accessToken = await jwt.sign(
 								payload,
