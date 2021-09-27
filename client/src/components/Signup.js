@@ -65,7 +65,7 @@ const SignupSection = styled.form`
 `;
 
 const Singup = () => {
-	const [auth, setAuth] = useState(false);
+	const [auth, setAuth] = useState(true);
 	const [Email, setEmail] = useState("");
 	const [Password, setPassword] = useState("");
 	const [Name, setName] = useState("");
@@ -102,7 +102,7 @@ const Singup = () => {
 	});
 
 	return (
-		<SignupSection>
+		<SignupSection onSubmit={(e) => e.preventDefault()}>
 			{auth ? (
 				<>
 					<input

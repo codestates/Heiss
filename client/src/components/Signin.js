@@ -164,8 +164,9 @@ const Signin = (props) => {
 			password: Yup.string().min(8, "").required("비밀번호를 입력하세요"),
 		}),
 		onSubmit: (values) => {
-			dispatch(loginUser(values));
-			alert(JSON.stringify(values, null, 2));
+			console.log(values);
+			// dispatch(loginUser(values));
+			// alert(JSON.stringify(values, null, 2));
 		},
 	});
 
@@ -195,7 +196,9 @@ const Signin = (props) => {
 					<img src={naver} alt="naver" />
 					로그인
 				</button>
-				<button className="desktopBtn">로그인</button>
+				<button className="desktopBtn" type="submit">
+					로그인
+				</button>
 				<button className="mobileBtn kakao">
 					<img src={kakao} alt="kakao" />
 				</button>

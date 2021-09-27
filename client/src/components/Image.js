@@ -43,18 +43,13 @@ const Image = ({ canvas }) => {
 		const reader = new FileReader();
 		const file = e.target.files[0];
 		reader.onload = () => {
-			console.log("fdsf");
-			const image = new fabric.Image(reader.result);
-			image.set({
-				left: 250,
-				top: 250,
-				padding: 10,
-				cornersize: 10,
+			new fabric.Image.fromURL(reader.result, (image) => {
+				image.scale(0.75);
+				canvas.add(image);
+				canvas.renderAll();
 			});
-			canvas.add(image);
 		};
 		reader.readAsDataURL(file);
-		canvas.renderAll();
 	};
 
 	return (
