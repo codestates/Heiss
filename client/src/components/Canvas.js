@@ -101,10 +101,9 @@ const Canvas = () => {
 	const [context, setContext] = useState(false); // context menu 토글
 	const [point, setPoint] = useState({ x: 0, y: 0 });
 
-	const [img, setImg] = useState();
-
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
+			crossOrigin: "anonymous",
 			height: canvasHeight,
 			width: canvasWidth,
 			position: "absolute",
@@ -113,6 +112,8 @@ const Canvas = () => {
 			stopContextMenu: true, // 우클릭 및 휠클릭 활성
 			fireRightClick: true, // 우클릭 및 휠클릭 활성
 			fireMiddleClick: true, // 미들클릭 활성
+			allowTaint: true,
+			foreignObjectRendering: true,
 		});
 		setCanvas(canvas);
 
@@ -163,22 +164,22 @@ const Canvas = () => {
 		setContext(!context);
 	};
 
-	// 저장 핸들러
 	const saveHandler = async () => {
 		const imgdata = canvas.toDataURL("image/png", 1.0);
-		setImg(imgdata);
-		const formData = new FormData();
-		formData.append("picture", imgdata);
 		await axios
-			.post(`${process.env.REACT_APP_API_URL}/locker`, formData, {
-				header: {
-					// accessToken
+			.post(
+				`${process.env.REACT_APP_API_URL}locker`,
+				{
+					userId: 2,
+					phone: 1,
+					price: 1000,
+					img: imgdata,
+					setting: "갤럭시",
 				},
-				phoneId: 1,
-				price: 1000,
-				setting: "galaxy",
-				withCredentials: true,
-			})
+				{
+					withCredentials: true,
+				}
+			)
 			.then((res) => console.log(res));
 	};
 

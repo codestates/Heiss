@@ -66,11 +66,11 @@ export const listBox = css`
 		font-weight: bold;
 
 		@media ${(props) => props.theme.tablet} {
-			width: 4rem;
-			height: 4rem;
+			width: 6rem;
+			height: 6rem;
 			min-width: 4rem;
 			min-height: 4rem;
-			font-size: 0.5rem;
+			font-size: 1rem;
 		}
 
 		img {
