@@ -361,14 +361,6 @@ const Mypage = () => {
 			>
 				<Signdel reverseBoo={reverseBoo} />
 			</Modal>
-			{/* <Modal
-				isOpen={password}
-				style={passwordModal}
-				onRequestClose={() => reversePassword()}
-				ariaHideApp={false}
-			>
-				<Pass />
-			</Modal> */}
 			<Nav />
 			<MypageBox>
 				<CategoryBox>
