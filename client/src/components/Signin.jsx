@@ -166,16 +166,24 @@ const Signin = ({ reverseBoo }) => {
 					.email("올바른 이메일 주소가 아닙니다")
 					.required("이메일을 입력하세요"),
 				password: Yup.string()
-					.min(8, "8자보다 많아야해요")
+					.min(8, "비밀번호는 8자보다 이상이여야 합니다")
 					.required("비밀번호를 입력하세요"),
 			}),
 			onSubmit: async (values) => {
-				await axios.post(`${process.env.REACT_APP_API_URL}user/signin`, values);
-				alert("로그인이 완료되었습니다.");
-				reverseBoo();
-				window.location.replace("/");
-				dispatch(getUserInfo());
-				console.log(values);
+				let login = await axios.post(
+					`${process.env.REACT_APP_API_URL}user/signin`,
+					values
+				);
+				if (login.data.message === "No matching users") {
+					alert("등록된 이메일이 없습니다");
+				} else if (login.data.message === "password err") {
+					alert("비밀번호가 일치하지 않습니다");
+				} else {
+					alert("로그인이 완료되었습니다.");
+					reverseBoo();
+					window.location.replace("/");
+					dispatch(getUserInfo());
+				}
 			},
 		});
 
