@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 import logo from "../img/heiss.svg";
 
@@ -72,7 +71,7 @@ const Footer = () => {
 					<a href="https://github.com/JangSeokJin1228">❆ 장석진</a>
 				</li>
 				<li>
-					<a href="https://github.com/yeeun62">✡︎ 방예은</a>
+					<a href="https://github.com/yeeun62">✫ 방예은</a>
 				</li>
 				<li>
 					<a href="https://github.com/sungminyun1">❊ 윤성민</a>

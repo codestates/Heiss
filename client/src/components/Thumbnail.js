@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
@@ -86,7 +86,7 @@ const HoverThumbBottom = styled.div`
 
 	.cart {
 		height: 2rem;
-		margin-left: 8rem;
+		margin-left: 7rem;
 		/* border-radius: 50%; */
 	}
 `;
@@ -142,13 +142,20 @@ const ThumbnailModal = {
 	},
 };
 
-const Thumbnail = ({ data, key, shotBtn, shareBtn }) => {
+const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	const [boo, setBoo] = useState(false);
 	const [toggleH, setToggleH] = useState(false);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
 	};
+
+	useEffect(() => {
+		console.log(data);
+		if (data.liked) {
+			setToggleH(true);
+		}
+	}, []);
 
 	return (
 		<ThumbnailAllBox>
@@ -158,10 +165,10 @@ const Thumbnail = ({ data, key, shotBtn, shareBtn }) => {
 				onRequestClose={() => reverseBoo()}
 				ariaHideApp={false}
 			>
-				<ReviewModal data={data} />
+				<ReviewModal dataId={data.id} reverseBoo={reverseBoo} />
 			</Modal>
 			<ThumbnailSection>
-				<img src={data} key={key} alt="img" />
+				<img src={data.sources[0].imgUrl} alt="img" />
 				<HoverThumb className="hover-thumb">
 					<BgnHover onClick={reverseBoo}></BgnHover>
 					{toggleH ? (
@@ -180,17 +187,13 @@ const Thumbnail = ({ data, key, shotBtn, shareBtn }) => {
 						/>
 					)}
 					<HoverThumbBottom>
-						{shareBtn && (
-							<Link to="/make">
-								<button className="shareBtn">퍼가기</button>
-							</Link>
-						)}
+						{shareBtn && <button className="shareBtn">퍼가기</button>}
 						{shotBtn && <img src={cartIcon} alt="cartIcon" className="cart" />}
 					</HoverThumbBottom>
 				</HoverThumb>
 			</ThumbnailSection>
 			<HeartHowMany>
-				<div>687</div>
+				<div>{data.like}</div>
 				<img src={heartIcon} alt="heartIcon" />
 			</HeartHowMany>
 		</ThumbnailAllBox>

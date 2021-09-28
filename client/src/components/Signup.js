@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
-import config from "../config";
 import { useDispatch, useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { registerUser } from "../redux/modules/users";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const SignupSection = styled.form`
 	display: flex;
@@ -63,47 +66,72 @@ const SignupSection = styled.form`
 
 const Singup = () => {
 	const [auth, setAuth] = useState(false);
-
-	const [userInfo, setUserInfo] = useState({
-		email: "",
-		nickname: "",
-		password: "",
-	});
+	const [Email, setEmail] = useState("");
+	const [Password, setPassword] = useState("");
+	const [Name, setName] = useState("");
+	const [ConfirmPasword, setConfirmPasword] = useState("");
 	const history = useHistory();
-	const handleInputValue = (key) => (e) => {
-		setUserInfo({ ...userInfo, [key]: e.target.value });
-	};
-
-	const checkPassword = (e) => {
-		//  8 ~ 10자 영문, 숫자 조합
-		let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
-		console.log(regExp);
-	};
-
-	const handleSignup = (e) => {
-		const { email, username, password } = userInfo;
-
-		e.preventDefault();
-		axios
-			.post(`${config.serverUrl}`, userInfo)
-			.then(() => {
-				alert("회원가입 되었습니다! 로그인 해주세요.");
-			})
-			.then(() => {
-				return history.push("/");
-			});
-	};
+	const dispatch = useDispatch();
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			name: "",
+			password: "",
+			passwordConfirm: "",
+		},
+		validationSchema: Yup.object({
+			email: Yup.string()
+				.email("이메일을 정확히 입력하세요")
+				.min(8, "너무 짧습니다.")
+				.required("이메일을 입력하세요"),
+			name: Yup.string()
+				.min(3, "너무 짧습니다.")
+				.max(10, "너무 깁니다.")
+				.required("닉네임을 입력하세요"),
+			password: Yup.string()
+				.min(8, "너무 짧습니다.")
+				.required("비밀번호를 입력하세요"),
+			passwordConfirm: Yup.string()
+				.oneOf([Yup.ref("password"), null], "패스워드가 일치하지 않습니다.")
+				.required("비밀번호를 입력하세요"),
+		}),
+		onSubmit: (values) => {
+			dispatch(registerUser(values));
+			alert(JSON.stringify(values, null, 2));
+		},
+	});
 
 	return (
 		<SignupSection>
-			{!auth ? (
+			{auth ? (
 				<>
-					<input type="email" placeholder="이메일을 입력해주세요" />
-					<input type="nickname" placeholder="닉네임을 입력해주세요" />
-					<input type="password" placeholder="비밀번호를 입력해주세요" />
 					<input
+						name="email"
+						type="email"
+						placeholder="이메일을 입력해주세요"
+						onChange={formik.handleChange}
+						value={formik.values.email}
+					/>
+					<input
+						name="name"
+						type="name"
+						placeholder="닉네임을 입력해주세요"
+						onChange={formik.handleChange}
+						value={formik.values.name}
+					/>
+					<input
+						name="password"
+						type="password"
+						placeholder="비밀번호를 입력해주세요"
+						onChange={formik.handleChange}
+						value={formik.values.password}
+					/>
+					<input
+						name="passwordConfirm"
 						type="password"
 						placeholder="비밀번호를 한번 더 입력해주세요"
+						onChange={formik.handleChange}
+						value={formik.values.passwordConfirm}
 					/>
 					<button onClick={() => setAuth(!auth)}>회원가입</button>
 				</>
@@ -134,4 +162,4 @@ const Singup = () => {
 	);
 };
 
-export default Singup;
+export default withRouter(Singup);

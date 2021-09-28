@@ -116,7 +116,10 @@ const reviewModal = {
 		background: "#0f0d00",
 		margin: "0 auto",
 		overflow: "auto",
-		width: "40vw",
+		top: "10vh",
+		left: "10vw",
+		right: "10vw",
+		bottom: "10vh",
 		WebkitOverflowScrolling: "touch",
 		borderRadius: "4px",
 		outline: "none",
@@ -156,7 +159,7 @@ const Nav = ({ reviewBtn }) => {
 				onRequestClose={() => reverseReview()}
 				ariaHideApp={false}
 			>
-				<ReviewWriteModal />
+				<ReviewWriteModal closeModal={setReview} />
 			</Modal>
 
 			<Link to="/">

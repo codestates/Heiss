@@ -2,9 +2,10 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createAction } from "redux-actions";
+// import promiseMiddlerware from "redux-promise";
 
 import review from "./modules/review";
-// import user from "./modules/user";
+import user from "./modules/users";
 
 // middlewares
 import thunk from "redux-thunk";
@@ -16,6 +17,7 @@ export const history = createBrowserHistory();
 // combineReducers
 const appReducer = combineReducers({
 	review,
+	user,
 });
 
 const RESET_REDUCER = "root/RESET_REDUCER";
@@ -29,7 +31,7 @@ const rootReducer = (state, action) => {
 	return appReducer(state, action);
 };
 
-const env = process.env.NODE_ENV;
+const env = process.env.REACT_APP_NODE_ENV;
 const middlewares = [thunk.withExtraArgument({ history })];
 
 const enhancer =

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import Shapes from "./Shapes";
-import Modal from "react-modal";
+import { color } from "./utils/theme";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -11,8 +13,13 @@ import imageIcon from "../img/image.svg";
 import shapeIcon from "../img/shape.svg";
 import textIcon from "../img/text.svg";
 import palleteIcon from "../img/pallete.svg";
-import sizeIcon from "../img/size.svg";
+import Text from "./Text";
+import Case from "./Case";
+import Colorpickers from "./Colorpickers";
+import ContextMenu from "./ContextMenu";
+import Image from "./Image";
 
+// 캔버스 전체 영역
 const CanvasSection = styled.div`
 	display: flex;
 	justify-content: center;
@@ -22,17 +29,18 @@ const CanvasSection = styled.div`
 	position: relative;
 `;
 
+// 우측 메뉴바
 const MenuSection = styled.ul`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	background: #171717;
+	background: ${color.darkBasic};
 	width: 130px;
 	height: 83.4%;
 	right: 0;
 	z-index: 1;
-	color: #ffffe7;
+	color: ${color.white};
 
 	li {
 		display: flex;
@@ -48,13 +56,13 @@ const MenuSection = styled.ul`
 	}
 
 	button {
-		background: #3d3d3d;
+		background: ${color.basic};
 		width: 40px;
 		padding: 0.3rem;
 		box-sizing: border-box;
 		border-radius: 1vh;
 		margin-bottom: 3px;
-		color: #ffffe7;
+		color: ${color.white};
 	}
 
 	@media ${(props) => props.theme.tablet} {
@@ -66,16 +74,16 @@ const MenuSection = styled.ul`
 	}
 `;
 
+// 하단 리스트
 const ListBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* background: #343421; */
-	background: #171717;
+	background: ${color.darkBasic};
 	width: 50%;
-	height: 15rem;
+	height: 240px;
 	position: absolute;
-	border-radius: 1vh 1vh 0 0;
+	border-radius: 2vh 2vh 0 0;
 	margin-top: 3rem;
 	bottom: 0;
 	z-index: 2;
@@ -83,38 +91,17 @@ const ListBox = styled.div`
 	@media ${(props) => props.theme.tablet} {
 		width: 80%;
 	}
-
-	.toggleBtnBox {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-		height: 4rem;
-	}
-
-	/* .toggleBtn {
-		top: 0;
-		margin-top: 3px;
-		height: 2.5rem;
-	} */
-
-	@media ${(props) => props.theme.tablet} {
-		height: 11rem;
-		.toggleBtnBox {
-			display: flex;
-			justify-content: center;
-			width: 100%;
-			height: 1.2rem;
-		}
-		.toggleBtn {
-			top: 0;
-			height: 1.5rem;
-		}
-	}
 `;
 
-function Canvas() {
+const Canvas = () => {
 	const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
 	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
+	const [canvas, setCanvas] = useState();
+	const [menuNum, setMenuNum] = useState(0); // menu 리스트
+	const [context, setContext] = useState(false); // context menu 토글
+	const [point, setPoint] = useState({ x: 0, y: 0 });
+
+	const [img, setImg] = useState();
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
@@ -125,91 +112,129 @@ function Canvas() {
 			preserveObjectStacking: true, // 맨 위 레이어만 클릭되게함
 			stopContextMenu: true, // 우클릭 및 휠클릭 활성
 			fireRightClick: true, // 우클릭 및 휠클릭 활성
+			fireMiddleClick: true, // 미들클릭 활성
+		});
+		setCanvas(canvas);
+
+		// 마우스 클릭 이벤트
+		canvas.on("mouse:down", (e) => {
+			const pointer = new fabric.Point(
+				canvas.getPointer(e.e).x,
+				canvas.getPointer(e.e).y
+			);
+
+			if (e.button === 1) {
+				setContext(false);
+			}
+			if (e.button === 3) {
+				// context menu
+				setContext(true);
+				setPoint(pointer);
+			}
 		});
 
-		const rect = new fabric.Rect({
-			left: 100,
-			top: 100,
-			fill: "red",
-			width: 20,
-			height: 20,
-			angle: 45,
-		});
-
-		canvas.add(rect);
-
-		const rect1 = new fabric.Triangle({
-			left: 100,
-			top: 100,
-			fill: "white",
-			width: 20,
-			height: 20,
-			angle: 45,
-		});
-
-		canvas.add(rect1);
-
-		// const text = new fabric.Text({
-		// 	fontSize: 30,
-		// 	originX: "center",
-		// 	originY: "center",
-		// });
-
-		// canvas.add(text);
-
-		canvas.renderAll(); // useEffect를 통해 전체 랜더링
-
+		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
 			setCanvasWidth(document.body.clientWidth);
 			setCanvasHeight(window.innerHeight);
 		};
 
+		// 삭제 버튼
+		const deleteBtn = (e) => {
+			if (e.keyCode === 46) {
+				const items = canvas.getActiveObjects();
+				items.forEach((item) => {
+					canvas.remove(item);
+				});
+			}
+		};
+
+		window.addEventListener("keydown", deleteBtn);
 		window.addEventListener("resize", handleResizeEvent, false);
 		handleResizeEvent();
 
+		canvas.renderAll(); // useEffect를 통해 전체 랜더링
+
 		return window.removeEventListener("resize", handleResizeEvent);
 	}, []);
+
+	// contextMenu handler
+	const contextMenuHandler = () => {
+		setContext(!context);
+	};
+
+	// 저장 핸들러
+	const saveHandler = async () => {
+		const imgdata = canvas.toDataURL("image/png", 1.0);
+		setImg(imgdata);
+		const formData = new FormData();
+		formData.append("picture", imgdata);
+		await axios
+			.post(`${process.env.REACT_APP_API_URL}/locker`, formData, {
+				header: {
+					// accessToken
+				},
+				phoneId: 1,
+				price: 1000,
+				setting: "galaxy",
+				withCredentials: true,
+			})
+			.then((res) => console.log(res));
+	};
 
 	return (
 		<CanvasSection>
 			<>
 				<canvas id="canvas" />
 				<MenuSection>
-					<li>
+					<li onClick={() => setMenuNum(0)}>
 						<img src={caseIcon} alt="caseIcon" />
 						<div>케이스</div>
 					</li>
-					<li>
+					<li onClick={() => setMenuNum(1)}>
 						<img src={shapeIcon} alt="shapeIcon" />
 						<div>도형</div>
 					</li>
-					<li>
+					<li onClick={() => setMenuNum(2)}>
 						<img src={textIcon} alt="textIcon" />
 						<div>텍스트</div>
 					</li>
-					<li>
+					<li onClick={() => setMenuNum(3)}>
 						<img src={imageIcon} alt="imageIcon" />
 						<div>이미지</div>
 					</li>
-					<li>
+					<li onClick={() => setMenuNum(4)}>
 						<img src={palleteIcon} alt="palleteIcon" />
 						<div>색상</div>
 					</li>
-					<li>
-						<img src={sizeIcon} alt="sizeIcon" />
-						<div>사이즈</div>
-					</li>
-					<button>저장</button>
+					<Link to="mypage">
+						<button onClick={saveHandler}>저장</button>
+					</Link>
 				</MenuSection>
 			</>
+			{context && (
+				<ContextMenu
+					point={point}
+					canvas={canvas}
+					contextMenuHandler={contextMenuHandler}
+				/>
+			)}
 			<ListBox>
 				{/* <div class="toggleBtnBox">
 					<img className="toggleBtn" src={favicon} alt="btn" />
 				</div> */}
-				<Shapes />
+				{
+					[
+						<Case canvas={canvas} />,
+						<Shapes canvas={canvas} />,
+						<Text canvas={canvas} />,
+						<Image canvas={canvas} />,
+						<Colorpickers canvas={canvas} />,
+					][menuNum]
+				}
 			</ListBox>
 		</CanvasSection>
 	);
-}
+};
 
 export default Canvas;

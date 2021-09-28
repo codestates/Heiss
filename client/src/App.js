@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import axios from "axios";
-import dotenv from "dotenv";
+import { useDispatch, useSelector } from "react-redux";
+import { reviewDatas } from "./redux/modules/review";
 
 import Mainpage from "./page/Mainpage";
 import Makepage from "./page/Makepage";
 import Mypage from "./page/Mypage";
 import Review from "./page/Review";
-
-dotenv.config();
+import Chat from "./Chat";
+import Pay from "./page/Pay";
 
 const GlobalStyles = createGlobalStyle`
 	* {
@@ -22,7 +23,6 @@ const GlobalStyles = createGlobalStyle`
 	}
 
 	body {
-		/* @import url('https://fonts.googleapis.com/earlyaccess/notosanskr.css'); */
 		font-family: "Noto Sans KR", sans-serif !important;
 		/* background-color: #343421; */
 		background-color: #171717;
@@ -49,6 +49,12 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const App = () => {
+	let state = useSelector((state) => state);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(reviewDatas());
+	}, []);
+
 	const getAccessToken = async (authorizationCode, platform) => {
 		const url = process.env.REACT_APP_API_URL + "user/oauth";
 		await axios
@@ -104,6 +110,12 @@ const App = () => {
 				</Route>
 				<Route path="/mypage">
 					<Mypage />
+				</Route>
+				<Route path="/chat">
+					<Chat />
+				</Route>
+				<Route path="/pay">
+					<Pay />
 				</Route>
 				<button onClick={kakaoclick}>kakao</button>
 				<button onClick={naverclick}>naver</button>

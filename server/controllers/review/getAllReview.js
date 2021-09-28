@@ -6,7 +6,6 @@ require("dotenv").config();
 module.exports = async (req, res) => {
 	try {
 		const reviewList = await review.findAll({
-			// required: true,
 			attributes: [
 				"id",
 				"score",
@@ -26,6 +25,7 @@ module.exports = async (req, res) => {
 				},
 			],
 			group: "id",
+			order: [["createdAt", "desc"]],
 		});
 
 		const accessToken = req.cookies.accessToken;

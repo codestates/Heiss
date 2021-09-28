@@ -4,7 +4,11 @@ import axios from "axios";
 import kakao from "../img/카카오.png";
 import naver from "../img/네이버.png";
 import loginSVG from "../img/login.png";
-import config from "../config";
+import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/modules/users";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const SigninSection = styled.form`
 	display: flex;
@@ -141,38 +145,45 @@ const BtnBox = styled.div`
 	}
 `;
 
-const Signin = ({ loginHandler }) => {
+const Signin = (props) => {
 	const [warring, setWarning] = useState(false);
-	const [loginInfo, setLoginInfo] = useState({
-		email: "",
-		password: "",
+	const [Email, setEmail] = useState("");
+	const [Password, setPassword] = useState("");
+	const dispatch = useDispatch();
+
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			password: "",
+		},
+
+		validationSchema: Yup.object({
+			email: Yup.string()
+				.email("올바른 이메일 주소가 아닙니다")
+				.required("이메일을 입력하세요"),
+			password: Yup.string().min(8, "").required("비밀번호를 입력하세요"),
+		}),
+		onSubmit: (values) => {
+			dispatch(loginUser(values));
+			alert(JSON.stringify(values, null, 2));
+		},
 	});
-	const [errorMessage, setErrorMessage] = useState("");
-	const onClickLogin = (key) => (e) => {
-		setLoginInfo({ ...loginInfo, [key]: e.target.value });
-	};
-	const onSignIn = () => {
-		axios
-			.post(`${config.serverUrl}`, loginInfo, {
-				withCredentials: true,
-			})
-			.then((res) => loginHandler(res.data));
-		if (!loginInfo.email || !loginInfo.password) {
-			setErrorMessage("이메일과 비밀번호를 입력하세요");
-			return;
-		}
-	};
+
 	return (
-		<SigninSection>
+		<SigninSection onSubmit={formik.handleSubmit}>
 			<input
+				name="email"
 				type="email"
 				placeholder="이메일을 입력해주세요"
-				onChange={onClickLogin("email")}
+				onChange={formik.handleChange}
+				value={formik.values.email}
 			/>
 			<input
+				name="password"
 				type="password"
 				placeholder="비밀번호를 입력해주세요"
-				onChange={onClickLogin("password")}
+				onChange={formik.handleChange}
+				value={formik.values.password}
 			/>
 			{warring && <div className="warring warPwd">다시 입력해주세요</div>}
 			<BtnBox>
@@ -194,10 +205,10 @@ const Signin = ({ loginHandler }) => {
 				<button className="mobileBtn loginBtn">
 					<img src={loginSVG} alt="loginSVG" />
 				</button>
-				<div className="alert-box">{errorMessage}</div>
+				<div className="alert-box" />
 			</BtnBox>
 		</SigninSection>
 	);
 };
 
-export default Signin;
+export default withRouter(Signin);

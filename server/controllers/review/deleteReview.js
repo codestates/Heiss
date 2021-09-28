@@ -5,11 +5,11 @@ require("dotenv").config();
 module.exports = async (req, res) => {
 	const reviewId = req.params.id;
 	const accessToken = req.cookies.accessToken;
-	const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 	const findReview = await review.findOne({ where: { id: reviewId } });
 	const findUser = findReview.userId;
 
 	try {
+		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 		if (findUser === userInfo.id) {
 			await review.destroy({ where: { id: reviewId } });
 			res.status(200).json({ message: "ok" });

@@ -21,6 +21,7 @@ module.exports = {
 	getCart: require("./cart/getCart"),
 	postCart: require("./cart/postCart"),
 	deleteCart: require("./cart/deleteCart"),
+	paypal: require("./cart/paypal"),
 
 	//* locker
 	getLocker: require("./locker/getLocker"),

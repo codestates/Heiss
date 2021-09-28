@@ -6,6 +6,8 @@ const multer = require("multer");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
+const server = require("http").createServer(app);
+
 const userRouter = require("./route/user");
 const reviewRouter = require("./route/review");
 const cartRouter = require("./route/cart");
@@ -34,8 +36,29 @@ app.get("/", (req, res) => {
 	res.send("hello world~~~");
 });
 
-const PORT = 80;
-const server = app.listen(PORT, () => console.log("서버가 열려따..!"));
-//sequelize.sync({ alter: true }
+//! socket
+const io = require("socket.io")(server, {
+	cors: {
+		origin: ["http://localhost:3000"],
+		credentials: true,
+		// methods: ["GET", "POST"],
+	},
+});
 
-module.exports = server;
+//* app.listen 같은게 on
+io.on("connection", (socket) => {
+	socket.on("online", (userInfo) => {
+		console.log('received: "' + userInfo + '" from client' + socket.id);
+		socket.emit("online", "Ok, i got it, " + socket.id);
+	});
+
+	socket.on("chat", () => {});
+
+	socket.on("disconnect", () => {
+		console.log(socket.id, "연결끊김");
+	});
+});
+
+const PORT = 80;
+server.listen(PORT, () => console.log("서버가 열려따..!"));
+//sequelize.sync({ alter: true }
