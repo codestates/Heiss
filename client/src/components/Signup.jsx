@@ -121,7 +121,7 @@ const Singup = ({ reverseBoo }) => {
 		useFormik({
 			initialValues: {
 				email: "",
-				name: "",
+				userName: "",
 				password: "",
 				passwordConfirm: "",
 				provider: "normal",
@@ -131,8 +131,7 @@ const Singup = ({ reverseBoo }) => {
 					.email("이메일을 정확히 입력하세요")
 					.min(8, "너무 짧습니다.")
 					.required("이메일을 입력하세요"),
-				name: Yup.string()
-					.min(3, "너무 짧습니다.")
+				userName: Yup.string()
 					.max(10, "너무 깁니다.")
 					.required("닉네임을 입력하세요"),
 				password: Yup.string()
@@ -231,14 +230,16 @@ const Singup = ({ reverseBoo }) => {
 							/>
 							{touched.email && errors.email ? <div>{errors.email}</div> : null}
 							<input
-								name="name"
+								name="userName"
 								type="text"
 								placeholder="닉네임을 입력해주세요"
 								onBlur={handleBlur}
 								onChange={handleChange}
-								value={values.name}
+								value={values.username}
 							/>
-							{touched.name && errors.name ? <div>{errors.name}</div> : null}
+							{touched.userName && errors.userName ? (
+								<div>{errors.userName}</div>
+							) : null}
 							<input
 								name="password"
 								type="password"

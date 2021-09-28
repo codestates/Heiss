@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
-	const { email, username, password, provider } = req.body;
+	const { email, userName, password, provider } = req.body;
 	const img = req.file;
 	console.log(img);
 	let profileImg =
@@ -15,6 +15,13 @@ module.exports = async (req, res) => {
 		profileImg = req.file.location;
 	}
 
+	let payload = {
+		userName,
+		email,
+		provider,
+		profileImg,
+		role: "user",
+	};
 	if (user) {
 		//email 중복
 		res.status(409).send();
@@ -26,21 +33,12 @@ module.exports = async (req, res) => {
 				} else {
 					model.users
 						.create({
-							username,
-							email,
-							provider,
+							...payload,
 							password: hash,
-							profileImg,
 						})
 						.then(async (result) => {
 							console.log(result);
-							let payload = {
-								id: result.id,
-								username,
-								email,
-								provider,
-								profileImg,
-							};
+							payload.id = result.id;
 							const accessToken = await jwt.sign(
 								payload,
 								process.env.ACCESS_SECRET
