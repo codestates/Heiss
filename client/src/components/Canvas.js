@@ -100,6 +100,11 @@ const Canvas = () => {
 	const [menuNum, setMenuNum] = useState(0); // menu 리스트
 	const [context, setContext] = useState(false); // context menu 토글
 	const [point, setPoint] = useState({ x: 0, y: 0 });
+	const [caseInfo, setCaseInfo] = useState({
+		phoneId: 1,
+		price: 1000,
+		setting: "갤럭시",
+	});
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
@@ -164,22 +169,33 @@ const Canvas = () => {
 		setContext(!context);
 	};
 
+	let base64toFile = (base64Img) => {
+		let atob = require("atob");
+		let bstr = atob(base64Img.split(",")[1]);
+		let n = bstr.length;
+		let u8arr = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		let file = new File([u8arr], "png", { type: "image/png" });
+		return file;
+	};
+
 	const saveHandler = async () => {
 		const imgdata = canvas.toDataURL("image/png", 1.0);
+		let file = base64toFile(imgdata);
+
+		let formdata = new FormData();
+		formdata.append("picture", file);
+		for (let key in caseInfo) {
+			formdata.append(key, caseInfo[key]);
+		}
+
 		await axios
-			.post(
-				`${process.env.REACT_APP_API_URL}locker`,
-				{
-					userId: 2,
-					phone: 1,
-					price: 1000,
-					img: imgdata,
-					setting: "갤럭시",
-				},
-				{
-					withCredentials: true,
-				}
-			)
+			.post(`${process.env.REACT_APP_API_URL}locker`, formdata, {
+				withCredentials: true,
+				header: { "Content-Type": "multipart/form-data" },
+			})
 			.then((res) => console.log(res));
 	};
 

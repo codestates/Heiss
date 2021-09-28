@@ -6,6 +6,7 @@ import reviewDatas from "../redux/modules/review";
 import { LeftCircleFilled } from "@ant-design/icons";
 import { RightCircleFilled } from "@ant-design/icons";
 import { StarTwoTone } from "@ant-design/icons";
+import { getUserInfo } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const ReviewModalSection = styled.div`
@@ -88,7 +89,7 @@ const ReviewModalWrite = styled.div`
 	width: 50%;
 	margin-left: 1rem;
 	color: #ffffe7;
-	
+
 	@media ${(props) => props.theme.tablet} {
 		height: 20%;
 		width: 100%;
@@ -163,8 +164,8 @@ const ReviewModalWrite = styled.div`
 	}
 	.phone {
 		position: absolute;
-		left: 0.8rem;
-		top: 8rem;
+		left: 3%;
+		top: 16%;
 		color: #a4a4a4;
 		font-weight: bold;
 	}
@@ -225,6 +226,7 @@ const BtnBox = styled.div`
 `;
 
 const ReviewModal = ({ dataId, reverseBoo }) => {
+	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const [data, setData] = useState(null);
 	const [color, setColor] = useState([]);
@@ -238,10 +240,12 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 			setColor(colorChange(el.data.data.score - 1));
 			setImgLength(el.data.data.sources.length);
 		});
+		dispatch(getUserInfo());
+		console.log("리뷰보기", user);
 	}, []);
 
 	const reviewDelete = (id) => {
-		axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then((el) => {
+		axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then(() => {
 			alert("리뷰가 삭제되었습니다!");
 			dispatch(reviewDatas());
 			reverseBoo();
