@@ -26,8 +26,7 @@ const ReviewBox = styled.div`
 
 const Review = () => {
 	const review = useSelector((state) => state.review.reviewAll);
-	console.log("review", review);
-	const dispatch = useDispatch();
+
 	return (
 		<ReviewSection>
 			<Nav reviewBtn={true} />
