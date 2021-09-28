@@ -208,6 +208,10 @@ const Canvas = () => {
 						<img src={palleteIcon} alt="palleteIcon" />
 						<div>색상</div>
 					</li>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 04414a7e027f5aea4b24ecedaa8c9a28ad2fc377
 					{/* <Link to="mypage"> */}
 					<button onClick={saveHandler}>저장</button>
 					{/* </Link> */}

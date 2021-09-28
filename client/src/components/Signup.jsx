@@ -14,21 +14,37 @@ const SignupSection = styled.form`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 35vh;
+	height: 45vh;
 	width: 100%;
 	border: 3px solid #ffffe7;
 	padding: 3rem;
 	box-sizing: border-box;
 	margin: 0;
 	background-color: #efefd2;
+	text-align: left;
+
+	.userWrap {
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+
+		div:nth-child(1) {
+			width: 35%;
+		}
+
+		div:nth-child(2) {
+			width: 55%;
+		}
+	}
 
 	@media ${(props) => props.theme.tablet} {
 		height: 50vh;
 	}
 
 	input {
-		width: 30vw;
-		margin-bottom: 13px;
+		width: 20vw;
+		margin-top: 14px;
+		margin-bottom: 6px;
 		border: none;
 		background: #2c2c2c;
 		border-radius: 1vh;
@@ -66,22 +82,46 @@ const SignupSection = styled.form`
 	}
 `;
 
+const ImgDiv = styled.div`
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border: 4px solid #f47676;
+	height: 14rem;
+	border-radius: 50%;
+	overflow: hidden;
+	&:hover {
+		background-color: #f7caca;
+		border: 4px dashed #f47676;
+	}
+	> .img {
+		width: 100%;
+		height: 100%;
+	}
+	> input {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		outline: none;
+		opacity: 0;
+		cursor: pointer;
+	}
+`;
+
 const Singup = ({ reverseBoo }) => {
 	const [auth, setAuth] = useState(true);
-	const [Email, setEmail] = useState("");
-	const [Password, setPassword] = useState("");
-	const [Name, setName] = useState("");
-	const [ConfirmPasword, setConfirmPasword] = useState("");
 	const [hash, setHash] = useState("");
 	const [userCode, setUserCode] = useState("");
-	const history = useHistory();
+	const [img, setImg] = useState({});
 	const dispatch = useDispatch();
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
 		useFormik({
 			initialValues: {
 				email: "",
-				name: "",
+				userName: "",
 				password: "",
 				passwordConfirm: "",
 				provider: "normal",
@@ -91,8 +131,7 @@ const Singup = ({ reverseBoo }) => {
 					.email("이메일을 정확히 입력하세요")
 					.min(8, "너무 짧습니다.")
 					.required("이메일을 입력하세요"),
-				name: Yup.string()
-					.min(3, "너무 짧습니다.")
+				userName: Yup.string()
 					.max(10, "너무 깁니다.")
 					.required("닉네임을 입력하세요"),
 				password: Yup.string()
@@ -104,8 +143,7 @@ const Singup = ({ reverseBoo }) => {
 			}),
 			onSubmit: (values) => {
 				console.log(values);
-				// dispatch(registerUser(values));
-				// alert(JSON.stringify(values, null, 2));
+				signup();
 			},
 		});
 
@@ -116,8 +154,15 @@ const Singup = ({ reverseBoo }) => {
 				hashedcode: hash,
 			})
 			.then(() => {
+				const formData = new FormData();
+				for (let el in values) {
+					formData.append(el, values[el]);
+				}
+				formData.append("picture", img.file);
 				axios
-					.post(`${process.env.REACT_APP_API_URL}user/signup`, values)
+					.post(`${process.env.REACT_APP_API_URL}user/signup`, formData, {
+						header: { "Content-Type": "multipart/form-data" },
+					})
 					.then(() => {
 						alert("회원가입이 완료되었습니다!");
 						reverseBoo();
@@ -141,51 +186,85 @@ const Singup = ({ reverseBoo }) => {
 		setUserCode(e.target.value);
 	};
 
+	const profileImg = (e) => {
+		let reader = new FileReader();
+		let file = e.target.files[0];
+		reader.onload = () => {
+			console.log(reader);
+			setImg({
+				file: file,
+				imagePreviewUrl: reader.result,
+			});
+		};
+		reader.readAsDataURL(file);
+	};
+
 	return (
-		<SignupSection onSubmit={(e) => e.preventDefault()}>
+		<SignupSection onSubmit={handleSubmit}>
 			{auth ? (
 				<>
-					<input
-						name="email"
-						type="text"
-						placeholder="이메일을 입력해주세요"
-						onBlur={handleBlur}
-						onChange={handleChange}
-						value={values.email}
-					/>
-					{touched.email && errors.email ? <div>{errors.email}</div> : null}
-					<input
-						name="name"
-						type="text"
-						placeholder="닉네임을 입력해주세요"
-						onBlur={handleBlur}
-						onChange={handleChange}
-						value={values.name}
-					/>
-					{touched.name && errors.name ? <div>{errors.name}</div> : null}
-					<input
-						name="password"
-						type="password"
-						placeholder="비밀번호를 입력해주세요"
-						onBlur={handleBlur}
-						onChange={handleChange}
-						value={values.password}
-					/>
-					{touched.password && errors.password ? (
-						<div>{errors.password}</div>
-					) : null}
-					<input
-						name="passwordConfirm"
-						type="password"
-						placeholder="비밀번호를 한번 더 입력해주세요"
-						onBlur={handleBlur}
-						onChange={handleChange}
-						value={values.passwordConfirm}
-					/>
-					{touched.passwordConfirm && errors.passwordConfirm ? (
-						<div>{errors.passwordConfirm}</div>
-					) : null}
-					<button onClick={signup}>회원가입</button>
+					<div className="userWrap">
+						<ImgDiv>
+							<input
+								type="file"
+								name="filename"
+								accept="image/*"
+								onChange={(e) => profileImg(e)}
+							/>
+							<img
+								className="img"
+								src={
+									img.imagePreviewUrl ??
+									"http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg"
+								}
+							/>
+						</ImgDiv>
+						<div>
+							<input
+								name="email"
+								type="text"
+								placeholder="이메일을 입력해주세요"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.email}
+							/>
+							{touched.email && errors.email ? <div>{errors.email}</div> : null}
+							<input
+								name="userName"
+								type="text"
+								placeholder="닉네임을 입력해주세요"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.username}
+							/>
+							{touched.userName && errors.userName ? (
+								<div>{errors.userName}</div>
+							) : null}
+							<input
+								name="password"
+								type="password"
+								placeholder="비밀번호를 입력해주세요"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.password}
+							/>
+							{touched.password && errors.password ? (
+								<div>{errors.password}</div>
+							) : null}
+							<input
+								name="passwordConfirm"
+								type="password"
+								placeholder="비밀번호를 한번 더 입력해주세요"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.passwordConfirm}
+							/>
+							{touched.passwordConfirm && errors.passwordConfirm ? (
+								<div>{errors.passwordConfirm}</div>
+							) : null}
+						</div>
+					</div>
+					<button type="submit">회원가입</button>
 				</>
 			) : (
 				<>

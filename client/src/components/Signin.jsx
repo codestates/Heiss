@@ -173,6 +173,7 @@ const Signin = ({ reverseBoo }) => {
 				await axios.post(`${process.env.REACT_APP_API_URL}user/signin`, values);
 				alert("로그인이 완료되었습니다.");
 				reverseBoo();
+				window.location.replace("/");
 				dispatch(getUserInfo());
 				console.log(values);
 			},
