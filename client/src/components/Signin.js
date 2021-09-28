@@ -166,35 +166,15 @@ const Signin = () => {
 			alert(JSON.stringify(values, null, 2));
 		},
 	});
-	// console.log(loginUser÷, "dd");
 	const validate = (values) => {
 		const errors = {}; //에러를 반환할 빈 객체
-
-		//firstName 값이 없다면
-		if (!values.firstName) {
-			errors.firstName = "Required"; //firstName키에 필수(Required)라는 문자열 저장
-		}
-		//firstName 값의 길이가 15보다 크면
-		else if (values.firstName.length > 15) {
-			errors.firstName = "Must be 15 characters or less"; //15글자 이하여야된다는 문자열 저장
-		}
-
-		//lastName 값이 없다면
-		if (!values.lastName) {
-			errors.lastName = "Required"; //lastName키에 필수(Required)문자열 저장
-		}
-		//lastName 값의 길이가 20보다 크면
-		else if (values.lastName.length > 20) {
-			errors.lastName = "Must be 20 characters or less"; //20글자 이하여야된다는 문자열 저장
-		}
-
 		//email 값이 없다면
 		if (!values.email) {
-			errors.email = "Required";
+			errors.email = "이메일을 작성해주세요";
 		}
 		//email 값이 정규 표현식을 만족하지 못하면
 		else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-			errors.email = "Invalid email address"; //잘못된 이메일 형식
+			errors.email = "이메일형식에 맞게 작성해주세요"; //잘못된 이메일 형식
 		}
 
 		return errors;
@@ -209,6 +189,9 @@ const Signin = () => {
 				onChange={formik.handleChange}
 				value={formik.values.email}
 			/>
+			{formik.touched.email && formik.errors.email ? (
+				<div>{formik.errors.email}</div>
+			) : null}
 			<input
 				name="password"
 				type="password"
