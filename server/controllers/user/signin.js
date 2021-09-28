@@ -9,11 +9,11 @@ module.exports = async (req, res) => {
 
 	try {
 		if (!findUser) {
-			res.status(404).json({ message: "No matching users" });
+			res.status(200).json({ message: "No matching users" });
 		} else if (findUser) {
 			let check = await bcrypt.compare(password, findUser.dataValues.password);
 			if (!check) {
-				return res.status(404).json({ message: "password err" });
+				return res.status(200).json({ message: "password err" });
 			} else if (check) {
 				delete findUser.dataValues.password;
 				const accessToken = await jwt.sign(
