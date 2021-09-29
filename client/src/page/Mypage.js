@@ -1,11 +1,19 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
-import Thumbnail from "../components/Thumbnail";
+import { Redirect } from "react-router";
+import { useSelector } from "react-redux";
+import axios from "axios";
+
+// 컴포넌트
 import Nav from "./Nav";
-import profile from "../img/profile.png";
+import Thumbnail from "../components/Thumbnail";
 import Signdel from "../modal/Signdel";
 import Pass from "../modal/Pass";
+import Locker from "../components/Locker";
+
+// 이미지
+import profile from "../img/profile.png";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -274,6 +282,7 @@ const passwordModal = {
 };
 
 const Mypage = () => {
+	const user = useSelector((state) => state.user); // 로그인 상태
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
 	const [scrollToShop, setScrollToShop] = useState(0);
@@ -282,6 +291,8 @@ const Mypage = () => {
 	const [warr, setWarr] = useState(false);
 	const [password, setPassword] = useState("");
 	const [disabled, setDisabled] = useState(false);
+	const [locker, setLocker] = useState([]); // get으로 받아올 locker
+
 	const handleChange = ({ target: { value } }) => setPassword(value);
 
 	const handleSubmit = async (e) => {
@@ -295,21 +306,6 @@ const Mypage = () => {
 		}
 		setDisabled(false);
 	};
-	const sample = [
-		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/05/25/20/14/holland-iris-5220407__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/10/08/17/39/waves-5638587__340.jpg",
-		"https://cdn.pixabay.com/photo/2019/01/30/11/17/zebra-3964360__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/01/13/37/cars-5970663__340.png",
-		"https://cdn.pixabay.com/photo/2019/06/05/10/34/mimosa-4253396__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/08/04/14/42/sky-5463015__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/01/09/01/00/the-eye-on-the-greek-4751572__340.png",
-		"https://cdn.pixabay.com/photo/2021/01/30/12/19/couple-5963678__340.png",
-		"https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
-	];
 
 	const reverseBoo = () => {
 		setBoo(!boo);
@@ -338,6 +334,7 @@ const Mypage = () => {
 				.scrollIntoView({ behavior: "smooth" })
 		);
 	}, []);
+
 	const profileImg = (e) => {
 		let reader = new FileReader();
 		let file = e.target.files[0];
@@ -351,6 +348,14 @@ const Mypage = () => {
 		reader.readAsDataURL(file);
 	};
 
+	useEffect(() => {
+		axios
+			.get(`${process.env.REACT_APP_API_URL}locker`)
+			.then((res) => res.data)
+			.then((data) => setLocker(data.data));
+		// .then((res) => setLocker(res.data.data));
+	}, []);
+
 	return (
 		<MypageSection>
 			<Modal
@@ -361,6 +366,7 @@ const Mypage = () => {
 			>
 				<Signdel reverseBoo={reverseBoo} />
 			</Modal>
+
 			<Nav />
 			<MypageBox>
 				<CategoryBox>
@@ -384,14 +390,14 @@ const Mypage = () => {
 					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>
-							{/* {sample.map((data, key) => (
-								<Thumbnail
+							{locker.map((data, key) => (
+								<Locker
 									data={data}
 									key={key}
 									shotBtn={true}
 									liked={data.liked}
 								/>
-							))} */}
+							))}
 						</SaveBox>
 					</li>
 					<li className="put-userinfo">
@@ -408,10 +414,8 @@ const Mypage = () => {
 									/>
 									<img
 										className="img"
-										src={
-											img.imagePreviewUrl ??
-											"http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg"
-										}
+										src={img.imagePreviewUrl ?? profile}
+										alt="profile"
 									/>
 								</ImgDiv>
 							</div>

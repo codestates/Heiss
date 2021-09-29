@@ -97,4 +97,56 @@ export const listBox = css`
 	}
 `;
 
+// 리뷰 및 보관함 컴포넌트 스타일
+export const ThumbnailSections = css`
+	display: flex;
+	flex-direction: column;
+	min-height: 300px;
+	height: 300px;
+	min-width: 220px;
+	width: 220px;
+	margin: 1rem;
+	position: relative;
+	cursor: pointer;
+
+	img {
+		width: 100%;
+		height: 100%;
+		border-radius: 2vh;
+	}
+
+	&:hover {
+		.hover-thumb {
+			display: flex;
+		}
+	}
+`;
+
+export const HoverThumbs = css`
+	display: none;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	/* background: rgba(128, 128, 128, 0.5); */
+	border-radius: 2vh;
+	z-index: 2;
+
+	.heart {
+		height: 2rem;
+		margin: 1rem;
+		margin-left: 5rem;
+		z-index: 2;
+	}
+`;
+
+export const BgnHovers = css`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(128, 128, 128, 0.5);
+	border-radius: 2vh;
+`;
+
 export default theme;

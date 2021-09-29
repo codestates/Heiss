@@ -381,7 +381,7 @@ const ReviewWriteModal = ({ closeModal }) => {
 									accept="image/*"
 									onChange={(e) => uploadImg(e)}
 								/>
-								<h3>드레그나 클릭을 통해 케이스 사진을 올려주세요!</h3>
+								<h3>드래그나 클릭을 통해 케이스 사진을 올려주세요!</h3>
 							</ImgDiv>
 						)}
 					</WriteSection>

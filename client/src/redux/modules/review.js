@@ -45,14 +45,12 @@ export const reviewReducer = (state = initialState, action) => {
 				...state,
 				reviewAll: action.payload,
 			};
-			break;
 
 		case HANDLE_LOGIN_MODAL:
 			return {
 				...state,
 				loginModal: !state.loginModal,
 			};
-			break;
 
 		case HANDLE_REVIEW_MODAL:
 			return {

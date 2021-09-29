@@ -196,7 +196,7 @@ const Singup = ({ reverseBoo }) => {
 
 	return (
 		<SignupSection onSubmit={handleSubmit}>
-			{!auth ? (
+			{auth ? (
 				<>
 					<div className="userWrap">
 						<ImgDiv>
