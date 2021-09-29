@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 	const { reviewId } = req.body;
 	const accessToken = req.cookies.accessToken;
 	if (!accessToken) {
-		res.status(401).json({ message: "please log in" });
+		return res.status(401).json({ message: "please log in" });
 	}
 	const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 	try {
