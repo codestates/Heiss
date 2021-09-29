@@ -6,6 +6,8 @@ import Nav from "./Nav";
 import profile from "../img/profile.png";
 import Signdel from "../modal/Signdel";
 import Pass from "../modal/Pass";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -282,19 +284,29 @@ const Mypage = () => {
 	const [warr, setWarr] = useState(false);
 	const [password, setPassword] = useState("");
 	const [disabled, setDisabled] = useState(false);
-	const handleChange = ({ target: { value } }) => setPassword(value);
 
-	const handleSubmit = async (e) => {
-		setDisabled(true);
-		e.preventDefault();
-		await new Promise((r) => setTimeout(r, 1000));
-		if (password.length < 8) {
-			alert("8자의 이상의 비밀번호를 사용하셔야 합니다.");
-		} else {
-			alert("변경되었습니다.");
-		}
-		setDisabled(false);
-	};
+	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
+		useFormik({
+			initialValues: {
+				userName: "",
+				password: "",
+				passwordConfirm: "",
+			},
+			validationSchema: Yup.object({
+				userName: Yup.string()
+					.max(10, "너무 깁니다.")
+					.required("닉네임을 입력하세요"),
+				password: Yup.string()
+					.min(8, "너무 짧습니다.")
+					.required("비밀번호를 입력하세요"),
+				passwordConfirm: Yup.string()
+					.oneOf([Yup.ref("password"), null], "패스워드가 일치하지 않습니다.")
+					.required("비밀번호를 입력하세요"),
+			}),
+			onSubmit: (values) => {
+				console.log(values);
+			},
+		});
 	const sample = [
 		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
 		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
@@ -417,21 +429,38 @@ const Mypage = () => {
 							</div>
 							<form onSubmit={handleSubmit}>
 								<input
-									type="password"
 									name="password"
+									type="password"
 									placeholder="변경하실 비밀번호를 입력해주세요"
+									onBlur={handleBlur}
 									onChange={handleChange}
+									value={values.password}
 								/>
+								{touched.password && errors.password ? (
+									<div>{errors.password}</div>
+								) : null}
 								<input
+									name="passwordConfirm"
 									type="password"
-									name="password"
 									placeholder="변경하실 비밀번호를 한번 더 입력해주세요"
+									onBlur={handleBlur}
 									onChange={handleChange}
+									value={values.passwordConfirm}
 								/>
+								{touched.passwordConfirm && errors.passwordConfirm ? (
+									<div>{errors.passwordConfirm}</div>
+								) : null}
 								<input
+									name="userName"
 									type="text"
-									placeholder="변경하실 닉네임을 입력해주세요"
+									placeholder="닉네임을 입력해주세요"
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.username}
 								/>
+								{touched.userName && errors.userName ? (
+									<div>{errors.userName}</div>
+								) : null}
 								<div className="btnBox" style={{ display: "flex" }}>
 									<button
 										type="submit"
