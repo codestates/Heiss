@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
 import { getUserInfo, getLogout } from "../redux/modules/users";
+import { handleLoginModal } from "../redux/modules/review";
 
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
@@ -133,6 +134,7 @@ const reviewModal = {
 
 const Nav = ({ reviewBtn }) => {
 	const user = useSelector((state) => state.user);
+	const modal = useSelector((state) => state.review);
 	const [boo, setBoo] = useState(false);
 	const [review, setReview] = useState(false);
 	const dispatch = useDispatch();
@@ -142,7 +144,7 @@ const Nav = ({ reviewBtn }) => {
 	}, []);
 
 	const reverseBoo = () => {
-		setBoo(!boo);
+		dispatch(handleLoginModal());
 	};
 
 	const reverseReview = () => {
@@ -161,7 +163,7 @@ const Nav = ({ reviewBtn }) => {
 	return (
 		<NavSection>
 			<Modal
-				isOpen={boo}
+				isOpen={modal.loginModal}
 				style={signModal}
 				onRequestClose={() => reverseBoo()}
 				ariaHideApp={false}

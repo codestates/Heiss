@@ -181,7 +181,8 @@ const Signin = ({ reverseBoo }) => {
 				} else {
 					alert("로그인이 완료되었습니다.");
 					reverseBoo();
-					window.location.replace("/");
+					let url = window.location.pathname;
+					window.location.replace(url);
 					dispatch(getUserInfo());
 				}
 			},

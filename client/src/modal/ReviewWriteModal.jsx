@@ -217,6 +217,7 @@ const Select = styled.div`
 
 	> ul {
 		position: absolute;
+		z-index: 1;
 		top: 2rem;
 		left: 0;
 		width: 100%;
@@ -235,7 +236,7 @@ const ReviewWriteModal = ({ closeModal }) => {
 	const dispatch = useDispatch();
 
 	const [review, setReview] = useState({
-		caseId: 1, // 나중에 0으로 변경
+		caseId: 4, // 나중에 0으로 변경
 		title: "",
 		desc: "",
 		score: 0,
