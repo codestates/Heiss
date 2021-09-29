@@ -40,3 +40,42 @@
 
 ## DB Schema
 ![DB Schema](https://cdn.discordapp.com/attachments/836100670565908520/891314826360533032/unknown.png)
+
+## TEAM 
+
+<details>
+<summary>이성훈</summary>
+<div markdown="1">       
+
+* position : Front-End
+* contribution 
+</div>
+</details>
+
+<details>
+<summary>장석진</summary>
+<div markdown="1">       
+
+* position : Front-End
+* contribution 
+</div>
+</details>
+
+<details>
+<summary>방예은</summary>
+<div markdown="1">       
+
+* position : Back-End
+* contribution 
+</div>
+</details>
+
+<details>
+<summary>윤성민</summary>
+<div markdown="1">   
+    
+* position : Back-End
+* contribution 
+
+</div>
+</details>
