@@ -3,9 +3,9 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import Thumbnail from "../components/Thumbnail";
 import Nav from "./Nav";
-
 import profile from "../img/profile.png";
 import Signdel from "../modal/Signdel";
+import Pass from "../modal/Pass";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -176,6 +176,11 @@ const PutUserInfoBox = styled.div`
 			margin-left: 2rem;
 			color: #ffffe7;
 		}
+		.passwordUser {
+			background: #f47676;
+			margin-left: 2rem;
+			color: #ffffe7;
+		}
 		@media ${(props) => props.theme.tablet} {
 			flex-direction: column;
 
@@ -183,6 +188,33 @@ const PutUserInfoBox = styled.div`
 				margin-left: 0;
 			}
 		}
+	}
+`;
+const ImgDiv = styled.div`
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border: 4px solid #f47676;
+	height: 14rem;
+	border-radius: 50%;
+	overflow: hidden;
+	&:hover {
+		background-color: #f7caca;
+		border: 4px dashed #f47676;
+	}
+	> .img {
+		width: 100%;
+		height: 100%;
+	}
+	> input {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		outline: none;
+		opacity: 0;
+		cursor: pointer;
 	}
 `;
 
@@ -214,13 +246,55 @@ const signdelModal = {
 	},
 };
 
+const passwordModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		// right: 0,
+		// bottom: 0,
+		// backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 2,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		// border: "1px solid #0f0d00",
+		// background: "#0f0d00",
+		margin: "0 auto",
+		overflow: "auto",
+		height: "30vh",
+		width: "40vw",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "0.1rem",
+		zIndex: 2,
+	},
+};
+
 const Mypage = () => {
 	const [boo, setBoo] = useState(false);
-
+	const [img, setImg] = useState({});
 	const [scrollToShop, setScrollToShop] = useState(0);
 	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
+	const [warr, setWarr] = useState(false);
+	const [password, setPassword] = useState("");
+	const [disabled, setDisabled] = useState(false);
+	const handleChange = ({ target: { value } }) => setPassword(value);
 
+	const handleSubmit = async (e) => {
+		setDisabled(true);
+		e.preventDefault();
+		await new Promise((r) => setTimeout(r, 1000));
+		if (password.length < 8) {
+			alert("8자의 이상의 비밀번호를 사용하셔야 합니다.");
+		} else {
+			alert("변경되었습니다.");
+		}
+		setDisabled(false);
+	};
 	const sample = [
 		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
 		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
@@ -239,6 +313,10 @@ const Mypage = () => {
 
 	const reverseBoo = () => {
 		setBoo(!boo);
+	};
+
+	const reversePassword = () => {
+		setPassword(!password);
 	};
 
 	const handleToShop = useCallback(() => {
@@ -260,6 +338,18 @@ const Mypage = () => {
 				.scrollIntoView({ behavior: "smooth" })
 		);
 	}, []);
+	const profileImg = (e) => {
+		let reader = new FileReader();
+		let file = e.target.files[0];
+		reader.onload = () => {
+			console.log(reader);
+			setImg({
+				file: file,
+				imagePreviewUrl: reader.result,
+			});
+		};
+		reader.readAsDataURL(file);
+	};
 
 	return (
 		<MypageSection>
@@ -283,6 +373,7 @@ const Mypage = () => {
 						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
 							보관함
 						</div>
+
 						<div value={scrollToPutUserinfo} onClick={handleToPutUserinfo}>
 							회원정보수정
 						</div>
@@ -305,22 +396,55 @@ const Mypage = () => {
 					</li>
 					<li className="put-userinfo">
 						<div className="title">회원정보수정</div>
+
 						<PutUserInfoBox>
-							<input
-								type="password"
-								placeholder="변경하실 비밀번호를 입력해주세요"
-							/>
-							<input
-								type="password"
-								placeholder="변경하실 비밀번호를 한번 더 입력해주세요"
-							/>
-							<input type="text" placeholder="변경하실 닉네임을 입력해주세요" />
-							<div className="btnBox" style={{ display: "flex" }}>
-								<button>변경</button>
-								<button className="delUser" onClick={reverseBoo}>
-									회원탈퇴
-								</button>
+							<div>
+								<ImgDiv>
+									<input
+										type="file"
+										name="filename"
+										accept="image/*"
+										onChange={(e) => profileImg(e)}
+									/>
+									<img
+										className="img"
+										src={
+											img.imagePreviewUrl ??
+											"http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg"
+										}
+									/>
+								</ImgDiv>
 							</div>
+							<form onSubmit={handleSubmit}>
+								<input
+									type="password"
+									name="password"
+									placeholder="변경하실 비밀번호를 입력해주세요"
+									onChange={handleChange}
+								/>
+								<input
+									type="password"
+									name="password"
+									placeholder="변경하실 비밀번호를 한번 더 입력해주세요"
+									onChange={handleChange}
+								/>
+								<input
+									type="text"
+									placeholder="변경하실 닉네임을 입력해주세요"
+								/>
+								<div className="btnBox" style={{ display: "flex" }}>
+									<button
+										type="submit"
+										className="btn"
+										onClick={reversePassword}
+									>
+										비밀번호 변경
+									</button>
+									<button className="delUser" onClick={reverseBoo}>
+										회원탈퇴
+									</button>
+								</div>
+							</form>
 						</PutUserInfoBox>
 					</li>
 				</MainSection>
