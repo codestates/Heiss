@@ -1,0 +1,42 @@
+# Heiss
+
+![로고](https://user-images.githubusercontent.com/68473415/132611328-7638a5ed-2523-4ce1-a03a-dd7d9919c37c.png)
+
+## 프로젝트 소개
+내가 마음에 드는 케이스를 친구가 사용해서 구매하지 못한 경험이 있으셨나요?
+나만의 개성, 특별함이 좋아서 시중에 판매하지 않는다 생각하고 구매했다가 길거리에서 같은 케이스를 보면 기분이 안 좋은적이 있으셨나요?
+이쁘고 개성있는 케이스들이 많다고 생각하시나요?
+
+맞습니다..
+하지만, 여러분이 생각한 멋진 케이스중에서도 더 개성있는 케이스를 만들 수 있습니다.
+반려동물사진, 커플사진, 이모지, 텍스트, 색상부터 도형까지 내 핸드폰 케이스안에서 작은 디자이너가 되어보세요!
+하나뿐인 나만의 케이스 하이스에서는 다 가능합니다!
+
+
+## Deployment Architecture
+![](https://even-cayenne-f0c.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F1b883633-7c54-4ae6-8d42-356617949021%2FUntitled.png?table=block&id=be305410-190f-489d-af9e-2fee4c091151&spaceId=a7c83d4e-9c0f-4531-9046-057086ebca37&width=2840&userId=&cache=v2)
+
+### Front-end Stack
+- HTML
+- CSS
+- JavaScript
+- Styled Component
+- React
+- Axios
+- Redux
+- hooks
+- Router
+- Fabric
+
+### Back-end Stack
+- Mysql
+- RDS
+- Sequelize
+- Nodejs
+- express
+- JWT
+- oAuth2.0
+- multer
+
+## DB Schema
+![DB Schema](https://cdn.discordapp.com/attachments/836100670565908520/891314826360533032/unknown.png)
