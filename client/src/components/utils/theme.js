@@ -68,8 +68,8 @@ export const listBox = css`
 		@media ${(props) => props.theme.tablet} {
 			width: 6rem;
 			height: 6rem;
-			min-width: 4rem;
-			min-height: 4rem;
+			min-width: 6rem;
+			min-height: 6rem;
 			font-size: 1rem;
 		}
 

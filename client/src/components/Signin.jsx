@@ -22,7 +22,7 @@ const SigninSection = styled.form`
 	box-sizing: border-box;
 	border: 3px solid #f47676;
 	margin: 0;
-	background-color: #f3cdd4;
+	/* background-color: #f3cdd4; */
 
 	@media ${(props) => props.theme.tablet} {
 		height: 40vh;
