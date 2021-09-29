@@ -12,6 +12,19 @@ export default function Paypal() {
 						intent: "CAPTURE",
 						purchase_units: [
 							{
+								shipping: {
+									name: {
+										full_name: "given user name",
+									},
+									address: {
+										address_line_1: "given address 1",
+										address_line_2: "given address 2",
+										admin_area_2: "San Jose",
+										admin_area_1: "CA",
+										postal_code: "95131",
+										country_code: "US",
+									},
+								},
 								description: "my case",
 								amount: {
 									currency_code: "CAD",
@@ -24,9 +37,8 @@ export default function Paypal() {
 				onApprove: async (data, actions) => {
 					const order = await actions.order.capture();
 					//서버에 물건정보, 유저정보 전송
-					axios
-						.post("http://localhost:80/cart/paypal")
-						.then((response) => console.log(response));
+					const url = process.env.REACT_APP_API_URL + "cart/paypal";
+					axios.post(url).then((response) => console.log(response));
 					console.log(order);
 				},
 				onError: (err) => {
