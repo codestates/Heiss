@@ -4,6 +4,7 @@ import axios from "axios";
 const GET_REVIEW = "GET_REVIEW";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
 const HANDLE_REVIEW_MODAL = "HANDLE_REVIEW_MODAL";
+const GET_CANVAS = "GET_CANVAS";
 
 // action
 export const reviewDatas = () => async (dispatch) => {
@@ -30,11 +31,19 @@ export const handleLoginModal = () => {
 	};
 };
 
+export const getCanvas = (data) => {
+	return {
+		type: GET_CANVAS,
+		payload: data,
+	};
+};
+
 // initialState
 const initialState = {
 	reviewAll: [],
 	reviewModal: false,
 	loginModal: false,
+	canvasdata: "",
 };
 
 // reducer
@@ -56,6 +65,12 @@ export const reviewReducer = (state = initialState, action) => {
 			return {
 				state,
 				reviewModal: !state.reviewModal,
+			};
+
+		case GET_CANVAS:
+			return {
+				...state,
+				canvasdata: action.payload,
 			};
 
 		default:

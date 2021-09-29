@@ -7,7 +7,6 @@ import axios from "axios";
 
 // 컴포넌트
 import Nav from "./Nav";
-import Thumbnail from "../components/Thumbnail";
 import Signdel from "../modal/Signdel";
 import Pass from "../modal/Pass";
 import Locker from "../components/Locker";
@@ -282,13 +281,14 @@ const passwordModal = {
 };
 
 const Mypage = () => {
-	const user = useSelector((state) => state.user); // 로그인 상태
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
+
+	// 스크롤 이벤트 관리 상태 변수
 	const [scrollToShop, setScrollToShop] = useState(0);
 	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
-	const [warr, setWarr] = useState(false);
+
 	const [password, setPassword] = useState("");
 	const [disabled, setDisabled] = useState(false);
 	const [locker, setLocker] = useState([]); // get으로 받아올 locker
@@ -353,7 +353,6 @@ const Mypage = () => {
 			.get(`${process.env.REACT_APP_API_URL}locker`)
 			.then((res) => res.data)
 			.then((data) => setLocker(data.data));
-		// .then((res) => setLocker(res.data.data));
 	}, []);
 
 	return (

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { flexCenter } from "../components/utils/theme";
-import { review } from "../redux/modules/review";
+import { flexCenter, color } from "../components/utils/theme";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -15,13 +14,16 @@ import video from "../video/mainpage.mp4";
 import logo from "../img/heiss.svg";
 
 // gif
-import gif1 from "../img/makeSample.gif";
+import gif1 from "../img/gif1.gif";
+import gif2 from "../img/gif2.gif";
+import gif3 from "../img/gif3.gif";
 
 const MainpageSection = styled.div`
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
 	overflow: auto;
+	overflow-x: hidden;
 	&::-webkit-scrollbar {
 		display: none;
 	}
@@ -34,9 +36,7 @@ const MainpageBoxFirst = styled.ul`
 		height: 100vh;
 		background: #343421;
 		&:nth-child(1) {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			${flexCenter}
 			background: none;
 		}
 		&:nth-child(2n) {
@@ -57,12 +57,16 @@ const MainpageBoxFirst = styled.ul`
 			}
 		}
 
-		@media ${(props) => props.theme.mobileL} {
+		@media ${(props) => props.theme.tablet} {
 			flex-direction: column;
 
 			&:last-child {
 				flex-direction: column-reverse;
 			}
+		}
+
+		.giphy-embed {
+			margin: 1rem;
 		}
 	}
 
@@ -98,15 +102,15 @@ const MainpageBoxFirst = styled.ul`
 	.startBtn {
 		display: flex;
 		justify-content: center;
-		color: #f47676;
+		color: ${color.point};
 		background: none;
-		border: 3px solid #f47676;
+		border: 3px solid ${color.point};
 		width: 14rem;
 
 		transition: all 0.3s;
 		position: relative;
 		&:hover {
-			background: #f47676;
+			background: ${color.point};
 			color: #ffffe7;
 		}
 		&:before {
@@ -119,7 +123,6 @@ const MainpageBoxFirst = styled.ul`
 
 		@media ${(props) => props.theme.tablet} {
 			width: 11rem;
-			margin-left: 1.5rem;
 		}
 	}
 
@@ -192,17 +195,17 @@ const MainpageBoxFirst = styled.ul`
 
 	.moreBtn {
 		${flexCenter}
-		color: #f47676;
+		color: ${color.point};
 		font-weight: bold;
 		height: 2rem;
 		width: 5rem;
-		border: 4px solid #f47676;
+		border: 4px solid ${color.point};
 		border-radius: 1vh;
 		transition: all 0.3s;
 		margin-top: 3rem;
 
 		&:hover {
-			background: #f47676;
+			background: ${color.point};
 			color: #ffffe7;
 		}
 	}
@@ -246,10 +249,10 @@ const Mainpage = () => {
 							이쁘고 개성있는 케이스들이 많다고 생각하시나요? <br />
 						</div>
 					</div>
-					<img src={gif1} alt="gif1" />
+					<img src={gif3} alt="gif3" />
 				</li>
 				<li>
-					<img src={gif1} alt="gif1" />
+					<img src={gif2} alt="gif2" />
 					<div className="columnSection">
 						<div className="animationText">
 							<h2>저희 Heiss는 </h2>
@@ -290,7 +293,8 @@ const Mainpage = () => {
 					<Link to="/make" className="startBtn">
 						<h1>시작하기</h1>
 					</Link>
-					<img src={gif1} alt="gif1" />
+
+					<img src={gif1} alt="gif1" className="giphy-embed" />
 				</li>
 			</MainpageBoxFirst>
 			<Footer />

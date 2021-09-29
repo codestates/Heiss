@@ -6,7 +6,7 @@ import axios from "axios";
 import Shapes from "./Shapes";
 import { color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLoginModal } from "../redux/modules/review";
+import { handleLoginModal, getCanvas } from "../redux/modules/review";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -125,6 +125,7 @@ const Canvas = () => {
 			foreignObjectRendering: true,
 		});
 		setCanvas(canvas);
+		dispatch(getCanvas(canvas));
 
 		// 마우스 클릭 이벤트
 		canvas.on("mouse:down", (e) => {
@@ -188,6 +189,11 @@ const Canvas = () => {
 	// 저장 핸들러
 	const saveHandler = async () => {
 		if (user.isLogin) {
+			// json으로 보내줄 직렬화
+			const canvasData = JSON.stringify(canvas);
+			setCaseInfo({ ...caseInfo, setting: canvasData });
+
+			// img 파일로 보내줄 직렬화
 			const imgdata = canvas.toDataURL("image/png", 1.0);
 			let file = base64toFile(imgdata);
 
@@ -204,6 +210,11 @@ const Canvas = () => {
 				})
 				.then(() => alert("저장 되었습니다! 보관함에서 확인해보세요!"));
 		} else {
+			// 테스트 후 지울거
+			// canvas.loadFromJSON(
+			// 	'{"objects":[{"type":"rect","left":50,"top":50,"width":20,"height":20,"fill":"green","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"rx":0,"ry":0},{"type":"circle","left":100,"top":100,"width":100,"height":100,"fill":"red","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"radius":50}],"background":"rgba(0, 0, 0, 0)"}'
+			// );
+
 			alert("로그인 해주세요");
 			reverseBoo();
 		}
@@ -239,9 +250,7 @@ const Canvas = () => {
 						<div>색상</div>
 					</li>
 
-					{/* <Link to="mypage"> */}
 					<button onClick={saveHandler}>저장</button>
-					{/* </Link> */}
 				</MenuSection>
 			</>
 			{context && (
