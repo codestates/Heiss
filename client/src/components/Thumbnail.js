@@ -7,6 +7,9 @@ import ReviewModal from "../modal/ReviewModal";
 import heartIcon from "../img/heart.svg";
 import noneheartIcon from "../img/noneheart.svg";
 import cartIcon from "../img/cart.svg";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLoginModal } from "../redux/modules/review";
 
 const ThumbnailAllBox = styled.div`
 	display: flex;
@@ -143,6 +146,8 @@ const ThumbnailModal = {
 };
 
 const Thumbnail = ({ data, shotBtn, shareBtn }) => {
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user);
 	const [boo, setBoo] = useState(false);
 	const [toggleH, setToggleH] = useState(false);
 
@@ -156,6 +161,23 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 			setToggleH(true);
 		}
 	}, []);
+
+	const postLike = () => {
+		if (!user.isLogin) {
+			return dispatch(handleLoginModal());
+		}
+		axios
+			.post(
+				`${process.env.REACT_APP_API_URL}review/like`,
+				{
+					reviewId: data.id,
+				},
+				{ withCredentials: true }
+			)
+			.then(() => {
+				setToggleH(!toggleH);
+			});
+	};
 
 	return (
 		<ThumbnailAllBox>
@@ -175,14 +197,16 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 						<img
 							src={heartIcon}
 							alt="heartIcon"
-							onClick={() => setToggleH(!toggleH)}
+							onClick={() => {
+								postLike();
+							}}
 							className="heart"
 						/>
 					) : (
 						<img
 							src={noneheartIcon}
 							alt="noneheartIcon"
-							onClick={() => setToggleH(!toggleH)}
+							onClick={() => postLike()}
 							className="heart"
 						/>
 					)}

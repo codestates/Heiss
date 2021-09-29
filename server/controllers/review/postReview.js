@@ -9,8 +9,6 @@ module.exports = async (req, res) => {
 	}
 	const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 	const imgUrl = req.files; // -> 배열
-	console.log("!!!!!", imgUrl);
-	console.log("?????", req.body);
 	const { score, title, desc, caseId } = req.body;
 	try {
 		if (score && title && desc && caseId) {

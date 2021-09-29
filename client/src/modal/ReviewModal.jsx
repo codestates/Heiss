@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import reviewDatas from "../redux/modules/review";
+import { reviewDatas } from "../redux/modules/review";
 import { LeftCircleFilled } from "@ant-design/icons";
 import { RightCircleFilled } from "@ant-design/icons";
 import { StarTwoTone } from "@ant-design/icons";
@@ -225,8 +225,13 @@ const BtnBox = styled.div`
 	}
 `;
 
+const NullBox = styled.div`
+	height: 5rem;
+`;
+
 const ReviewModal = ({ dataId, reverseBoo }) => {
 	const user = useSelector((state) => state.user);
+	const review = useSelector((state) => state.review);
 	const dispatch = useDispatch();
 	const [data, setData] = useState(null);
 	const [color, setColor] = useState([]);
@@ -235,13 +240,12 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}review/${dataId}`).then((el) => {
-			console.log(el);
 			setData(el.data.data);
+			console.log("reviewDetail", el.data.data);
 			setColor(colorChange(el.data.data.score - 1));
 			setImgLength(el.data.data.sources.length);
+			dispatch(getUserInfo());
 		});
-		dispatch(getUserInfo());
-		console.log("리뷰보기", user);
 	}, []);
 
 	const reviewDelete = (id) => {
@@ -328,12 +332,16 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 				<div className="phone">기종: {data.customCase.phone.type}</div>
 				<div className="title">{data.title}</div>
 				<div className="desc">{data.desc}</div>
-				<BtnBox>
-					<button className="btn" onClick={() => reviewDelete(data.id)}>
-						리뷰 삭제
-					</button>
-					<button className="btn putBtn">리뷰 수정</button>
-				</BtnBox>
+				{data.user.id === user.userInfo.id ? (
+					<BtnBox>
+						<button className="btn" onClick={() => reviewDelete(data.id)}>
+							리뷰 삭제
+						</button>
+						<button className="btn putBtn">리뷰 수정</button>
+					</BtnBox>
+				) : (
+					<NullBox></NullBox>
+				)}
 			</ReviewModalWrite>
 		</ReviewModalSection>
 	);
