@@ -80,12 +80,12 @@ const InputSection = styled.div`
 	}
 `;
 
-const Sign = ({ reverseBoo }) => {
+const Sign = () => {
 	const [shadower, setShadower] = useState(true);
 
 	return (
 		<SignSection>
-			<Link to="/" onClick={() => reverseBoo()}>
+			<Link to="/" onClick={() => window.location.replace("/")}>
 				<img src={logo} alt="logo" />
 			</Link>
 			<BtnSection>
@@ -102,13 +102,7 @@ const Sign = ({ reverseBoo }) => {
 					회원가입
 				</button>
 			</BtnSection>
-			<InputSection>
-				{shadower ? (
-					<Signin reverseBoo={reverseBoo} />
-				) : (
-					<Signup reverseBoo={reverseBoo} />
-				)}
-			</InputSection>
+			<InputSection>{shadower ? <Signin /> : <Signup />}</InputSection>
 		</SignSection>
 	);
 };

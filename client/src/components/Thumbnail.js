@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
-import ReviewModal from "../modal/ReviewModal";
-
-import heartIcon from "../img/heart.svg";
-import noneheartIcon from "../img/noneheart.svg";
-import cartIcon from "../img/cart.svg";
+import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLoginModal } from "../redux/modules/review";
+import { handleLoginModal } from "../redux/modules/users";
+import { reviewDatas } from "../redux/modules/review";
+import ReviewModal from "../modal/ReviewModal";
+
+// 이미지
+import heartIcon from "../img/heart.svg";
+import noneheartIcon from "../img/noneheart.svg";
 
 const ThumbnailAllBox = styled.div`
 	display: flex;
@@ -17,46 +19,11 @@ const ThumbnailAllBox = styled.div`
 `;
 
 const ThumbnailSection = styled.div`
-	display: flex;
-	flex-direction: column;
-	min-height: 300px;
-	height: 300px;
-	min-width: 220px;
-	width: 220px;
-	margin: 1rem;
-	position: relative;
-	cursor: pointer;
-
-	img {
-		width: 100%;
-		height: 100%;
-		border-radius: 2vh;
-	}
-
-	&:hover {
-		.hover-thumb {
-			display: flex;
-		}
-	}
+	${ThumbnailSections}
 `;
 
 const HoverThumb = styled.div`
-	display: none;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	/* background: rgba(128, 128, 128, 0.5); */
-	border-radius: 2vh;
-	z-index: 2;
-
-	.heart {
-		height: 2rem;
-		margin: 1rem;
-		margin-left: 5rem;
-		z-index: 2;
-	}
+	${HoverThumbs}
 `;
 
 const HoverThumbBottom = styled.div`
@@ -86,20 +53,10 @@ const HoverThumbBottom = styled.div`
 			color: #ffffe7;
 		}
 	}
-
-	.cart {
-		height: 2rem;
-		margin-left: 7rem;
-		/* border-radius: 50%; */
-	}
 `;
 
 const BgnHover = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background: rgba(128, 128, 128, 0.5);
-	border-radius: 2vh;
+	${BgnHovers}
 `;
 
 const HeartHowMany = styled.div`
@@ -148,15 +105,15 @@ const ThumbnailModal = {
 const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
-	const [boo, setBoo] = useState(false);
+	const review = useSelector((state) => state.review);
 	const [toggleH, setToggleH] = useState(false);
+	const [boo, setBoo] = useState(false);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
 	};
 
 	useEffect(() => {
-		console.log(data);
 		if (data.liked) {
 			setToggleH(true);
 		}
@@ -176,15 +133,20 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 			)
 			.then(() => {
 				setToggleH(!toggleH);
+				dispatch(reviewDatas());
 			});
 	};
+
+	if (!data) {
+		return null;
+	}
 
 	return (
 		<ThumbnailAllBox>
 			<Modal
 				isOpen={boo}
 				style={ThumbnailModal}
-				onRequestClose={() => reverseBoo()}
+				onRequestClose={reverseBoo}
 				ariaHideApp={false}
 			>
 				<ReviewModal dataId={data.id} reverseBoo={reverseBoo} />
@@ -197,22 +159,25 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 						<img
 							src={heartIcon}
 							alt="heartIcon"
-							onClick={() => {
-								postLike();
-							}}
+							onClick={postLike}
 							className="heart"
 						/>
 					) : (
 						<img
 							src={noneheartIcon}
 							alt="noneheartIcon"
-							onClick={() => postLike()}
+							onClick={postLike}
 							className="heart"
 						/>
 					)}
 					<HoverThumbBottom>
-						{shareBtn && <button className="shareBtn">퍼가기</button>}
-						{shotBtn && <img src={cartIcon} alt="cartIcon" className="cart" />}
+						{data.user.id !== user.userInfo.id
+							? shareBtn && (
+									<button className="shareBtn" onClick={postLike}>
+										퍼가기
+									</button>
+							  )
+							: null}
 					</HoverThumbBottom>
 				</HoverThumb>
 			</ThumbnailSection>

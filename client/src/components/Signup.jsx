@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { getUserInfo } from "../redux/modules/users";
+import { getUserInfo, handleLoginModal } from "../redux/modules/users";
+import { color } from './utils/theme'
+import profile from "../img/profile.png";
 axios.defaults.withCredentials = true;
 
 const SignupSection = styled.form`
@@ -16,31 +18,26 @@ const SignupSection = styled.form`
 	align-items: center;
 	height: 45vh;
 	width: 100%;
-	border: 3px solid #ffffe7;
+	border: 3px solid ${color.white};
 	padding: 3rem;
 	box-sizing: border-box;
 	margin: 0;
 	background-color: #efefd2;
 	text-align: left;
-
 	.userWrap {
 		width: 100%;
 		display: flex;
 		justify-content: space-around;
-
 		div:nth-child(1) {
 			width: 35%;
 		}
-
 		div:nth-child(2) {
 			width: 55%;
 		}
 	}
-
 	@media ${(props) => props.theme.tablet} {
 		height: 50vh;
 	}
-
 	input {
 		width: 20vw;
 		margin-top: 14px;
@@ -48,11 +45,9 @@ const SignupSection = styled.form`
 		border: none;
 		background: #2c2c2c;
 		border-radius: 1vh;
-
 		&::placeholder {
-			color: #ffffe7;
+			color: ${color.white};
 		}
-
 		@media ${(props) => props.theme.mobileL} {
 			width: 45vw;
 			height: 3px;
@@ -67,22 +62,22 @@ const SignupSection = styled.form`
 		font-weight: bold;
 		font-size: 18px;
 		border-radius: 1.4vh;
-		border: 3px solid #ffffe7;
+		border: 3px solid ${color.white};
 		padding: 0.4rem;
 		width: 130px;
-
 		@media ${(props) => props.theme.mobileL} {
 			width: 4rem;
 			height: 2rem;
 			font-size: 0.3rem;
-			background: #ffffe7;
-			border: 3px solid #ffffe7;
+			background: ${color.white};
+			border: 3px solid ${color.white};
 			color: black;
 		}
 	}
 `;
 
 const ImgDiv = styled.div`
+	display: flex;
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -110,7 +105,7 @@ const ImgDiv = styled.div`
 	}
 `;
 
-const Singup = ({ reverseBoo }) => {
+const Singup = () => {
 	const [auth, setAuth] = useState(true);
 	const [hash, setHash] = useState("");
 	const [userCode, setUserCode] = useState("");
@@ -165,7 +160,7 @@ const Singup = ({ reverseBoo }) => {
 					})
 					.then(() => {
 						alert("회원가입이 완료되었습니다!");
-						reverseBoo();
+						dispatch(handleLoginModal());
 						dispatch(getUserInfo());
 					});
 			});
@@ -214,9 +209,9 @@ const Singup = ({ reverseBoo }) => {
 							<img
 								className="img"
 								src={
-									img.imagePreviewUrl ??
-									"http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg"
+									img.imagePreviewUrl ?? profile
 								}
+								alt="profile"
 							/>
 						</ImgDiv>
 						<div>
@@ -268,19 +263,18 @@ const Singup = ({ reverseBoo }) => {
 				</>
 			) : (
 				<>
-					<button
+					<h2
 						disabled
 						style={{
 							marginBottom: "10px",
 							background: "none",
-							color: "#ffffe7",
 							border: "none",
 							fontSize: "0.7rem",
 							width: "100%",
 						}}
 					>
 						메일로 인증번호를 보냈습니다
-					</button>
+					</h2>
 					<input
 						placeholder="인증코드를 입력해주세요"
 						onChange={(e) => code(e)}

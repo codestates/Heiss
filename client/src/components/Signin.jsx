@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getUserInfo } from "../redux/modules/users";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { handleLoginModal } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const SigninSection = styled.form`
@@ -22,7 +23,7 @@ const SigninSection = styled.form`
 	box-sizing: border-box;
 	border: 3px solid #f47676;
 	margin: 0;
-	background-color: #f3cdd4;
+	/* background-color: #f3cdd4; */
 
 	@media ${(props) => props.theme.tablet} {
 		height: 40vh;
@@ -147,10 +148,7 @@ const BtnBox = styled.div`
 	}
 `;
 
-const Signin = ({ reverseBoo }) => {
-	const [warring, setWarning] = useState(false);
-	const [Email, setEmail] = useState("");
-	const [Password, setPassword] = useState("");
+const Signin = () => {
 	const dispatch = useDispatch();
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
@@ -180,7 +178,7 @@ const Signin = ({ reverseBoo }) => {
 					alert("비밀번호가 일치하지 않습니다");
 				} else {
 					alert("로그인이 완료되었습니다.");
-					reverseBoo();
+					dispatch(handleLoginModal());
 					let url = window.location.pathname;
 					window.location.replace(url);
 					dispatch(getUserInfo());

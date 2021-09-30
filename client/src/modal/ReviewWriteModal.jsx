@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
-import { reviewDatas } from "../redux/modules/review";
+import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
 import { getUserInfo } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
@@ -231,12 +231,12 @@ const Select = styled.div`
 	}
 `;
 
-const ReviewWriteModal = ({ closeModal }) => {
+const ReviewWriteModal = ({ data }) => {
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	const [review, setReview] = useState({
-		caseId: 4, // 나중에 0으로 변경
+		caseId: 6, // 나중에 0으로 변경
 		title: "",
 		desc: "",
 		score: 0,
@@ -253,7 +253,14 @@ const ReviewWriteModal = ({ closeModal }) => {
 	]);
 
 	useEffect(() => {
-		dispatch(getUserInfo());
+		if (data) {
+			setReview({
+				caseId: data.customCase.id,
+				title: data.title,
+				desc: data.desc,
+				score: data.score,
+			});
+		}
 	}, []);
 
 	const onChange = (e, key) => {
@@ -275,8 +282,8 @@ const ReviewWriteModal = ({ closeModal }) => {
 				})
 				.then((el) => {
 					alert("리뷰작성이 완료되었습니다.");
+					dispatch(handleRevieWritewModal());
 					dispatch(reviewDatas());
-					closeModal(false);
 				});
 		}
 	};
@@ -381,7 +388,7 @@ const ReviewWriteModal = ({ closeModal }) => {
 									accept="image/*"
 									onChange={(e) => uploadImg(e)}
 								/>
-								<h3>드레그나 클릭을 통해 케이스 사진을 올려주세요!</h3>
+								<h3>드래그나 클릭을 통해 케이스 사진을 올려주세요!</h3>
 							</ImgDiv>
 						)}
 					</WriteSection>

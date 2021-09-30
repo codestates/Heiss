@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,6 +54,8 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const App = () => {
+	const user = useSelector((state) => state.user); // 로그인 상태
+
 	let state = useSelector((state) => state);
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -90,7 +97,7 @@ const App = () => {
 					<Makepage />
 				</Route>
 				<Route path="/mypage">
-					<Mypage />
+					{user.isLogin ? <Mypage /> : <Redirect to="/" />}
 				</Route>
 				<Route path="/chat">
 					<Chat />
