@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLoginModal } from "../redux/modules/review";
-
+import { handleLoginModal } from "../redux/modules/users";
+import { reviewDatas } from "../redux/modules/review";
 import ReviewModal from "../modal/ReviewModal";
 
 // 이미지
@@ -105,15 +105,15 @@ const ThumbnailModal = {
 const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
-	const [boo, setBoo] = useState(false);
+	const review = useSelector((state) => state.review);
 	const [toggleH, setToggleH] = useState(false);
+	const [boo, setBoo] = useState(false);
 
 	const reverseBoo = () => {
 		setBoo(!boo);
 	};
 
 	useEffect(() => {
-		console.log(data);
 		if (data.liked) {
 			setToggleH(true);
 		}
@@ -133,15 +133,20 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 			)
 			.then(() => {
 				setToggleH(!toggleH);
+				dispatch(reviewDatas());
 			});
 	};
+
+	if (!data) {
+		return null;
+	}
 
 	return (
 		<ThumbnailAllBox>
 			<Modal
 				isOpen={boo}
 				style={ThumbnailModal}
-				onRequestClose={() => reverseBoo()}
+				onRequestClose={reverseBoo}
 				ariaHideApp={false}
 			>
 				<ReviewModal dataId={data.id} reverseBoo={reverseBoo} />
@@ -154,21 +159,25 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 						<img
 							src={heartIcon}
 							alt="heartIcon"
-							onClick={() => {
-								postLike();
-							}}
+							onClick={postLike}
 							className="heart"
 						/>
 					) : (
 						<img
 							src={noneheartIcon}
 							alt="noneheartIcon"
-							onClick={() => postLike()}
+							onClick={postLike}
 							className="heart"
 						/>
 					)}
 					<HoverThumbBottom>
-						{shareBtn && <button className="shareBtn">퍼가기</button>}
+						{data.user.id !== user.userInfo.id
+							? shareBtn && (
+									<button className="shareBtn" onClick={postLike}>
+										퍼가기
+									</button>
+							  )
+							: null}
 					</HoverThumbBottom>
 				</HoverThumb>
 			</ThumbnailSection>

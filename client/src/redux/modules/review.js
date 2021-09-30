@@ -1,7 +1,9 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 // actions type
 const GET_REVIEW = "GET_REVIEW";
+const HANDLE_REVIEW_WRITE_MODAL = "HANDLE_REVIEW_WRITE_MODAL";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
 const HANDLE_REVIEW_MODAL = "HANDLE_REVIEW_MODAL";
 const GET_CANVAS = "GET_CANVAS";
@@ -19,15 +21,9 @@ export const getReview = (data) => {
 	};
 };
 
-export const handleReviewModal = () => {
+export const handleRevieWritewModal = () => {
 	return {
-		type: HANDLE_REVIEW_MODAL,
-	};
-};
-
-export const handleLoginModal = () => {
-	return {
-		type: HANDLE_LOGIN_MODAL,
+		type: HANDLE_REVIEW_WRITE_MODAL,
 	};
 };
 
@@ -41,6 +37,7 @@ export const getCanvas = (data) => {
 // initialState
 const initialState = {
 	reviewAll: [],
+	reviewWriteModal: false,
 	reviewModal: false,
 	loginModal: false,
 	canvasdata: "",
@@ -55,10 +52,10 @@ export const reviewReducer = (state = initialState, action) => {
 				reviewAll: action.payload,
 			};
 
-		case HANDLE_LOGIN_MODAL:
+		case HANDLE_REVIEW_WRITE_MODAL:
 			return {
 				...state,
-				loginModal: !state.loginModal,
+				reviewWriteModal: !state.reviewWriteModal,
 			};
 
 		case HANDLE_REVIEW_MODAL:
@@ -73,7 +70,7 @@ export const reviewReducer = (state = initialState, action) => {
 				...state,
 				canvasdata: action.payload,
 			};
-
+      
 		default:
 			return state;
 	}
