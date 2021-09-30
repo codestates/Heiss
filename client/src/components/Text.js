@@ -5,7 +5,6 @@ import { listBox } from "./utils/theme";
 
 const TextSection = styled.div`
 	${listBox}
-	justify-content: center;
 
 	button {
 		flex-direction: column;

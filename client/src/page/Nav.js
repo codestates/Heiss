@@ -20,7 +20,6 @@ const NavSection = styled.div`
 	position: sticky;
 	top: 0;
 	height: 4vh;
-	/* background: #c3c4ad; */
 	background: none;
 	padding: 1rem;
 	#heissLogo {

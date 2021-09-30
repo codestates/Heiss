@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Shapes from "./Shapes";
-import { color } from "./utils/theme";
+import { flexCenter, color } from "./utils/theme";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLoginModal, getCanvas } from "../redux/modules/review";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -27,6 +29,10 @@ const CanvasSection = styled.div`
 	height: 100%;
 	margin-top: 3rem;
 	position: relative;
+`;
+
+const CanvasBox = styled.div`
+	${flexCenter}
 `;
 
 // 우측 메뉴바
@@ -94,6 +100,7 @@ const ListBox = styled.div`
 `;
 
 const Canvas = () => {
+	const user = useSelector((state) => state.user); // 로그인 상태
 	const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
 	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
 	const [canvas, setCanvas] = useState();
@@ -105,6 +112,7 @@ const Canvas = () => {
 		price: 1000,
 		setting: "갤럭시",
 	});
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const canvas = new fabric.Canvas("canvas", {
@@ -121,6 +129,7 @@ const Canvas = () => {
 			foreignObjectRendering: true,
 		});
 		setCanvas(canvas);
+		dispatch(getCanvas(canvas));
 
 		// 마우스 클릭 이벤트
 		canvas.on("mouse:down", (e) => {
@@ -181,22 +190,42 @@ const Canvas = () => {
 		return file;
 	};
 
+	// 저장 핸들러
 	const saveHandler = async () => {
-		const imgdata = canvas.toDataURL("image/png", 1.0);
-		let file = base64toFile(imgdata);
+		if (user.isLogin) {
+			// json으로 보내줄 직렬화
+			const canvasData = JSON.stringify(canvas);
+			setCaseInfo({ ...caseInfo, setting: canvasData });
+			console.log(canvasData);
+			// img 파일로 보내줄 직렬화
+			const imgdata = canvas.toDataURL("image/png", 1.0);
+			let file = base64toFile(imgdata);
 
-		let formdata = new FormData();
-		formdata.append("picture", file);
-		for (let key in caseInfo) {
-			formdata.append(key, caseInfo[key]);
+			let formdata = new FormData();
+			formdata.append("picture", file);
+			for (let key in caseInfo) {
+				formdata.append(key, caseInfo[key]);
+			}
+
+			await axios
+				.post(`${process.env.REACT_APP_API_URL}locker`, formdata, {
+					withCredentials: true,
+					header: { "Content-Type": "multipart/form-data" },
+				})
+				.then(() => alert("저장 되었습니다! 보관함에서 확인해보세요!"));
+		} else {
+			// 테스트 후 지울거
+			// canvas.loadFromJSON(
+			// 	'{"objects":[{"type":"rect","left":50,"top":50,"width":20,"height":20,"fill":"green","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"rx":0,"ry":0},{"type":"circle","left":100,"top":100,"width":100,"height":100,"fill":"red","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"radius":50}],"background":"rgba(0, 0, 0, 0)"}'
+			// );
+
+			alert("로그인 해주세요");
+			reverseBoo();
 		}
+	};
 
-		await axios
-			.post(`${process.env.REACT_APP_API_URL}locker`, formdata, {
-				withCredentials: true,
-				header: { "Content-Type": "multipart/form-data" },
-			})
-			.then((res) => console.log(res));
+	const reverseBoo = () => {
+		dispatch(handleLoginModal());
 	};
 
 	return (
@@ -225,9 +254,7 @@ const Canvas = () => {
 						<div>색상</div>
 					</li>
 
-					{/* <Link to="mypage"> */}
 					<button onClick={saveHandler}>저장</button>
-					{/* </Link> */}
 				</MenuSection>
 			</>
 			{context && (
