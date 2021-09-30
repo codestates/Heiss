@@ -4,6 +4,7 @@ require("dotenv").config();
 
 module.exports = async (req, res) => {
 	const reviewId = req.params.id;
+	console.log(reviewId);
 	const accessToken = req.cookies.accessToken;
 	const findReview = await review.findOne({ where: { id: reviewId } });
 	const findUser = findReview.userId;

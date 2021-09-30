@@ -1,8 +1,9 @@
 import axios from "axios";
 
 // actions type
-const REVIEW_DATAS = "REVIEW_DATAS";
 const GET_REVIEW = "GET_REVIEW";
+const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
+const HANDLE_REVIEW_MODAL = "HANDLE_REVIEW_MODAL";
 
 // action
 export const reviewDatas = () => async (dispatch) => {
@@ -17,9 +18,23 @@ export const getReview = (data) => {
 	};
 };
 
+export const handleReviewModal = () => {
+	return {
+		type: HANDLE_REVIEW_MODAL,
+	};
+};
+
+export const handleLoginModal = () => {
+	return {
+		type: HANDLE_LOGIN_MODAL,
+	};
+};
+
 // initialState
 const initialState = {
 	reviewAll: [],
+	reviewModal: false,
+	loginModal: false,
 };
 
 // reducer
@@ -31,6 +46,19 @@ export const reviewReducer = (state = initialState, action) => {
 				reviewAll: action.payload,
 			};
 			break;
+
+		case HANDLE_LOGIN_MODAL:
+			return {
+				...state,
+				loginModal: !state.loginModal,
+			};
+			break;
+
+		case HANDLE_REVIEW_MODAL:
+			return {
+				state,
+				reviewModal: !state.reviewModal,
+			};
 
 		default:
 			return state;

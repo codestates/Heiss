@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import kakao from "../img/카카오.png";
@@ -166,19 +166,50 @@ const Signin = ({ reverseBoo }) => {
 					.email("올바른 이메일 주소가 아닙니다")
 					.required("이메일을 입력하세요"),
 				password: Yup.string()
-					.min(8, "8자보다 많아야해요")
+					.min(8, "비밀번호는 8자보다 이상이여야 합니다")
 					.required("비밀번호를 입력하세요"),
 			}),
 			onSubmit: async (values) => {
-				await axios.post(`${process.env.REACT_APP_API_URL}user/signin`, values);
-				alert("로그인이 완료되었습니다.");
-				reverseBoo();
-				window.location.replace("/");
-				dispatch(getUserInfo());
-				console.log(values);
+				let login = await axios.post(
+					`${process.env.REACT_APP_API_URL}user/signin`,
+					values
+				);
+				if (login.data.message === "No matching users") {
+					alert("등록된 이메일이 없습니다");
+				} else if (login.data.message === "password err") {
+					alert("비밀번호가 일치하지 않습니다");
+				} else {
+					alert("로그인이 완료되었습니다.");
+					reverseBoo();
+					let url = window.location.pathname;
+					window.location.replace(url);
+					dispatch(getUserInfo());
+				}
 			},
 		});
 
+		function kakaoclick() {
+			const kakaourl = "https://kauth.kakao.com/oauth/authorize";
+			const client_id = process.env.REACT_APP_KAKAO_CLIENT;
+			const redirect_uri = process.env.REACT_APP_CLIENT_REDIRECT;
+			const response_type = "code";
+			const state = "kakao";
+			const url = `${kakaourl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
+			window.location.assign(url);
+		}
+
+		function naverclick() {
+			const naverurl = "https://nid.naver.com/oauth2.0/authorize";
+			const client_id = process.env.REACT_APP_NAVER_CLIENT;
+			const redirect_uri = process.env.REACT_APP_CLIENT_REDIRECT;
+			const response_type = "code";
+			const state = "naver";
+			const url = `${naverurl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
+			window.location.assign(url);
+		}
+		
+	
+		
 	return (
 		<SigninSection onSubmit={handleSubmit}>
 			<input
@@ -202,11 +233,11 @@ const Signin = ({ reverseBoo }) => {
 				<div>{errors.password}</div>
 			) : null}
 			<BtnBox>
-				<button className="desktopBtn kakao">
+				<button className="desktopBtn kakao" onClick={kakaoclick}>
 					<img src={kakao} alt="kakao" />
 					로그인
 				</button>
-				<button className="desktopBtn naver">
+				<button className="desktopBtn naver" onClick={naverclick}>
 					<img src={naver} alt="naver" />
 					로그인
 				</button>

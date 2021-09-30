@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
 import { reviewDatas } from "../redux/modules/review";
+import { getUserInfo } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -101,7 +102,7 @@ const WriteSection = styled.form`
 
 const ReviewBtn = styled.button`
 	position: absolute;
-	top: 550px;
+	top: 80%;
 	background-color: #f47676;
 	color: #ffffe7;
 	width: 12rem;
@@ -216,6 +217,7 @@ const Select = styled.div`
 
 	> ul {
 		position: absolute;
+		z-index: 1;
 		top: 2rem;
 		left: 0;
 		width: 100%;
@@ -230,12 +232,11 @@ const Select = styled.div`
 `;
 
 const ReviewWriteModal = ({ closeModal }) => {
-	const state = useSelector((state) => state.handleActions);
+	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	const [review, setReview] = useState({
-		userId: 2,
-		caseId: 1,
+		caseId: 4, // 나중에 0으로 변경
 		title: "",
 		desc: "",
 		score: 0,
@@ -250,6 +251,10 @@ const ReviewWriteModal = ({ closeModal }) => {
 		"white",
 		"white",
 	]);
+
+	useEffect(() => {
+		dispatch(getUserInfo());
+	}, []);
 
 	const onChange = (e, key) => {
 		setReview({ ...review, [key]: e.target.value });
@@ -281,6 +286,7 @@ const ReviewWriteModal = ({ closeModal }) => {
 			return alert("사진은 4장까지 올릴 수 있습니다.");
 		}
 		for (let i = 0; i < e.target.files.length; i++) {
+			console.log(e.target.files[i]);
 			imageLoader(e.target.files[i]);
 		}
 	};

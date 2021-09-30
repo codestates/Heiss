@@ -4,11 +4,11 @@ import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
 import { getUserInfo, getLogout } from "../redux/modules/users";
+import { handleLoginModal } from "../redux/modules/review";
 
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
 
-import profile from "../img/profile.png";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 axios.defaults.withCredentials = true;
@@ -133,9 +133,10 @@ const reviewModal = {
 };
 
 const Nav = ({ reviewBtn }) => {
-	const [boo, setBoo] = useState(false);
 	const user = useSelector((state) => state.user);
-	console.log(user);
+	const modal = useSelector((state) => state.review);
+	const [boo, setBoo] = useState(false);
+	const [review, setReview] = useState(false);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -143,25 +144,26 @@ const Nav = ({ reviewBtn }) => {
 	}, []);
 
 	const reverseBoo = () => {
-		setBoo(!boo);
+		dispatch(handleLoginModal());
 	};
-
-	const [review, setReview] = useState(false);
 
 	const reverseReview = () => {
 		setReview(!review);
 	};
 
 	const logout = () => {
-		axios.get(`${process.env.REACT_APP_API_URL}user/signout`).then(() => {
-			dispatch(getLogout());
-		});
+		axios
+			.get(`${process.env.REACT_APP_API_URL}user/signout`)
+			.then(() => {
+				dispatch(getLogout());
+			})
+			.then(() => alert("로그아웃 되었습니다. 다음에 또 찾아주세요!"));
 	};
 
 	return (
 		<NavSection>
 			<Modal
-				isOpen={boo}
+				isOpen={modal.loginModal}
 				style={signModal}
 				onRequestClose={() => reverseBoo()}
 				ariaHideApp={false}

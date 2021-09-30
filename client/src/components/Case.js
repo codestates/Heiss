@@ -2,25 +2,28 @@ import React from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
 import { listBox } from "./utils/theme";
-
+import S21perple from "./utils/galaxy21Purple";
+import I12BLACK from "./utils/iPhone12Black";
 const CaseSection = styled.div`
 	${listBox}
 	justify-content: center;
 `;
 
+let galaxyS21 = S21perple;
+
+let iPhone13 = I12BLACK;
+
 const Case = ({ canvas }) => {
 	// img object
 	const bgImg = {
-		GalaxyS21:
-			"https://cdn.discordapp.com/attachments/884357003747688478/890777202369638460/2021-09-24_10.50.28.png",
-
-		iPhone13:
-			"https://cdn.discordapp.com/attachments/884357003747688478/890774776128344104/unknown.png",
+		galaxyS21,
+		iPhone13,
 	};
 
 	// 배경 이미지 핸들러
-	const BackgroundHandler = (e) => {
-		new fabric.Image.fromURL(bgImg[e.target.textContent], (img) => {
+
+	const BackgroundHandler = (name) => {
+		new fabric.Image.fromURL(bgImg[name], (img) => {
 			img.crossOrigin = "Anonymous";
 			console.log(img);
 			img.set({
@@ -30,18 +33,15 @@ const Case = ({ canvas }) => {
 				scaleY: 1.3,
 				scaleX: 1.3,
 			});
-			canvas.setBackgroundImage(img, canvas.requestRenderAll.bind(canvas), {
-				crossOrigin: "Anonymous",
-			});
+			canvas.setBackgroundImage(img, canvas.requestRenderAll.bind(canvas));
 		});
-
 		canvas.renderAll();
 	};
 
 	return (
 		<CaseSection>
-			<button onClick={BackgroundHandler}>GalaxyS21</button>
-			<button onClick={BackgroundHandler}>iPhone13</button>
+			<button onClick={() => BackgroundHandler("galaxyS21")}>GalaxyS21</button>
+			<button onClick={() => BackgroundHandler("iPhone13")}>iPhone13</button>
 		</CaseSection>
 	);
 };
