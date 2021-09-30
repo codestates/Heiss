@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { getUserInfo } from "../redux/modules/users";
+import { getUserInfo, handleLoginModal } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const SignupSection = styled.form`
@@ -110,7 +110,7 @@ const ImgDiv = styled.div`
 	}
 `;
 
-const Singup = ({ reverseBoo }) => {
+const Singup = () => {
 	const [auth, setAuth] = useState(true);
 	const [hash, setHash] = useState("");
 	const [userCode, setUserCode] = useState("");
@@ -165,7 +165,7 @@ const Singup = ({ reverseBoo }) => {
 					})
 					.then(() => {
 						alert("회원가입이 완료되었습니다!");
-						reverseBoo();
+						dispatch(handleLoginModal());
 						dispatch(getUserInfo());
 					});
 			});

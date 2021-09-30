@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
 import { getUserInfo, getLogout } from "../redux/modules/users";
-import { handleLoginModal } from "../redux/modules/review";
+import { handleRevieWritewModal, reviewDatas } from "../redux/modules/review";
+import { handleLoginModal } from "../redux/modules/users";
 
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
@@ -134,21 +135,19 @@ const reviewModal = {
 
 const Nav = ({ reviewBtn }) => {
 	const user = useSelector((state) => state.user);
-	const modal = useSelector((state) => state.review);
-	const [boo, setBoo] = useState(false);
-	const [review, setReview] = useState(false);
+	const review = useSelector((state) => state.review);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getUserInfo());
 	}, []);
 
-	const reverseBoo = () => {
+	const loginHandler = () => {
 		dispatch(handleLoginModal());
 	};
 
-	const reverseReview = () => {
-		setReview(!review);
+	const reviewWriteHandler = () => {
+		dispatch(handleRevieWritewModal());
 	};
 
 	const logout = () => {
@@ -157,38 +156,42 @@ const Nav = ({ reviewBtn }) => {
 			.then(() => {
 				dispatch(getLogout());
 			})
-			.then(() => alert("로그아웃 되었습니다. 다음에 또 찾아주세요!"));
+			.then(() => {
+				alert("로그아웃 되었습니다. 다음에 또 찾아주세요!");
+				let url = window.location.pathname;
+				window.location.replace(url);
+			});
 	};
 
 	return (
 		<NavSection>
 			<Modal
-				isOpen={modal.loginModal}
+				isOpen={user.loginModal}
 				style={signModal}
-				onRequestClose={() => reverseBoo()}
+				onRequestClose={loginHandler}
 				ariaHideApp={false}
 			>
-				<Sign reverseBoo={reverseBoo} />
+				<Sign />
 			</Modal>
 
 			<Modal
-				isOpen={review}
+				isOpen={review.reviewWriteModal}
 				style={reviewModal}
-				onRequestClose={() => reverseReview()}
+				onRequestClose={reviewWriteHandler}
 				ariaHideApp={false}
 			>
-				<ReviewWriteModal closeModal={setReview} />
+				<ReviewWriteModal />
 			</Modal>
 
 			<Link to="/">
 				<img id="heissLogo" src={logo} alt="heiss" />
 			</Link>
 			{!user.isLogin ? (
-				<button onClick={reverseBoo}>LOGIN</button>
+				<button onClick={loginHandler}>LOGIN</button>
 			) : (
 				<ProfileBox>
 					{reviewBtn && (
-						<button className="reviewBtn" onClick={reverseReview}>
+						<button className="reviewBtn" onClick={reviewWriteHandler}>
 							리뷰 작성
 						</button>
 					)}

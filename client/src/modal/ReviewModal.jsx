@@ -7,6 +7,8 @@ import { LeftCircleFilled } from "@ant-design/icons";
 import { RightCircleFilled } from "@ant-design/icons";
 import { StarTwoTone } from "@ant-design/icons";
 import { getUserInfo } from "../redux/modules/users";
+import Modal from "react-modal";
+import ReviewWriteModal from "../modal/ReviewWriteModal";
 axios.defaults.withCredentials = true;
 
 const ReviewModalSection = styled.div`
@@ -229,14 +231,44 @@ const NullBox = styled.div`
 	height: 5rem;
 `;
 
+const reviewModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 4,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
+		margin: "0 auto",
+		overflow: "auto",
+		top: "10vh",
+		left: "10vw",
+		right: "10vw",
+		bottom: "10vh",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		padding: "0.1rem",
+		zIndex: 4,
+	},
+};
+
 const ReviewModal = ({ dataId, reverseBoo }) => {
 	const user = useSelector((state) => state.user);
 	const review = useSelector((state) => state.review);
 	const dispatch = useDispatch();
-	const [data, setData] = useState(null);
+	const [data, setData] = useState();
 	const [color, setColor] = useState([]);
 	const [imgNumber, setImgNumber] = useState(1);
 	const [imglength, setImgLength] = useState(1);
+	const [isEdit, setIsEdit] = useState(false);
 
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}review/${dataId}`).then((el) => {
@@ -244,16 +276,16 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 			console.log("reviewDetail", el.data.data);
 			setColor(colorChange(el.data.data.score - 1));
 			setImgLength(el.data.data.sources.length);
-			dispatch(getUserInfo());
 		});
 	}, []);
 
 	const reviewDelete = (id) => {
-		axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then(() => {
-			alert("리뷰가 삭제되었습니다!");
-			dispatch(reviewDatas());
-			reverseBoo();
-		});
+		if (window.confirm("정말로 삭제하시겠습니까?")) {
+			axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then(() => {
+				alert("리뷰가 삭제되었습니다!");
+				dispatch(reviewDatas());
+			});
+		}
 	};
 
 	const colorChange = (index) => {
@@ -284,12 +316,27 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 		}
 	};
 
+	const handleEdit = () => {
+		setIsEdit(!isEdit);
+	};
+
 	if (!data) {
 		return null;
 	}
 
 	return (
 		<ReviewModalSection>
+			<Modal
+				isOpen={isEdit}
+				style={reviewModal}
+				onRequestClose={() => {
+					handleEdit();
+					reverseBoo();
+				}}
+				ariaHideApp={false}
+			>
+				<ReviewWriteModal data={data} />
+			</Modal>
 			<div className="picDiv">
 				{data.sources.map((el, index) => {
 					return (
@@ -337,7 +384,14 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 						<button className="btn" onClick={() => reviewDelete(data.id)}>
 							리뷰 삭제
 						</button>
-						<button className="btn putBtn">리뷰 수정</button>
+						<button
+							className="btn putBtn"
+							onClick={() => {
+								handleEdit();
+							}}
+						>
+							리뷰 수정
+						</button>
 					</BtnBox>
 				) : (
 					<NullBox></NullBox>

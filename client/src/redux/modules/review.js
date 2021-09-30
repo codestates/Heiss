@@ -1,9 +1,9 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 // actions type
 const GET_REVIEW = "GET_REVIEW";
-const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
-const HANDLE_REVIEW_MODAL = "HANDLE_REVIEW_MODAL";
+const HANDLE_REVIEW_WRITE_MODAL = "HANDLE_REVIEW_WRITE_MODAL";
 
 // action
 export const reviewDatas = () => async (dispatch) => {
@@ -18,23 +18,17 @@ export const getReview = (data) => {
 	};
 };
 
-export const handleReviewModal = () => {
+export const handleRevieWritewModal = () => {
 	return {
-		type: HANDLE_REVIEW_MODAL,
-	};
-};
-
-export const handleLoginModal = () => {
-	return {
-		type: HANDLE_LOGIN_MODAL,
+		type: HANDLE_REVIEW_WRITE_MODAL,
 	};
 };
 
 // initialState
 const initialState = {
 	reviewAll: [],
+	reviewWriteModal: false,
 	reviewModal: false,
-	loginModal: false,
 };
 
 // reducer
@@ -47,18 +41,12 @@ export const reviewReducer = (state = initialState, action) => {
 			};
 			break;
 
-		case HANDLE_LOGIN_MODAL:
+		case HANDLE_REVIEW_WRITE_MODAL:
 			return {
 				...state,
-				loginModal: !state.loginModal,
+				reviewWriteModal: !state.reviewWriteModal,
 			};
 			break;
-
-		case HANDLE_REVIEW_MODAL:
-			return {
-				state,
-				reviewModal: !state.reviewModal,
-			};
 
 		default:
 			return state;
