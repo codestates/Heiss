@@ -236,7 +236,7 @@ const ReviewWriteModal = ({ closeModal }) => {
 	const dispatch = useDispatch();
 
 	const [review, setReview] = useState({
-		caseId: 4, // 나중에 0으로 변경
+		caseId: 6, // 나중에 0으로 변경
 		title: "",
 		desc: "",
 		score: 0,
