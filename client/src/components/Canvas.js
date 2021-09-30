@@ -6,7 +6,8 @@ import axios from "axios";
 import Shapes from "./Shapes";
 import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLoginModal, getCanvas } from "../redux/modules/review";
+import { getCanvas } from "../redux/modules/review";
+import { handleLoginModal } from "../redux/modules/users";
 
 // 이미지
 // import favicon from "../img/favicon.ico";

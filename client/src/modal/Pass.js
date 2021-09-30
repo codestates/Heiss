@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "../redux/modules/users";
+import { handleLoginModal } from "../redux/modules/users";
 
 const PassSection = styled.form`
 	display: flex;
@@ -54,17 +58,19 @@ const Pass = ({ reversePassword }) => {
 	const [password, setPassword] = useState("");
 	const [disabled, setDisabled] = useState(false);
 	const handleChange = ({ target: { value } }) => setPassword(value);
+	const dispatch = useDispatch();
 
-	const handleSubmit = async (e) => {
-		setDisabled(true);
-		e.preventDefault();
-		await new Promise((r) => setTimeout(r, 1000));
-		if (password.length < 8) {
-			alert("8자의 이상의 비밀번호를 사용하셔야 합니다.");
+	const handleSubmit = async (values) => {
+		let user = await axios.post(`${process.env.REACT_APP_API_URL}user`, values);
+		if (user.data.message === "password err") {
+			alert("비밀번호가 일치하지 않습니다");
 		} else {
-			alert("변경되었습니다.");
+			alert("회원정보 수정이 완료되었습니다.");
+			dispatch(handleLoginModal());
+			let url = window.location.pathname;
+			window.location.replace(url);
+			dispatch(getUserInfo());
 		}
-		setDisabled(false);
 	};
 
 	return (
@@ -78,7 +84,7 @@ const Pass = ({ reversePassword }) => {
 					onChange={handleChange}
 				/>
 				<button type="submit" className="btn" onClick={reversePassword}>
-					비밀번호 변경
+					변경
 				</button>
 			</BtnBox>
 		</PassSection>
