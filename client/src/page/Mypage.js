@@ -12,6 +12,8 @@ import Locker from "../components/Locker";
 
 // 이미지
 import profile from "../img/profile.png";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -254,16 +256,16 @@ const passwordModal = {
 		position: "fixed",
 		top: 0,
 		left: 0,
-		// right: 0,
-		// bottom: 0,
-		// backgroundColor: "rgba(255, 255, 255, 0.45)",
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
 		zIndex: 2,
 	},
 	content: {
 		display: "flex",
 		justifyContent: "center",
-		// border: "1px solid #0f0d00",
-		// background: "#0f0d00",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
 		margin: "0 auto",
 		overflow: "auto",
 		height: "30vh",
@@ -289,19 +291,28 @@ const Mypage = () => {
 	const [disabled, setDisabled] = useState(false);
 	const [locker, setLocker] = useState([]); // get으로 받아올 locker
 
-	const handleChange = ({ target: { value } }) => setPassword(value);
-
-	const handleSubmit = async (e) => {
-		setDisabled(true);
-		e.preventDefault();
-		await new Promise((r) => setTimeout(r, 1000));
-		if (password.length < 8) {
-			alert("8자의 이상의 비밀번호를 사용하셔야 합니다.");
-		} else {
-			alert("변경되었습니다.");
-		}
-		setDisabled(false);
-	};
+	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
+		useFormik({
+			initialValues: {
+				userName: "",
+				password: "",
+				passwordConfirm: "",
+			},
+			validationSchema: Yup.object({
+				userName: Yup.string()
+					.max(10, "너무 깁니다.")
+					.required("닉네임을 입력하세요"),
+				password: Yup.string()
+					.min(8, "너무 짧습니다.")
+					.required("비밀번호를 입력하세요"),
+				passwordConfirm: Yup.string()
+					.oneOf([Yup.ref("password"), null], "패스워드가 일치하지 않습니다.")
+					.required("비밀번호를 입력하세요"),
+			}),
+			onSubmit: (values) => {
+				console.log(values);
+			},
+		});
 
 	const reverseBoo = () => {
 		setBoo(!boo);
@@ -361,7 +372,14 @@ const Mypage = () => {
 			>
 				<Signdel reverseBoo={reverseBoo} />
 			</Modal>
-
+			<Modal
+				isOpen={password}
+				style={passwordModal}
+				onRequestClose={() => reversePassword()}
+				ariaHideApp={false}
+			>
+				<Pass reverseBoo={reversePassword} />
+			</Modal>
 			<Nav />
 			<MypageBox>
 				<CategoryBox>
@@ -418,28 +436,45 @@ const Mypage = () => {
 							</div>
 							<form onSubmit={handleSubmit}>
 								<input
-									type="password"
 									name="password"
+									type="password"
 									placeholder="변경하실 비밀번호를 입력해주세요"
+									onBlur={handleBlur}
 									onChange={handleChange}
+									value={values.password}
 								/>
+								{touched.password && errors.password ? (
+									<div>{errors.password}</div>
+								) : null}
 								<input
+									name="passwordConfirm"
 									type="password"
-									name="password"
 									placeholder="변경하실 비밀번호를 한번 더 입력해주세요"
+									onBlur={handleBlur}
 									onChange={handleChange}
+									value={values.passwordConfirm}
 								/>
+								{touched.passwordConfirm && errors.passwordConfirm ? (
+									<div>{errors.passwordConfirm}</div>
+								) : null}
 								<input
+									name="userName"
 									type="text"
-									placeholder="변경하실 닉네임을 입력해주세요"
+									placeholder="닉네임을 입력해주세요"
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.username}
 								/>
+								{touched.userName && errors.userName ? (
+									<div>{errors.userName}</div>
+								) : null}
 								<div className="btnBox" style={{ display: "flex" }}>
 									<button
 										type="submit"
 										className="btn"
 										onClick={reversePassword}
 									>
-										비밀번호 변경
+										회원정보수정
 									</button>
 									<button className="delUser" onClick={reverseBoo}>
 										회원탈퇴
