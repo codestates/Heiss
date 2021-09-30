@@ -1,11 +1,19 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
-import Thumbnail from "../components/Thumbnail";
+import axios from "axios";
+import { flexCenter, color } from "../components/utils/theme";
+
+// 컴포넌트
 import Nav from "./Nav";
-import profile from "../img/profile.png";
 import Signdel from "../modal/Signdel";
 import Pass from "../modal/Pass";
+import Locker from "../components/Locker";
+
+// 이미지
+import profile from "../img/profile.png";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -38,7 +46,7 @@ const CategoryBox = styled.div`
 	height: 30vh;
 	position: sticky;
 	top: 0;
-	background: #3d3d3d;
+	background: ${color.basic};
 	border-radius: 1vh;
 	box-sizing: border-box;
 	padding: 15px;
@@ -97,7 +105,6 @@ const MainSection = styled.ul`
 	display: flex;
 	flex-direction: column;
 	width: 85vw;
-	/* background: #5e5d49; */
 	box-sizing: border-box;
 	border-radius: 1vh;
 	padding: 15px;
@@ -149,12 +156,10 @@ const PutUserInfoBox = styled.div`
 	}
 
 	button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		color: #f47676;
+		${flexCenter}
+		color: ${color.point};
 		background: none;
-		border: 3px solid #f47676;
+		border: 3px solid ${color.point};
 		border-radius: 1vh;
 		width: 14rem;
 		height: 5rem;
@@ -165,21 +170,21 @@ const PutUserInfoBox = styled.div`
 		transition: all 0.3s;
 		position: relative;
 		&:hover {
-			background: #ffffe7;
+			background: ${color.white};
 		}
 	}
 	.btnBox {
 		display: flex;
 		justify-content: center;
 		.delUser {
-			background: #f47676;
+			background: ${color.point};
 			margin-left: 2rem;
-			color: #ffffe7;
+			color: ${color.white};
 		}
 		.passwordUser {
-			background: #f47676;
+			background: ${color.point};
 			margin-left: 2rem;
-			color: #ffffe7;
+			color: ${color.white};
 		}
 		@media ${(props) => props.theme.tablet} {
 			flex-direction: column;
@@ -194,13 +199,13 @@ const ImgDiv = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-	border: 4px solid #f47676;
+	border: 4px solid ${color.point};
 	height: 14rem;
 	border-radius: 50%;
 	overflow: hidden;
 	&:hover {
 		background-color: #f7caca;
-		border: 4px dashed #f47676;
+		border: 4px dashed ${color.point};
 	}
 	> .img {
 		width: 100%;
@@ -251,16 +256,16 @@ const passwordModal = {
 		position: "fixed",
 		top: 0,
 		left: 0,
-		// right: 0,
-		// bottom: 0,
-		// backgroundColor: "rgba(255, 255, 255, 0.45)",
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
 		zIndex: 2,
 	},
 	content: {
 		display: "flex",
 		justifyContent: "center",
-		// border: "1px solid #0f0d00",
-		// background: "#0f0d00",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
 		margin: "0 auto",
 		overflow: "auto",
 		height: "30vh",
@@ -276,40 +281,38 @@ const passwordModal = {
 const Mypage = () => {
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
+
+	// 스크롤 이벤트 관리 상태 변수
 	const [scrollToShop, setScrollToShop] = useState(0);
 	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
-	const [warr, setWarr] = useState(false);
+
 	const [password, setPassword] = useState("");
 	const [disabled, setDisabled] = useState(false);
-	const handleChange = ({ target: { value } }) => setPassword(value);
+	const [locker, setLocker] = useState([]); // get으로 받아올 locker
 
-	const handleSubmit = async (e) => {
-		setDisabled(true);
-		e.preventDefault();
-		await new Promise((r) => setTimeout(r, 1000));
-		if (password.length < 8) {
-			alert("8자의 이상의 비밀번호를 사용하셔야 합니다.");
-		} else {
-			alert("변경되었습니다.");
-		}
-		setDisabled(false);
-	};
-	const sample = [
-		"https://cdn.pixabay.com/photo/2020/09/02/20/52/dock-5539524__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/05/25/20/14/holland-iris-5220407__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/10/08/17/39/waves-5638587__340.jpg",
-		"https://cdn.pixabay.com/photo/2019/01/30/11/17/zebra-3964360__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/01/13/37/cars-5970663__340.png",
-		"https://cdn.pixabay.com/photo/2019/06/05/10/34/mimosa-4253396__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/08/04/14/42/sky-5463015__340.jpg",
-		"https://cdn.pixabay.com/photo/2021/02/03/13/54/cupcake-5978060__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/01/09/01/00/the-eye-on-the-greek-4751572__340.png",
-		"https://cdn.pixabay.com/photo/2021/01/30/12/19/couple-5963678__340.png",
-		"https://cdn.pixabay.com/photo/2021/01/23/07/53/dogs-5941898__340.jpg",
-		"https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg",
-	];
+	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
+		useFormik({
+			initialValues: {
+				userName: "",
+				password: "",
+				passwordConfirm: "",
+			},
+			validationSchema: Yup.object({
+				userName: Yup.string()
+					.max(10, "너무 깁니다.")
+					.required("닉네임을 입력하세요"),
+				password: Yup.string()
+					.min(8, "너무 짧습니다.")
+					.required("비밀번호를 입력하세요"),
+				passwordConfirm: Yup.string()
+					.oneOf([Yup.ref("password"), null], "패스워드가 일치하지 않습니다.")
+					.required("비밀번호를 입력하세요"),
+			}),
+			onSubmit: (values) => {
+				console.log(values);
+			},
+		});
 
 	const reverseBoo = () => {
 		setBoo(!boo);
@@ -338,6 +341,7 @@ const Mypage = () => {
 				.scrollIntoView({ behavior: "smooth" })
 		);
 	}, []);
+
 	const profileImg = (e) => {
 		let reader = new FileReader();
 		let file = e.target.files[0];
@@ -351,6 +355,13 @@ const Mypage = () => {
 		reader.readAsDataURL(file);
 	};
 
+	useEffect(() => {
+		axios
+			.get(`${process.env.REACT_APP_API_URL}locker`)
+			.then((res) => res.data)
+			.then((data) => setLocker(data.data));
+	}, []);
+
 	return (
 		<MypageSection>
 			<Modal
@@ -361,6 +372,14 @@ const Mypage = () => {
 			>
 				<Signdel reverseBoo={reverseBoo} />
 			</Modal>
+			<Modal
+				isOpen={password}
+				style={passwordModal}
+				onRequestClose={() => reversePassword()}
+				ariaHideApp={false}
+			>
+				<Pass reverseBoo={reversePassword} />
+			</Modal>
 			<Nav />
 			<MypageBox>
 				<CategoryBox>
@@ -369,7 +388,9 @@ const Mypage = () => {
 						<div className="username">NICKNAME</div>
 					</div>
 					<div className="navigator">
-						{/* <div value={scrollToShop} onClick={handleToShop}>장바구니</div> */}
+						<div value={scrollToShop} onClick={handleToShop}>
+							장바구니
+						</div>
 						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
 							보관함
 						</div>
@@ -380,18 +401,18 @@ const Mypage = () => {
 					</div>
 				</CategoryBox>
 				<MainSection>
-					{/* <li className="shop">장바구니</li> */}
+					<li className="shop">장바구니</li>
 					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>
-							{/* {sample.map((data, key) => (
-								<Thumbnail
+							{locker.map((data, key) => (
+								<Locker
 									data={data}
 									key={key}
 									shotBtn={true}
 									liked={data.liked}
 								/>
-							))} */}
+							))}
 						</SaveBox>
 					</li>
 					<li className="put-userinfo">
@@ -408,37 +429,52 @@ const Mypage = () => {
 									/>
 									<img
 										className="img"
-										src={
-											img.imagePreviewUrl ??
-											"http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg"
-										}
+										src={img.imagePreviewUrl ?? profile}
+										alt="profile"
 									/>
 								</ImgDiv>
 							</div>
 							<form onSubmit={handleSubmit}>
 								<input
-									type="password"
 									name="password"
+									type="password"
 									placeholder="변경하실 비밀번호를 입력해주세요"
+									onBlur={handleBlur}
 									onChange={handleChange}
+									value={values.password}
 								/>
+								{touched.password && errors.password ? (
+									<div>{errors.password}</div>
+								) : null}
 								<input
+									name="passwordConfirm"
 									type="password"
-									name="password"
 									placeholder="변경하실 비밀번호를 한번 더 입력해주세요"
+									onBlur={handleBlur}
 									onChange={handleChange}
+									value={values.passwordConfirm}
 								/>
+								{touched.passwordConfirm && errors.passwordConfirm ? (
+									<div>{errors.passwordConfirm}</div>
+								) : null}
 								<input
+									name="userName"
 									type="text"
-									placeholder="변경하실 닉네임을 입력해주세요"
+									placeholder="닉네임을 입력해주세요"
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.username}
 								/>
+								{touched.userName && errors.userName ? (
+									<div>{errors.userName}</div>
+								) : null}
 								<div className="btnBox" style={{ display: "flex" }}>
 									<button
 										type="submit"
 										className="btn"
 										onClick={reversePassword}
 									>
-										비밀번호 변경
+										회원정보수정
 									</button>
 									<button className="delUser" onClick={reverseBoo}>
 										회원탈퇴
