@@ -4,8 +4,6 @@ axios.defaults.withCredentials = true;
 // actions type
 const GET_REVIEW = "GET_REVIEW";
 const HANDLE_REVIEW_WRITE_MODAL = "HANDLE_REVIEW_WRITE_MODAL";
-const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
-const HANDLE_REVIEW_MODAL = "HANDLE_REVIEW_MODAL";
 const GET_CANVAS = "GET_CANVAS";
 
 // action
@@ -38,8 +36,6 @@ export const getCanvas = (data) => {
 const initialState = {
 	reviewAll: [],
 	reviewWriteModal: false,
-	reviewModal: false,
-	loginModal: false,
 	canvasdata: "",
 };
 
@@ -58,19 +54,13 @@ export const reviewReducer = (state = initialState, action) => {
 				reviewWriteModal: !state.reviewWriteModal,
 			};
 
-		case HANDLE_REVIEW_MODAL:
-			return {
-				state,
-				reviewModal: !state.reviewModal,
-			};
-
 		case GET_CANVAS:
 			console.log("payload", action.payload);
 			return {
 				...state,
 				canvasdata: action.payload,
 			};
-      
+
 		default:
 			return state;
 	}

@@ -111,7 +111,7 @@ const Canvas = () => {
 	const [caseInfo, setCaseInfo] = useState({
 		phoneId: 1,
 		price: 1000,
-		setting: "갤럭시",
+		setting: '{"a":"a"}',
 	});
 	const dispatch = useDispatch();
 
