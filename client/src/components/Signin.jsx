@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import kakao from "../img/카카오.png";
@@ -186,6 +186,28 @@ const Signin = () => {
 			},
 		});
 
+		function kakaoclick() {
+			const kakaourl = "https://kauth.kakao.com/oauth/authorize";
+			const client_id = process.env.REACT_APP_KAKAO_CLIENT;
+			const redirect_uri = process.env.REACT_APP_CLIENT_REDIRECT;
+			const response_type = "code";
+			const state = "kakao";
+			const url = `${kakaourl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
+			window.location.assign(url);
+		}
+
+		function naverclick() {
+			const naverurl = "https://nid.naver.com/oauth2.0/authorize";
+			const client_id = process.env.REACT_APP_NAVER_CLIENT;
+			const redirect_uri = process.env.REACT_APP_CLIENT_REDIRECT;
+			const response_type = "code";
+			const state = "naver";
+			const url = `${naverurl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
+			window.location.assign(url);
+		}
+		
+	
+		
 	return (
 		<SigninSection onSubmit={handleSubmit}>
 			<input
@@ -209,11 +231,11 @@ const Signin = () => {
 				<div>{errors.password}</div>
 			) : null}
 			<BtnBox>
-				<button className="desktopBtn kakao">
+				<button className="desktopBtn kakao" onClick={kakaoclick}>
 					<img src={kakao} alt="kakao" />
 					로그인
 				</button>
-				<button className="desktopBtn naver">
+				<button className="desktopBtn naver" onClick={naverclick}>
 					<img src={naver} alt="naver" />
 					로그인
 				</button>
