@@ -68,6 +68,7 @@ export const reviewReducer = (state = initialState, action) => {
 			};
 
 		case GET_CANVAS:
+			console.log("payload", action.payload);
 			return {
 				...state,
 				canvasdata: action.payload,

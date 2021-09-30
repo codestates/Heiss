@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
-import { Redirect } from "react-router";
-import { useSelector } from "react-redux";
 import axios from "axios";
+import { flexCenter, color } from "../components/utils/theme";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -45,7 +44,7 @@ const CategoryBox = styled.div`
 	height: 30vh;
 	position: sticky;
 	top: 0;
-	background: #3d3d3d;
+	background: ${color.basic};
 	border-radius: 1vh;
 	box-sizing: border-box;
 	padding: 15px;
@@ -104,7 +103,6 @@ const MainSection = styled.ul`
 	display: flex;
 	flex-direction: column;
 	width: 85vw;
-	/* background: #5e5d49; */
 	box-sizing: border-box;
 	border-radius: 1vh;
 	padding: 15px;
@@ -156,12 +154,10 @@ const PutUserInfoBox = styled.div`
 	}
 
 	button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		color: #f47676;
+		${flexCenter}
+		color: ${color.point};
 		background: none;
-		border: 3px solid #f47676;
+		border: 3px solid ${color.point};
 		border-radius: 1vh;
 		width: 14rem;
 		height: 5rem;
@@ -172,21 +168,21 @@ const PutUserInfoBox = styled.div`
 		transition: all 0.3s;
 		position: relative;
 		&:hover {
-			background: #ffffe7;
+			background: ${color.white};
 		}
 	}
 	.btnBox {
 		display: flex;
 		justify-content: center;
 		.delUser {
-			background: #f47676;
+			background: ${color.point};
 			margin-left: 2rem;
-			color: #ffffe7;
+			color: ${color.white};
 		}
 		.passwordUser {
-			background: #f47676;
+			background: ${color.point};
 			margin-left: 2rem;
-			color: #ffffe7;
+			color: ${color.white};
 		}
 		@media ${(props) => props.theme.tablet} {
 			flex-direction: column;
@@ -201,13 +197,13 @@ const ImgDiv = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-	border: 4px solid #f47676;
+	border: 4px solid ${color.point};
 	height: 14rem;
 	border-radius: 50%;
 	overflow: hidden;
 	&:hover {
 		background-color: #f7caca;
-		border: 4px dashed #f47676;
+		border: 4px dashed ${color.point};
 	}
 	> .img {
 		width: 100%;
@@ -374,7 +370,9 @@ const Mypage = () => {
 						<div className="username">NICKNAME</div>
 					</div>
 					<div className="navigator">
-						{/* <div value={scrollToShop} onClick={handleToShop}>장바구니</div> */}
+						<div value={scrollToShop} onClick={handleToShop}>
+							장바구니
+						</div>
 						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
 							보관함
 						</div>
@@ -385,7 +383,7 @@ const Mypage = () => {
 					</div>
 				</CategoryBox>
 				<MainSection>
-					{/* <li className="shop">장바구니</li> */}
+					<li className="shop">장바구니</li>
 					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>

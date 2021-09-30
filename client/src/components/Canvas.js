@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Shapes from "./Shapes";
-import { color } from "./utils/theme";
+import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLoginModal, getCanvas } from "../redux/modules/review";
 
@@ -29,6 +29,10 @@ const CanvasSection = styled.div`
 	height: 100%;
 	margin-top: 3rem;
 	position: relative;
+`;
+
+const CanvasBox = styled.div`
+	${flexCenter}
 `;
 
 // 우측 메뉴바
@@ -192,7 +196,7 @@ const Canvas = () => {
 			// json으로 보내줄 직렬화
 			const canvasData = JSON.stringify(canvas);
 			setCaseInfo({ ...caseInfo, setting: canvasData });
-
+			console.log(canvasData);
 			// img 파일로 보내줄 직렬화
 			const imgdata = canvas.toDataURL("image/png", 1.0);
 			let file = base64toFile(imgdata);

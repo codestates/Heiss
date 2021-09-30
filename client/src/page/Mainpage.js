@@ -40,7 +40,7 @@ const MainpageBoxFirst = styled.ul`
 			background: none;
 		}
 		&:nth-child(2n) {
-			background: #ffffe7;
+			background: ${color.white};
 		}
 		h1,
 		h2,
@@ -111,7 +111,7 @@ const MainpageBoxFirst = styled.ul`
 		position: relative;
 		&:hover {
 			background: ${color.point};
-			color: #ffffe7;
+			color: ${color.white};
 		}
 		&:before {
 			transition: all 0.3s;
@@ -206,7 +206,7 @@ const MainpageBoxFirst = styled.ul`
 
 		&:hover {
 			background: ${color.point};
-			color: #ffffe7;
+			color: ${color.white};
 		}
 	}
 `;
@@ -293,7 +293,6 @@ const Mainpage = () => {
 					<Link to="/make" className="startBtn">
 						<h1>시작하기</h1>
 					</Link>
-
 					<img src={gif1} alt="gif1" className="giphy-embed" />
 				</li>
 			</MainpageBoxFirst>

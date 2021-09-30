@@ -69,8 +69,10 @@ const Locker = ({ data }) => {
 	// 역직렬화 핸들러
 	const onDeserialization = () => {
 		// canvas.loadFromJSON(data.setting);
+		axios.get(`${process.env.REACT_APP_API_URL}case${data.id}`).then(() => {
+			dispatch(getCanvas(canvas.loadFromJSON(data.setting)));
+		});
 
-		dispatch(getCanvas(canvas.loadFromJSON(data.setting)));
 		history.push("/make");
 	};
 
