@@ -253,16 +253,16 @@ const passwordModal = {
 		position: "fixed",
 		top: 0,
 		left: 0,
-		// right: 0,
-		// bottom: 0,
-		// backgroundColor: "rgba(255, 255, 255, 0.45)",
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
 		zIndex: 2,
 	},
 	content: {
 		display: "flex",
 		justifyContent: "center",
-		// border: "1px solid #0f0d00",
-		// background: "#0f0d00",
+		border: "1px solid #0f0d00",
+		background: "#0f0d00",
 		margin: "0 auto",
 		overflow: "auto",
 		height: "30vh",
@@ -373,6 +373,14 @@ const Mypage = () => {
 			>
 				<Signdel reverseBoo={reverseBoo} />
 			</Modal>
+			<Modal
+				isOpen={password}
+				style={passwordModal}
+				onRequestClose={() => reversePassword()}
+				ariaHideApp={false}
+			>
+				<Pass reverseBoo={reversePassword} />
+			</Modal>
 			<Nav />
 			<MypageBox>
 				<CategoryBox>
@@ -467,7 +475,7 @@ const Mypage = () => {
 										className="btn"
 										onClick={reversePassword}
 									>
-										비밀번호 변경
+										회원정보수정
 									</button>
 									<button className="delUser" onClick={reverseBoo}>
 										회원탈퇴
