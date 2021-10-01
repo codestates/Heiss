@@ -6,6 +6,7 @@ const GET_LOGIN = "GET_LOGIN";
 const GET_LOGOUT = "GET_LOGOUT";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
 const GET_LOCKER = "GET_LOCKER";
+const PATCH_USER_INFO = "PATCH_USER_INFO";
 
 // action
 export const getUserInfo = () => (dispatch) => {
@@ -16,13 +17,12 @@ export const getUserInfo = () => (dispatch) => {
 	});
 };
 
-
 export const newUserInfo = () => (dispatch) => {
 	axios.get(`${process.env.REACT_APP_API_URL}user/mypage`).then((el) => {
 		if (el.data.userInfo) {
 			dispatch(getLogin(el.data.userInfo));
-    }
-  });
+		}
+	});
 };
 
 export const getUserLocker = () => (dispatch) => {
@@ -64,6 +64,7 @@ export const patchUserInfo = () => {
 		type: PATCH_USER_INFO,
 	};
 };
+
 // initialState
 const initialState = {
 	userInfo: {},
