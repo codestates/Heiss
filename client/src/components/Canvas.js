@@ -208,7 +208,7 @@ const Canvas = () => {
 			// img 파일로 보내줄 직렬화
 			const imgdata = canvas.toDataURL("image/png", 1.0);
 			let file = base64toFile(imgdata);
-
+			console.log(canvas);
 			let formdata = new FormData();
 			formdata.append("picture", file);
 			formdata.append("phoneId", 1);
