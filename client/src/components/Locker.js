@@ -48,7 +48,7 @@ const BgnHover = styled.div`
 
 const Locker = ({ data }) => {
 	const history = useHistory();
-	const dispatch = useDispatch();	
+	const dispatch = useDispatch();
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
@@ -64,11 +64,10 @@ const Locker = ({ data }) => {
 
 	// 역직렬화 핸들러
 	const onDeserialization = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}case/${data.id}`).then(() => {
-      console.log(data)
-      dispatch(onDes(data.setting, data.id));
+		axios.get(`${process.env.REACT_APP_API_URL}case/${data.id}`).then(() => {
+			console.log(data);
+			dispatch(onDes(data.setting, data.id));
 			// canvas.loadFromJSON(serial);
-
 		});
 
 		// history.push("/make");

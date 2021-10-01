@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
 				}
 			} else if (
 				!imgUrl.length &&
-				!findReview.dataValues.sources.length - urlList.length
+				!(findReview.dataValues.sources.length - urlList.length)
 			) {
 				await source.create({
 					reviewId,
