@@ -5,10 +5,19 @@ axios.defaults.withCredentials = true;
 const GET_LOGIN = "GET_LOGIN";
 const GET_LOGOUT = "GET_LOGOUT";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
+const PATCH_USER_INFO = "PATCH_USER_INFO";
 
 // action
 export const getUserInfo = () => (dispatch) => {
 	axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
+		if (el.data.userInfo) {
+			dispatch(getLogin(el.data.userInfo));
+		}
+	});
+};
+
+export const newUserInfo = () => (dispatch) => {
+	axios.get(`${process.env.REACT_APP_API_URL}user/mypage`).then((el) => {
 		if (el.data.userInfo) {
 			dispatch(getLogin(el.data.userInfo));
 		}
@@ -34,6 +43,11 @@ export const handleLoginModal = () => {
 	};
 };
 
+export const patchUserInfo = () => {
+	return {
+		type: PATCH_USER_INFO,
+	};
+};
 // initialState
 const initialState = {
 	userInfo: {},

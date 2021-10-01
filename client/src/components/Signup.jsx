@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { getUserInfo, handleLoginModal } from "../redux/modules/users";
-import { color } from './utils/theme'
+import { color } from "./utils/theme";
 import profile from "../img/profile.png";
 axios.defaults.withCredentials = true;
 
@@ -208,9 +208,7 @@ const Singup = () => {
 							/>
 							<img
 								className="img"
-								src={
-									img.imagePreviewUrl ?? profile
-								}
+								src={img.imagePreviewUrl ?? profile}
 								alt="profile"
 							/>
 						</ImgDiv>

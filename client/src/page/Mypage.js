@@ -3,7 +3,9 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import axios from "axios";
 import { flexCenter, color } from "../components/utils/theme";
-
+import { patchUserInfo } from "../redux/modules/users";
+import { newUserInfo } from "../redux/modules/users";
+import { useDispatch } from "react-redux";
 // 컴포넌트
 import Nav from "./Nav";
 import Signdel from "../modal/Signdel";
@@ -281,6 +283,7 @@ const passwordModal = {
 const Mypage = () => {
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
+	const dispatch = useDispatch();
 
 	// 스크롤 이벤트 관리 상태 변수
 	const [scrollToShop, setScrollToShop] = useState(0);
@@ -288,7 +291,6 @@ const Mypage = () => {
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
 
 	const [password, setPassword] = useState("");
-	const [disabled, setDisabled] = useState(false);
 	const [locker, setLocker] = useState([]); // get으로 받아올 locker
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
@@ -310,7 +312,7 @@ const Mypage = () => {
 					.required("비밀번호를 입력하세요"),
 			}),
 			onSubmit: (values) => {
-				console.log(values);
+				alert("회원정보가 수정되었습니다..");
 			},
 		});
 
