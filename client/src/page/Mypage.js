@@ -15,7 +15,7 @@ import Locker from "../components/Locker";
 import profile from "../img/profile.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -281,6 +281,7 @@ const passwordModal = {
 };
 
 const Mypage = () => {
+	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
@@ -359,7 +360,10 @@ const Mypage = () => {
 	};
 
 	useEffect(() => {
-		dispatch(getUserLocker());
+		axios
+			.get(`${process.env.REACT_APP_API_URL}locker`)
+			.then((res) => res.data)
+			.then((data) => setLocker(data.data));
 	}, []);
 
 	return (
