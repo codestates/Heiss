@@ -286,7 +286,6 @@ const Mypage = () => {
 	const user = useSelector((state) => state.user);
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
-	const dispatch = useDispatch();
 
 	// 스크롤 이벤트 관리 상태 변수
 	const [scrollToShop, setScrollToShop] = useState(0);
