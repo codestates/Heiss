@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { newUserInfo } from "../redux/modules/users";
+import { patchUserInfo } from "../redux/modules/users";
 
 const PassSection = styled.form`
 	display: flex;
@@ -49,23 +53,51 @@ const BtnBox = styled.div`
 	}
 `;
 
-const Pass = ({ reversePassword }) => {
-	const [warr, setWarr] = useState(false);
-	const [password, setPassword] = useState("");
-	const [disabled, setDisabled] = useState(false);
-	const handleChange = ({ target: { value } }) => setPassword(value);
+const Pass = () => {
+	// const [password, setPassword] = useState("")
+	const dispatch = useDispatch();
+	const [userCode, setUserCode] = useState("");
+	const [hash, setHash] = useState("");
+	const [img, setImg] = useState({});
 
-	const handleSubmit = async (e) => {
-		setDisabled(true);
-		e.preventDefault();
-		await new Promise((r) => setTimeout(r, 1000));
-		if (password.length < 8) {
-			alert("8자의 이상의 비밀번호를 사용하셔야 합니다.");
+	const handleSubmit = async (values) => {
+		let user = await axios.post(
+			`${process.env.REACT_APP_API_URL}user/mypage`,
+			values
+		);
+		if (user.data.message === "password err") {
+			alert("비밀번호가 일치하지 않습니다");
 		} else {
-			alert("변경되었습니다.");
+			alert("회원정보 수정이 완료되었습니다.");
+			dispatch(patchUserInfo());
+			let url = window.location.pathname;
+			window.location.replace(url);
+			dispatch(newUserInfo());
 		}
-		setDisabled(false);
 	};
+// 	const passwordCheck = async (values) => {
+// 		axios
+// 			.post(`${process.env.REACT_APP_API_URL}user/mypage`, {
+// 				code: userCode,
+// 				hashedcode: hash,
+// 			})
+// 			.then(() => {
+// 				const formData = new FormData();
+// 				for (let el in values) {
+// 					formData.append(el, values[el]);
+// 				}
+// 				formData.append("picture", img.file);
+// 				axios
+// 					.post(`${process.env.REACT_APP_API_URL}user/mypage`, formData, {
+// 						header: { "Content-Type": "multipart/form-data" },
+// 					})
+// 					.then(() => {
+// 						alert("회원가입이 완료되었습니다!");
+// 						dispatch(patchUserInfo());
+// 						dispatch(newUserInfo());
+// 					});
+// 			});
+// 	};
 
 	return (
 		<PassSection onSubmit={handleSubmit}>
@@ -74,11 +106,11 @@ const Pass = ({ reversePassword }) => {
 				<input
 					type="password"
 					name="password"
-					value={password}
-					onChange={handleChange}
+					// value={password}
+					onChange={passwordCheck}
 				/>
-				<button type="submit" className="btn" onClick={reversePassword}>
-					비밀번호 변경
+				<button type="submit" className="btn">
+					변경
 				</button>
 			</BtnBox>
 		</PassSection>
