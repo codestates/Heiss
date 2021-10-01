@@ -287,7 +287,7 @@ const Mypage = () => {
 	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
 
-	const [password, setPassword] = useState("");
+	const [password, setPassword] = useState(false);
 	const [disabled, setDisabled] = useState(false);
 	const [locker, setLocker] = useState([]); // get으로 받아올 locker
 
