@@ -33,4 +33,5 @@ module.exports = {
 	//* case
 	getCase: require("./case/getCase"),
 	postCase: require("./case/postCase"),
+	patchCase: require("./case/patchCase"),
 };
