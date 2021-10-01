@@ -284,7 +284,6 @@ const passwordModal = {
 
 const Mypage = () => {
 	const user = useSelector((state) => state.user);
-	const dispatch = useDispatch();
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
 

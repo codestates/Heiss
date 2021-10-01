@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Shapes from "./Shapes";
 import { flexCenter, color } from "./utils/theme";
@@ -113,6 +113,7 @@ const Canvas = () => {
 	const [menuNum, setMenuNum] = useState(0); // menu 리스트
 	const [context, setContext] = useState(false); // context menu 토글
 	const [point, setPoint] = useState({ x: 0, y: 0 });
+	const { id } = useParams();
 	const [caseInfo, setCaseInfo] = useState({
 		phoneId: 1,
 		price: 1000,
@@ -180,6 +181,17 @@ const Canvas = () => {
 		return window.removeEventListener("resize", handleResizeEvent);
 	}, []);
 
+	useEffect(() => {
+		axios.get(`${process.env.REACT_APP_API_URL}case/${id}`).then((el) => {
+			if (canvas) {
+				console.log(el.data.data.setting);
+				canvas.loadFromJSON(el.data.data.setting, () => {
+					canvas.renderAll();
+				});
+			}
+		});
+	}, []);
+
 	// contextMenu handler
 	const contextMenuHandler = () => {
 		setContext(!context);
@@ -202,18 +214,16 @@ const Canvas = () => {
 		if (user.isLogin) {
 			// json으로 보내줄 직렬화
 			const canvasData = JSON.stringify(canvas);
-			let a = { ...caseInfo, setting: canvasData };
-			setCaseInfo({ ...caseInfo, setting: canvasData });
-
+			const a = { ...caseInfo, setting: canvasData };
 			// img 파일로 보내줄 직렬화
 			const imgdata = canvas.toDataURL("image/png", 1.0);
 			let file = base64toFile(imgdata);
 			console.log(canvas);
 			let formdata = new FormData();
 			formdata.append("picture", file);
-			formdata.append("phoneId", 1);
-			formdata.append("price", 1000);
-			formdata.append("setting", canvasData);
+			for (let el in a) {
+				formdata.append(el, a[el]);
+			}
 
 			await axios
 				.post(`${process.env.REACT_APP_API_URL}locker`, formdata, {
