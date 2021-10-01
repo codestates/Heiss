@@ -37,10 +37,10 @@ module.exports = async (req, res) => {
 				res.status(200).json({ message: "ok" });
 			} catch (err) {
 				console.log(err);
-				res.status(400).json({ message: "Failed to write a review" });
+				res.status(200).json({ message: "Failed to write a review" });
 			}
 		} else {
-			res.status(422).json({ message: "insufficient parameters supplied" });
+			res.status(200).json({ message: "insufficient parameters supplied" });
 		}
 	} catch (err) {
 		res.status(500).send(console.log(err));

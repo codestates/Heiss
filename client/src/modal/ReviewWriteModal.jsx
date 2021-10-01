@@ -301,9 +301,13 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 					header: { "Content-Type": "multipart/form-data" },
 				})
 				.then((el) => {
-					alert("리뷰작성이 완료되었습니다.");
-					dispatch(handleRevieWritewModal());
-					dispatch(reviewDatas());
+					if (el.data.message === "Failed to write a review") {
+						alert("사진을 제외한 모든 항목을 채워주세요");
+					} else {
+						alert("리뷰작성이 완료되었습니다.");
+						dispatch(handleRevieWritewModal());
+						dispatch(reviewDatas());
+					}
 				});
 		}
 	};
