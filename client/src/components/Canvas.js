@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Shapes from "./Shapes";
-import { flexCenter, color } from "./utils/theme";
+import { flexCenter, color, size } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { getCanvas } from "../redux/modules/review";
 import { handleLoginModal } from "../redux/modules/users";
@@ -157,8 +157,18 @@ const Canvas = () => {
 
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
-			setCanvasWidth(document.body.clientWidth);
-			setCanvasHeight(800);
+			console.log(document.body.clientWidth);
+			const windowWidth = document.body.clientWidth;
+			const windowHeight = document.body.clientHeight;
+
+			if (windowWidth <= 768) {
+				canvas.setDimensions({
+					width: setCanvasWidth(200),
+					height: setCanvasHeight(200),
+				});
+				// setCanvasWidth(200);
+				// setCanvasHeight(200);
+			}
 		};
 
 		// 삭제 버튼
@@ -172,12 +182,11 @@ const Canvas = () => {
 		};
 
 		window.addEventListener("keydown", deleteBtn);
-		window.addEventListener("resize", handleResizeEvent, false);
-		handleResizeEvent();
+		window.addEventListener("resize", handleResizeEvent);
 
 		canvas.renderAll(); // useEffect를 통해 전체 랜더링
 
-		return window.removeEventListener("resize", handleResizeEvent);
+		return window.removeEventListener("resize", handleResizeEvent, false);
 	}, []);
 
 	// contextMenu handler
@@ -202,8 +211,8 @@ const Canvas = () => {
 		if (user.isLogin) {
 			// json으로 보내줄 직렬화
 			const canvasData = JSON.stringify(canvas);
-			let a = { ...caseInfo, setting: canvasData };
-			setCaseInfo({ ...caseInfo, setting: canvasData });
+			const a = { ...caseInfo, setting: canvasData };
+			// setCaseInfo({ ...caseInfo, setting: canvasData });
 
 			// img 파일로 보내줄 직렬화
 			const imgdata = canvas.toDataURL("image/png", 1.0);
@@ -211,9 +220,13 @@ const Canvas = () => {
 
 			let formdata = new FormData();
 			formdata.append("picture", file);
-			formdata.append("phoneId", 1);
-			formdata.append("price", 1000);
-			formdata.append("setting", canvasData);
+			// formdata.append("phoneId", 1);
+			// formdata.append("price", 1000);
+			// formdata.append("setting", canvasData);
+
+			for (let el in a) {
+				formdata.append(el, a[el]);
+			}
 
 			await axios
 				.post(`${process.env.REACT_APP_API_URL}locker`, formdata, {

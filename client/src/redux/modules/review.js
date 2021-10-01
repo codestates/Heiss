@@ -80,12 +80,12 @@ export const reviewReducer = (state = initialState, action) => {
 
 		case CANVAS_DESERIALIZATION:
 			const canvas = state.canvasdata;
-			console.log("reducer", canvas, action.payload.data);
-			const result = JSON.parse(action.payload.data);
-			canvas.loadFromJSON(result);
+			console.log("reducer", canvas, action.payload);
+
 			return {
 				...state,
 				caseId: action.payload.id,
+				canvasdata: canvas.action.payload,
 			};
 
 		default:

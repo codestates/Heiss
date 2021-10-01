@@ -64,12 +64,15 @@ const Locker = ({ data }) => {
 
 	// 역직렬화 핸들러
 	const onDeserialization = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}case/${data.id}`).then(() => {
-      console.log(data)
-      dispatch(onDes(data.setting, data.id));
-			// canvas.loadFromJSON(serial);
-
-		});
+    
+    axios.get(`${process.env.REACT_APP_API_URL}case/103`).then((el) => {
+      // if (canvas) {
+      //     console.log(el.data.data.setting);
+      //     canvas.loadFromJSON(el.data.data.setting, () => {
+      //         canvas.renderAll();
+      //     });
+      // }
+  });
 
 		// history.push("/make");
 	};
