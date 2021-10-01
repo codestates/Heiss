@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { getCanvas } from "../redux/modules/review";
+import { onDes } from "../redux/modules/review";
 
 import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
 
@@ -48,11 +48,7 @@ const BgnHover = styled.div`
 
 const Locker = ({ data }) => {
 	const history = useHistory();
-	const dispatch = useDispatch();
-	// 서버 500떠서 확인을 못하기 때문에 dispatch랑 그냥 selector 두가지 방법을 만들어놓음
-	const canvas = useSelector((state) => state.canvasdata);
-
-	console.log("canvas", canvas);
+	const dispatch = useDispatch();	
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
@@ -68,12 +64,14 @@ const Locker = ({ data }) => {
 
 	// 역직렬화 핸들러
 	const onDeserialization = () => {
-		// canvas.loadFromJSON(data.setting);
-		axios.get(`${process.env.REACT_APP_API_URL}case${data.id}`).then(() => {
-			dispatch(getCanvas(canvas.loadFromJSON(data.setting)));
+    axios.get(`${process.env.REACT_APP_API_URL}case/${data.id}`).then(() => {
+      console.log(data)
+      dispatch(onDes(data.setting, data.id));
+			// canvas.loadFromJSON(serial);
+
 		});
 
-		history.push("/make");
+		// history.push("/make");
 	};
 
 	return (

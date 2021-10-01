@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import ReviewModal from "../modal/ReviewModal";
 // 이미지
 import heartIcon from "../img/heart.svg";
 import noneheartIcon from "../img/noneheart.svg";
+axios.defaults.withCredentials = true;
 
 const ThumbnailAllBox = styled.div`
 	display: flex;
@@ -103,14 +104,15 @@ const ThumbnailModal = {
 };
 
 const Thumbnail = ({ data, shotBtn, shareBtn }) => {
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
 	const review = useSelector((state) => state.review);
 	const [toggleH, setToggleH] = useState(false);
-	const [boo, setBoo] = useState(false);
+	const [modal, setModal] = useState(false);
 
-	const reverseBoo = () => {
-		setBoo(!boo);
+	const modalHandler = () => {
+		setModal(!modal);
 	};
 
 	useEffect(() => {
@@ -124,17 +126,21 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 			return dispatch(handleLoginModal());
 		}
 		axios
-			.post(
-				`${process.env.REACT_APP_API_URL}review/like`,
-				{
-					reviewId: data.id,
-				},
-				{ withCredentials: true }
-			)
+			.post(`${process.env.REACT_APP_API_URL}review/like`, {
+				reviewId: data.id,
+			})
 			.then(() => {
 				setToggleH(!toggleH);
 				dispatch(reviewDatas());
 			});
+	};
+
+	const scrapCase = (id) => {
+		axios.post(`${process.env.REACT_APP_API_URL}case`, { id }).then(() => {
+			if (window.confirm("보관함으로 이동하시겠습니까?")) {
+				history.push("/mypage");
+			}
+		});
 	};
 
 	if (!data) {
@@ -144,17 +150,17 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	return (
 		<ThumbnailAllBox>
 			<Modal
-				isOpen={boo}
+				isOpen={modal}
 				style={ThumbnailModal}
-				onRequestClose={reverseBoo}
+				onRequestClose={modalHandler}
 				ariaHideApp={false}
 			>
-				<ReviewModal dataId={data.id} reverseBoo={reverseBoo} />
+				<ReviewModal dataId={data.id} modalHandler={modalHandler} />
 			</Modal>
 			<ThumbnailSection>
 				<img src={data.sources[0].imgUrl} alt="img" />
 				<HoverThumb className="hover-thumb">
-					<BgnHover onClick={reverseBoo}></BgnHover>
+					<BgnHover onClick={modalHandler}></BgnHover>
 					{toggleH ? (
 						<img
 							src={heartIcon}
@@ -173,7 +179,10 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 					<HoverThumbBottom>
 						{data.user.id !== user.userInfo.id
 							? shareBtn && (
-									<button className="shareBtn" onClick={postLike}>
+									<button
+										className="shareBtn"
+										onClick={() => scrapCase(data.id)}
+									>
 										퍼가기
 									</button>
 							  )

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
 import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
-import { getUserInfo } from "../redux/modules/users";
+import { getUserLocker } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -231,20 +231,28 @@ const Select = styled.div`
 	}
 `;
 
-const ReviewWriteModal = ({ data }) => {
+const ReviewWriteModal = ({ data, modalHandler }) => {
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	const [review, setReview] = useState({
-		caseId: 52, // 나중에 0으로 변경
+		caseId: 0, // 나중에 0으로 변경
 		title: "",
 		desc: "",
 		score: 0,
 	});
 	const [reviewImg, setReviewImg] = useState([]);
+	const [deleteImg, setDeleteImg] = useState([]);
 	const [caseChoice, setCaseChoice] = useState(false);
 	const [caseName, setCaseName] = useState("케이스를 선택해 주세요.");
 	const [color, setColor] = useState([
+		"white",
+		"white",
+		"white",
+		"white",
+		"white",
+	]);
+	const [putColor, setPutColor] = useState([
 		"white",
 		"white",
 		"white",
@@ -260,7 +268,19 @@ const ReviewWriteModal = ({ data }) => {
 				desc: data.desc,
 				score: data.score,
 			});
+			putColorChange(data.score - 1);
+			for (let img of data.sources) {
+				setReviewImg((e) => {
+					return [
+						...e,
+						{
+							imagePreviewUrl: img.imgUrl,
+						},
+					];
+				});
+			}
 		}
+		dispatch(getUserLocker());
 	}, []);
 
 	const onChange = (e, key) => {
@@ -288,12 +308,34 @@ const ReviewWriteModal = ({ data }) => {
 		}
 	};
 
+	const patchReviewUpload = (id) => {
+		const formData = new FormData();
+		for (let img of reviewImg) {
+			formData.append("picture", img.file);
+		}
+		for (let re in review) {
+			formData.append(re, review[re]);
+		}
+		formData.append("deleteUrl", deleteImg);
+		if (review.title && review.desc && review.score) {
+			axios
+				.patch(`${process.env.REACT_APP_API_URL}review/${id}`, formData, {
+					header: { "Content-Type": "multipart/form-data" },
+				})
+				.then((el) => {
+					alert("리뷰수정이 완료되었습니다.");
+					dispatch(handleRevieWritewModal());
+					modalHandler();
+					dispatch(reviewDatas());
+				});
+		}
+	};
+
 	const uploadImg = (e) => {
 		if (e.target.files.length + reviewImg.length > 4) {
 			return alert("사진은 4장까지 올릴 수 있습니다.");
 		}
 		for (let i = 0; i < e.target.files.length; i++) {
-			console.log(e.target.files[i]);
 			imageLoader(e.target.files[i]);
 		}
 	};
@@ -320,27 +362,39 @@ const ReviewWriteModal = ({ data }) => {
 			arr[i] = "yellow";
 		}
 		setColor(arr);
+		setPutColor(arr);
 		setReview({ ...review, score: index + 1 });
+	};
+
+	const putColorChange = (index) => {
+		let arr = ["white", "white", "white", "white", "white"];
+		for (let i = 0; i <= index; i++) {
+			arr[i] = "yellow";
+		}
+		setPutColor(arr);
 	};
 
 	const caseHandler = () => {
 		setCaseChoice(!caseChoice);
 	};
 
-	const imgDelete = (index) => {
+	const imgDelete = (index, url) => {
 		let newReviewImg = reviewImg.slice();
 		newReviewImg.splice(index, 1);
 		setReviewImg(newReviewImg);
+		setDeleteImg([...deleteImg, url]);
 	};
 
-	const imgNameChange = (e) => {
-		setCaseName(e.target.alt);
+	const imgNameChange = (e, el) => {
+		setCaseName(el.phone.type);
 		setCaseChoice(false);
+		setReview({ ...review, caseId: el.id });
 		e.stopPropagation();
 	};
 
-	const liNameChange = (e) => {
-		setCaseName(e.target.children[0].alt);
+	const liNameChange = (e, el) => {
+		setCaseName(el.phone.type);
+		setReview({ ...review, caseId: el.id });
 	};
 
 	return (
@@ -359,7 +413,9 @@ const ReviewWriteModal = ({ data }) => {
 										return (
 											<div className="imgWrap" key={index}>
 												<ReviewImg src={el.imagePreviewUrl} />
-												<ImgDelete onClick={() => imgDelete(index)}>
+												<ImgDelete
+													onClick={() => imgDelete(index, el.imagePreviewUrl)}
+												>
 													<p>삭제</p>
 												</ImgDelete>
 											</div>
@@ -396,53 +452,39 @@ const ReviewWriteModal = ({ data }) => {
 				<div>
 					<div className="starCaseDiv">
 						<div>
-							{color.map((el, index) => (
-								<StarTwoTone
-									className="star"
-									key={index}
-									twoToneColor={el}
-									onClick={() => colorChange(index)}
-								/>
-							))}
+							{review.title.length
+								? putColor.map((el, index) => (
+										<StarTwoTone
+											className="star"
+											key={index}
+											twoToneColor={el}
+											onClick={() => colorChange(index)}
+										/>
+								  ))
+								: color.map((el, index) => (
+										<StarTwoTone
+											className="star"
+											key={index}
+											twoToneColor={el}
+											onClick={() => colorChange(index)}
+										/>
+								  ))}
 						</div>
 						<Select onClick={caseHandler}>
 							<span>{caseName}</span>
 							{caseChoice ? (
 								<ul>
-									{/* {cases.map((el) => {
-									<li onClick={liNameChange}>
-										<img
-											onClick={imgNameChange}
-											style={{ width: "100px" }}
-											src={el.img}
-											alt={el}
-										/>
-									</li>;
-								})} */}
-									<li onClick={liNameChange}>
-										<img
-											onClick={imgNameChange}
-											style={{ width: "100px" }}
-											src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-12-white-select-2020?wid=940&hei=1112&fmt=png-alpha&.v=1604343705000"
-											alt="아이폰"
-										/>
-									</li>
-									<li onClick={liNameChange}>
-										<img
-											onClick={imgNameChange}
-											style={{ width: "100px" }}
-											src="https://newsimg.sedaily.com/2021/01/08/22H6CMQYK3_3.jpg"
-											alt="갤럭시"
-										/>
-									</li>
-									<li onClick={liNameChange}>
-										<img
-											onClick={imgNameChange}
-											style={{ width: "100px" }}
-											src="https://images.kbench.com/kbench/article/2021_01/k217730p1n1.jpg"
-											alt="접은갤럭시"
-										/>
-									</li>
+									{user.userlocker.map((el) => {
+										return (
+											<li key={el.id} onClick={(e) => liNameChange(e, el)}>
+												<img
+													onClick={(e) => imgNameChange(e, el)}
+													style={{ width: "100px" }}
+													src={el.img}
+												/>
+											</li>
+										);
+									})}
 								</ul>
 							) : null}
 						</Select>
@@ -461,7 +503,13 @@ const ReviewWriteModal = ({ data }) => {
 					</WriteSection>
 				</div>
 			</Wrap>
-			<ReviewBtn onClick={reviewUpload}>작성 완료</ReviewBtn>
+			{!data ? (
+				<ReviewBtn onClick={reviewUpload}>작성 완료</ReviewBtn>
+			) : (
+				<ReviewBtn onClick={() => patchReviewUpload(data.id)}>
+					수정 완료
+				</ReviewBtn>
+			)}
 		</>
 	);
 };

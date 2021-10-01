@@ -7,6 +7,7 @@ axios.defaults.withCredentials = true;
 
 module.exports = (req, res) => {
 	const { authorizationCode, platform } = req.body;
+	console.log("~~~~~~oauth~~~~~");
 	if (platform === "kakao") {
 		axios
 			.post(
@@ -31,6 +32,7 @@ module.exports = (req, res) => {
 						const username = response.data.properties.nickname;
 						const profileImage = response.data.properties.profile_image;
 						try {
+							console.log(email);
 							let user = await model.users.findOne({
 								where: { email: email, provider: "kakao" },
 							});

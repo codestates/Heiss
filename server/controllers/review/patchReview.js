@@ -4,24 +4,43 @@ require("dotenv").config();
 
 module.exports = async (req, res) => {
 	const reviewId = req.params.id;
-	const { score, title, desc, caseId } = req.body;
+	const { score, title, desc, caseId, deleteUrl } = req.body;
 	const accessToken = req.cookies.accessToken;
-	const imgUrl = req.files.location;
+	const imgUrl = req.files;
+
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
-		const findReview = await review.findOne({ where: { id: reviewId } });
+		const findReview = await review.findOne({
+			where: { id: reviewId },
+			include: [{ model: source, attributes: ["imgUrl"] }],
+		});
 		if (!findReview) {
 			res.status(404).json({ message: "Not found post" });
 		}
 		if (userInfo.id === findReview.dataValues.userId) {
-			if (imgUrl) {
-				await source.destroy({ where: { reviewId: reviewId } });
+			console.log(findReview);
+			let urlList = deleteUrl.split(",");
+			if (urlList.length) {
+				for (let url of urlList) {
+					await source.destroy({ where: { reviewId, imgUrl: url } });
+				}
+			}
+			if (imgUrl.length) {
 				for (let i = 0; i < imgUrl.length; i++) {
 					await source.create({
-						reviewId: newReview.id,
+						reviewId,
 						imgUrl: imgUrl[i].location,
 					});
 				}
+			} else if (
+				!imgUrl.length &&
+				!findReview.dataValues.sources.length - urlList.length
+			) {
+				await source.create({
+					reviewId,
+					imgUrl:
+						"https://heiss-images.s3.ap-northeast-2.amazonaws.com/1632811597118.png",
+				});
 			}
 			if (score && title && desc && caseId) {
 				await review.update(

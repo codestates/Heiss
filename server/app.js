@@ -62,3 +62,4 @@ io.on("connection", (socket) => {
 const PORT = 80;
 server.listen(PORT, () => console.log("서버가 열려따..!"));
 //sequelize.sync({ alter: true }
+//console.log("서버가 열려따..!")

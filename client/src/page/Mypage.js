@@ -6,6 +6,8 @@ import { flexCenter, color } from "../components/utils/theme";
 import { patchUserInfo } from "../redux/modules/users";
 import { newUserInfo } from "../redux/modules/users";
 import { useDispatch } from "react-redux";
+import { getUserLocker } from "../redux/modules/users";
+
 // 컴포넌트
 import Nav from "./Nav";
 import Signdel from "../modal/Signdel";
@@ -16,6 +18,7 @@ import Locker from "../components/Locker";
 import profile from "../img/profile.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -281,6 +284,8 @@ const passwordModal = {
 };
 
 const Mypage = () => {
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
 	const dispatch = useDispatch();
@@ -290,7 +295,9 @@ const Mypage = () => {
 	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
 
-	const [password, setPassword] = useState("");
+
+	const [password, setPassword] = useState(false);
+	const [disabled, setDisabled] = useState(false);
 	const [locker, setLocker] = useState([]); // get으로 받아올 locker
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =

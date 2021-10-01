@@ -34,6 +34,9 @@ const CanvasSection = styled.div`
 
 const CanvasBox = styled.div`
 	${flexCenter}
+	width: 100%;
+	height: 80%;
+	background: #3d3d3d;
 `;
 
 // 우측 메뉴바
@@ -44,7 +47,7 @@ const MenuSection = styled.ul`
 	align-items: center;
 	background: ${color.darkBasic};
 	width: 130px;
-	height: 83.4%;
+	height: 80%;
 	right: 0;
 	z-index: 1;
 	color: ${color.white};
@@ -102,8 +105,10 @@ const ListBox = styled.div`
 
 const Canvas = () => {
 	const user = useSelector((state) => state.user); // 로그인 상태
-	const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
-	const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
+	// const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
+	// const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
+	const [canvasWidth, setCanvasWidth] = useState(600);
+	const [canvasHeight, setCanvasHeight] = useState(600);
 	const [canvas, setCanvas] = useState();
 	const [menuNum, setMenuNum] = useState(0); // menu 리스트
 	const [context, setContext] = useState(false); // context menu 토글
@@ -111,7 +116,7 @@ const Canvas = () => {
 	const [caseInfo, setCaseInfo] = useState({
 		phoneId: 1,
 		price: 1000,
-		setting: "갤럭시",
+		setting: '{"a":"a"}',
 	});
 	const dispatch = useDispatch();
 
@@ -129,6 +134,7 @@ const Canvas = () => {
 			allowTaint: true,
 			foreignObjectRendering: true,
 		});
+
 		setCanvas(canvas);
 		dispatch(getCanvas(canvas));
 
@@ -152,7 +158,7 @@ const Canvas = () => {
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
 			setCanvasWidth(document.body.clientWidth);
-			setCanvasHeight(window.innerHeight);
+			setCanvasHeight(800);
 		};
 
 		// 삭제 버튼
@@ -196,30 +202,28 @@ const Canvas = () => {
 		if (user.isLogin) {
 			// json으로 보내줄 직렬화
 			const canvasData = JSON.stringify(canvas);
+			let a = { ...caseInfo, setting: canvasData };
 			setCaseInfo({ ...caseInfo, setting: canvasData });
-			console.log(canvasData);
+
 			// img 파일로 보내줄 직렬화
 			const imgdata = canvas.toDataURL("image/png", 1.0);
 			let file = base64toFile(imgdata);
 
 			let formdata = new FormData();
 			formdata.append("picture", file);
-			for (let key in caseInfo) {
-				formdata.append(key, caseInfo[key]);
-			}
+			formdata.append("phoneId", 1);
+			formdata.append("price", 1000);
+			formdata.append("setting", canvasData);
 
 			await axios
 				.post(`${process.env.REACT_APP_API_URL}locker`, formdata, {
 					withCredentials: true,
 					header: { "Content-Type": "multipart/form-data" },
 				})
-				.then(() => alert("저장 되었습니다! 보관함에서 확인해보세요!"));
+				.then(() =>
+					alert("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!")
+				);
 		} else {
-			// 테스트 후 지울거
-			// canvas.loadFromJSON(
-			// 	'{"objects":[{"type":"rect","left":50,"top":50,"width":20,"height":20,"fill":"green","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"rx":0,"ry":0},{"type":"circle","left":100,"top":100,"width":100,"height":100,"fill":"red","overlayFill":null,"stroke":null,"strokeWidth":1,"strokeDashArray":null,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"selectable":true,"hasControls":true,"hasBorders":true,"hasRotatingPoint":false,"transparentCorners":true,"perPixelTargetFind":false,"radius":50}],"background":"rgba(0, 0, 0, 0)"}'
-			// );
-
 			alert("로그인 해주세요");
 			reverseBoo();
 		}
@@ -231,33 +235,33 @@ const Canvas = () => {
 
 	return (
 		<CanvasSection>
-			<>
+			<CanvasBox>
 				<canvas id="canvas" />
-				<MenuSection>
-					<li onClick={() => setMenuNum(0)}>
-						<img src={caseIcon} alt="caseIcon" />
-						<div>케이스</div>
-					</li>
-					<li onClick={() => setMenuNum(1)}>
-						<img src={shapeIcon} alt="shapeIcon" />
-						<div>도형</div>
-					</li>
-					<li onClick={() => setMenuNum(2)}>
-						<img src={textIcon} alt="textIcon" />
-						<div>텍스트</div>
-					</li>
-					<li onClick={() => setMenuNum(3)}>
-						<img src={imageIcon} alt="imageIcon" />
-						<div>이미지</div>
-					</li>
-					<li onClick={() => setMenuNum(4)}>
-						<img src={palleteIcon} alt="palleteIcon" />
-						<div>색상</div>
-					</li>
+			</CanvasBox>
+			<MenuSection>
+				<li onClick={() => setMenuNum(0)}>
+					<img src={caseIcon} alt="caseIcon" />
+					<div>케이스</div>
+				</li>
+				<li onClick={() => setMenuNum(1)}>
+					<img src={shapeIcon} alt="shapeIcon" />
+					<div>도형</div>
+				</li>
+				<li onClick={() => setMenuNum(2)}>
+					<img src={textIcon} alt="textIcon" />
+					<div>텍스트</div>
+				</li>
+				<li onClick={() => setMenuNum(3)}>
+					<img src={imageIcon} alt="imageIcon" />
+					<div>이미지</div>
+				</li>
+				<li onClick={() => setMenuNum(4)}>
+					<img src={palleteIcon} alt="palleteIcon" />
+					<div>색상</div>
+				</li>
 
-					<button onClick={saveHandler}>저장</button>
-				</MenuSection>
-			</>
+				<button onClick={saveHandler}>저장</button>
+			</MenuSection>
 			{context && (
 				<ContextMenu
 					point={point}

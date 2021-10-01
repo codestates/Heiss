@@ -6,7 +6,7 @@ import { reviewDatas } from "../redux/modules/review";
 import { LeftCircleFilled } from "@ant-design/icons";
 import { RightCircleFilled } from "@ant-design/icons";
 import { StarTwoTone } from "@ant-design/icons";
-import { getUserInfo } from "../redux/modules/users";
+import { handleRevieWritewModal } from "../redux/modules/review";
 import Modal from "react-modal";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
 axios.defaults.withCredentials = true;
@@ -43,7 +43,8 @@ const ReviewModalSection = styled.div`
 			position: absolute;
 			top: 50%;
 			transform: translate(0%, -50%);
-			color: rgba(255, 255, 255, 0.8);
+			/* color: rgba(255, 255, 255, 0.8); */
+			color: red;
 			font-size: 2rem;
 			cursor: pointer;
 		}
@@ -244,7 +245,6 @@ const reviewModal = {
 	content: {
 		display: "flex",
 		justifyContent: "center",
-		border: "1px solid #0f0d00",
 		background: "#0f0d00",
 		margin: "0 auto",
 		overflow: "auto",
@@ -260,7 +260,7 @@ const reviewModal = {
 	},
 };
 
-const ReviewModal = ({ dataId, reverseBoo }) => {
+const ReviewModal = ({ dataId, modalHandler }) => {
 	const user = useSelector((state) => state.user);
 	const review = useSelector((state) => state.review);
 	const dispatch = useDispatch();
@@ -268,12 +268,10 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 	const [color, setColor] = useState([]);
 	const [imgNumber, setImgNumber] = useState(1);
 	const [imglength, setImgLength] = useState(1);
-	const [isEdit, setIsEdit] = useState(false);
 
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}review/${dataId}`).then((el) => {
 			setData(el.data.data);
-			console.log("reviewDetail", el.data.data);
 			setColor(colorChange(el.data.data.score - 1));
 			setImgLength(el.data.data.sources.length);
 		});
@@ -283,6 +281,7 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 		if (window.confirm("정말로 삭제하시겠습니까?")) {
 			axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then(() => {
 				alert("리뷰가 삭제되었습니다!");
+				modalHandler();
 				dispatch(reviewDatas());
 			});
 		}
@@ -317,7 +316,11 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 	};
 
 	const handleEdit = () => {
-		setIsEdit(!isEdit);
+		dispatch(handleRevieWritewModal());
+	};
+
+	const writerModalHandler = () => {
+		dispatch(handleRevieWritewModal());
 	};
 
 	if (!data) {
@@ -327,15 +330,16 @@ const ReviewModal = ({ dataId, reverseBoo }) => {
 	return (
 		<ReviewModalSection>
 			<Modal
-				isOpen={isEdit}
+				isOpen={review.reviewWriteModal}
 				style={reviewModal}
 				onRequestClose={() => {
-					handleEdit();
-					reverseBoo();
+					writerModalHandler();
+					// handleEdit();
+					modalHandler();
 				}}
 				ariaHideApp={false}
 			>
-				<ReviewWriteModal data={data} />
+				<ReviewWriteModal data={data} modalHandler={modalHandler} />
 			</Modal>
 			<div className="picDiv">
 				{data.sources.map((el, index) => {
