@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 // actions type
 const GET_REVIEW = "GET_REVIEW";
 const HANDLE_REVIEW_WRITE_MODAL = "HANDLE_REVIEW_WRITE_MODAL";
-const CANVAS_JSON = "CANVAS_JSON";
+const CANVAS_DATA = "CANVAS_DATA";
 const CANVAS_CLEAR = "CANVAS_CLEAR";
 
 // action
@@ -26,10 +26,10 @@ export const handleRevieWritewModal = () => {
 	};
 };
 
-export const onJSONDATA = (data, id) => {
+export const onCanvasData = (data) => {
 	return {
-		type: CANVAS_JSON,
-		payload: { data, id },
+		type: CANVAS_DATA,
+		payload: data,
 	};
 };
 
@@ -44,9 +44,7 @@ const initialState = {
 	reviewAll: [],
 	reviewWriteModal: false,
 	canvasdata: "",
-	jsonData: false,
-	caseinfo: [],
-	caseId: false,
+	caseInfo: false,
 };
 
 // reducer
@@ -64,11 +62,10 @@ export const reviewReducer = (state = initialState, action) => {
 				reviewWriteModal: !state.reviewWriteModal,
 			};
 
-		case CANVAS_JSON:
+		case CANVAS_DATA:
 			return {
 				...state,
-				jsonData: action.payload.data,
-				caseId: action.payload.id,
+				caseInfo: action.payload,
 			};
 
 		case CANVAS_CLEAR:

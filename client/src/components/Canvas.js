@@ -179,8 +179,8 @@ const Canvas = () => {
 		window.addEventListener("resize", handleResizeEvent, false);
 		handleResizeEvent();
 
-		if (review.jsonData) {
-			canvas.loadFromJSON(review.jsonData);
+		if (review.caseInfo) {
+			canvas.loadFromJSON(review.caseInfo.setting);
 		}
 		canvas.renderAll();
 
@@ -215,16 +215,19 @@ const Canvas = () => {
 			const sendData = { ...caseInfo, setting: canvasData };
 			const imgdata = canvas.toDataURL("image/png", 1.0);
 			let file = base64toFile(imgdata);
-
 			let formdata = new FormData();
 			formdata.append("picture", file);
 
-			for (let el in sendData) {
-				formdata.append(el, sendData[el]);
-			}
-
-			if (review.caseId) {
-				formdata.append("caseId", review.caseId);
+			if (review.caseInfo.id) {
+				console.log("?!?!?!!?!?!");
+				formdata.append("caseId", review.caseInfo.id);
+				formdata.append("phondId", review.caseInfo.phoneId);
+				formdata.append("price", review.caseInfo.price);
+				formdata.append("setting", canvasData);
+			} else {
+				for (let el in sendData) {
+					formdata.append(el, sendData[el]);
+				}
 			}
 
 			await axios
@@ -232,11 +235,12 @@ const Canvas = () => {
 					withCredentials: true,
 					header: { "Content-Type": "multipart/form-data" },
 				})
-				.then(() =>
-					alert("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!")
-				)
-				.catch(() => {
-					alert("케이스는 필수로 선택해야 합니다.");
+				.then((el) => {
+					if (el.data.message === "새로운 저장") {
+						alert("새롭게 저장되었습니다");
+					} else if (el.data.message === "ok") {
+						alert("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!");
+					}
 				});
 		} else {
 			alert("로그인 해주세요");
@@ -255,7 +259,7 @@ const Canvas = () => {
 
 		await axios
 			.patch(
-				`${process.env.REACT_APP_API_URL}case/${review.caseId}`,
+				`${process.env.REACT_APP_API_URL}case/${review.caseInfo.id}`,
 				formdata,
 				{
 					withCredentials: true,
@@ -296,7 +300,7 @@ const Canvas = () => {
 					<div>색상</div>
 				</li>
 				<button onClick={saveHandler}>저장</button>
-				{review.caseId ? <button onClick={patchHandler}>수정</button> : null}
+				{review.caseInfo ? <button onClick={patchHandler}>수정</button> : null}
 			</MenuSection>
 			{context && (
 				<ContextMenu

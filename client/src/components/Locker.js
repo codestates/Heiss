@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { onJSONDATA } from "../redux/modules/review";
+import { onCanvasData } from "../redux/modules/review";
 
 import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
 
@@ -75,8 +75,7 @@ const Locker = ({ data, getMyCase }) => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}case/${data.id}`)
 			.then((el) => {
-				console.log(el);
-				dispatch(onJSONDATA(el.data.data.setting, el.data.data.id));
+				dispatch(onCanvasData(el.data.data));
 			})
 			.then(() => {
 				history.push("/make");

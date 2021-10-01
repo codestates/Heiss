@@ -11,22 +11,18 @@ module.exports = async (req, res) => {
 	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
-		if (caseId) {
-			const a = customCase.findOne({ where: { id: caseId } });
-			console.log("!!!!!!!!!", a.dataValues.id);
-		}
-		// if(addCase){
-		// 	await customCase.create({
-		// 		userId: userInfo.id,
-		// 		phoneId,
-		// 		price,
-		// 		setting,
-		// 		img,
-		// 		cart: false,
-		// 		locker: true,
-		// 	});
-		// }
-		if (Number(phoneId) && Number(price) && setting && img) {
+		if (Number(caseId)) {
+			await customCase.create({
+				userId: userInfo.id,
+				phoneId,
+				price,
+				setting,
+				img,
+				cart: false,
+				locker: true,
+			});
+			res.status(200).json({ message: "새로운 저장" });
+		} else if (Number(phoneId) && Number(price) && setting && img) {
 			await customCase.create({
 				userId: userInfo.id,
 				phoneId,
