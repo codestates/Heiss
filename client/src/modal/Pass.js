@@ -107,7 +107,7 @@ const Pass = () => {
 					type="password"
 					name="password"
 					// value={password}
-					onChange={passwordCheck}
+					// onChange={passwordCheck}
 				/>
 				<button type="submit" className="btn">
 					변경
