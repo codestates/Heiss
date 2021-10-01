@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import axios from "axios";
 import { flexCenter, color } from "../components/utils/theme";
+import { getUserLocker } from "../redux/modules/users";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -14,6 +15,7 @@ import Locker from "../components/Locker";
 import profile from "../img/profile.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 
 const MypageSection = styled.div`
 	display: flex;
@@ -279,6 +281,8 @@ const passwordModal = {
 };
 
 const Mypage = () => {
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
 

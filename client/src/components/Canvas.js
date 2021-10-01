@@ -202,6 +202,7 @@ const Canvas = () => {
 		if (user.isLogin) {
 			// json으로 보내줄 직렬화
 			const canvasData = JSON.stringify(canvas);
+			let a = { ...caseInfo, setting: canvasData };
 			setCaseInfo({ ...caseInfo, setting: canvasData });
 
 			// img 파일로 보내줄 직렬화
