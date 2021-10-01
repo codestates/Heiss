@@ -75,29 +75,29 @@ const Pass = () => {
 			dispatch(newUserInfo());
 		}
 	};
-// 	const passwordCheck = async (values) => {
-// 		axios
-// 			.post(`${process.env.REACT_APP_API_URL}user/mypage`, {
-// 				code: userCode,
-// 				hashedcode: hash,
-// 			})
-// 			.then(() => {
-// 				const formData = new FormData();
-// 				for (let el in values) {
-// 					formData.append(el, values[el]);
-// 				}
-// 				formData.append("picture", img.file);
-// 				axios
-// 					.post(`${process.env.REACT_APP_API_URL}user/mypage`, formData, {
-// 						header: { "Content-Type": "multipart/form-data" },
-// 					})
-// 					.then(() => {
-// 						alert("회원가입이 완료되었습니다!");
-// 						dispatch(patchUserInfo());
-// 						dispatch(newUserInfo());
-// 					});
-// 			});
-// 	};
+	// 	const passwordCheck = async (values) => {
+	// 		axios
+	// 			.post(`${process.env.REACT_APP_API_URL}user/mypage`, {
+	// 				code: userCode,
+	// 				hashedcode: hash,
+	// 			})
+	// 			.then(() => {
+	// 				const formData = new FormData();
+	// 				for (let el in values) {
+	// 					formData.append(el, values[el]);
+	// 				}
+	// 				formData.append("picture", img.file);
+	// 				axios
+	// 					.post(`${process.env.REACT_APP_API_URL}user/mypage`, formData, {
+	// 						header: { "Content-Type": "multipart/form-data" },
+	// 					})
+	// 					.then(() => {
+	// 						alert("회원가입이 완료되었습니다!");
+	// 						dispatch(patchUserInfo());
+	// 						dispatch(newUserInfo());
+	// 					});
+	// 			});
+	// 	};
 
 	return (
 		<PassSection onSubmit={handleSubmit}>
@@ -107,7 +107,7 @@ const Pass = () => {
 					type="password"
 					name="password"
 					// value={password}
-					onChange={passwordCheck}
+					// onChange={passwordCheck}
 				/>
 				<button type="submit" className="btn">
 					변경
