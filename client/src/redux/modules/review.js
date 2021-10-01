@@ -5,6 +5,8 @@ axios.defaults.withCredentials = true;
 const GET_REVIEW = "GET_REVIEW";
 const HANDLE_REVIEW_WRITE_MODAL = "HANDLE_REVIEW_WRITE_MODAL";
 const GET_CANVAS = "GET_CANVAS";
+const CANVAS_DESERIALIZATION = "CANVAS_DESERIALIZATION";
+const CANVAS_JSON = "CANVAS_JSON";
 
 // action
 export const reviewDatas = () => async (dispatch) => {
@@ -32,11 +34,27 @@ export const getCanvas = (data) => {
 	};
 };
 
+export const onDes = (data, id) => {
+	return {
+		type: CANVAS_DESERIALIZATION,
+		payload: { data, id },
+	};
+};
+
+export const onJSONDATA = (data) => {
+	return {
+		type: CANVAS_JSON,
+		payload: data,
+	};
+};
+
 // initialState
 const initialState = {
 	reviewAll: [],
 	reviewWriteModal: false,
 	canvasdata: "",
+	jsonData: "",
+	caseId: 0,
 };
 
 // reducer
@@ -55,10 +73,19 @@ export const reviewReducer = (state = initialState, action) => {
 			};
 
 		case GET_CANVAS:
-			console.log("payload", action.payload);
 			return {
 				...state,
 				canvasdata: action.payload,
+			};
+
+		case CANVAS_DESERIALIZATION:
+			const canvas = state.canvasdata;
+			console.log("reducer", canvas, action.payload.data);
+			const result = JSON.parse(action.payload.data);
+			canvas.loadFromJSON(result);
+			return {
+				...state,
+				caseId: action.payload.id,
 			};
 
 		default:

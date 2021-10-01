@@ -71,6 +71,7 @@ const App = () => {
 				{ "Content-Type": "application/json", withCredentials: true }
 			)
 			.then((response) => console.log(response));
+		window.location.assign(process.env.REACT_APP_CLIENT_REDIRECT);
 	};
 
 	useEffect(() => {
@@ -81,26 +82,6 @@ const App = () => {
 			getAccessToken(authorizationCode, platform);
 		}
 	});
-
-	function kakaoclick() {
-		const kakaourl = "https://kauth.kakao.com/oauth/authorize";
-		const client_id = process.env.REACT_APP_KAKAO_CLIENT;
-		const redirect_uri = process.env.REACT_APP_CLIENT_REDIRECT;
-		const response_type = "code";
-		const state = "kakao";
-		const url = `${kakaourl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
-		window.location.assign(url);
-	}
-
-	function naverclick() {
-		const naverurl = "https://nid.naver.com/oauth2.0/authorize";
-		const client_id = process.env.REACT_APP_NAVER_CLIENT;
-		const redirect_uri = process.env.REACT_APP_CLIENT_REDIRECT;
-		const response_type = "code";
-		const state = "naver";
-		const url = `${naverurl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
-		window.location.assign(url);
-	}
 
 	return (
 		<Router>
@@ -124,8 +105,6 @@ const App = () => {
 				<Route path="/pay">
 					<Pay />
 				</Route>
-				<button onClick={kakaoclick}>kakao</button>
-				<button onClick={naverclick}>naver</button>
 			</Switch>
 		</Router>
 	);
