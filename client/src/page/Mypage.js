@@ -8,7 +8,6 @@ import { newUserInfo } from "../redux/modules/users";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserLocker } from "../redux/modules/users";
 
-
 // 컴포넌트
 import Nav from "./Nav";
 import Signdel from "../modal/Signdel";
@@ -294,7 +293,6 @@ const Mypage = () => {
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
 
 	const [password, setPassword] = useState(false);
-	const [disabled, setDisabled] = useState(false);
 	const [locker, setLocker] = useState([]); // get으로 받아올 locker
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
