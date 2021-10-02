@@ -12,7 +12,7 @@ router.post("/emailcode", controller.emailcode);
 router.post("/emailcheck", controller.emailcheck);
 router.post("/signin", controller.signin);
 router.post("/find-pw", controller.findpw);
+router.post("/withdrawal", controller.withdrawal);
 router.patch("/", upload.single("picture"), controller.patchUser);
-router.delete("/", controller.deleteUser);
 
 module.exports = router;

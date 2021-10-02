@@ -3,10 +3,7 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import axios from "axios";
 import { flexCenter, color } from "../components/utils/theme";
-import { patchUserInfo } from "../redux/modules/users";
-import { newUserInfo } from "../redux/modules/users";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserLocker } from "../redux/modules/users";
+import { useSelector } from "react-redux";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -19,6 +16,8 @@ import Cart from "../components/Cart";
 import profile from "../img/profile.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useHistory } from "react-router";
+axios.defaults.withCredentials = true;
 
 const MypageSection = styled.div`
 	display: flex;
@@ -284,8 +283,16 @@ const passwordModal = {
 };
 
 const Mypage = () => {
+	const history = useHistory();
+	useEffect(() => {
+		axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
+			if (el.data.message) {
+				history.push("/");
+			}
+		});
+	}, []);
 	const user = useSelector((state) => state.user);
-	const [boo, setBoo] = useState(false);
+	const [deleteUserModal, setDeleteUserModal] = useState(false);
 	const [img, setImg] = useState({});
 
 	// 스크롤 이벤트 관리 상태 변수
@@ -319,8 +326,8 @@ const Mypage = () => {
 			},
 		});
 
-	const reverseBoo = () => {
-		setBoo(!boo);
+	const deleteModal = () => {
+		setDeleteUserModal(!deleteUserModal);
 	};
 
 	const reversePassword = () => {
@@ -360,25 +367,33 @@ const Mypage = () => {
 		reader.readAsDataURL(file);
 	};
 
-	const getMyCase = () =>{
+	const getMyCase = () => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}locker`)
 			.then((res) => res.data)
 			.then((data) => setLocker(data.data));
-	}
+	};
 	useEffect(() => {
-		getMyCase()
+		getMyCase();
 	}, []);
+
+	const deleteUser = () => {
+		axios
+			.delete(`${process.env.REACT_APP_API_URL}user`, values.password)
+			.then((el) => {
+				console.log(el);
+			});
+	};
 
 	return (
 		<MypageSection>
 			<Modal
-				isOpen={boo}
+				isOpen={deleteUserModal}
 				style={signdelModal}
-				onRequestClose={() => reverseBoo()}
+				onRequestClose={deleteModal}
 				ariaHideApp={false}
 			>
-				<Signdel reverseBoo={reverseBoo} />
+				<Signdel deleteModal={deleteModal} />
 			</Modal>
 			<Modal
 				isOpen={password}
@@ -416,11 +431,7 @@ const Mypage = () => {
 						<div className="title">보관함</div>
 						<SaveBox>
 							{locker.map((data) => (
-								<Locker
-									data={data}
-									key={data.id}
-									getMyCase={getMyCase}
-								/>
+								<Locker data={data} key={data.id} getMyCase={getMyCase} />
 							))}
 						</SaveBox>
 					</li>
@@ -485,7 +496,7 @@ const Mypage = () => {
 									>
 										회원정보수정
 									</button>
-									<button className="delUser" onClick={reverseBoo}>
+									<button className="delUser" onClick={deleteModal}>
 										회원탈퇴
 									</button>
 								</div>

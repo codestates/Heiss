@@ -9,7 +9,7 @@ module.exports = {
 	signout: require("./user/signout"),
 	findpw: require("./user/find-pw"),
 	patchUser: require("./user/patchuser"),
-	deleteUser: require("./user/deleteUser"),
+	withdrawal: require("./user/withdrawal"),
 
 	//* review
 	getAllReview: require("./review/getAllReview"),

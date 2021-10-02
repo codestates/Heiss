@@ -52,7 +52,7 @@ const ThumbnailSection = styled.div`
 	${ThumbnailSections}
 `;
 
-const CartList = ({ data, key, changeHandler }) => {
+const CartList = ({ data, copyKey, changeHandler }) => {
 	// 수량
 	const [count, setCount] = useState(0);
 	// 체크박스
@@ -71,7 +71,7 @@ const CartList = ({ data, key, changeHandler }) => {
 		setToggle(e.target.value === "on" ? "off" : "on");
 	};
 	return (
-		<CartBox key={key}>
+		<CartBox key={copyKey}>
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
 			</ThumbnailSection>
@@ -97,11 +97,11 @@ const CartList = ({ data, key, changeHandler }) => {
 				<input
 					type="checkbox"
 					className="choice"
-					id={`c${key}`}
+					id={`c${copyKey}`}
 					value={toggle}
 					onClick={onClickHandler}
 				/>
-				<label for={`c${key}`}>
+				<label htmlFor={`c${copyKey}`}>
 					<span></span>
 				</label>
 			</div>

@@ -33,13 +33,6 @@ export const getUserLocker = () => (dispatch) => {
 		}
 	});
 };
-export const deleteUserInfo = (dispatch) => {
-	axios.get(`${process.env.REACT_APP_API_URL}user`).delete((el) => {
-		if (el.data.userInfo) {
-			dispatch(deleteUser(el.data.userInfo));
-		}
-	});
-};
 
 export const getLogin = (data) => {
 	return {
