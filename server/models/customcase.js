@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 			userId: DataTypes.INTEGER,
 			phoneId: DataTypes.INTEGER,
 			price: DataTypes.INTEGER,
-			setting: DataTypes.STRING,
+			setting: DataTypes.JSON,
 			img: DataTypes.STRING,
 			cart: DataTypes.BOOLEAN,
 			locker: DataTypes.BOOLEAN,

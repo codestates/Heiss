@@ -13,6 +13,7 @@ import Nav from "./Nav";
 import Signdel from "../modal/Signdel";
 import Pass from "../modal/Pass";
 import Locker from "../components/Locker";
+import Cart from "../components/Cart";
 
 // 이미지
 import profile from "../img/profile.png";
@@ -284,7 +285,6 @@ const passwordModal = {
 
 const Mypage = () => {
 	const user = useSelector((state) => state.user);
-	const dispatch = useDispatch();
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});
 
@@ -400,14 +400,16 @@ const Mypage = () => {
 						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
 							보관함
 						</div>
-
 						<div value={scrollToPutUserinfo} onClick={handleToPutUserinfo}>
 							회원정보수정
 						</div>
 					</div>
 				</CategoryBox>
 				<MainSection>
-					<li className="shop">장바구니</li>
+					<li className="shop">
+						<div className="title">장바구니</div>
+						<Cart />
+					</li>
 					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>

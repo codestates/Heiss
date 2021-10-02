@@ -48,7 +48,7 @@ const BgnHover = styled.div`
 
 const Locker = ({ data }) => {
 	const history = useHistory();
-	const dispatch = useDispatch();	
+	const dispatch = useDispatch();
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
@@ -59,20 +59,16 @@ const Locker = ({ data }) => {
 
 	// 장바구니 추가 핸들러
 	const onShopHandler = () => {
-		axios.delete(`${process.env.REACT_APP_API_URL}cart`, data.id);
+		axios.post(`${process.env.REACT_APP_API_URL}cart`, data.id);
 	};
 
 	// 역직렬화 핸들러
 	const onDeserialization = () => {
-    
-    axios.get(`${process.env.REACT_APP_API_URL}case/103`).then((el) => {
-      // if (canvas) {
-      //     console.log(el.data.data.setting);
-      //     canvas.loadFromJSON(el.data.data.setting, () => {
-      //         canvas.renderAll();
-      //     });
-      // }
-  });
+		axios.get(`${process.env.REACT_APP_API_URL}case/${data.id}`).then(() => {
+			console.log(data);
+			dispatch(onDes(data.setting, data.id));
+			// canvas.loadFromJSON(serial);
+		});
 
 		// history.push("/make");
 	};

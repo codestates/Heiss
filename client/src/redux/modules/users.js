@@ -64,6 +64,7 @@ export const patchUserInfo = () => {
 		type: PATCH_USER_INFO,
 	};
 };
+
 // initialState
 const initialState = {
 	userInfo: {},
