@@ -3,7 +3,7 @@ import { fabric } from "fabric";
 import styled from "styled-components";
 import axios from "axios";
 import Shapes from "./Shapes";
-import { flexCenter, color, size } from "./utils/theme";
+import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { clearJSONDATA } from "../redux/modules/review";
 import { handleLoginModal } from "../redux/modules/users";
@@ -124,7 +124,7 @@ const Canvas = () => {
 		const canvas = new fabric.Canvas("canvas", {
 			crossOrigin: "anonymous",
 			height: canvasHeight,
-			width: 1000,
+			width: canvasWidth,
 			position: "absolute",
 			backgroundColor: "white",
 			preserveObjectStacking: true, // 맨 위 레이어만 클릭되게함
@@ -156,18 +156,10 @@ const Canvas = () => {
 
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
-			console.log(document.body.clientWidth);
-			const windowWidth = document.body.clientWidth;
-			const windowHeight = document.body.clientHeight;
+			setCanvasWidth(document.body.clientWidth);
+			setCanvasHeight(800);
 
-			if (windowWidth <= 768) {
-				canvas.setDimensions({
-					width: setCanvasWidth(200),
-					height: setCanvasHeight(200),
-				});
-				// setCanvasWidth(200);
-				// setCanvasHeight(200);
-			}
+			canvas.renderAll();
 		};
 
 		// 삭제 버튼
@@ -181,7 +173,8 @@ const Canvas = () => {
 		};
 
 		window.addEventListener("keydown", deleteBtn);
-		window.addEventListener("resize", handleResizeEvent);
+		window.addEventListener("resize", handleResizeEvent, false);
+		handleResizeEvent();
 
 		if (review.caseInfo) {
 			canvas.loadFromJSON(review.caseInfo.setting);
