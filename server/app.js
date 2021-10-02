@@ -13,6 +13,7 @@ const reviewRouter = require("./route/review");
 const cartRouter = require("./route/cart");
 const lockerRouter = require("./route/locker");
 const caseRouter = require("./route/case");
+const orderRouter = require("./route/order");
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -31,6 +32,7 @@ app.use("/review", reviewRouter);
 app.use("/cart", cartRouter);
 app.use("/locker", lockerRouter);
 app.use("/case", caseRouter);
+app.use("/order", orderRouter);
 
 app.get("/", (req, res) => {
 	res.send("hello world~~~");
