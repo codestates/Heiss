@@ -4,6 +4,7 @@ import {
 	Switch,
 	Route,
 	Redirect,
+	useHistory,
 } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import axios from "axios";
@@ -55,7 +56,7 @@ const GlobalStyles = createGlobalStyle`
 
 const App = () => {
 	const user = useSelector((state) => state.user); // 로그인 상태
-
+	const history = useHistory();
 	let state = useSelector((state) => state);
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -70,8 +71,10 @@ const App = () => {
 				{ authorizationCode: authorizationCode, platform: platform },
 				{ "Content-Type": "application/json", withCredentials: true }
 			)
-			.then((response) => console.log(response));
-		window.location.assign(process.env.REACT_APP_CLIENT_REDIRECT);
+			.then((response) => console.log(response))
+			.then((el) => {
+				window.location.replace("/");
+			});
 	};
 
 	useEffect(() => {

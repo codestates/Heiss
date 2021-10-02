@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Shapes from "./Shapes";
 import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { getCanvas } from "../redux/modules/review";
+import { clearJSONDATA } from "../redux/modules/review";
 import { handleLoginModal } from "../redux/modules/users";
 
 // 이미지
@@ -105,6 +104,7 @@ const ListBox = styled.div`
 
 const Canvas = () => {
 	const user = useSelector((state) => state.user); // 로그인 상태
+	const review = useSelector((state) => state.review);
 	// const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
 	// const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
 	const [canvasWidth, setCanvasWidth] = useState(600);
@@ -114,8 +114,8 @@ const Canvas = () => {
 	const [context, setContext] = useState(false); // context menu 토글
 	const [point, setPoint] = useState({ x: 0, y: 0 });
 	const [caseInfo, setCaseInfo] = useState({
-		phoneId: 1,
-		price: 1000,
+		phoneId: 0,
+		price: 0,
 		setting: '{"a":"a"}',
 	});
 	const dispatch = useDispatch();
@@ -124,7 +124,7 @@ const Canvas = () => {
 		const canvas = new fabric.Canvas("canvas", {
 			crossOrigin: "anonymous",
 			height: canvasHeight,
-			width: canvasWidth,
+			width: 1000,
 			position: "absolute",
 			backgroundColor: "white",
 			preserveObjectStacking: true, // 맨 위 레이어만 클릭되게함
@@ -136,7 +136,6 @@ const Canvas = () => {
 		});
 
 		setCanvas(canvas);
-		dispatch(getCanvas(canvas));
 
 		// 마우스 클릭 이벤트
 		canvas.on("mouse:down", (e) => {
@@ -157,8 +156,13 @@ const Canvas = () => {
 
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
-			setCanvasWidth(document.body.clientWidth);
-			setCanvasHeight(800);
+			// setCanvasWidth(document.body.clientWidth);
+			// console.log('작동되니')
+			canvas.width =
+				document.body.clientWidth / 1.5 < 1000
+					? document.body.clientWidth / 1.5
+					: 1000;
+			canvas.renderAll();
 		};
 
 		// 삭제 버튼
@@ -175,9 +179,16 @@ const Canvas = () => {
 		window.addEventListener("resize", handleResizeEvent, false);
 		handleResizeEvent();
 
-		canvas.renderAll(); // useEffect를 통해 전체 랜더링
+		if (review.caseInfo) {
+			canvas.loadFromJSON(review.caseInfo.setting);
+		}
+		canvas.renderAll();
 
-		return window.removeEventListener("resize", handleResizeEvent);
+		// useEffect를 통해 전체 랜더링
+		return () => {
+			window.removeEventListener("resize", handleResizeEvent);
+			dispatch(clearJSONDATA());
+		};
 	}, []);
 
 	// contextMenu handler
@@ -200,33 +211,62 @@ const Canvas = () => {
 	// 저장 핸들러
 	const saveHandler = async () => {
 		if (user.isLogin) {
-			// json으로 보내줄 직렬화
 			const canvasData = JSON.stringify(canvas);
-			let a = { ...caseInfo, setting: canvasData };
-			setCaseInfo({ ...caseInfo, setting: canvasData });
-
-			// img 파일로 보내줄 직렬화
+			const sendData = { ...caseInfo, setting: canvasData };
 			const imgdata = canvas.toDataURL("image/png", 1.0);
 			let file = base64toFile(imgdata);
-
 			let formdata = new FormData();
 			formdata.append("picture", file);
-			formdata.append("phoneId", 1);
-			formdata.append("price", 1000);
-			formdata.append("setting", canvasData);
+
+			if (review.caseInfo.id) {
+				console.log("?!?!?!!?!?!");
+				formdata.append("caseId", review.caseInfo.id);
+				formdata.append("phondId", review.caseInfo.phoneId);
+				formdata.append("price", review.caseInfo.price);
+				formdata.append("setting", canvasData);
+			} else {
+				for (let el in sendData) {
+					formdata.append(el, sendData[el]);
+				}
+			}
 
 			await axios
 				.post(`${process.env.REACT_APP_API_URL}locker`, formdata, {
 					withCredentials: true,
 					header: { "Content-Type": "multipart/form-data" },
 				})
-				.then(() =>
-					alert("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!")
-				);
+				.then((el) => {
+					if (el.data.message === "새로운 저장") {
+						alert("새롭게 저장되었습니다");
+					} else if (el.data.message === "ok") {
+						alert("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!");
+					}
+				});
 		} else {
 			alert("로그인 해주세요");
 			reverseBoo();
 		}
+	};
+
+	const patchHandler = async () => {
+		const canvasData = JSON.stringify(canvas);
+		const imgdata = canvas.toDataURL("image/png", 1.0);
+		let file = base64toFile(imgdata);
+
+		let formdata = new FormData();
+		formdata.append("picture", file);
+		formdata.append("setting", canvasData);
+
+		await axios
+			.patch(
+				`${process.env.REACT_APP_API_URL}case/${review.caseInfo.id}`,
+				formdata,
+				{
+					withCredentials: true,
+					header: { "Content-Type": "multipart/form-data" },
+				}
+			)
+			.then(() => alert("수정이 완료되었습니다."));
 	};
 
 	const reverseBoo = () => {
@@ -259,8 +299,8 @@ const Canvas = () => {
 					<img src={palleteIcon} alt="palleteIcon" />
 					<div>색상</div>
 				</li>
-
 				<button onClick={saveHandler}>저장</button>
+				{review.caseInfo ? <button onClick={patchHandler}>수정</button> : null}
 			</MenuSection>
 			{context && (
 				<ContextMenu
@@ -275,7 +315,11 @@ const Canvas = () => {
 				</div> */}
 				{
 					[
-						<Case canvas={canvas} />,
+						<Case
+							canvas={canvas}
+							caseInfo={caseInfo}
+							setCaseInfo={setCaseInfo}
+						/>,
 						<Shapes canvas={canvas} />,
 						<Text canvas={canvas} />,
 						<Image canvas={canvas} />,
