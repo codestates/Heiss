@@ -73,8 +73,7 @@ const App = () => {
 			)
 			.then((response) => console.log(response))
 			.then((el) => {
-				console.log(el);
-				window.location.assign(process.env.REACT_APP_CLIENT_REDIRECT);
+				window.location.replace("/");
 			});
 	};
 

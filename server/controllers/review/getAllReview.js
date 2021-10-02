@@ -11,7 +11,12 @@ module.exports = async (req, res) => {
 				"score",
 				"title",
 				"desc",
-				[sequelize.fn("COUNT", sequelize.col("likes.reviewId")), "like"],
+				[
+					sequelize.literal(
+						"(SELECT COUNT(reviewId) FROM likes WHERE likes.reviewId = review.id)"
+					),
+					"like",
+				],
 			],
 			include: [
 				{
@@ -25,7 +30,7 @@ module.exports = async (req, res) => {
 				},
 			],
 			group: "id",
-			order: [["createdAt", "desc"]],
+			order: [["id", "desc"]],
 		});
 
 		const accessToken = req.cookies.accessToken;

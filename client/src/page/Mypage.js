@@ -294,7 +294,6 @@ const Mypage = () => {
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
 
 	const [password, setPassword] = useState(false);
-	const [disabled, setDisabled] = useState(false);
 	const [locker, setLocker] = useState([]); // get으로 받아올 locker
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
@@ -361,11 +360,14 @@ const Mypage = () => {
 		reader.readAsDataURL(file);
 	};
 
-	useEffect(() => {
+	const getMyCase = () =>{
 		axios
 			.get(`${process.env.REACT_APP_API_URL}locker`)
 			.then((res) => res.data)
 			.then((data) => setLocker(data.data));
+	}
+	useEffect(() => {
+		getMyCase()
 	}, []);
 
 	return (
@@ -413,12 +415,11 @@ const Mypage = () => {
 					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>
-							{locker.map((data, key) => (
+							{locker.map((data) => (
 								<Locker
 									data={data}
-									key={key}
-									shotBtn={true}
-									liked={data.liked}
+									key={data.id}
+									getMyCase={getMyCase}
 								/>
 							))}
 						</SaveBox>

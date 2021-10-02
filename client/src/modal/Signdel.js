@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { deleteUserInfo } from "../redux/modules/users";
 
 const SigndelSection = styled.div`
 	display: flex;
@@ -50,14 +52,32 @@ const BtnBox = styled.div`
 `;
 
 const Signdel = ({ reverseBoo }) => {
+	const dispatch = useDispatch();
 	const [warr, setWarr] = useState(false);
+	const [noUser, setNoUser] = useState(false);
+
+	const withdrawal = () => {
+		if (warr) {
+			return dispatch(deleteUserInfo())
+				.then((result) => (window.location.href = "/"))
+				.catch((err) => {
+					setNoUser(true);
+				});
+		}
+	};
 
 	return (
 		<SigndelSection>
 			<h2 className="title">정말로 탈퇴하시겠습니까?</h2>
 			{warr && <div className="warring">탈퇴 되었습니다 감사합니다</div>}
 			<BtnBox>
-				<button className="btn yesBtn" onClick={() => setWarr(!warr)}>
+				<button
+					className="btn yesBtn"
+					onClick={(e) => {
+						setWarr(true);
+						withdrawal();
+					}}
+				>
 					예
 				</button>
 				<button className="btn" onClick={reverseBoo}>

@@ -13,7 +13,7 @@ let galaxyS21 = S21perple;
 
 let iPhone13 = I12BLACK;
 
-const Case = ({ canvas }) => {
+const Case = ({ canvas, caseInfo, setCaseInfo }) => {
 	// img object
 	const bgImg = {
 		galaxyS21,
@@ -21,7 +21,6 @@ const Case = ({ canvas }) => {
 	};
 
 	// 배경 이미지 핸들러
-
 	const BackgroundHandler = (name) => {
 		new fabric.Image.fromURL(bgImg[name], (img) => {
 			img.crossOrigin = "Anonymous";
@@ -38,10 +37,32 @@ const Case = ({ canvas }) => {
 		canvas.renderAll();
 	};
 
+	const galaxy21Price = () => {
+		setCaseInfo({ ...caseInfo, price: 13000, phoneId: 2 });
+	};
+
+	const iphone12Price = () => {
+		setCaseInfo({ ...caseInfo, price: 11000, phoneId: 1 });
+	};
+
 	return (
 		<CaseSection>
-			<button onClick={() => BackgroundHandler("galaxyS21")}>GalaxyS21</button>
-			<button onClick={() => BackgroundHandler("iPhone13")}>iPhone13</button>
+			<button
+				onClick={() => {
+					BackgroundHandler("galaxyS21");
+					galaxy21Price();
+				}}
+			>
+				GalaxyS21
+			</button>
+			<button
+				onClick={() => {
+					BackgroundHandler("iPhone13");
+					iphone12Price();
+				}}
+			>
+				iPhone13
+			</button>
 		</CaseSection>
 	);
 };
