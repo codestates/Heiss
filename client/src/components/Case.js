@@ -11,13 +11,13 @@ const CaseSection = styled.div`
 
 let galaxyS21 = S21perple;
 
-let iPhone13 = I12BLACK;
+let iPhone12 = I12BLACK;
 
 const Case = ({ canvas, caseInfo, setCaseInfo }) => {
 	// img object
 	const bgImg = {
 		galaxyS21,
-		iPhone13,
+		iPhone12,
 	};
 
 	// 배경 이미지 핸들러
@@ -50,18 +50,18 @@ const Case = ({ canvas, caseInfo, setCaseInfo }) => {
 			<button
 				onClick={() => {
 					BackgroundHandler("galaxyS21");
-					galaxy21Price();
+					galaxy21Price("13000");
 				}}
 			>
 				GalaxyS21
 			</button>
 			<button
 				onClick={() => {
-					BackgroundHandler("iPhone13");
-					iphone12Price();
+					BackgroundHandler("iPhone12");
+					iphone12Price("11000");
 				}}
 			>
-				iPhone13
+				iPhone12
 			</button>
 		</CaseSection>
 	);

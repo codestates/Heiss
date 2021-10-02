@@ -33,12 +33,10 @@ export const getUserLocker = () => (dispatch) => {
 		}
 	});
 };
-export const deleteUserInfo = (dispatch) => {
-	axios.get(`${process.env.REACT_APP_API_URL}user`).delete((el) => {
-		if (el.data.userInfo) {
-			dispatch(deleteUser(el.data.userInfo));
-		}
-	});
+export const deleteUserInfo = () => {
+	const data = axios
+		.delete(`${process.env.REACT_APP_API_URL}user`)
+		.then((res) => res.data.message);
 };
 
 export const getLogin = (data) => {
