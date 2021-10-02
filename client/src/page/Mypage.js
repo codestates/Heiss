@@ -23,6 +23,7 @@ import { useFormik } from "formik";
 const MypageSection = styled.div`
 	display: flex;
 	flex-direction: column;
+	width: 100vw;
 	height: 100vh;
 	color: #f6f7df;
 
@@ -48,7 +49,7 @@ const CategoryBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 220px;
-	height: 30vh;
+	height: 40vh;
 	position: sticky;
 	top: 0;
 	background: ${color.basic};
@@ -360,14 +361,14 @@ const Mypage = () => {
 		reader.readAsDataURL(file);
 	};
 
-	const getMyCase = () =>{
+	const getMyCase = () => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}locker`)
 			.then((res) => res.data)
 			.then((data) => setLocker(data.data));
-	}
+	};
 	useEffect(() => {
-		getMyCase()
+		getMyCase();
 	}, []);
 
 	return (
@@ -416,11 +417,7 @@ const Mypage = () => {
 						<div className="title">보관함</div>
 						<SaveBox>
 							{locker.map((data) => (
-								<Locker
-									data={data}
-									key={data.id}
-									getMyCase={getMyCase}
-								/>
+								<Locker data={data} key={data.id} getMyCase={getMyCase} />
 							))}
 						</SaveBox>
 					</li>

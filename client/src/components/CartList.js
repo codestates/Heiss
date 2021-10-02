@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { flexCenter, ThumbnailSections, color, size } from "./utils/theme";
 
-// 이미지
-import check from "../img/check.svg";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
-
 const CartBox = styled.div`
 	${flexCenter}
 	justify-content: space-around;
 	width: 100%;
 	flex-wrap: wrap;
+
+	@media ${(props) => props.theme.tablet} {
+		flex-direction: column;
+	}
 
 	.sub_title {
 		font-size: 2rem;
@@ -52,32 +52,34 @@ const ThumbnailSection = styled.div`
 	${ThumbnailSections}
 `;
 
-const CartList = ({ data, key, changeHandler }) => {
+const CartList = ({ data, key, num, changeHandler }) => {
+	// 가격
+	const [item, setItem] = useState(data.price);
 	// 수량
-	const [count, setCount] = useState(0);
+	const [count, setCount] = useState(1);
 	// 체크박스
-	const [toggle, setToggle] = useState("off");
+	const [toggle, setToggle] = useState(false);
 
-	const countHandler = () => {
-		setCount(count);
+	const countHandler = (e) => {
+		setCount(e.target.value);
+		setItem(e.target.value * data.price);
 	};
 
 	const onClickHandler = (e) => {
-		// 수량 * 상품값 + 배송비
-		if (e.target.value === "on") {
-			const money = count * data.price;
-			changeHandler(2000, money, e.target.value);
-		}
-		setToggle(e.target.value === "on" ? "off" : "on");
+		const money = count * data.price;
+		const delivery = count ? 2000 : 0;
+		changeHandler(delivery, money, e.target.value);
+		setToggle(!toggle);
 	};
+
 	return (
-		<CartBox key={key}>
+		<CartBox>
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
 			</ThumbnailSection>
 			<div className="column">
 				<h2 className="sub_title">가격</h2>
-				<h2>{data.price}</h2>
+				<h2>{item}원</h2>
 			</div>
 			<div className="column">
 				<h2 className="sub_title">배송비</h2>
@@ -87,21 +89,21 @@ const CartList = ({ data, key, changeHandler }) => {
 				<h2 className="sub_title">수량</h2>
 				<input
 					type="number"
-					placeholder="0"
-					className="number"
 					value={count}
+					className="number"
 					onChange={countHandler}
+					min="0"
 				/>
 			</div>
 			<div className="column">
 				<input
 					type="checkbox"
 					className="choice"
-					id={`c${key}`}
+					id={`c${num}`}
 					value={toggle}
 					onClick={onClickHandler}
 				/>
-				<label for={`c${key}`}>
+				<label htmlFor={`c${num}`}>
 					<span></span>
 				</label>
 			</div>
