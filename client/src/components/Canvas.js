@@ -3,7 +3,7 @@ import { fabric } from "fabric";
 import styled from "styled-components";
 import axios from "axios";
 import Shapes from "./Shapes";
-import { flexCenter, color } from "./utils/theme";
+import { flexCenter, color, size } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { clearJSONDATA } from "../redux/modules/review";
 import { handleLoginModal } from "../redux/modules/users";
@@ -156,13 +156,18 @@ const Canvas = () => {
 
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
-			// setCanvasWidth(document.body.clientWidth);
-			// console.log('작동되니')
-			canvas.width =
-				document.body.clientWidth / 1.5 < 1000
-					? document.body.clientWidth / 1.5
-					: 1000;
-			canvas.renderAll();
+			console.log(document.body.clientWidth);
+			const windowWidth = document.body.clientWidth;
+			const windowHeight = document.body.clientHeight;
+
+			if (windowWidth <= 768) {
+				canvas.setDimensions({
+					width: setCanvasWidth(200),
+					height: setCanvasHeight(200),
+				});
+				// setCanvasWidth(200);
+				// setCanvasHeight(200);
+			}
 		};
 
 		// 삭제 버튼
@@ -176,8 +181,7 @@ const Canvas = () => {
 		};
 
 		window.addEventListener("keydown", deleteBtn);
-		window.addEventListener("resize", handleResizeEvent, false);
-		handleResizeEvent();
+		window.addEventListener("resize", handleResizeEvent);
 
 		if (review.caseInfo) {
 			canvas.loadFromJSON(review.caseInfo.setting);
