@@ -478,17 +478,21 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 							<span>{caseName}</span>
 							{caseChoice ? (
 								<ul>
-									{user.userlocker.map((el) => {
-										return (
-											<li key={el.id} onClick={(e) => liNameChange(e, el)}>
-												<img
-													onClick={(e) => imgNameChange(e, el)}
-													style={{ width: "100px" }}
-													src={el.img}
-												/>
-											</li>
-										);
-									})}
+									{user.userlocker.length ? (
+										user.userlocker.map((el) => {
+											return (
+												<li key={el.id} onClick={(e) => liNameChange(e, el)}>
+													<img
+														onClick={(e) => imgNameChange(e, el)}
+														style={{ width: "100px" }}
+														src={el.img}
+													/>
+												</li>
+											);
+										})
+									) : (
+										<li>구매한 케이스가 없습니다</li>
+									)}
 								</ul>
 							) : null}
 						</Select>
