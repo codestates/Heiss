@@ -13,8 +13,10 @@ module.exports = async (req, res) => {
 			attributes: ["id", "userId", "price", "setting", "img"],
 			include: [{ model: phone, attributes: ["type"] }],
 			where: { userId: userInfo.id, locker: true },
+			order: [["id", "desc"]],
 		});
 		if (findCase) {
+			console.log(findCase);
 			res.status(200).json({ data: findCase });
 		}
 	} catch (err) {

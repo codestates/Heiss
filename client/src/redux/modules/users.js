@@ -7,6 +7,7 @@ const GET_LOGOUT = "GET_LOGOUT";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
 const GET_LOCKER = "GET_LOCKER";
 const PATCH_USER_INFO = "PATCH_USER_INFO";
+const DELETE_USER = "DELETE_USER";
 
 // action
 export const getUserInfo = () => (dispatch) => {
@@ -29,6 +30,13 @@ export const getUserLocker = () => (dispatch) => {
 	axios.get(`${process.env.REACT_APP_API_URL}locker`).then((el) => {
 		if (el.data.data) {
 			dispatch(getLocker(el.data.data));
+		}
+	});
+};
+export const deleteUserInfo = (dispatch) => {
+	axios.get(`${process.env.REACT_APP_API_URL}user`).delete((el) => {
+		if (el.data.userInfo) {
+			dispatch(deleteUser(el.data.userInfo));
 		}
 	});
 };
@@ -65,6 +73,13 @@ export const patchUserInfo = () => {
 	};
 };
 
+export const deleteUser = (data) => {
+	return {
+		type: DELETE_USER,
+		payload: data,
+	};
+};
+
 // initialState
 const initialState = {
 	userInfo: {},
@@ -92,6 +107,8 @@ export const users = (state = initialState, action) => {
 				...state,
 				loginModal: !state.loginModal,
 			};
+		case DELETE_USER:
+			return (state = {});
 			break;
 
 		default:

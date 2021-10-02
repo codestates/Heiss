@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { onDes } from "../redux/modules/review";
+import { onCanvasData } from "../redux/modules/review";
 
 import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
 
@@ -46,31 +46,40 @@ const BgnHover = styled.div`
 	${BgnHovers}
 `;
 
-const Locker = ({ data }) => {
+const Locker = ({ data, getMyCase }) => {
 	const history = useHistory();
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		console.log(data);
+	}, []);
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
 		axios
 			.delete(`${process.env.REACT_APP_API_URL}locker/${data.id}`)
-			.then(() => alert("삭제되었습니다!"));
+			.then(() => {
+				getMyCase();
+				alert("삭제되었습니다!");
+			});
 	};
 
 	// 장바구니 추가 핸들러
 	const onShopHandler = () => {
-		axios.delete(`${process.env.REACT_APP_API_URL}cart`, data.id);
+		console.log("잘작동");
+		// axios.post(`${process.env.REACT_APP_API_URL}cart`, data.id);
 	};
 
 	// 역직렬화 핸들러
-	const onDeserialization = () => {
-		axios.get(`${process.env.REACT_APP_API_URL}case/${data.id}`).then(() => {
-			console.log(data);
-			dispatch(onDes(data.setting, data.id));
-			// canvas.loadFromJSON(serial);
-		});
-
-		// history.push("/make");
+	const patchData = () => {
+		axios
+			.get(`${process.env.REACT_APP_API_URL}case/${data.id}`)
+			.then((el) => {
+				dispatch(onCanvasData(el.data.data));
+			})
+			.then(() => {
+				history.push("/make");
+			});
 	};
 
 	return (
@@ -78,7 +87,7 @@ const Locker = ({ data }) => {
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
 				<HoverThumb className="hover-thumb">
-					<BgnHover onClick={onDeserialization}></BgnHover>
+					<BgnHover></BgnHover>
 					<img
 						src={deleteIcon}
 						alt="deleteIcon"
@@ -91,6 +100,9 @@ const Locker = ({ data }) => {
 						className="cart"
 						onClick={onShopHandler}
 					/>
+					<button style={{ zIndex: "1" }} onClick={patchData}>
+						수정
+					</button>
 				</HoverThumb>
 			</ThumbnailSection>
 		</LockerAllBox>
