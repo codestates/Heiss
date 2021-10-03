@@ -7,6 +7,8 @@ const CartBox = styled.div`
 	justify-content: space-around;
 	width: 100%;
 	flex-wrap: wrap;
+	border-bottom: 0.5px solid ${color.lightBasic};
+	padding: 1rem;
 
 	@media ${(props) => props.theme.tablet} {
 		flex-direction: column;
@@ -50,6 +52,10 @@ const CartBox = styled.div`
 
 const ThumbnailSection = styled.div`
 	${ThumbnailSections}
+	min-height: 250px;
+	height: 250px;
+	min-width: 170px;
+	width: 170px;
 `;
 
 const CartList = ({ data, num, changeHandler }) => {
