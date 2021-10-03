@@ -116,6 +116,7 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	};
 
 	useEffect(() => {
+		console.log(data);
 		if (data.liked) {
 			setToggleH(true);
 		}
@@ -144,6 +145,7 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	};
 
 	if (!data) {
+		console.log(data);
 		return null;
 	}
 

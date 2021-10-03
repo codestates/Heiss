@@ -10,6 +10,7 @@ module.exports = {
 	findpw: require("./user/find-pw"),
 	patchUser: require("./user/patchuser"),
 	withdrawal: require("./user/withdrawal"),
+	passwordCheck: require("./user/passwordCheck"),
 
 	//* review
 	getAllReview: require("./review/getAllReview"),

@@ -414,6 +414,7 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 							<>
 								<div className="picWrap">
 									{reviewImg.map((el, index) => {
+										console.log(el);
 										return (
 											<div className="imgWrap" key={index}>
 												<ReviewImg src={el.imagePreviewUrl} />

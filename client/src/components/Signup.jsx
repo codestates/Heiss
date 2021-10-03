@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -137,8 +136,9 @@ const Singup = () => {
 					.required("비밀번호를 입력하세요"),
 			}),
 			onSubmit: (values) => {
-				console.log(values);
-				signup();
+				if (auth) {
+					signup();
+				}
 			},
 		});
 
@@ -182,16 +182,17 @@ const Singup = () => {
 	};
 
 	const profileImg = (e) => {
-		let reader = new FileReader();
-		let file = e.target.files[0];
-		reader.onload = () => {
-			console.log(reader);
-			setImg({
-				file: file,
-				imagePreviewUrl: reader.result,
-			});
-		};
-		reader.readAsDataURL(file);
+		if (e.target.files[0]) {
+			let reader = new FileReader();
+			let file = e.target.files[0];
+			reader.onload = () => {
+				setImg({
+					file: file,
+					imagePreviewUrl: reader.result,
+				});
+			};
+			reader.readAsDataURL(file);
+		}
 	};
 
 	return (
