@@ -56,24 +56,35 @@ const CartList = ({ data, key, num, changeHandler }) => {
 	// 가격
 	const [item, setItem] = useState(data.price);
 	// 수량
-	const [count, setCount] = useState(1);
+	const [count, setCount] = useState(0);
 	// 체크박스
 	const [toggle, setToggle] = useState(false);
 
-	const countHandler = (e) => {
-		setCount(e.target.value);
-		setItem(e.target.value * data.price);
-	};
-
-	const onClickHandler = (e) => {
-		const money = count * data.price;
-		const delivery = count ? 2000 : 0;
-		changeHandler(delivery, money, e.target.value);
+	const onClickHandler = () => {
+		// 체크해제되면 수량 가격 초기화
+		if (toggle) {
+			setCount(0);
+			setItem(data.price);
+		}
 		setToggle(!toggle);
 	};
 
+	// number 바뀔때마다 최신화 시켜줄 핸들러
+	const countHandler = (e) => {
+		setCount(e.target.value);
+		setItem(e.target.value * data.price);
+
+		// 체크되있을때만 총 가격을 보내줌
+		if (toggle) {
+			changeHandler(e.target.value * data.price, num);
+		}
+	};
+
+	// 전체 체인지
+	const onChange = () => {};
+
 	return (
-		<CartBox>
+		<CartBox onChange={onChange}>
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
 			</ThumbnailSection>

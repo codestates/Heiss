@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import axios from "axios";
+import { useHistory } from "react-router";
 import { flexCenter, color } from "../components/utils/theme";
 import { patchUserInfo } from "../redux/modules/users";
 import { newUserInfo } from "../redux/modules/users";
@@ -285,6 +286,15 @@ const passwordModal = {
 };
 
 const Mypage = () => {
+	const history = useHistory();
+	useEffect(() => {
+		axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
+			if (el.data.message) {
+				history.push("/");
+			}
+		});
+	}, []);
+
 	const user = useSelector((state) => state.user);
 	const [boo, setBoo] = useState(false);
 	const [img, setImg] = useState({});

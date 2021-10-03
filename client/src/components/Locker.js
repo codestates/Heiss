@@ -4,7 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { onCanvasData } from "../redux/modules/review";
 
-import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
+import {
+	ThumbnailSections,
+	HoverThumbs,
+	BgnHovers,
+	flexCenter,
+	color,
+} from "./utils/theme";
 
 // 이미지
 import cartIcon from "../img/cart.svg";
@@ -32,12 +38,32 @@ const HoverThumb = styled.div`
 		}
 	}
 
-	.cart {
-		height: 2rem;
-		margin-left: 4.9rem;
+	.bottom-hover {
+		${flexCenter}
+		justify-content: space-around;
 		z-index: 1;
-		&:hover {
-			transform: scale(1.06);
+		margin-left: 1rem;
+		margin-bottom: 1rem;
+
+		button {
+			${flexCenter}
+			font-weight: bold;
+			height: 2rem;
+			background: ${color.point};
+			color: ${color.white};
+			width: 8rem;
+			border: 4px solid ${color.point};
+			border-radius: 1vh;
+			transition: all 0.3s;
+		}
+
+		.cart {
+			height: 2rem;
+			margin-left: 4.9rem;
+			z-index: 1;
+			&:hover {
+				transform: scale(1.06);
+			}
 		}
 	}
 `;
@@ -94,15 +120,17 @@ const Locker = ({ data, getMyCase }) => {
 						className="delete"
 						onClick={onDelHandler}
 					/>
-					<img
-						src={cartIcon}
-						alt="cartIcon"
-						className="cart"
-						onClick={onShopHandler}
-					/>
-					<button style={{ zIndex: "1" }} onClick={patchData}>
-						수정
-					</button>
+					<div className="bottom-hover">
+						<button style={{ zIndex: "1" }} onClick={patchData}>
+							수정
+						</button>
+						<img
+							src={cartIcon}
+							alt="cartIcon"
+							className="cart"
+							onClick={onShopHandler}
+						/>
+					</div>
 				</HoverThumb>
 			</ThumbnailSection>
 		</LockerAllBox>

@@ -98,7 +98,7 @@ const Cart = () => {
 	// 총 배송비
 	const [delivery, setDelivery] = useState(0);
 	// 총 구매값
-	const [money, setMoney] = useState(0);
+	const [money, setMoney] = useState([]);
 	// 주소 창
 	const [address, setAddress] = useState(true);
 	// 주소 내용
@@ -108,10 +108,14 @@ const Cart = () => {
 		{
 			img: "https://cdn.discordapp.com/attachments/884357003747688478/890774776128344104/unknown.png",
 			price: 1000,
+			id: 1,
+			quantity: 1,
 		},
 		{
 			img: "https://cdn.discordapp.com/attachments/884357003747688478/890774776128344104/unknown.png",
 			price: 3000,
+			id: 2,
+			quantity: 1,
 		},
 	]);
 
@@ -121,13 +125,22 @@ const Cart = () => {
 			.then((res) => setCartArr(res));
 	});
 
-	const changeHandler = (deliverys, moneys, toggle) => {
-		setDelivery(
-			toggle !== "true" ? delivery + deliverys : delivery - deliverys
-		);
-		setMoney(toggle !== "true" ? money + moneys : money - moneys);
+	// 가격변경 핸들러
+	const changeHandler = (moneys, id) => {
+		// 같은 아이디 가격 값을 변경, 같은 아이디가 없다면 새롭게 추가
+		// 체크가 풀렸을때 배열에서 해당 아이디 객체를 삭제
+
+		const result = money.forEach((el) => {
+			if (el.id === id) {
+				return (el.moneys = moneys);
+			} else {
+				return money.push({ id: id, moneys: moneys });
+			}
+		});
+		console.log(result);
 	};
 
+	// 주소
 	const addressHandler = (e) => {
 		setAddressName(e.target.value);
 	};
@@ -137,6 +150,9 @@ const Cart = () => {
 			setAddress(!address);
 		}
 	}
+
+	const customCaseId = cartArr.map((data) => data.id);
+	const quantity = cartArr.map((data) => data.quantity);
 
 	return (
 		<CartSection>
@@ -159,13 +175,16 @@ const Cart = () => {
 				</Shipping>
 				<MoneyBox>
 					<h2>총 구매 금액</h2>
-					<h3>총 상품 금액 {money}원</h3>
+					<h3>
+						총 상품 금액{" "}
+						{money.length !== 0 ? money.reduce((a, c) => a + c.price) : 0}원
+					</h3>
 					<h3 className="plus">+</h3>
-					<h3>총 배송비 {delivery}원</h3>
+					<h3>총 배송비 {money.length * 2000}원</h3>
 					<h1 className="all_money">{money + delivery}원</h1>
 				</MoneyBox>
 			</OrderBox>
-			<Pay />
+			<Pay customCaseId={customCaseId} quantity={quantity} />
 		</CartSection>
 	);
 };
