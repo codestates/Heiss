@@ -20,7 +20,7 @@ const CartBox = styled.div`
 		border: 1px double ${color.point};
 		border-radius: 1.5vh;
 		width: 3rem;
-		height: 0.5rem;
+		height: 0.8rem;
 	}
 
 	.choice {
@@ -52,11 +52,11 @@ const ThumbnailSection = styled.div`
 	${ThumbnailSections}
 `;
 
-const CartList = ({ data, key, num, changeHandler }) => {
+const CartList = ({ data, num, changeHandler }) => {
 	// 가격
 	const [item, setItem] = useState(data.price);
 	// 수량
-	const [count, setCount] = useState(0);
+	const [count, setCount] = useState(1);
 	// 체크박스
 	const [toggle, setToggle] = useState(false);
 
@@ -65,26 +65,40 @@ const CartList = ({ data, key, num, changeHandler }) => {
 		if (toggle) {
 			setCount(0);
 			setItem(data.price);
+			changeHandler(-count * data.price, -2000);
+		} else {
+			changeHandler(count * data.price, !toggle && 2000);
 		}
 		setToggle(!toggle);
 	};
 
 	// number 바뀔때마다 최신화 시켜줄 핸들러
 	const countHandler = (e) => {
-		setCount(e.target.value);
-		setItem(e.target.value * data.price);
-
+		const number = Number(e.target.value);
+		console.log(count, number);
 		// 체크되있을때만 총 가격을 보내줌
 		if (toggle) {
-			changeHandler(e.target.value * data.price, num);
+			if (count < number) {
+				// up
+				const plus = number - count;
+				console.log("plus", plus);
+				changeHandler(plus * data.price, !toggle && 2000);
+			} else if (count > number) {
+				// down
+				const minus = number - count;
+				console.log("minus", minus);
+				changeHandler(minus * data.price, !toggle && 2000);
+			} else {
+				changeHandler(number * data.price, !toggle && 2000);
+			}
 		}
+
+		setCount(e.target.value);
+		setItem(e.target.value * data.price);
 	};
 
-	// 전체 체인지
-	const onChange = () => {};
-
 	return (
-		<CartBox onChange={onChange}>
+		<CartBox>
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
 			</ThumbnailSection>
@@ -103,7 +117,7 @@ const CartList = ({ data, key, num, changeHandler }) => {
 					value={count}
 					className="number"
 					onChange={countHandler}
-					min="0"
+					min="1"
 				/>
 			</div>
 			<div className="column">

@@ -407,11 +407,11 @@ const Mypage = () => {
 						<div className="username">NICKNAME</div>
 					</div>
 					<div className="navigator">
-						<div value={scrollToShop} onClick={handleToShop}>
-							장바구니
-						</div>
 						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
 							보관함
+						</div>
+						<div value={scrollToShop} onClick={handleToShop}>
+							장바구니
 						</div>
 						<div value={scrollToPutUserinfo} onClick={handleToPutUserinfo}>
 							회원정보수정
@@ -419,10 +419,6 @@ const Mypage = () => {
 					</div>
 				</CategoryBox>
 				<MainSection>
-					<li className="shop">
-						<div className="title">장바구니</div>
-						<Cart />
-					</li>
 					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>
@@ -430,6 +426,10 @@ const Mypage = () => {
 								<Locker data={data} key={data.id} getMyCase={getMyCase} />
 							))}
 						</SaveBox>
+					</li>
+					<li className="shop">
+						<div className="title">장바구니</div>
+						<Cart />
 					</li>
 					<li className="put-userinfo">
 						<div className="title">회원정보수정</div>
