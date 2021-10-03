@@ -10,16 +10,20 @@ module.exports = async (req, res) => {
 	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
+
 		const newOrderNumber = await orderNumber.create({
 			userId: userInfo.id,
 			condition: "주문완료",
 		});
 
-		const newOrderList = await orderList.create({
-			customCaseId: customCaseId,
-			orderNumberId: newOrderNumber.dataValues.id,
-			quantity: quantity,
-		});
+		for (let i = 0; i < customCaseId.length; i++) {
+			await orderList.create({
+				customCaseId: customCaseId[i],
+				orderNumberId: newOrderNumber.dataValues.id,
+				quantity: quantity[i],
+			});
+		}
+
 		res.send();
 	} catch (err) {
 		console.log(err);

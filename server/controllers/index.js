@@ -36,4 +36,5 @@ module.exports = {
 
 	//* order
 	postOrder: require("./order/postOrder"),
+	getOrder: require("./order/getOrder"),
 };
