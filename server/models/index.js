@@ -43,7 +43,16 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-const { users, review, customCase, phone, like, source } = sequelize.models;
+const {
+	users,
+	review,
+	customCase,
+	phone,
+	like,
+	source,
+	orderList,
+	orderNumber,
+} = sequelize.models;
 
 review.hasMany(source);
 source.belongsTo(review);
@@ -72,4 +81,12 @@ like.belongsTo(review);
 users.hasMany(review);
 review.belongsTo(users);
 
+users.hasMany(orderNumber);
+orderNumber.belongsTo(users);
+
+orderNumber.hasMany(orderList);
+orderList.belongsTo(orderNumber);
+
+customCase.hasMany(orderList);
+orderList.belongsTo(customCase);
 module.exports = db;

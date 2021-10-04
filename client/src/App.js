@@ -98,8 +98,8 @@ const App = () => {
 				<Route path="/make">
 					<Makepage />
 				</Route>
-				<Route path="/mypage">
-					{/* {user.isLogin ? <Mypage /> : <Redirect to="/" />} */}
+
+				<Route>
 					<Mypage />
 				</Route>
 				<Route path="/chat">

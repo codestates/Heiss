@@ -2,12 +2,14 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import axios from "axios";
+
 import { useHistory } from "react-router";
 import { flexCenter, color } from "../components/utils/theme";
 import { patchUserInfo } from "../redux/modules/users";
 import { newUserInfo } from "../redux/modules/users";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserLocker } from "../redux/modules/users";
+import { getUserInfo } from "../redux/modules/users";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -20,6 +22,9 @@ import Cart from "../components/Cart";
 import profile from "../img/profile.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+axios.defaults.withCredentials = true;
 
 const MypageSection = styled.div`
 	display: flex;
@@ -144,16 +149,17 @@ const PutUserInfoBox = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 
 	input {
-		margin-bottom: 2rem;
-		width: 70%;
+		height: 1.4rem;
+		text-align: center;
+		margin-bottom: 0.4rem;
+		margin-top: 1rem;
+		width: 100%;
 		border: none;
 		background-color: #2c2c2c;
-		border-radius: 1.3vh;
-		&:first-child {
-			margin-top: 5rem;
-		}
+		border-radius: 1vh;
 
 		@media ${(props) => props.theme.mobileL} {
 			&::placeholder {
@@ -163,16 +169,15 @@ const PutUserInfoBox = styled.div`
 	}
 
 	button {
-		${flexCenter}
 		color: ${color.point};
 		background: none;
 		border: 3px solid ${color.point};
 		border-radius: 1vh;
-		width: 14rem;
-		height: 5rem;
+		width: 6.8rem;
+		height: 2.4rem;
 		font-weight: bold;
-		font-size: 2rem;
-		margin-top: 2rem;
+		font-size: 1.1rem;
+		margin: 1rem 0.8rem 0rem;
 
 		transition: all 0.3s;
 		position: relative;
@@ -180,12 +185,13 @@ const PutUserInfoBox = styled.div`
 			background: ${color.white};
 		}
 	}
+
 	.btnBox {
 		display: flex;
 		justify-content: center;
+
 		.delUser {
 			background: ${color.point};
-			margin-left: 2rem;
 			color: ${color.white};
 		}
 		.passwordUser {
@@ -202,9 +208,10 @@ const PutUserInfoBox = styled.div`
 		}
 	}
 `;
+
 const ImgDiv = styled.div`
-	width: 100%;
-	height: 100%;
+	width: 15rem;
+	height: 5rem;
 	position: relative;
 	border: 4px solid ${color.point};
 	height: 14rem;
@@ -296,7 +303,19 @@ const Mypage = () => {
 	}, []);
 
 	const user = useSelector((state) => state.user);
-	const [boo, setBoo] = useState(false);
+	const history = useHistory();
+	const dispatch = useDispatch();
+	useEffect(() => {
+		axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
+			if (el.data.message) {
+				history.push("/");
+			}
+		});
+	}, []);
+
+	const [deleteUserModal, setDeleteUserModal] = useState(false);
+	const [patchUserModal, setPatchUserModal] = useState(false);
+	const [locker, setLocker] = useState([]);
 	const [img, setImg] = useState({});
 
 	// 스크롤 이벤트 관리 상태 변수
@@ -304,38 +323,47 @@ const Mypage = () => {
 	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
 	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
 
-	const [password, setPassword] = useState(false);
-	const [locker, setLocker] = useState([]); // get으로 받아올 locker
-
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
 		useFormik({
 			initialValues: {
 				userName: "",
 				password: "",
-				passwordConfirm: "",
+				newpassword: "",
 			},
 			validationSchema: Yup.object({
-				userName: Yup.string()
-					.max(10, "너무 깁니다.")
-					.required("닉네임을 입력하세요"),
-				password: Yup.string()
-					.min(8, "너무 짧습니다.")
-					.required("비밀번호를 입력하세요"),
-				passwordConfirm: Yup.string()
+				userName: Yup.string().max(10, "10글자 미만이여야 합니다."),
+				password: Yup.string().min(8, "8글자 이상이여야 합니다."),
+				newpassword: Yup.string()
 					.oneOf([Yup.ref("password"), null], "패스워드가 일치하지 않습니다.")
 					.required("비밀번호를 입력하세요"),
 			}),
-			onSubmit: (values) => {
-				alert("회원정보가 수정되었습니다..");
-			},
+			onSubmit: (values) => {},
 		});
 
-	const reverseBoo = () => {
-		setBoo(!boo);
+	useEffect(() => {
+		setImg({ ...img, imagePreviewUrl: user.userInfo.profileImg });
+	}, [user]);
+
+	const deleteModal = () => {
+		setDeleteUserModal(!deleteUserModal);
 	};
 
-	const reversePassword = () => {
-		setPassword(!password);
+	const patchModal = () => {
+		setPatchUserModal(!patchUserModal);
+	};
+
+	const patchUser = () => {
+		let userInput = 0;
+		for (let user in values) {
+			if (!values[user]) {
+				userInput++;
+			}
+		}
+		if (!img.file) {
+			userInput++;
+		}
+		if (userInput === 4) return alert("수정될 정보가 없습니다.");
+		patchModal();
 	};
 
 	const handleToShop = useCallback(() => {
@@ -359,16 +387,18 @@ const Mypage = () => {
 	}, []);
 
 	const profileImg = (e) => {
-		let reader = new FileReader();
-		let file = e.target.files[0];
-		reader.onload = () => {
-			console.log(reader);
-			setImg({
-				file: file,
-				imagePreviewUrl: reader.result,
-			});
-		};
-		reader.readAsDataURL(file);
+		if (e.target.files[0]) {
+			let reader = new FileReader();
+			let file = e.target.files[0];
+			console.log(file);
+			reader.onload = () => {
+				setImg({
+					file: file,
+					imagePreviewUrl: reader.result,
+				});
+			};
+			reader.readAsDataURL(file);
+		}
 	};
 
 	const getMyCase = () => {
@@ -377,6 +407,7 @@ const Mypage = () => {
 			.then((res) => res.data)
 			.then((data) => setLocker(data.data));
 	};
+
 	useEffect(() => {
 		getMyCase();
 	}, []);
@@ -384,20 +415,20 @@ const Mypage = () => {
 	return (
 		<MypageSection>
 			<Modal
-				isOpen={boo}
+				isOpen={deleteUserModal}
 				style={signdelModal}
-				onRequestClose={() => reverseBoo()}
+				onRequestClose={deleteModal}
 				ariaHideApp={false}
 			>
-				<Signdel reverseBoo={reverseBoo} />
+				<Signdel deleteModal={deleteModal} />
 			</Modal>
 			<Modal
-				isOpen={password}
+				isOpen={patchUserModal}
 				style={passwordModal}
-				onRequestClose={() => reversePassword()}
+				onRequestClose={patchModal}
 				ariaHideApp={false}
 			>
-				<Pass reverseBoo={reversePassword} />
+				<Pass patchModal={patchModal} values={values} img={img} />
 			</Modal>
 			<Nav />
 			<MypageBox>
@@ -445,12 +476,23 @@ const Mypage = () => {
 									/>
 									<img
 										className="img"
-										src={img.imagePreviewUrl ?? profile}
+										src={img.imagePreviewUrl}
 										alt="profile"
 									/>
 								</ImgDiv>
 							</div>
 							<form onSubmit={handleSubmit}>
+								<input
+									name="userName"
+									type="text"
+									placeholder="변경하실 닉네임을 입력해주세요"
+									onBlur={handleBlur}
+									onChange={handleChange}
+									value={values.username}
+								/>
+								{touched.userName && errors.userName ? (
+									<div>{errors.userName}</div>
+								) : null}
 								<input
 									name="password"
 									type="password"
@@ -463,36 +505,21 @@ const Mypage = () => {
 									<div>{errors.password}</div>
 								) : null}
 								<input
-									name="passwordConfirm"
+									name="newpassword"
 									type="password"
 									placeholder="변경하실 비밀번호를 한번 더 입력해주세요"
 									onBlur={handleBlur}
 									onChange={handleChange}
-									value={values.passwordConfirm}
+									value={values.newpassword}
 								/>
-								{touched.passwordConfirm && errors.passwordConfirm ? (
-									<div>{errors.passwordConfirm}</div>
+								{touched.newpassword && errors.newpassword ? (
+									<div>{errors.newpassword}</div>
 								) : null}
-								<input
-									name="userName"
-									type="text"
-									placeholder="닉네임을 입력해주세요"
-									onBlur={handleBlur}
-									onChange={handleChange}
-									value={values.username}
-								/>
-								{touched.userName && errors.userName ? (
-									<div>{errors.userName}</div>
-								) : null}
-								<div className="btnBox" style={{ display: "flex" }}>
-									<button
-										type="submit"
-										className="btn"
-										onClick={reversePassword}
-									>
+								<div className="btnBox">
+									<button className="btn" onClick={patchUser}>
 										회원정보수정
 									</button>
-									<button className="delUser" onClick={reverseBoo}>
+									<button className="delUser" onClick={deleteModal}>
 										회원탈퇴
 									</button>
 								</div>

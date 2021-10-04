@@ -58,8 +58,8 @@ const ThumbnailSection = styled.div`
 	width: 170px;
 `;
 
-const CartList = ({ data, num, changeHandler }) => {
-	// 가격
+const CartList = ({ data, copyKey, num, changeHandler }) => {
+  // 가격
 	const [item, setItem] = useState(data.price);
 	// 수량
 	const [count, setCount] = useState(1);
@@ -104,7 +104,7 @@ const CartList = ({ data, num, changeHandler }) => {
 	};
 
 	return (
-		<CartBox>
+		<CartBox key={copyKey}>
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
 			</ThumbnailSection>

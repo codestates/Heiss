@@ -122,8 +122,8 @@ const Cart = () => {
 	useEffect(() => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}cart`)
-			.then((res) => setCartArr(res));
-	});
+			.then((res) => setCartArr(res.data.data));
+	}, []);
 
 	// 가격변경 핸들러
 	const changeHandler = (moneys, deliverys) => {
@@ -151,7 +151,13 @@ const Cart = () => {
 	return (
 		<CartSection>
 			{cartArr.map((data, el) => (
-				<CartList data={data} key={el} num={el} changeHandler={changeHandler} />
+				<CartList
+					data={data}
+					key={el}
+					copyKey={el}
+          num={el}
+					changeHandler={changeHandler}
+				/>
 			))}
 			<OrderBox>
 				<Shipping>

@@ -9,7 +9,8 @@ module.exports = {
 	signout: require("./user/signout"),
 	findpw: require("./user/find-pw"),
 	patchUser: require("./user/patchuser"),
-	deleteUser: require("./user/deleteUser"),
+	withdrawal: require("./user/withdrawal"),
+	passwordCheck: require("./user/passwordCheck"),
 
 	//* review
 	getAllReview: require("./review/getAllReview"),
@@ -23,7 +24,6 @@ module.exports = {
 	getCart: require("./cart/getCart"),
 	postCart: require("./cart/postCart"),
 	deleteCart: require("./cart/deleteCart"),
-	paypal: require("./cart/paypal"),
 
 	//* locker
 	getLocker: require("./locker/getLocker"),
@@ -34,4 +34,7 @@ module.exports = {
 	getCase: require("./case/getCase"),
 	postCase: require("./case/postCase"),
 	patchCase: require("./case/patchCase"),
+
+	//* order
+	postOrder: require("./order/postOrder"),
 };
