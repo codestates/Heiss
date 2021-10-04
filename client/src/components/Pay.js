@@ -28,7 +28,7 @@ export default function Paypal({ customCaseId, quantity }) {
 								description: "my case",
 								amount: {
 									currency_code: "CAD",
-									value: 1.0,
+									value: 1.0, //가격
 								},
 							},
 						],
@@ -37,7 +37,7 @@ export default function Paypal({ customCaseId, quantity }) {
 				onApprove: async (data, actions) => {
 					const order = await actions.order.capture();
 					//서버에 물건정보, 유저정보 전송
-					const url = process.env.REACT_APP_API_URL + "cart/paypal";
+					const url = process.env.REACT_APP_API_URL + "order";
 					axios
 						.post(url, { customCaseId, quantity })
 						.then((response) => console.log(response));
