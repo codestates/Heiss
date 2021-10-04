@@ -94,7 +94,7 @@ const Shipping = styled.div`
 	}
 `;
 
-const Cart = () => {
+const Cart = ({ name }) => {
 	// 총 배송비
 	const [delivery, setDelivery] = useState(0);
 	// 총 구매값
@@ -155,7 +155,7 @@ const Cart = () => {
 					data={data}
 					key={el}
 					copyKey={el}
-          num={el}
+					num={el}
 					changeHandler={changeHandler}
 				/>
 			))}
@@ -181,7 +181,13 @@ const Cart = () => {
 					<h1 className="all_money">{money + delivery}원</h1>
 				</MoneyBox>
 			</OrderBox>
-			<Pay customCaseId={customCaseId} quantity={quantity} />
+			<Pay
+				customCaseId={customCaseId}
+				quantity={quantity}
+				address={addressName}
+				price={money + delivery}
+				name={name}
+			/>
 		</CartSection>
 	);
 };
