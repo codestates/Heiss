@@ -16,7 +16,6 @@ import Makepage from "./page/Makepage";
 import Mypage from "./page/Mypage";
 import Review from "./page/Review";
 import Chat from "./Chat";
-import Pay from "./page/Pay";
 
 const GlobalStyles = createGlobalStyle`
 	* {
@@ -99,14 +98,12 @@ const App = () => {
 				<Route path="/make">
 					<Makepage />
 				</Route>
+
 				<Route>
 					<Mypage />
 				</Route>
 				<Route path="/chat">
 					<Chat />
-				</Route>
-				<Route path="/pay">
-					<Pay />
 				</Route>
 			</Switch>
 		</Router>

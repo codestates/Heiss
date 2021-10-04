@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import axios from "axios";
 
-export default function Paypal() {
+export default function Paypal({ customCaseId, quantity }) {
 	const paypal = useRef();
 
 	useEffect(() => {
@@ -38,7 +38,9 @@ export default function Paypal() {
 					const order = await actions.order.capture();
 					//서버에 물건정보, 유저정보 전송
 					const url = process.env.REACT_APP_API_URL + "cart/paypal";
-					axios.post(url).then((response) => console.log(response));
+					axios
+						.post(url, { customCaseId, quantity })
+						.then((response) => console.log(response));
 					console.log(order);
 				},
 				onError: (err) => {

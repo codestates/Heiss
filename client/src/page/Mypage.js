@@ -2,7 +2,13 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
 import axios from "axios";
-import { color } from "../components/utils/theme";
+
+import { useHistory } from "react-router";
+import { flexCenter, color } from "../components/utils/theme";
+import { patchUserInfo } from "../redux/modules/users";
+import { newUserInfo } from "../redux/modules/users";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserLocker } from "../redux/modules/users";
 import { getUserInfo } from "../redux/modules/users";
 
 // 컴포넌트
@@ -23,6 +29,7 @@ axios.defaults.withCredentials = true;
 const MypageSection = styled.div`
 	display: flex;
 	flex-direction: column;
+	width: 100vw;
 	height: 100vh;
 	color: #f6f7df;
 
@@ -48,7 +55,7 @@ const CategoryBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 220px;
-	height: 30vh;
+	height: 40vh;
 	position: sticky;
 	top: 0;
 	background: ${color.basic};
@@ -286,6 +293,15 @@ const passwordModal = {
 };
 
 const Mypage = () => {
+	const history = useHistory();
+	useEffect(() => {
+		axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
+			if (el.data.message) {
+				history.push("/");
+			}
+		});
+	}, []);
+
 	const user = useSelector((state) => state.user);
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -422,11 +438,11 @@ const Mypage = () => {
 						<div className="username">NICKNAME</div>
 					</div>
 					<div className="navigator">
-						<div value={scrollToShop} onClick={handleToShop}>
-							장바구니
-						</div>
 						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
 							보관함
+						</div>
+						<div value={scrollToShop} onClick={handleToShop}>
+							장바구니
 						</div>
 						<div value={scrollToPutUserinfo} onClick={handleToPutUserinfo}>
 							회원정보수정
@@ -434,10 +450,6 @@ const Mypage = () => {
 					</div>
 				</CategoryBox>
 				<MainSection>
-					<li className="shop">
-						<div className="title">장바구니</div>
-						<Cart />
-					</li>
 					<li className="save-box">
 						<div className="title">보관함</div>
 						<SaveBox>
@@ -445,6 +457,10 @@ const Mypage = () => {
 								<Locker data={data} key={data.id} getMyCase={getMyCase} />
 							))}
 						</SaveBox>
+					</li>
+					<li className="shop">
+						<div className="title">장바구니</div>
+						<Cart />
 					</li>
 					<li className="put-userinfo">
 						<div className="title">회원정보수정</div>

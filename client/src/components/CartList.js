@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { flexCenter, ThumbnailSections, color, size } from "./utils/theme";
 
-// 이미지
-import check from "../img/check.svg";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
-
 const CartBox = styled.div`
 	${flexCenter}
 	justify-content: space-around;
 	width: 100%;
 	flex-wrap: wrap;
+	border-bottom: 0.5px solid ${color.lightBasic};
+	padding: 1rem;
+
+	@media ${(props) => props.theme.tablet} {
+		flex-direction: column;
+	}
 
 	.sub_title {
 		font-size: 2rem;
@@ -20,7 +22,7 @@ const CartBox = styled.div`
 		border: 1px double ${color.point};
 		border-radius: 1.5vh;
 		width: 3rem;
-		height: 0.5rem;
+		height: 0.8rem;
 	}
 
 	.choice {
@@ -50,26 +52,57 @@ const CartBox = styled.div`
 
 const ThumbnailSection = styled.div`
 	${ThumbnailSections}
+	min-height: 250px;
+	height: 250px;
+	min-width: 170px;
+	width: 170px;
 `;
 
-const CartList = ({ data, copyKey, changeHandler }) => {
+const CartList = ({ data, copyKey, num, changeHandler }) => {
+  // 가격
+	const [item, setItem] = useState(data.price);
 	// 수량
-	const [count, setCount] = useState(0);
+	const [count, setCount] = useState(1);
 	// 체크박스
-	const [toggle, setToggle] = useState("off");
+	const [toggle, setToggle] = useState(false);
 
-	const countHandler = () => {
-		setCount(count);
-	};
-
-	const onClickHandler = (e) => {
-		// 수량 * 상품값 + 배송비
-		if (e.target.value === "on") {
-			const money = count * data.price;
-			changeHandler(2000, money, e.target.value);
+	const onClickHandler = () => {
+		// 체크해제되면 수량 가격 초기화
+		if (toggle) {
+			setCount(0);
+			setItem(data.price);
+			changeHandler(-count * data.price, -2000);
+		} else {
+			changeHandler(count * data.price, !toggle && 2000);
 		}
-		setToggle(e.target.value === "on" ? "off" : "on");
+		setToggle(!toggle);
 	};
+
+	// number 바뀔때마다 최신화 시켜줄 핸들러
+	const countHandler = (e) => {
+		const number = Number(e.target.value);
+		console.log(count, number);
+		// 체크되있을때만 총 가격을 보내줌
+		if (toggle) {
+			if (count < number) {
+				// up
+				const plus = number - count;
+				console.log("plus", plus);
+				changeHandler(plus * data.price, !toggle && 2000);
+			} else if (count > number) {
+				// down
+				const minus = number - count;
+				console.log("minus", minus);
+				changeHandler(minus * data.price, !toggle && 2000);
+			} else {
+				changeHandler(number * data.price, !toggle && 2000);
+			}
+		}
+
+		setCount(e.target.value);
+		setItem(e.target.value * data.price);
+	};
+
 	return (
 		<CartBox key={copyKey}>
 			<ThumbnailSection>
@@ -77,7 +110,7 @@ const CartList = ({ data, copyKey, changeHandler }) => {
 			</ThumbnailSection>
 			<div className="column">
 				<h2 className="sub_title">가격</h2>
-				<h2>{data.price}</h2>
+				<h2>{item}원</h2>
 			</div>
 			<div className="column">
 				<h2 className="sub_title">배송비</h2>
@@ -87,21 +120,21 @@ const CartList = ({ data, copyKey, changeHandler }) => {
 				<h2 className="sub_title">수량</h2>
 				<input
 					type="number"
-					placeholder="0"
-					className="number"
 					value={count}
+					className="number"
 					onChange={countHandler}
+					min="1"
 				/>
 			</div>
 			<div className="column">
 				<input
 					type="checkbox"
 					className="choice"
-					id={`c${copyKey}`}
+					id={`c${num}`}
 					value={toggle}
 					onClick={onClickHandler}
 				/>
-				<label htmlFor={`c${copyKey}`}>
+				<label htmlFor={`c${num}`}>
 					<span></span>
 				</label>
 			</div>
