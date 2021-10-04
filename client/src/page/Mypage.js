@@ -316,11 +316,6 @@ const Mypage = () => {
 	const [locker, setLocker] = useState([]);
 	const [img, setImg] = useState({});
 
-	// 스크롤 이벤트 관리 상태 변수
-	const [scrollToShop, setScrollToShop] = useState(0);
-	const [scrollToSaveBox, setScorllToSaveBox] = useState(0);
-	const [scrollToPutUserinfo, setScrollToPutUserinfo] = useState(0);
-
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
 		useFormik({
 			initialValues: {
@@ -365,23 +360,17 @@ const Mypage = () => {
 	};
 
 	const handleToShop = useCallback(() => {
-		setScrollToShop(
-			document.querySelector(".shop").scrollIntoView({ behavior: "smooth" })
-		);
+		document.querySelector(".shop").scrollIntoView({ behavior: "smooth" });
 	}, []);
 
 	const handleToSaveBox = useCallback(() => {
-		setScorllToSaveBox(
-			document.querySelector(".save-box").scrollIntoView({ behavior: "smooth" })
-		);
+		document.querySelector(".save-box").scrollIntoView({ behavior: "smooth" });
 	}, []);
 
 	const handleToPutUserinfo = useCallback(() => {
-		setScrollToPutUserinfo(
-			document
-				.querySelector(".put-userinfo")
-				.scrollIntoView({ behavior: "smooth" })
-		);
+		document
+			.querySelector(".put-userinfo")
+			.scrollIntoView({ behavior: "smooth" });
 	}, []);
 
 	const profileImg = (e) => {
@@ -436,15 +425,9 @@ const Mypage = () => {
 						<div className="username">NICKNAME</div>
 					</div>
 					<div className="navigator">
-						<div value={scrollToSaveBox} onClick={handleToSaveBox}>
-							보관함
-						</div>
-						<div value={scrollToShop} onClick={handleToShop}>
-							장바구니
-						</div>
-						<div value={scrollToPutUserinfo} onClick={handleToPutUserinfo}>
-							회원정보수정
-						</div>
+						<div onClick={handleToSaveBox}>보관함</div>
+						<div onClick={handleToShop}>장바구니</div>
+						<div onClick={handleToPutUserinfo}>회원정보수정</div>
 					</div>
 				</CategoryBox>
 				<MainSection>
