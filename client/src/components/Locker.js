@@ -127,7 +127,8 @@ const Locker = ({ data, getMyCase }) => {
 	// 장바구니 추가 핸들러
 	const onShopHandler = () => {
 		console.log("잘작동");
-		// axios.post(`${process.env.REACT_APP_API_URL}cart`, data.id);
+
+		axios.post(`${process.env.REACT_APP_API_URL}cart`, { caseId: data.id });
 	};
 
 	// 역직렬화 핸들러
@@ -157,7 +158,7 @@ const Locker = ({ data, getMyCase }) => {
 			</Modal>
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
-				<HoverThumb className="hover-thumb" onClick={modalHandler}>
+				<HoverThumb className="hover-thumb">
 					<BgnHover onClick={modalHandler}></BgnHover>
 					<img
 						src={deleteIcon}
