@@ -149,4 +149,16 @@ export const BgnHovers = css`
 	border-radius: 2vh;
 `;
 
+export const nonHoverButton = css`
+	${flexCenter}
+	font-weight: bold;
+	height: 2rem;
+	background: ${color.point};
+	color: ${color.white};
+	width: 8rem;
+	border: 4px solid ${color.point};
+	border-radius: 1vh;
+	transition: all 0.3s;
+`;
+
 export default theme;

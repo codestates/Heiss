@@ -123,13 +123,12 @@ const Cart = ({ name }) => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}cart`)
 			.then((res) => setCartArr(res.data.data));
-	}, []);
+	});
 
 	// 가격변경 핸들러
 	const changeHandler = (moneys, deliverys) => {
 		// 같은 아이디 가격 값을 변경, 같은 아이디가 없다면 새롭게 추가
 		// 체크가 풀렸을때 배열에서 해당 아이디 객체를 삭제
-		console.log(deliverys);
 		setMoney(money + moneys);
 		setDelivery(delivery + deliverys);
 	};

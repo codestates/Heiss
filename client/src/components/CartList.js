@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { flexCenter, ThumbnailSections, color, size } from "./utils/theme";
+import axios from "axios";
+import {
+	flexCenter,
+	ThumbnailSections,
+	color,
+	HoverThumbs,
+	BgnHovers,
+	nonHoverButton,
+} from "./utils/theme";
 
 const CartBox = styled.div`
 	${flexCenter}
@@ -58,8 +66,24 @@ const ThumbnailSection = styled.div`
 	width: 170px;
 `;
 
+const HoverThumb = styled.div`
+	${HoverThumbs}
+`;
+
+const BgnHover = styled.div`
+	${BgnHovers}
+	${flexCenter}
+
+	align-items: flex-end;
+
+	button {
+		margin: 1rem;
+		${nonHoverButton}
+	}
+`;
+
 const CartList = ({ data, copyKey, num, changeHandler }) => {
-  // 가격
+	// 가격
 	const [item, setItem] = useState(data.price);
 	// 수량
 	const [count, setCount] = useState(1);
@@ -103,10 +127,20 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 		setItem(e.target.value * data.price);
 	};
 
+	// 장바구니 삭제 핸들러
+	const deleteHandler = () => {
+		axios.delete(`${process.env.REACT_APP_API_URL}cart/${data.id}`);
+	};
+
 	return (
 		<CartBox key={copyKey}>
 			<ThumbnailSection>
 				<img src={data.img} alt="img" />
+				<HoverThumb className="hover-thumb">
+					<BgnHover>
+						<button onClick={deleteHandler}>삭제</button>
+					</BgnHover>
+				</HoverThumb>
 			</ThumbnailSection>
 			<div className="column">
 				<h2 className="sub_title">가격</h2>

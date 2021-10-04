@@ -18,6 +18,7 @@ import Nav from "./Nav";
 import Locker from "../components/Locker";
 import Cart from "../components/Cart";
 import PutUserInfo from "../components/PutUserInfo";
+import OrderList from "../components/OrderList";
 
 axios.defaults.withCredentials = true;
 
@@ -147,14 +148,12 @@ const Mypage = () => {
 				history.push("/");
 			}
 		});
-	}, []);
-
-	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
 			if (el.data.message) {
 				history.push("/");
 			}
 		});
+		getMyCase();
 	}, []);
 
 	const [locker, setLocker] = useState([]);
@@ -177,6 +176,14 @@ const Mypage = () => {
 		);
 	}, []);
 
+	const handleToOrderList = useCallback(() => {
+		setScrollToPutUserinfo(
+			document
+				.querySelector(".orderList")
+				.scrollIntoView({ behavior: "smooth" })
+		);
+	}, []);
+
 	const handleToPutUserinfo = useCallback(() => {
 		setScrollToPutUserinfo(
 			document
@@ -194,10 +201,6 @@ const Mypage = () => {
 
 	const userinfo = useSelector((state) => state.user);
 
-	useEffect(() => {
-		getMyCase();
-	}, []);
-
 	return (
 		<MypageSection>
 			<Nav />
@@ -213,6 +216,9 @@ const Mypage = () => {
 						</div>
 						<div value={scrollToShop} onClick={handleToShop}>
 							장바구니
+						</div>
+						<div value={scrollToPutUserinfo} onClick={handleToOrderList}>
+							주문내역
 						</div>
 						<div value={scrollToPutUserinfo} onClick={handleToPutUserinfo}>
 							회원정보수정
@@ -231,6 +237,10 @@ const Mypage = () => {
 					<li className="shop">
 						<div className="title">장바구니</div>
 						<Cart name={userinfo.userInfo.userName} />
+					</li>
+					<li className="orderList">
+						<div className="title">주문내역</div>
+						<OrderList />
 					</li>
 					<li className="put-userinfo">
 						<div className="title">회원정보수정</div>

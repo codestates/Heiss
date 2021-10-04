@@ -74,10 +74,9 @@ const PutUserInfoBox = styled.div`
 
 const ImgDiv = styled.div`
 	width: 15rem;
-	height: 5rem;
+	height: 14rem;
 	position: relative;
 	border: 4px solid ${color.point};
-	height: 14rem;
 	border-radius: 50%;
 	overflow: hidden;
 	&:hover {
