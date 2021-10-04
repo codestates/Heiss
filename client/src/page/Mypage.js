@@ -22,8 +22,7 @@ import Cart from "../components/Cart";
 import profile from "../img/profile.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+
 axios.defaults.withCredentials = true;
 
 const MypageSection = styled.div`
@@ -303,7 +302,7 @@ const Mypage = () => {
 	}, []);
 
 	const user = useSelector((state) => state.user);
-	const history = useHistory();
+
 	const dispatch = useDispatch();
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
