@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { lockerDatas } from "../redux/modules/review";
+import { onCanvasData } from "../redux/modules/review";
 import LockerModal from "../modal/LockerModal";
 
 import {
@@ -116,18 +116,19 @@ const Locker = ({ data, getMyCase }) => {
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
-		axios
-			.delete(`${process.env.REACT_APP_API_URL}locker/${data.id}`)
-			.then(() => {
-				getMyCase();
-				alert("삭제되었습니다!");
-			});
+		if (window.confirm("삭제하시겠습니까?")) {
+			axios
+				.delete(`${process.env.REACT_APP_API_URL}locker/${data.id}`)
+				.then(() => {
+					getMyCase();
+					alert("삭제되었습니다.");
+				});
+		}
 	};
 
 	// 장바구니 추가 핸들러
 	const onShopHandler = () => {
 		console.log("잘작동");
-
 		axios.post(`${process.env.REACT_APP_API_URL}cart`, { caseId: data.id });
 	};
 
@@ -136,7 +137,7 @@ const Locker = ({ data, getMyCase }) => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}case/${data.id}`)
 			.then((el) => {
-				dispatch(lockerDatas(el.data.data));
+				dispatch(onCanvasData(el.data.data));
 			})
 			.then(() => {
 				history.push("/make");

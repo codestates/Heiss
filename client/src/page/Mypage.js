@@ -22,8 +22,6 @@ import Cart from "../components/Cart";
 
 // 이미지
 import profile from "../img/profile.png";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 
 axios.defaults.withCredentials = true;
 

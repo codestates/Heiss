@@ -195,6 +195,7 @@ const Signin = () => {
 		const state = "kakao";
 		const url = `${kakaourl}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&state=${state}`;
 		window.location.assign(url);
+		window.location.replace("/");
 	}
 
 	function naverclick() {
