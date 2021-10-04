@@ -155,7 +155,7 @@ const Cart = () => {
 					data={data}
 					key={el}
 					copyKey={el}
-          num={el}
+					num={el}
 					changeHandler={changeHandler}
 				/>
 			))}

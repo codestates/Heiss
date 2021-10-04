@@ -1,4 +1,4 @@
-const { review, source } = require("../../models");
+const { review, source, customCase } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 	const { score, title, desc, caseId, deleteUrl } = req.body;
 	const accessToken = req.cookies.accessToken;
 	const imgUrl = req.files;
-
+	console.log(deleteUrl);
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 		const findReview = await review.findOne({
@@ -18,8 +18,10 @@ module.exports = async (req, res) => {
 			res.status(404).json({ message: "Not found post" });
 		}
 		if (userInfo.id === findReview.dataValues.userId) {
-			console.log(findReview);
-			let urlList = deleteUrl.split(",");
+			let urlList = [];
+			if (deleteUrl) {
+				urlList = deleteUrl.split(",");
+			}
 			if (urlList.length) {
 				for (let url of urlList) {
 					await source.destroy({ where: { reviewId, imgUrl: url } });
@@ -36,10 +38,10 @@ module.exports = async (req, res) => {
 				!imgUrl.length &&
 				!(findReview.dataValues.sources.length - urlList.length)
 			) {
+				const findCase = await customCase.findOne({ where: { id: caseId } });
 				await source.create({
 					reviewId,
-					imgUrl:
-						"https://heiss-images.s3.ap-northeast-2.amazonaws.com/1632811597118.png",
+					imgUrl: findCase.dataValues.img,
 				});
 			}
 			if (score && title && desc && caseId) {

@@ -1,4 +1,4 @@
-const { review, source } = require("../../models");
+const { review, source, customCase } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -28,10 +28,10 @@ module.exports = async (req, res) => {
 						});
 					}
 				} else if (!imgUrl.length) {
+					let findCase = await customCase.findOne({ where: { id: caseId } });
 					await source.create({
 						reviewId: newReview.id,
-						imgUrl:
-							"https://heiss-images.s3.ap-northeast-2.amazonaws.com/1632811597118.png",
+						imgUrl: findCase.dataValues.img,
 					});
 				}
 				res.status(200).json({ message: "ok" });

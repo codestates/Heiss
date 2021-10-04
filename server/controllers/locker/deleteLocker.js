@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 	const caseId = req.params.id;
 	const accessToken = req.cookies.accessToken;
 	if (!accessToken) {
-		res.status(401).json({ message: "please log in" });
+		return res.status(401).json({ message: "please log in" });
 	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
@@ -16,9 +16,10 @@ module.exports = async (req, res) => {
 		if (cartCase) {
 			if (!cartCase.cart) {
 				await customCase.destroy({ where: { id: caseId } });
-				res.status(200).json({ message: "ok" });
+				return res.status(200).json({ message: "ok" });
 			}
 			await customCase.update({ locker: false }, { where: { id: caseId } });
+			return res.status(200).send();
 		} else {
 			res.status(404).json({ message: "Not found" });
 		}
