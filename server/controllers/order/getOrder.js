@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { orderList, orderNumber } = require("../../models");
+const { orderList, orderNumber, customCase } = require("../../models");
 require("dotenv").config();
 
 module.exports = async (req, res) => {
@@ -14,19 +14,30 @@ module.exports = async (req, res) => {
 			include: [
 				{
 					model: orderList,
+					include: [
+						{
+							model: customCase,
+						},
+					],
 				},
 			],
 		});
+
 		let data = [];
 		for (let i = 0; i < getList.length; i++) {
 			let tmp = {
-				orderNumber: getList[i].id,
+				orderNumber: getList[i].number,
+				condition: getList[i].condition,
 				orderList: [],
 			};
 			for (let j = 0; j < getList[i].orderLists.length; j++) {
 				let tmp2 = {
 					customCaseId: getList[i].orderLists[j].dataValues.customCaseId,
 					quantity: getList[i].orderLists[j].dataValues.quantity,
+					price:
+						getList[i].orderLists[j].dataValues.quantity *
+						getList[i].orderLists[j].dataValues.customCase.price,
+					img: getList[i].orderLists[j].dataValues.customCase.img,
 				};
 				tmp.orderList.push(tmp2);
 			}
