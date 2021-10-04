@@ -105,10 +105,6 @@ const ListBox = styled.div`
 const Canvas = () => {
 	const user = useSelector((state) => state.user); // 로그인 상태
 	const review = useSelector((state) => state.review);
-	// const [canvasWidth, setCanvasWidth] = useState(document.body.clientWidth);
-	// const [canvasHeight, setCanvasHeight] = useState(window.innerHeight / 1.2);
-	const [canvasWidth, setCanvasWidth] = useState(600);
-	const [canvasHeight, setCanvasHeight] = useState(600);
 	const [canvas, setCanvas] = useState();
 	const [menuNum, setMenuNum] = useState(0); // menu 리스트
 	const [context, setContext] = useState(false); // context menu 토글
@@ -121,6 +117,9 @@ const Canvas = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		const canvasWidth = 600;
+		const canvasHeight = 600;
+
 		const canvas = new fabric.Canvas("canvas", {
 			crossOrigin: "anonymous",
 			height: canvasHeight,
@@ -156,8 +155,20 @@ const Canvas = () => {
 
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
-			setCanvasWidth(document.body.clientWidth);
-			setCanvasHeight(800);
+			console.log("test", document.body.clientWidth);
+			if (document.body.clientWidth < 768) {
+				canvas.setDimensions({
+					width: 600,
+					height: 600,
+				});
+			}
+
+			if (document.body.clientWidth < 425) {
+				canvas.setDimensions({
+					width: 300,
+					height: 300,
+				});
+			}
 
 			canvas.renderAll();
 		};
