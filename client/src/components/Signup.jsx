@@ -23,6 +23,30 @@ const SignupSection = styled.form`
 	margin: 0;
 	background-color: #efefd2;
 	text-align: left;
+
+	.btnBox {
+		display: flex;
+	}
+
+	.btn {
+		background-color: #6c6c6c;
+		color: #ffffe7;
+		font-weight: bold;
+		font-size: 0.8rem;
+		border-radius: 1.4vh;
+		padding: 0.6rem;
+		width: 6rem;
+		margin: 1rem 1.5rem 0rem;
+		@media ${(props) => props.theme.mobileL} {
+			width: 4rem;
+			height: 2rem;
+			font-size: 0.3rem;
+			background: ${color.white};
+			border: 3px solid ${color.white};
+			color: black;
+		}
+	}
+
 	.userWrap {
 		width: 100%;
 		display: flex;
@@ -54,23 +78,6 @@ const SignupSection = styled.form`
 			&::placeholder {
 				font-size: 0.5rem;
 			}
-		}
-	}
-	button {
-		background-color: #f5f5f3;
-		font-weight: bold;
-		font-size: 18px;
-		border-radius: 1.4vh;
-		border: 3px solid ${color.white};
-		padding: 0.4rem;
-		width: 130px;
-		@media ${(props) => props.theme.mobileL} {
-			width: 4rem;
-			height: 2rem;
-			font-size: 0.3rem;
-			background: ${color.white};
-			border: 3px solid ${color.white};
-			color: black;
 		}
 	}
 `;
@@ -258,30 +265,23 @@ const Singup = () => {
 							) : null}
 						</div>
 					</div>
-					<button type="submit">회원가입</button>
+					<div className="btnBox">
+						<button type="submit" className="btn">
+							회원가입
+						</button>
+						<button type="submit" className="btn">
+							비밀번호찾기
+						</button>
+					</div>
 				</>
 			) : (
 				<>
-					<h2
-						disabled
-						style={{
-							marginBottom: "10px",
-							background: "none",
-							border: "none",
-							fontSize: "0.7rem",
-							width: "100%",
-						}}
-					>
-						메일로 인증번호를 보냈습니다
-					</h2>
+					<h3>메일로 인증번호를 보냈습니다</h3>
 					<input
 						placeholder="인증코드를 입력해주세요"
 						onChange={(e) => code(e)}
 					/>
-					<button
-						onClick={checkCode}
-						style={{ marginTop: "10px", height: "1.8rem", width: "4rem" }}
-					>
+					<button onClick={checkCode} className="btn">
 						인증
 					</button>
 				</>

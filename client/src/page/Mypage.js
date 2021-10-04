@@ -170,7 +170,7 @@ const PutUserInfoBox = styled.div`
 		height: 2.4rem;
 		font-weight: bold;
 		font-size: 1.1rem;
-		margin-top: 2rem;
+		margin: 1rem 0.8rem 0rem;
 
 		transition: all 0.3s;
 		position: relative;
@@ -185,7 +185,6 @@ const PutUserInfoBox = styled.div`
 
 		.delUser {
 			background: ${color.point};
-			margin-left: 2rem;
 			color: ${color.white};
 		}
 		.passwordUser {
@@ -204,9 +203,8 @@ const PutUserInfoBox = styled.div`
 `;
 
 const ImgDiv = styled.div`
-	margin: 2rem 0rem;
-	width: 100%;
-	height: 100%;
+	width: 15rem;
+	height: 5rem;
 	position: relative;
 	border: 4px solid ${color.point};
 	height: 14rem;
@@ -501,7 +499,7 @@ const Mypage = () => {
 								{touched.newpassword && errors.newpassword ? (
 									<div>{errors.newpassword}</div>
 								) : null}
-								<div className="btnBox" style={{ display: "flex" }}>
+								<div className="btnBox">
 									<button className="btn" onClick={patchUser}>
 										회원정보수정
 									</button>
