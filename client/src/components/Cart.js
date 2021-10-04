@@ -103,21 +103,8 @@ const Cart = ({ name }) => {
 	const [address, setAddress] = useState(true);
 	// 주소 내용
 	const [addressName, setAddressName] = useState("");
-	// 나중에 초기값 []로 바꿀 예정
-	const [cartArr, setCartArr] = useState([
-		{
-			img: "https://cdn.discordapp.com/attachments/884357003747688478/890774776128344104/unknown.png",
-			price: 1000,
-			id: 1,
-			quantity: 1,
-		},
-		{
-			img: "https://cdn.discordapp.com/attachments/884357003747688478/890774776128344104/unknown.png",
-			price: 3000,
-			id: 2,
-			quantity: 1,
-		},
-	]);
+	// cart 배열 받을 상태
+	const [cartArr, setCartArr] = useState([[]]);
 
 	useEffect(() => {
 		axios

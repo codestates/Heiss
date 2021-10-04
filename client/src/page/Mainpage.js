@@ -35,6 +35,8 @@ const MainpageBoxFirst = styled.ul`
 		width: 100%;
 		height: 100vh;
 		background: #343421;
+		padding: 1rem;
+
 		&:nth-child(1) {
 			${flexCenter}
 			background: none;

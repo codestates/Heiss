@@ -61,7 +61,11 @@ const CategoryBox = styled.div`
 
 	.userinfoBox {
 		display: flex;
+		justify-content: space-around;
 		align-items: flex-end;
+		padding: 1rem;
+		box-sizing: border-box;
+		border-bottom: 0.5px solid ${color.lightBasic};
 
 		img {
 			border-radius: 50%;
