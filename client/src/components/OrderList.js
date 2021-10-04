@@ -75,7 +75,7 @@ const OrderList = () => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}order`)
 			.then((res) => setOrder(res.data));
-	});
+	}, []);
 
 	if (order.length === 0) {
 		return (

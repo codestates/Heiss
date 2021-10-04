@@ -104,13 +104,13 @@ const Cart = ({ name }) => {
 	// 주소 내용
 	const [addressName, setAddressName] = useState("");
 	// cart 배열 받을 상태
-	const [cartArr, setCartArr] = useState([[]]);
+	const [cartArr, setCartArr] = useState([]);
 
 	useEffect(() => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}cart`)
 			.then((res) => setCartArr(res.data.data));
-	});
+	}, []);
 
 	// 가격변경 핸들러
 	const changeHandler = (moneys, deliverys) => {

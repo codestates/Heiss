@@ -216,7 +216,6 @@ const Canvas = () => {
 			formdata.append("picture", file);
 
 			if (review.caseInfo.id) {
-				console.log("?!?!?!!?!?!");
 				formdata.append("caseId", review.caseInfo.id);
 				formdata.append("phondId", review.caseInfo.phoneId);
 				formdata.append("price", review.caseInfo.price);

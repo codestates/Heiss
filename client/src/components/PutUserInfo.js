@@ -62,13 +62,6 @@ const PutUserInfoBox = styled.div`
 			margin-left: 2rem;
 			color: ${color.white};
 		}
-		@media ${(props) => props.theme.tablet} {
-			flex-direction: column;
-
-			.delUser {
-				margin-left: 0;
-			}
-		}
 	}
 `;
 
