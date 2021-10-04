@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
 			order: [["id", "desc"]],
 		});
 		if (findCase) {
-			console.log(findCase);
 			res.status(200).json({ data: findCase });
 		}
 	} catch (err) {

@@ -8,6 +8,8 @@ import { useFormik } from "formik";
 import { getUserInfo, handleLoginModal } from "../redux/modules/users";
 import { color } from "./utils/theme";
 import profile from "../img/profile.png";
+import Modal from "react-modal";
+import FindPasswordModal from "../modal/FindPasswordModal";
 axios.defaults.withCredentials = true;
 
 const SignupSection = styled.form`
@@ -111,11 +113,38 @@ const ImgDiv = styled.div`
 	}
 `;
 
+const passwordModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 4,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		background: "#ffffe7",
+		overflow: "auto",
+		top: "40vh",
+		left: "30vw",
+		right: "30vw",
+		bottom: "40vh",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "4px",
+		outline: "none",
+		zIndex: 4,
+	},
+};
+
 const Singup = () => {
 	const [auth, setAuth] = useState(true);
 	const [hash, setHash] = useState("");
 	const [userCode, setUserCode] = useState("");
 	const [img, setImg] = useState({});
+	const [modal, setModal] = useState(false);
 	const dispatch = useDispatch();
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
@@ -202,8 +231,20 @@ const Singup = () => {
 		}
 	};
 
+	const findPasswordModal = () => {
+		setModal(!modal);
+	};
+
 	return (
 		<SignupSection onSubmit={handleSubmit}>
+			<Modal
+				isOpen={modal}
+				style={passwordModal}
+				onRequestClose={findPasswordModal}
+				ariaHideApp={false}
+			>
+				<FindPasswordModal findPasswordModal={findPasswordModal} />
+			</Modal>
 			{auth ? (
 				<>
 					<div className="userWrap">
@@ -269,7 +310,7 @@ const Singup = () => {
 						<button type="submit" className="btn">
 							회원가입
 						</button>
-						<button type="submit" className="btn">
+						<button className="btn" onClick={findPasswordModal}>
 							비밀번호찾기
 						</button>
 					</div>

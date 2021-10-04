@@ -9,6 +9,7 @@ const authPass = process.env.EMAIL_PW;
 const fromEmail = "heiss_veri@daum.net";
 
 module.exports = async (req, res) => {
+	console.log("잘 들어왔어");
 	const email = req.body.email;
 
 	const generateRandom = (min, max) => {
