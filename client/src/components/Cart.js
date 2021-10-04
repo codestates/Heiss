@@ -119,11 +119,11 @@ const Cart = () => {
 		},
 	]);
 
-	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_API_URL}cart`)
-			.then((res) => setCartArr(res.data.data));
-	}, []);
+	// useEffect(() => {
+	// 	axios
+	// 		.get(`${process.env.REACT_APP_API_URL}cart`)
+	// 		.then((res) => setCartArr(res.data.data));
+	// }, []);
 
 	// 가격변경 핸들러
 	const changeHandler = (moneys, deliverys) => {
@@ -155,7 +155,7 @@ const Cart = () => {
 					data={data}
 					key={el}
 					copyKey={el}
-          num={el}
+					num={el}
 					changeHandler={changeHandler}
 				/>
 			))}
