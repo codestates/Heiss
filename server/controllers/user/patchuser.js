@@ -5,40 +5,42 @@ require("dotenv").config();
 
 module.exports = async (req, res) => {
 	const accessToken = req.cookies.accessToken;
-	let imgUrl = req.file.location;
-	let { password, newpassword, username } = req.body;
-	const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
-	const findUser = await users.findOne({
-		where: { email: userInfo.email, provider: userInfo.provider },
-	});
+	let { userName, newpassword } = req.body;
+	let userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
+	let payload = {};
 
-	try {
-		let check = await bcrypt.compare(password, findUser.dataValues.password);
-		if (!check) {
-			return res.status(401).send();
-		} else {
-			if (!imgUrl) imgUrl = findUser.dataValues.profileImg;
-			if (!username) username = findUser.dataValues.userName;
-			if (!newpassword) newpassword = password;
-			bcrypt.genSalt(10, (err, salt) => {
-				bcrypt.hash(newpassword, salt, (err, hash) => {
-					if (err) {
-						throw err;
-					} else {
-						users.update(
-							{
-								profileImg: imgUrl,
-								userName: username,
-								password: hash,
-							},
-							{ where: { email: userInfo.email, provider: userInfo.provider } }
-						);
-						res.status(200).send();
-					}
-				});
-			});
+	if (req.file) {
+		userInfo.profileImg = req.file.location;
+		payload.profileImg = req.file.location;
+	}
+	if (userName) {
+		userInfo.userName = userName;
+		payload.userName = userName;
+	}
+	if (newpassword) {
+		let salt, hash;
+		try {
+			salt = await bcrypt.genSalt(10);
+			hash = await bcrypt.hash(newpassword, salt);
+		} catch (err) {
+			res.status(500).send(console.log(err));
 		}
+		payload.password = hash;
+	}
+	delete userInfo.password;
+	try {
+		users
+			.update(payload, {
+				where: { email: userInfo.email, provider: userInfo.provider },
+			})
+			.then(async () => {
+				const accessToken = await jwt.sign(userInfo, process.env.ACCESS_SECRET);
+				return res
+					.cookie("accessToken", accessToken, { httpOnly: true })
+					.status(200)
+					.json({ message: "ok" });
+			});
 	} catch (err) {
-		console.log(err);
+		res.status(500).send(console.log(err));
 	}
 };

@@ -5,7 +5,9 @@ require("dotenv").config();
 
 module.exports = async (req, res) => {
 	const { email, password } = req.body;
-	const findUser = await users.findOne({ where: { email, provider: "nomal" } });
+	const findUser = await users.findOne({
+		where: { email, provider: "normal" },
+	});
 
 	try {
 		if (!findUser) {

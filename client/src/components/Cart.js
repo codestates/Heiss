@@ -82,8 +82,8 @@ const Cart = () => {
 	useEffect(() => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}cart`)
-			.then((res) => setCartArr(res));
-	});
+			.then((res) => setCartArr(res.data.data));
+	}, []);
 
 	const changeHandler = ({ deliverys, moneys, toggle }) => {
 		setDelivery(toggle === "on" ? delivery + deliverys : delivery - deliverys);
@@ -94,7 +94,12 @@ const Cart = () => {
 	return (
 		<CartSection>
 			{cartArr.map((data, key) => (
-				<CartList data={data} key={key} changeHandler={changeHandler} />
+				<CartList
+					data={data}
+					key={key}
+					copyKey={key}
+					changeHandler={changeHandler}
+				/>
 			))}
 			<OrderBox>
 				<div>

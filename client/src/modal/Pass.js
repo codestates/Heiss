@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { newUserInfo } from "../redux/modules/users";
-import { patchUserInfo } from "../redux/modules/users";
+import { useHistory } from "react-router";
+axios.defaults.withCredentials = true;
 
-const PassSection = styled.form`
+const Wrap = styled.div`
 	display: flex;
 	flex-direction: column;
-	color: #ffffe7;
-	justify-content: center;
+	width: 100%;
 	align-items: center;
+	justify-content: center;
+	text-align: center;
+`;
+
+const PassSection = styled.form`
+	width: 100%;
+
+	color: #ffffe7;
 
 	.title {
-		margin-bottom: 3rem;
+		margin-bottom: 1.4rem;
+		font-size: 1.2rem;
 	}
 
 	.warring {
@@ -23,97 +30,88 @@ const PassSection = styled.form`
 `;
 
 const BtnBox = styled.div`
+	width: 100%;
 	display: flex;
 	justify-content: space-around;
 
-	.btn {
-		color: #f47676;
-		width: 5rem;
-		border-radius: 1vh;
-		border: 3px solid #f47676;
-		margin: 1rem;
-		padding: 0.5rem;
-		font-weight: bold;
-		font-size: 1rem;
-
-		transition: all 0.5s;
-		&:hover {
-			background: #f47676;
-			color: #ffffe7;
-		}
-	}
-
-	.yesBtn {
-		color: #ffffe7;
-		border: 3px solid #ffffe7;
-		&:hover {
-			color: #f47676;
-			background: #fffffe;
-		}
+	input {
+		width: 50%;
+		height: 0.4rem;
+		margin-right: 1rem;
+		border-radius: 0.4rem;
+		margin-bottom: 1rem;
 	}
 `;
 
-const Pass = () => {
-	// const [password, setPassword] = useState("")
-	const dispatch = useDispatch();
-	const [userCode, setUserCode] = useState("");
-	const [hash, setHash] = useState("");
-	const [img, setImg] = useState({});
+const Button = styled.button`
+	color: #ffffe7;
+	width: 5rem;
+	height: 2.4rem;
+	border-radius: 0.5vh;
+	background-color: #f47676;
+	padding: 0.5rem;
+	font-weight: bold;
+	font-size: 1rem;
 
-	const handleSubmit = async (values) => {
-		let user = await axios.post(
-			`${process.env.REACT_APP_API_URL}user/mypage`,
-			values
-		);
-		if (user.data.message === "password err") {
-			alert("비밀번호가 일치하지 않습니다");
-		} else {
-			alert("회원정보 수정이 완료되었습니다.");
-			dispatch(patchUserInfo());
-			let url = window.location.pathname;
-			window.location.replace(url);
-			dispatch(newUserInfo());
-		}
+	transition: all 0.2s;
+	&:hover {
+		background: #f47676;
+		color: #ffffe7;
+	}
+`;
+
+const Pass = ({ patchModal, values, img }) => {
+	const [password, setPassword] = useState("");
+
+	const passwordHandler = (e) => {
+		setPassword(e.target.value);
 	};
-	// 	const passwordCheck = async (values) => {
-	// 		axios
-	// 			.post(`${process.env.REACT_APP_API_URL}user/mypage`, {
-	// 				code: userCode,
-	// 				hashedcode: hash,
-	// 			})
-	// 			.then(() => {
-	// 				const formData = new FormData();
-	// 				for (let el in values) {
-	// 					formData.append(el, values[el]);
-	// 				}
-	// 				formData.append("picture", img.file);
-	// 				axios
-	// 					.post(`${process.env.REACT_APP_API_URL}user/mypage`, formData, {
-	// 						header: { "Content-Type": "multipart/form-data" },
-	// 					})
-	// 					.then(() => {
-	// 						alert("회원가입이 완료되었습니다!");
-	// 						dispatch(patchUserInfo());
-	// 						dispatch(newUserInfo());
-	// 					});
-	// 			});
-	// 	};
+
+	const patchUser = () => {
+		axios
+			.post(`${process.env.REACT_APP_API_URL}user/passwordCheck`, {
+				password,
+			})
+			.then((el) => {
+				if (el.data.message) {
+					const formData = new FormData();
+					for (let el in values) {
+						formData.append(el, values[el]);
+					}
+					formData.append("picture", img.file);
+					axios
+						.patch(`${process.env.REACT_APP_API_URL}user`, formData, {
+							header: { "Content-Type": "multipart/form-data" },
+						})
+						.then(() => {
+							alert("회원정보 수정이 완료되었습니다.");
+							patchModal();
+							window.location.replace("/mypage");
+						});
+				}
+			})
+			.catch(() => {
+				alert("입력하신 현재 비밀번호가 일치하지 않습니다.");
+			});
+	};
 
 	return (
-		<PassSection onSubmit={handleSubmit}>
-			<h2 className="title">회원정보를 수정하시겠습니까?</h2>
-			<BtnBox>
-				<input
-					type="password"
-					name="password"
-					// value={password}
-					// onChange={passwordCheck}
-				/>
-				<button type="submit" className="btn">
-					변경
-				</button>
-			</BtnBox>
-		</PassSection>
+		<Wrap>
+			<PassSection>
+				<p className="title">회원정보를 수정하시겠습니까?</p>
+				<BtnBox>
+					<input
+						type="password"
+						name="password"
+						placeholder="현재 비밀번호를 입력해 주세요."
+						onChange={(e) => passwordHandler(e)}
+					/>
+				</BtnBox>
+			</PassSection>
+			<Button className="btn" onClick={patchUser}>
+				변경
+			</Button>
+		</Wrap>
 	);
 };
 
