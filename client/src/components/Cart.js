@@ -96,7 +96,6 @@ const Shipping = styled.div`
 	}
 `;
 
-
 const Cart = ({ name }) => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
@@ -132,7 +131,7 @@ const Cart = ({ name }) => {
 		}
 	}
 
-	const customCaseId = user.userCart.map((data) => data.id);
+	const customCaseId = user.userCart.map((data) => data.customCase.id);
 	const quantity = user.userCart.map((data) => data.quantity);
 
 	return (

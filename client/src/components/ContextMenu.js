@@ -22,7 +22,7 @@ const ContextMenu = ({ point, canvas, contextMenuHandler }) => {
 		// 좌표값 기준으로 context menu가 나타나게 함
 		const menuSection = document.getElementsByClassName("menuSection")[0];
 		menuSection.setAttribute("style", `top: ${point.y}px; left: ${point.x}px`);
-	});
+	}, []);
 
 	const sendFrontObject = () => {
 		const items = canvas.getActiveObjects();
