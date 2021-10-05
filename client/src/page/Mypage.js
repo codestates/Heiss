@@ -163,7 +163,7 @@ const Mypage = () => {
 
 	useEffect(() => {
 		getMyCart();
-	});
+	}, []);
 
 	const [locker, setLocker] = useState([]);
 

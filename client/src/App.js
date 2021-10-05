@@ -88,7 +88,7 @@ const App = () => {
 		setTimeout(() => {
 			setLoading(false);
 		}, 100);
-	});
+	}, []);
 
 	return (
 		<>
