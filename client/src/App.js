@@ -26,7 +26,7 @@ const GlobalStyles = createGlobalStyle`
 		outline: none;
 		list-style: none;
 		text-decoration: none;
-		font-family:  "Noto Sans KR", sans-serif;
+		font-family: "GothicA1-Medium", sans-serif;
 	}
 	
 	body {
