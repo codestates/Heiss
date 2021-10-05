@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			userId: DataTypes.INTEGER,
 			condition: DataTypes.STRING,
+			number: DataTypes.INTEGER,
 		},
 		{
 			sequelize,

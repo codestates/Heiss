@@ -5,15 +5,35 @@ require("dotenv").config();
 module.exports = async (req, res) => {
 	const accessToken = req.cookies.accessToken;
 	const { customCaseId, quantity } = req.body;
+
+	const generateRandom = function (min, max) {
+		var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
+		return ranNum;
+	};
+
 	if (!accessToken) {
 		res.status(401).json({ message: "please log in" });
 	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
 
+		const number = generateRandom(11111, 99999);
+		let condition;
+		switch (number % 3) {
+			case 0:
+				condition = "주문완료";
+				break;
+			case 1:
+				condition = "배송 중";
+				break;
+			case 2:
+				condition = "배송 완료";
+				break;
+		}
 		const newOrderNumber = await orderNumber.create({
 			userId: userInfo.id,
-			condition: "주문완료",
+			condition: condition,
+			number: number,
 		});
 
 		for (let i = 0; i < customCaseId.length; i++) {
