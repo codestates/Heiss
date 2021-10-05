@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
 import { listBox } from "./utils/theme";
@@ -13,7 +13,7 @@ const TextSection = styled.div`
 
 const Text = ({ canvas }) => {
 	// 폰트 상태
-	const [fontFamily, setFontFamily] = useState("sans-serif");
+	const [fontFamily, setFontFamily] = useState("system-ui");
 	// 폰트 굵기
 	const [fontWeight, setFontWeight] = useState(400);
 	// 테두리 굵기
@@ -34,10 +34,11 @@ const Text = ({ canvas }) => {
 		e.preventDefault();
 		const items = canvas.getActiveObjects();
 		items.forEach((item) => {
-			item.set("fontFamily", e.target.value);
+			item.set({ fontFamily: e.target.value });
 		});
 		setFontFamily(e.target.value);
-		canvas.renderAll();
+		console.log(e.target.value, items[0].fontFamily, fontFamily);
+		return canvas.renderAll();
 	};
 
 	// 굵기 변경 핸들러
@@ -74,13 +75,20 @@ const Text = ({ canvas }) => {
 					onChange={handleChangeFont}
 					style={{ fontFamily: fontFamily }}
 				>
-					{["sans-serif", "serif", "Georgia", "cursive", "system-ui"].map(
-						(el, val) => (
-							<option key={val} value={el}>
-								{el}
-							</option>
-						)
-					)}
+					{[
+						"sans-serif",
+						"serif",
+						"Georgia",
+						"cursive",
+						"system-ui",
+						"BebasNeue",
+						"Birthstone",
+						"Arial",
+					].map((el, val) => (
+						<option key={val} value={el}>
+							{el}
+						</option>
+					))}
 				</select>
 			</button>
 			<button>

@@ -13,7 +13,7 @@ const ContextMenuSection = styled.ul`
 
 	background-color: white;
 	border: 0.2px solid #cccccc;
-	border-radius: 1vh;
+	border-radius: 2vh;
 	cursor: pointer;
 `;
 
@@ -21,10 +21,7 @@ const ContextMenu = ({ point, canvas, contextMenuHandler }) => {
 	useEffect(() => {
 		// 좌표값 기준으로 context menu가 나타나게 함
 		const menuSection = document.getElementsByClassName("menuSection")[0];
-		menuSection.setAttribute(
-			"style",
-			`top: ${point.y + 3}px; left: ${point.x + 5}px`
-		);
+		menuSection.setAttribute("style", `top: ${point.y}px; left: ${point.x}px`);
 	});
 
 	const sendFrontObject = () => {
