@@ -106,7 +106,7 @@ const NonData = styled.div`
 	width: 100%;
 `;
 
-const Locker = ({ data, getMyCase }) => {
+const Locker = ({ data, getMyCase, getMyCart }) => {
 	const [modal, setModal] = useState(false);
 	const [locker, setLocker] = useState([]);
 	const history = useHistory();
@@ -115,10 +115,6 @@ const Locker = ({ data, getMyCase }) => {
 	const modalHandler = () => {
 		setModal(!modal);
 	};
-
-	useEffect(() => {
-		console.log(data);
-	}, []);
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
@@ -148,6 +144,12 @@ const Locker = ({ data, getMyCase }) => {
 				history.push("/make");
 			});
 	};
+
+	useEffect(() => {
+		return () => {
+			getMyCart();
+		};
+	}, [onShopHandler]);
 
 	if (!data) {
 		return (

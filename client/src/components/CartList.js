@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {
@@ -105,7 +105,6 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 	// number 바뀔때마다 최신화 시켜줄 핸들러
 	const countHandler = (e) => {
 		const number = Number(e.target.value);
-		console.log(count, number);
 		// 체크되있을때만 총 가격을 보내줌
 		if (toggle) {
 			if (count < number) {

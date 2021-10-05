@@ -148,6 +148,10 @@ const SaveBox = styled.div`
 
 const Mypage = () => {
 	const history = useHistory();
+
+	// cart 배열 받을 상태
+	const [cartArr, setCartArr] = useState([]);
+
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}user`).then((el) => {
 			if (el.data.message) {
@@ -156,6 +160,10 @@ const Mypage = () => {
 		});
 		getMyCase();
 	}, []);
+
+	useEffect(() => {
+		getMyCart();
+	});
 
 	const [locker, setLocker] = useState([]);
 
@@ -168,11 +176,7 @@ const Mypage = () => {
 	}, []);
 
 	const handleToOrderList = useCallback(() => {
-		setScrollToPutUserinfo(
-			document
-				.querySelector(".orderList")
-				.scrollIntoView({ behavior: "smooth" })
-		);
+		document.querySelector(".orderList").scrollIntoView({ behavior: "smooth" });
 	}, []);
 
 	const handleToPutUserinfo = useCallback(() => {
@@ -186,6 +190,12 @@ const Mypage = () => {
 			.get(`${process.env.REACT_APP_API_URL}locker`)
 			.then((res) => res.data)
 			.then((data) => setLocker(data.data));
+	};
+
+	const getMyCart = () => {
+		axios
+			.get(`${process.env.REACT_APP_API_URL}cart`)
+			.then((res) => setCartArr(res.data.data));
 	};
 
 	const userinfo = useSelector((state) => state.user);
@@ -202,6 +212,7 @@ const Mypage = () => {
 					<div className="navigator">
 						<div onClick={handleToSaveBox}>보관함</div>
 						<div onClick={handleToShop}>장바구니</div>
+						<div onClick={handleToOrderList}>주문내역</div>
 						<div onClick={handleToPutUserinfo}>회원정보수정</div>
 					</div>
 				</CategoryBox>
@@ -210,13 +221,18 @@ const Mypage = () => {
 						<div className="title">보관함</div>
 						<SaveBox>
 							{locker.map((data) => (
-								<Locker data={data} key={data.id} getMyCase={getMyCase} />
+								<Locker
+									data={data}
+									key={data.id}
+									getMyCase={getMyCase}
+									getMyCart={getMyCart}
+								/>
 							))}
 						</SaveBox>
 					</li>
 					<li className="shop">
 						<div className="title">장바구니</div>
-						<Cart name={userinfo.userInfo.userName} />
+						<Cart name={userinfo.userInfo.userName} cartArr={cartArr} />
 					</li>
 					<li className="orderList">
 						<div className="title">주문내역</div>
