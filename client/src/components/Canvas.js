@@ -155,7 +155,6 @@ const Canvas = () => {
 
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
-			console.log("test", document.body.clientWidth);
 			if (document.body.clientWidth < 768) {
 				canvas.setDimensions({
 					width: 600,
@@ -166,7 +165,7 @@ const Canvas = () => {
 			if (document.body.clientWidth < 425) {
 				canvas.setDimensions({
 					width: 300,
-					height: 300,
+					height: 400,
 				});
 			}
 
