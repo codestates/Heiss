@@ -5,7 +5,7 @@ import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import store from "./redux/index";
 import theme from "./components/utils/theme";
-import "./index.css";
+// import "./index.css";
 import App from "./App";
 
 ReactDOM.render(

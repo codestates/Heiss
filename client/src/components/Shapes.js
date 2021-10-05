@@ -73,9 +73,7 @@ const Shapes = ({ canvas }) => {
 					scaleY: 1,
 				});
 
-				canvas.setActiveObject(object);
 				canvas.add(object);
-				canvas.renderAll();
 			});
 		});
 	};

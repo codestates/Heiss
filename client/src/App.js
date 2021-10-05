@@ -26,10 +26,10 @@ const GlobalStyles = createGlobalStyle`
 		outline: none;
 		list-style: none;
 		text-decoration: none;
+		font-family:  "Noto Sans KR", sans-serif;
 	}
 	
 	body {
-		font-family: "Arial", "serif", "Helvetica",  "Noto Sans KR", sans-serif;
 		background-color: #171717;
 		height: 100%;
 		width: 100%;

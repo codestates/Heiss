@@ -8,15 +8,6 @@ const TextSection = styled.div`
 
 	button {
 		flex-direction: column;
-		/* font-family: serif; */
-		/* font-family: sans-serif; */
-		/* font-family: monospace; */
-		/* font-family: cursive; */
-		/* font-family: fantasy; */
-		/* font-family: system-ui;
-		/* font-family: BebasNeue; */
-		/* font-family: Birthstone; */
-		font-family: Arial;
 	}
 `;
 
@@ -28,12 +19,11 @@ const Text = ({ canvas }) => {
 	// 테두리 굵기
 	const [stroke, setStroke] = useState(0);
 
-	useEffect(() => {});
 	// 텍스트 추가 핸들러
 	const textOnClick = () => {
 		const textbox = new fabric.IText("내용을 입력하세요", {
 			fontFamily: fontFamily,
-			fontWeight: 800,
+			fontWeight: 400,
 		});
 
 		return canvas.add(textbox);
