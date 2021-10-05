@@ -52,6 +52,7 @@ const {
 	source,
 	orderList,
 	orderNumber,
+	cartList,
 } = sequelize.models;
 
 review.hasMany(source);
@@ -89,4 +90,11 @@ orderList.belongsTo(orderNumber);
 
 customCase.hasMany(orderList);
 orderList.belongsTo(customCase);
+
+users.hasOne(cartList);
+cartList.belongsTo(users);
+
+customCase.hasOne(cartList);
+cartList.belongsTo(customCase);
+
 module.exports = db;
