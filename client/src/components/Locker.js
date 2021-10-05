@@ -107,9 +107,8 @@ const NonData = styled.div`
 	width: 100%;
 `;
 
-const Locker = ({ data, getMyCase, getMyCart }) => {
+const Locker = ({ data, getMyCase }) => {
 	const [modal, setModal] = useState(false);
-	const [locker, setLocker] = useState([]);
 	const history = useHistory();
 	const dispatch = useDispatch();
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
 import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
-import { getUserLocker } from "../redux/modules/users";
+import { getUserLocker, getUserOrder } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -261,6 +261,10 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	]);
 
 	useEffect(() => {
+		dispatch(getUserOrder());
+	}, []);
+
+	useEffect(() => {
 		if (data) {
 			setReview({
 				caseId: data.customCase.id,
@@ -482,17 +486,18 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 								<span>{caseName}</span>
 								{caseChoice ? (
 									<ul>
-										{user.userlocker.length ? (
-											user.userlocker.map((el) => {
-												return (
-													<li key={el.id} onClick={(e) => liNameChange(e, el)}>
-														<img
-															onClick={(e) => imgNameChange(e, el)}
-															style={{ width: "100px" }}
-															src={el.img}
-														/>
-													</li>
-												);
+										{user.userOrder[0].orderList.length ? (
+											user.userOrder[0].orderList.map((el) => {
+												console.log(el);
+												// return (
+												// 	<li key={el.id} onClick={(e) => liNameChange(e, el)}>
+												// 		<img
+												// 			onClick={(e) => imgNameChange(e, el)}
+												// 			style={{ width: "100px" }}
+												// 			src={el.img}
+												// 		/>
+												// 	</li>
+												// );
 											})
 										) : (
 											<li>구매한 케이스가 없습니다</li>
