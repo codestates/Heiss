@@ -29,8 +29,8 @@ const Case = ({ canvas, caseInfo, setCaseInfo }) => {
 					opacity: 1,
 					left: canvas.width / 3,
 					top: canvas.height / 8,
-					scaleY: 1.3,
-					scaleX: 1.3,
+					scaleY: 1.1,
+					scaleX: 1.1,
 				});
 			}
 			if (document.body.clientWidth < 425) {
