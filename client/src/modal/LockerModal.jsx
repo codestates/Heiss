@@ -2,9 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { LeftCircleFilled } from "@ant-design/icons";
-import { RightCircleFilled } from "@ant-design/icons";
-import { lockerDatas } from "../redux/modules/review";
+import { lockerDatas, onCanvasData } from "../redux/modules/review";
 import Modal from "react-modal";
 import { StarTwoTone } from "@ant-design/icons";
 axios.defaults.withCredentials = true;
@@ -258,54 +256,28 @@ const lockerModal = {
 	},
 };
 
-const LockerModal = ({ data, modalHandler, getMycase }) => {
-	const user = useSelector((state) => state.user);
-	const locker = useSelector((state) => state.locker);
+const LockerModal = ({ dataId, modalHandler, getMycase }) => {
 	const dispatch = useDispatch();
 	const [modal, setModal] = useState();
-	// const [color, setColor] = useState([]);
-	// const [imgNumber, setImgNumber] = useState(1);
-	// const [imglength, setImgLength] = useState(1);
+	const [data, setData] = useState();
+	const [color, setColor] = useState([]);
+	const [imglength, setImgLength] = useState(1);
 
-	// useEffect(() => {
-	// 	axios.get(`${process.env.REACT_APP_API_URL}locker`).then((el) => {
-	// 		setData(el.data.data);
-	// 		setColor(colorChange(el.data.data.score - 1));
-	// 		setImgLength(el.data.data.sources.length);
-	// 	});
-	// }, []);
+	useEffect(() => {
+		axios.get(`${process.env.REACT_APP_API_URL}locker/${dataId}`).then((el) => {
+			setModal(el.data.data);
+			setColor(colorChange(el.data.data.score - 1));
+			setImgLength(el.data.data.sources.length);
+		});
+	}, []);
 
-	// const colorChange = (index) => {
-	// 	let arr = ["white", "white", "white", "white", "white"];
-	// 	for (let i = 0; i <= index; i++) {
-	// 		arr[i] = "yellow";
-	// 	}
-	// 	return arr;
-	// };
-
-	// const leftImg = (imgNumber) => {
-	// 	if (imgNumber > 1) {
-	// 		setImgNumber(imgNumber - 1);
-	// 		const imgs = document.querySelectorAll(".reviewImg");
-	// 		imgs.forEach((img) => {
-	// 			img.style.transform = `translate(-${imgNumber - 2}00%)`;
-	// 		});
-	// 	}
-	// };
-
-	// const rightImg = (imgNumber) => {
-	// 	if (imgNumber < imglength) {
-	// 		setImgNumber(imgNumber + 1);
-	// 		const imgs = document.querySelectorAll(".reviewImg");
-	// 		imgs.forEach((img) => {
-	// 			img.style.transform = `translate(-${imgNumber}00%)`;
-	// 		});
-	// 	}
-	// };
-
-	if (!data) {
-		return null;
-	}
+	const colorChange = (index) => {
+		let arr = ["white", "white", "white", "white", "white"];
+		for (let i = 0; i <= index; i++) {
+			arr[i] = "yellow";
+		}
+		return arr;
+	};
 
 	return (
 		<LockerModalSection>
@@ -317,47 +289,9 @@ const LockerModal = ({ data, modalHandler, getMycase }) => {
 				}}
 				ariaHideApp={false}
 			/>
-			{/* <div className="picDiv">
-				{data.sources.map((el, index) => {
-					return (
-						<img className="reviewImg" key={index} src={el.imgUrl} alt="img" />
-					);
-				})}
-				<LeftCircleFilled
-					onClick={() => leftImg(imgNumber)}
-					className={`carousel left ${imglength === 1 ? "hide" : ""}`}
-				/>
-				<RightCircleFilled
-					onClick={() => rightImg(imgNumber)}
-					className={`carousel right ${imglength === 1 ? "hide" : ""}`}
-				/>
+			<div className="imgDiv">
+				<img src={data.img} alt="img" />
 			</div>
-			<div className="userDiv">
-				<div className="imgDiv">
-					<img className="profileImg" src={data.user.profileImg} />
-				</div>
-				<div className="etc">
-					<div className="lockerScore">
-						{color.map((el, index) => (
-							<StarTwoTone
-								key={index}
-								twoToneColor={el}
-								style={{ fontSize: "30px", padding: "0rem 0.2rem" }}
-							/>
-						))}
-						<span className="score">{data.score}</span>
-					</div>
-					<div className="name">
-						{data.user.username}
-						<span className="createdAt">
-							{data.createdAt.slice(2, 10).replaceAll("-", ".")}
-						</span>
-					</div>
-				</div>
-			</div>
-			<div className="phone">기종: {data.customCase.phone.type}</div>
-			<div className="title">{data.title}</div>
-			<div className="desc">{data.desc}</div> */}
 		</LockerModalSection>
 	);
 };

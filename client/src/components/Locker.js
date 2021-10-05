@@ -147,15 +147,15 @@ const Locker = ({ data, getMyCase }) => {
 	}
 	return (
 		<LockerAllBox>
-			<Modal
-				isOpen={modal}
-				style={ThumbnailModal}
-				onRequestClose={modalHandler}
-				ariaHideApp={false}
-			>
-				<LockerModal dataId={data.id} onClick={modalHandler} />
-			</Modal>
 			<ThumbnailSection>
+				<Modal
+					isOpen={modal}
+					onRequestClose={modalHandler}
+					style={ThumbnailModal}
+					ariaHideApp={false}
+				>
+					<LockerModal dataId={data.id} onClick={modalHandler} />
+				</Modal>
 				<img src={data.img} alt="img" />
 				<HoverThumb className="hover-thumb" onClick={modalHandler}>
 					<BgnHover onClick={modalHandler}></BgnHover>
