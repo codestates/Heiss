@@ -168,11 +168,7 @@ const Mypage = () => {
 	}, []);
 
 	const handleToOrderList = useCallback(() => {
-		setScrollToPutUserinfo(
-			document
-				.querySelector(".orderList")
-				.scrollIntoView({ behavior: "smooth" })
-		);
+		document.querySelector(".orderList").scrollIntoView({ behavior: "smooth" });
 	}, []);
 
 	const handleToPutUserinfo = useCallback(() => {
@@ -202,6 +198,7 @@ const Mypage = () => {
 					<div className="navigator">
 						<div onClick={handleToSaveBox}>보관함</div>
 						<div onClick={handleToShop}>장바구니</div>
+						<div onClick={handleToOrderList}>주문내역</div>
 						<div onClick={handleToPutUserinfo}>회원정보수정</div>
 					</div>
 				</CategoryBox>
