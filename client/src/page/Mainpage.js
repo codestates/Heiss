@@ -35,6 +35,8 @@ const MainpageBoxFirst = styled.ul`
 		width: 100%;
 		height: 100vh;
 		background: #343421;
+		padding: 1rem;
+
 		&:nth-child(1) {
 			${flexCenter}
 			background: none;
@@ -55,6 +57,10 @@ const MainpageBoxFirst = styled.ul`
 			@media ${(props) => props.theme.tablet} {
 				font-size: 13px;
 			}
+		}
+
+		.darkFont {
+			color: ${color.white};
 		}
 
 		@media ${(props) => props.theme.tablet} {
@@ -149,7 +155,7 @@ const MainpageBoxFirst = styled.ul`
 		width: 13rem;
 		height: 60px;
 		&:hover {
-			color: #005900;
+			color: ${color.point};
 		}
 	}
 
@@ -253,7 +259,7 @@ const Mainpage = () => {
 				</li>
 				<li>
 					<img src={gif2} alt="gif2" />
-					<div className="columnSection">
+					<div className="columnSection darkFont">
 						<div className="animationText">
 							<h2>저희 Heiss는 </h2>
 							<div className="slide__box">

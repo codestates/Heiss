@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { onCanvasData } from "../redux/modules/review";
 import LockerModal from "../modal/LockerModal";
+import axios from "axios";
 
 import {
 	ThumbnailSections,
@@ -17,7 +18,7 @@ import {
 // 이미지
 import cartIcon from "../img/cart.svg";
 import deleteIcon from "../img/delete.svg";
-import axios from "axios";
+import sad from "../img/sad.svg";
 
 const LockerAllBox = styled.div`
 	display: flex;
@@ -100,6 +101,11 @@ const BgnHover = styled.div`
 	${BgnHovers}
 `;
 
+const NonData = styled.div`
+	${flexCenter}
+	width: 100%;
+`;
+
 const Locker = ({ data, getMyCase }) => {
 	const [modal, setModal] = useState(false);
 	const [locker, setLocker] = useState([]);
@@ -128,7 +134,6 @@ const Locker = ({ data, getMyCase }) => {
 
 	// 장바구니 추가 핸들러
 	const onShopHandler = () => {
-		console.log("잘작동");
 		axios.post(`${process.env.REACT_APP_API_URL}cart`, { caseId: data.id });
 	};
 
@@ -145,8 +150,14 @@ const Locker = ({ data, getMyCase }) => {
 	};
 
 	if (!data) {
-		return null;
+		return (
+			<NonData>
+				<h1>보관함이 비었어요..</h1>
+				<img src={sad} alt="sad" style={{ width: "10rem" }} />
+			</NonData>
+		);
 	}
+
 	return (
 		<LockerAllBox>
 			<Modal
