@@ -19,15 +19,9 @@ import { useFormik } from "formik";
 import Nav from "./Nav";
 import Locker from "../components/Locker";
 import Cart from "../components/Cart";
-<<<<<<< HEAD
-
-// 이미지
-import profile from "../img/profile.png";
-=======
 import PutUserInfo from "../components/PutUserInfo";
 import OrderList from "../components/OrderList";
 
->>>>>>> 3b89be9555454b2f4ff45c7e4dca35af4c227552
 axios.defaults.withCredentials = true;
 
 const MypageSection = styled.div`
@@ -174,9 +168,7 @@ const Mypage = () => {
 	}, []);
 
 	const handleToOrderList = useCallback(() => {
-			document
-				.querySelector(".orderList")
-				.scrollIntoView({ behavior: "smooth" })
+		document.querySelector(".orderList").scrollIntoView({ behavior: "smooth" });
 	}, []);
 
 	const handleToPutUserinfo = useCallback(() => {
