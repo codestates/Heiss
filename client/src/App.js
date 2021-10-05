@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Redirect,
 	useHistory,
 } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
@@ -11,11 +10,13 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { reviewDatas } from "./redux/modules/review";
 
+// 컴포넌트
 import Mainpage from "./page/Mainpage";
 import Makepage from "./page/Makepage";
 import Mypage from "./page/Mypage";
 import Review from "./page/Review";
 import Chat from "./Chat";
+import Loading from "./components/Loading";
 
 const GlobalStyles = createGlobalStyle`
 	* {
@@ -54,6 +55,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const App = () => {
+	const [loading, setLoading] = useState(true);
 	const user = useSelector((state) => state.user); // 로그인 상태
 	const history = useHistory();
 	let state = useSelector((state) => state);
@@ -83,30 +85,38 @@ const App = () => {
 			const platform = url.searchParams.get("state");
 			getAccessToken(authorizationCode, platform);
 		}
+		setTimeout(() => {
+			setLoading(false);
+		}, 100);
 	});
 
 	return (
-		<Router>
-			<GlobalStyles />
-			<Switch>
-				<Route exact path="/">
-					<Mainpage />
-				</Route>
-				<Route path="/review">
-					<Review />
-				</Route>
-				<Route path="/make">
-					<Makepage />
-				</Route>
-
-				<Route>
-					<Mypage />
-				</Route>
-				<Route path="/chat">
-					<Chat />
-				</Route>
-			</Switch>
-		</Router>
+		<>
+			{loading ? (
+				<Loading />
+			) : (
+				<Router>
+					<GlobalStyles />
+					<Switch>
+						<Route exact path="/">
+							<Mainpage />
+						</Route>
+						<Route path="/review">
+							<Review />
+						</Route>
+						<Route path="/make">
+							<Makepage />
+						</Route>
+						<Route>
+							<Mypage />
+						</Route>
+						<Route path="/chat">
+							<Chat />
+						</Route>
+					</Switch>
+				</Router>
+			)}
+		</>
 	);
 };
 
