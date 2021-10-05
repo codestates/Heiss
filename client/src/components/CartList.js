@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 import styled from "styled-components";
+import { getUserCart } from "../redux/modules/users";
 import axios from "axios";
 import {
 	flexCenter,
@@ -9,6 +11,8 @@ import {
 	BgnHovers,
 	nonHoverButton,
 } from "./utils/theme";
+import { useDispatch } from "react-redux";
+axios.defaults.withCredentials = true;
 
 const CartBox = styled.div`
 	${flexCenter}
@@ -83,58 +87,59 @@ const BgnHover = styled.div`
 `;
 
 const CartList = ({ data, copyKey, num, changeHandler }) => {
-	// 가격
-	const [item, setItem] = useState(data.price);
+	const dispatch = useDispatch();
 	// 수량
-	const [count, setCount] = useState(1);
+	const [quantity, setQuantity] = useState(data.quantity);
 	// 체크박스
 	const [toggle, setToggle] = useState(false);
 
 	const onClickHandler = () => {
 		// 체크해제되면 수량 가격 초기화
 		if (toggle) {
-			setCount(0);
-			setItem(data.price);
-			changeHandler(-count * data.price, -2000);
+			changeHandler(-quantity * data.customCase.price, -2000);
 		} else {
-			changeHandler(count * data.price, !toggle && 2000);
+			changeHandler(quantity * data.customCase.price, !toggle && 2000);
 		}
 		setToggle(!toggle);
 	};
 
 	// number 바뀔때마다 최신화 시켜줄 핸들러
-	const countHandler = (e) => {
+	const countHandler = (e, caseId) => {
 		const number = Number(e.target.value);
+		axios.patch(`${process.env.REACT_APP_API_URL}cart`, {
+			quantity: number,
+			caseId,
+		});
 		// 체크되있을때만 총 가격을 보내줌
 		if (toggle) {
-			if (count < number) {
+			if (quantity < number) {
 				// up
-				const plus = number - count;
-				console.log("plus", plus);
-				changeHandler(plus * data.price, !toggle && 2000);
-			} else if (count > number) {
+				const plus = number - quantity;
+				changeHandler(plus * data.customCase.price, !toggle && 2000);
+			} else if (quantity > number) {
 				// down
-				const minus = number - count;
-				console.log("minus", minus);
-				changeHandler(minus * data.price, !toggle && 2000);
+				const minus = number - quantity;
+				changeHandler(minus * data.customCase.price, !toggle && 2000);
 			} else {
-				changeHandler(number * data.price, !toggle && 2000);
+				changeHandler(number * data.customCase.price, !toggle && 2000);
 			}
 		}
-
-		setCount(e.target.value);
-		setItem(e.target.value * data.price);
+		setQuantity(e.target.value);
 	};
 
 	// 장바구니 삭제 핸들러
 	const deleteHandler = () => {
-		axios.delete(`${process.env.REACT_APP_API_URL}cart/${data.id}`);
+		axios
+			.delete(`${process.env.REACT_APP_API_URL}cart/${data.customCase.id}`)
+			.then(() => {
+				dispatch(getUserCart());
+			});
 	};
 
 	return (
 		<CartBox key={copyKey}>
 			<ThumbnailSection>
-				<img src={data.img} alt="img" />
+				<img src={data.customCase.img} alt="img" />
 				<HoverThumb className="hover-thumb">
 					<BgnHover>
 						<button onClick={deleteHandler}>삭제</button>
@@ -143,7 +148,7 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 			</ThumbnailSection>
 			<div className="column">
 				<h2 className="sub_title">가격</h2>
-				<h2>{item}원</h2>
+				<h2>{data.customCase.price}원</h2>
 			</div>
 			<div className="column">
 				<h2 className="sub_title">배송비</h2>
@@ -153,9 +158,9 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 				<h2 className="sub_title">수량</h2>
 				<input
 					type="number"
-					value={count}
+					value={quantity}
 					className="number"
-					onChange={countHandler}
+					onChange={(e) => countHandler(e, data.customCase.id)}
 					min="1"
 				/>
 			</div>

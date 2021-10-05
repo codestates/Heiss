@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { onCanvasData } from "../redux/modules/review";
+import { getUserCart } from "../redux/modules/users";
 import LockerModal from "../modal/LockerModal";
 import axios from "axios";
 
@@ -130,7 +131,14 @@ const Locker = ({ data, getMyCase, getMyCart }) => {
 
 	// 장바구니 추가 핸들러
 	const onShopHandler = () => {
-		axios.post(`${process.env.REACT_APP_API_URL}cart`, { caseId: data.id });
+		axios
+			.post(`${process.env.REACT_APP_API_URL}cart`, { caseId: data.id })
+			.then((el) => {
+				if (el.data.message === "conflict") {
+					alert("이미 장바구니에 있는 제품입니다.");
+				}
+				dispatch(getUserCart());
+			});
 	};
 
 	// 역직렬화 핸들러
