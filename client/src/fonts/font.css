@@ -1,6 +1,6 @@
 @font-face {
 	/* 사용할 폰트의 이름 */
-	font-family: "BebasNeue, Birthstone-Regular";
+	font-family: "BebasNeue", "Birthstone";
 	font-display: fallback;
 
 	/* 
@@ -11,16 +11,12 @@
   */
 	src: url("BebasNeue-Regular.ttf") format("truetype"),
 		/* url("BebasNeue-Regular.woff") format("woff"), */
-			url("BebasNeue-Regular.eot?iefix") format("embedded-opentype"),
-		url("Birthstone-Regular.ttf") format("truetype"),
-		/* url("BebasNeue-Regular.woff") format("woff"), */
+			url("BebasNeue-Regular.eot?iefix") format("embedded-opentype");
+	src: url("Birthstone-Regular.ttf") format("truetype"),
+		/* url("Birthstone-Regular.woff") format("woff"), */
 			url("Birthstone-Regular.eot?iefix") format("embedded-opentype");
 
 	/* 사용할 폰트의 기본 스타일 */
 	font-weight: 400;
 	font-style: normal;
 }
-
-/* url("BebasNeue-Regular.ttf") format("truetype"),
-		url("BebasNeue-Regular.woff") format("woff"),
-			url("BebasNeue-Regular.eot?iefix") format("embedded-opentype") */

@@ -161,10 +161,6 @@ const Mypage = () => {
 		getMyCase();
 	}, []);
 
-	useEffect(() => {
-		getMyCart();
-	});
-
 	const [locker, setLocker] = useState([]);
 
 	const handleToShop = useCallback(() => {
@@ -192,12 +188,6 @@ const Mypage = () => {
 			.then((data) => setLocker(data.data));
 	};
 
-	const getMyCart = () => {
-		axios
-			.get(`${process.env.REACT_APP_API_URL}cart`)
-			.then((res) => setCartArr(res.data.data));
-	};
-
 	const userinfo = useSelector((state) => state.user);
 
 	return (
@@ -221,12 +211,7 @@ const Mypage = () => {
 						<div className="title">보관함</div>
 						<SaveBox>
 							{locker.map((data) => (
-								<Locker
-									data={data}
-									key={data.id}
-									getMyCase={getMyCase}
-									getMyCart={getMyCart}
-								/>
+								<Locker data={data} key={data.id} getMyCase={getMyCase} />
 							))}
 						</SaveBox>
 					</li>

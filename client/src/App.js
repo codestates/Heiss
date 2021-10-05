@@ -27,10 +27,9 @@ const GlobalStyles = createGlobalStyle`
 		list-style: none;
 		text-decoration: none;
 	}
-
+	
 	body {
-		font-family: "Noto Sans KR", sans-serif !important;
-		/* background-color: #343421; */
+		/* font-family: "serif", "Helvetica", "Arial", "Noto Sans KR", sans-serif; */
 		background-color: #171717;
 		height: 100%;
 		width: 100%;
