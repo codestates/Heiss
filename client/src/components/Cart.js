@@ -96,6 +96,7 @@ const Shipping = styled.div`
 	}
 `;
 
+
 const Cart = ({ name }) => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);

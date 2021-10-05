@@ -24,14 +24,24 @@ const Case = ({ canvas, caseInfo, setCaseInfo }) => {
 	const BackgroundHandler = (name) => {
 		new fabric.Image.fromURL(bgImg[name], (img) => {
 			img.crossOrigin = "Anonymous";
-			console.log(img);
-			img.set({
-				opacity: 1,
-				left: canvas.width / 2.5,
-				top: canvas.height / 5,
-				scaleY: 1.3,
-				scaleX: 1.3,
-			});
+			if (document.body.clientWidth > 425) {
+				img.set({
+					opacity: 1,
+					left: canvas.width / 3,
+					top: canvas.height / 8,
+					scaleY: 1.3,
+					scaleX: 1.3,
+				});
+			}
+			if (document.body.clientWidth < 425) {
+				img.set({
+					opacity: 1,
+					left: canvas.width / 3.5,
+					top: canvas.height / 8,
+					scaleY: 0.7,
+					scaleX: 0.7,
+				});
+			}
 			canvas.setBackgroundImage(img, canvas.requestRenderAll.bind(canvas));
 		});
 		canvas.renderAll();
