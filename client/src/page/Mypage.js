@@ -94,7 +94,7 @@ const CategoryBox = styled.div`
 	}
 
 	.navigator {
-		margin-top: 3rem;
+		margin-top: 2rem;
 
 		div {
 			margin-bottom: 1rem;

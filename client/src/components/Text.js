@@ -38,7 +38,7 @@ const Text = ({ canvas }) => {
 		});
 		setFontFamily(e.target.value);
 		console.log(e.target.value, items[0].fontFamily, fontFamily);
-		return canvas.renderAll();
+		canvas.renderAll();
 	};
 
 	// 굵기 변경 핸들러
