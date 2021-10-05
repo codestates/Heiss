@@ -4,6 +4,7 @@ require("dotenv").config();
 
 module.exports = async (req, res) => {
 	const caseId = req.body.caseId;
+
 	const accessToken = req.cookies.accessToken;
 	if (!accessToken) {
 		res.status(401).json({ message: "please log in" });

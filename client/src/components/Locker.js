@@ -122,17 +122,18 @@ const Locker = ({ data, getMyCase }) => {
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
-		axios
-			.delete(`${process.env.REACT_APP_API_URL}locker/${data.id}`)
-			.then(() => {
-				getMyCase();
-				alert("삭제되었습니다!");
-			});
+		if (window.confirm("삭제하시겠습니까?")) {
+			axios
+				.delete(`${process.env.REACT_APP_API_URL}locker/${data.id}`)
+				.then(() => {
+					getMyCase();
+					alert("삭제되었습니다.");
+				});
+		}
 	};
 
 	// 장바구니 추가 핸들러
 	const onShopHandler = () => {
-		console.log("잘작동", data.id);
 		axios.post(`${process.env.REACT_APP_API_URL}cart`, { caseId: data.id });
 	};
 

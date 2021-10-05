@@ -137,6 +137,9 @@ const Thumbnail = ({ data, shotBtn, shareBtn }) => {
 	};
 
 	const scrapCase = (id) => {
+		if (!user.isLogin) {
+			return dispatch(handleLoginModal());
+		}
 		axios.post(`${process.env.REACT_APP_API_URL}case`, { id }).then(() => {
 			if (window.confirm("보관함으로 이동하시겠습니까?")) {
 				history.push("/mypage");
