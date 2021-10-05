@@ -29,7 +29,7 @@ const GlobalStyles = createGlobalStyle`
 	}
 	
 	body {
-		/* font-family: "serif", "Helvetica", "Arial", "Noto Sans KR", sans-serif; */
+		font-family: "Arial", "serif", "Helvetica",  "Noto Sans KR", sans-serif;
 		background-color: #171717;
 		height: 100%;
 		width: 100%;
