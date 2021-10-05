@@ -6,6 +6,7 @@ const GET_LOGIN = "GET_LOGIN";
 const GET_LOGOUT = "GET_LOGOUT";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
 const GET_LOCKER = "GET_LOCKER";
+const GET_CART = "GET_CART";
 
 // action
 export const getUserInfo = () => (dispatch) => {
@@ -32,6 +33,14 @@ export const getUserLocker = () => (dispatch) => {
 	});
 };
 
+export const getUserCart = () => (dispatch) => {
+	axios.get(`${process.env.REACT_APP_API_URL}cart`).then((el) => {
+		if (el.data.data) {
+			dispatch(getcart(el.data.data));
+		}
+	});
+};
+
 export const getLogin = (data) => {
 	return {
 		type: GET_LOGIN,
@@ -42,6 +51,13 @@ export const getLogin = (data) => {
 export const getLocker = (data) => {
 	return {
 		type: GET_LOCKER,
+		payload: data,
+	};
+};
+
+export const getcart = (data) => {
+	return {
+		type: GET_CART,
 		payload: data,
 	};
 };
@@ -63,6 +79,7 @@ const initialState = {
 	userInfo: {},
 	isLogin: false,
 	loginModal: false,
+	userCart: [],
 };
 
 // reducer
@@ -70,15 +87,15 @@ export const users = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_LOGIN:
 			return { ...state, userInfo: action.payload, isLogin: true };
-			break;
 
 		case GET_LOGOUT:
 			return { ...state, userInfo: {}, isLogin: false };
-			break;
 
 		case GET_LOCKER:
 			return { ...state, userlocker: action.payload };
-			break;
+
+		case GET_CART:
+			return { ...state, userCart: action.payload };
 
 		case HANDLE_LOGIN_MODAL:
 			return {

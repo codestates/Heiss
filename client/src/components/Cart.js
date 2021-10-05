@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { getUserCart } from "../redux/modules/users";
 import { flexCenter, ThumbnailSections, color, size } from "./utils/theme";
 import axios from "axios";
 import CartList from "./CartList";
 import Pay from "./Pay";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartSection = styled.div`
 	display: flex;
@@ -95,6 +97,8 @@ const Shipping = styled.div`
 `;
 
 const Cart = ({ name }) => {
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user);
 	// 총 배송비
 	const [delivery, setDelivery] = useState(0);
 	// 총 구매값
@@ -103,13 +107,9 @@ const Cart = ({ name }) => {
 	const [address, setAddress] = useState(true);
 	// 주소 내용
 	const [addressName, setAddressName] = useState("");
-	// cart 배열 받을 상태
-	const [cartArr, setCartArr] = useState([]);
 
 	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_API_URL}cart`)
-			.then((res) => setCartArr(res.data.data));
+		dispatch(getUserCart());
 	}, []);
 
 	// 가격변경 핸들러
@@ -131,12 +131,12 @@ const Cart = ({ name }) => {
 		}
 	}
 
-	const customCaseId = cartArr.map((data) => data.id);
-	const quantity = cartArr.map((data) => data.quantity);
+	const customCaseId = user.userCart.map((data) => data.id);
+	const quantity = user.userCart.map((data) => data.quantity);
 
 	return (
 		<CartSection>
-			{cartArr.map((data, el) => (
+			{user.userCart.map((data, el) => (
 				<CartList
 					data={data}
 					key={el}
