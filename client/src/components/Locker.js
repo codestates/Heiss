@@ -109,7 +109,6 @@ const NonData = styled.div`
 
 const Locker = ({ data, getMyCase, getMyCart }) => {
 	const [modal, setModal] = useState(false);
-	const [locker, setLocker] = useState([]);
 	const history = useHistory();
 	const dispatch = useDispatch();
 
@@ -153,12 +152,6 @@ const Locker = ({ data, getMyCase, getMyCart }) => {
 			});
 	};
 
-	useEffect(() => {
-		return () => {
-			getMyCart();
-		};
-	}, [onShopHandler]);
-
 	if (!data) {
 		return (
 			<NonData>
@@ -176,6 +169,7 @@ const Locker = ({ data, getMyCase, getMyCart }) => {
 				onRequestClose={modalHandler}
 				ariaHideApp={false}
 			>
+				<img src={data.img} alt="img" />
 				<LockerModal dataId={data.id} onClick={modalHandler} />
 			</Modal>
 			<ThumbnailSection>
