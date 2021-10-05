@@ -295,20 +295,18 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 		for (let re in review) {
 			formData.append(re, review[re]);
 		}
-		if (review.title && review.desc && review.score) {
+		if (review.title && review.desc && review.score && review.caseId) {
 			axios
 				.post(`${process.env.REACT_APP_API_URL}review`, formData, {
 					header: { "Content-Type": "multipart/form-data" },
 				})
-				.then((el) => {
-					if (el.data.message === "Failed to write a review") {
-						alert("사진을 제외한 모든 항목을 채워주세요");
-					} else {
-						alert("리뷰작성이 완료되었습니다.");
-						dispatch(handleRevieWritewModal());
-						dispatch(reviewDatas());
-					}
+				.then(() => {
+					alert("리뷰작성이 완료되었습니다.");
+					dispatch(handleRevieWritewModal());
+					dispatch(reviewDatas());
 				});
+		} else {
+			alert("사진을 제외한 모든 항목을 입력해주세요");
 		}
 	};
 
@@ -320,8 +318,10 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 		for (let re in review) {
 			formData.append(re, review[re]);
 		}
-		formData.append("deleteUrl", deleteImg);
-		if (review.title && review.desc && review.score) {
+		if (deleteImg.length) {
+			formData.append("deleteUrl", deleteImg);
+		}
+		if (review.title && review.desc && review.score && review.caseId) {
 			axios
 				.patch(`${process.env.REACT_APP_API_URL}review/${id}`, formData, {
 					header: { "Content-Type": "multipart/form-data" },
@@ -332,6 +332,8 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 					modalHandler();
 					dispatch(reviewDatas());
 				});
+		} else {
+			alert("사진을 제외한 모든 항목을 입력해주세요");
 		}
 	};
 
@@ -475,28 +477,30 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 										/>
 								  ))}
 						</div>
-						<Select onClick={caseHandler}>
-							<span>{caseName}</span>
-							{caseChoice ? (
-								<ul>
-									{user.userlocker.length ? (
-										user.userlocker.map((el) => {
-											return (
-												<li key={el.id} onClick={(e) => liNameChange(e, el)}>
-													<img
-														onClick={(e) => imgNameChange(e, el)}
-														style={{ width: "100px" }}
-														src={el.img}
-													/>
-												</li>
-											);
-										})
-									) : (
-										<li>구매한 케이스가 없습니다</li>
-									)}
-								</ul>
-							) : null}
-						</Select>
+						{data ? null : (
+							<Select onClick={caseHandler}>
+								<span>{caseName}</span>
+								{caseChoice ? (
+									<ul>
+										{user.userlocker.length ? (
+											user.userlocker.map((el) => {
+												return (
+													<li key={el.id} onClick={(e) => liNameChange(e, el)}>
+														<img
+															onClick={(e) => imgNameChange(e, el)}
+															style={{ width: "100px" }}
+															src={el.img}
+														/>
+													</li>
+												);
+											})
+										) : (
+											<li>구매한 케이스가 없습니다</li>
+										)}
+									</ul>
+								) : null}
+							</Select>
+						)}
 					</div>
 					<WriteSection onSubmit={(e) => e.preventDefault()}>
 						<input

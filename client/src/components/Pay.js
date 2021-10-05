@@ -1,7 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useSelector } from "react";
 import axios from "axios";
 
-export default function Paypal({ customCaseId, quantity }) {
+export default function Paypal({
+	customCaseId,
+	quantity,
+	address,
+	price,
+	name,
+}) {
 	const paypal = useRef();
 
 	useEffect(() => {
@@ -14,10 +20,10 @@ export default function Paypal({ customCaseId, quantity }) {
 							{
 								shipping: {
 									name: {
-										full_name: "given user name",
+										full_name: { name },
 									},
 									address: {
-										address_line_1: "given address 1",
+										address_line_1: { address },
 										address_line_2: "given address 2",
 										admin_area_2: "San Jose",
 										admin_area_1: "CA",
@@ -28,7 +34,7 @@ export default function Paypal({ customCaseId, quantity }) {
 								description: "my case",
 								amount: {
 									currency_code: "CAD",
-									value: 1.0, //가격
+									value: { price },
 								},
 							},
 						],
@@ -50,7 +56,7 @@ export default function Paypal({ customCaseId, quantity }) {
 			.render(paypal.current);
 	}, []);
 	return (
-		<div>
+		<div style={{ zIndex: 0 }}>
 			<div ref={paypal}></div>
 		</div>
 	);
