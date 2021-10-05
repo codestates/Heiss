@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 			price: DataTypes.INTEGER,
 			setting: DataTypes.JSON,
 			img: DataTypes.STRING,
-			cart: DataTypes.BOOLEAN,
 			locker: DataTypes.BOOLEAN,
 		},
 		{

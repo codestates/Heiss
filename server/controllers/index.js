@@ -23,6 +23,7 @@ module.exports = {
 	//* cart
 	getCart: require("./cart/getCart"),
 	postCart: require("./cart/postCart"),
+	patchCart: require("./cart/patchCart"),
 	deleteCart: require("./cart/deleteCart"),
 
 	//* locker
