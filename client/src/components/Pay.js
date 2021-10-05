@@ -20,10 +20,10 @@ export default function Paypal({
 							{
 								shipping: {
 									name: {
-										full_name: { name },
+										full_name: "ysm",
 									},
 									address: {
-										address_line_1: { address },
+										address_line_1: "address",
 										address_line_2: "given address 2",
 										admin_area_2: "San Jose",
 										admin_area_1: "CA",
@@ -34,7 +34,7 @@ export default function Paypal({
 								description: "my case",
 								amount: {
 									currency_code: "CAD",
-									value: { price },
+									value: 1.0,
 								},
 							},
 						],

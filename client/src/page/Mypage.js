@@ -161,10 +161,6 @@ const Mypage = () => {
 		getMyCase();
 	}, []);
 
-	useEffect(() => {
-		getMyCart();
-	});
-
 	const [locker, setLocker] = useState([]);
 
 	const handleToShop = useCallback(() => {

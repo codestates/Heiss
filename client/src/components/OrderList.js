@@ -72,9 +72,10 @@ const OrderList = () => {
 	const [order, setOrder] = useState([]);
 
 	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_API_URL}order`)
-			.then((res) => setOrder(res.data));
+		axios.get(`${process.env.REACT_APP_API_URL}order`).then((res) => {
+			console.log(res.data);
+			setOrder(res.data);
+		});
 	}, []);
 
 	if (order.length === 0) {

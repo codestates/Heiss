@@ -153,12 +153,6 @@ const Locker = ({ data, getMyCase, getMyCart }) => {
 			});
 	};
 
-	useEffect(() => {
-		return () => {
-			getMyCart();
-		};
-	}, [onShopHandler]);
-
 	if (!data) {
 		return (
 			<NonData>
