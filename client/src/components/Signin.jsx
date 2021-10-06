@@ -11,7 +11,8 @@ import { getUserInfo } from "../redux/modules/users";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { handleLoginModal } from "../redux/modules/users";
-import swal from "sweetalert";
+
+
 import { flexCenter, color } from "./utils/theme";
 
 axios.defaults.withCredentials = true;
