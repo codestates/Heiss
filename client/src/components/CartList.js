@@ -91,17 +91,21 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 	// 수량
 	const [quantity, setQuantity] = useState(data.quantity);
 	// 체크박스
-	const [toggle, setToggle] = useState(false);
+	const [toggle, setToggle] = useState(true);
 
 	const onClickHandler = () => {
 		// 체크해제되면 수량 가격 초기화
 		if (toggle) {
-			changeHandler(-quantity * data.customCase.price, -2000);
+			changeHandler(-quantity * data.customCase.price, data, toggle);
 		} else {
-			changeHandler(quantity * data.customCase.price, !toggle && 2000);
+			changeHandler(quantity * data.customCase.price, data, toggle);
 		}
 		setToggle(!toggle);
 	};
+
+	useEffect(() => {
+		changeHandler(data.customCase.price * data.quantity, data, toggle);
+	}, []);
 
 	// number 바뀔때마다 최신화 시켜줄 핸들러
 	const countHandler = (e, caseId) => {
@@ -115,13 +119,13 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 			if (quantity < number) {
 				// up
 				const plus = number - quantity;
-				changeHandler(plus * data.customCase.price, !toggle && 2000);
+				changeHandler(plus * data.customCase.price, data, number);
 			} else if (quantity > number) {
 				// down
 				const minus = number - quantity;
-				changeHandler(minus * data.customCase.price, !toggle && 2000);
+				changeHandler(minus * data.customCase.price, data, number);
 			} else {
-				changeHandler(number * data.customCase.price, !toggle && 2000);
+				changeHandler(number * data.customCase.price, data, number);
 			}
 		}
 		setQuantity(e.target.value);
@@ -133,6 +137,11 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 			.delete(`${process.env.REACT_APP_API_URL}cart/${data.customCase.id}`)
 			.then(() => {
 				dispatch(getUserCart());
+				if (toggle) {
+					changeHandler(-data.customCase.price * data.quantity, data, true);
+				} else {
+					changeHandler(0, data, true);
+				}
 			});
 	};
 
@@ -147,13 +156,17 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 				</HoverThumb>
 			</ThumbnailSection>
 			<div className="column">
+				<h2 className="sub_title">기종</h2>
+				<h2>{data.customCase.phone.type}</h2>
+			</div>
+			<div className="column">
 				<h2 className="sub_title">가격</h2>
 				<h2>{data.customCase.price}원</h2>
 			</div>
-			<div className="column">
+			{/* <div className="column">
 				<h2 className="sub_title">배송비</h2>
 				<h2>2000원</h2>
-			</div>
+			</div> */}
 			<div className="column">
 				<h2 className="sub_title">수량</h2>
 				<input
@@ -171,6 +184,7 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 					id={`c${num}`}
 					value={toggle}
 					onClick={onClickHandler}
+					defaultChecked={toggle}
 				/>
 				<label htmlFor={`c${num}`}>
 					<span></span>
