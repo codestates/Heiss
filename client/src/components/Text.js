@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
 import { listBox } from "./utils/theme";
@@ -13,7 +13,7 @@ const TextSection = styled.div`
 
 const Text = ({ canvas }) => {
 	// 폰트 상태
-	const [fontFamily, setFontFamily] = useState("sans-serif");
+	const [fontFamily, setFontFamily] = useState("");
 	// 폰트 굵기
 	const [fontWeight, setFontWeight] = useState(400);
 	// 테두리 굵기
@@ -21,9 +21,9 @@ const Text = ({ canvas }) => {
 
 	// 텍스트 추가 핸들러
 	const textOnClick = () => {
-		const textbox = new fabric.IText("내용을 입력하세요", {
+		const textbox = new fabric.Textbox("내용을 입력하세요", {
 			fontFamily: fontFamily,
-			fontWeight: 800,
+			fontWeight: 400,
 		});
 
 		return canvas.add(textbox);
@@ -37,6 +37,7 @@ const Text = ({ canvas }) => {
 			item.set("fontFamily", e.target.value);
 		});
 		setFontFamily(e.target.value);
+
 		canvas.renderAll();
 	};
 
@@ -48,6 +49,7 @@ const Text = ({ canvas }) => {
 			item.set("fontWeight", e.target.value);
 		});
 		setFontWeight(e.target.value);
+		console.log(e.target.value, fontWeight, items);
 		canvas.renderAll();
 	};
 
@@ -74,13 +76,26 @@ const Text = ({ canvas }) => {
 					onChange={handleChangeFont}
 					style={{ fontFamily: fontFamily }}
 				>
-					{["sans-serif", "serif", "Georgia", "cursive", "system-ui"].map(
-						(el, val) => (
-							<option key={val} value={el}>
-								{el}
-							</option>
-						)
-					)}
+					{[
+						"sans-serif",
+						"serif",
+						"Georgia",
+						"cursive",
+						"system-ui",
+						"BebasNeue",
+						"Birthstone",
+						"Arial",
+						"Ephesis",
+						"GothicA1",
+						"GothicA1-Bold",
+						"GothicA1-ExtraBold",
+						"GothicA1-ExtraLight",
+						"GothicA1-Medium",
+					].map((el, val) => (
+						<option key={val} value={el}>
+							{el}
+						</option>
+					))}
 				</select>
 			</button>
 			<button>

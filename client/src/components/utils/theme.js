@@ -50,7 +50,6 @@ export const listBox = css`
 	&::-webkit-scrollbar {
 		display: none;
 	}
-
 	button {
 		${flexCenter}
 		width: 8rem;
@@ -64,6 +63,54 @@ export const listBox = css`
 		color: ${color.point};
 		font-size: 1.4rem;
 		font-weight: bold;
+		@media ${(props) => props.theme.tablet} {
+			width: 6rem;
+			height: 6rem;
+			min-width: 6rem;
+			min-height: 6rem;
+			font-size: 1rem;
+		}
+		img {
+			height: 5rem;
+			@media ${(props) => props.theme.tablet} {
+				min-height: 2rem;
+				height: 2rem;
+			}
+		}
+		select {
+			margin-top: 0.5rem;
+			width: 6rem;
+			text-align: center;
+			outline: none;
+			background: ${color.lightBasic};
+			border-radius: 2vh;
+			color: ${color.white};
+			@media ${(props) => props.theme.tablet} {
+				width: 3rem;
+			}
+		}
+	}
+`;
+
+// phoneList
+export const phoneList = css`
+	display: flex;
+	width: 100%;
+	height: 100%;
+	overflow-x: auto;
+
+	div {
+		cursor: pointer;
+		width: 8rem;
+		height: 8rem;
+		min-width: 8rem;
+		min-height: 8rem;
+		border-radius: 1vh;
+		border: 0.7px solid #2f301e;
+		background-color: ${color.basic};
+		margin: 1rem;
+		color: ${color.point};
+		font-weight: bold;
 
 		@media ${(props) => props.theme.tablet} {
 			width: 6rem;
@@ -73,26 +120,61 @@ export const listBox = css`
 			font-size: 1rem;
 		}
 
-		img {
-			height: 5rem;
-			@media ${(props) => props.theme.tablet} {
-				min-height: 2rem;
-				height: 2rem;
+		p:nth-child(1) {
+			font-size: 1.7rem;
+			margin-top: 1.8rem;
+		}
+		p:nth-child(2) {
+			margin-top: 0.4rem;
+			font-size: 1rem;
+			color: #9e9e9e;
+		}
+		p:nth-child(3) {
+			font-size: 1rem;
+			color: #9e9e9e;
+			margin: 0.3rem 0rem;
+		}
+
+		&:nth-child(5) {
+			p:nth-child(2) {
+				font-size: 1rem;
+				color: ${color.point};
+				margin: 0rem 0rem 0.5rem;
+				line-height: 0.3rem;
+			}
+		}
+		&:nth-child(6) {
+			p:nth-child(2) {
+				font-size: 1rem;
+				color: ${color.point};
+				margin: 0rem 0rem 0.5rem;
+				line-height: 0.3rem;
+			}
+		}
+		&:nth-child(7) {
+			p:nth-child(2) {
+				font-size: 1rem;
+				color: ${color.point};
+				margin: 0rem 0rem 0.5rem;
+				line-height: 0.3rem;
 			}
 		}
 
-		select {
-			margin-top: 0.5rem;
-			width: 6rem;
-			text-align: center;
-			outline: none;
-			background: ${color.lightBasic};
-			border-radius: 2vh;
-			color: ${color.white};
+		.pro {
+			font-size: 1rem;
+			color: red;
+			margin: 0rem 0rem 0.5rem;
+			line-height: 0.1rem;
+		}
 
-			@media ${(props) => props.theme.tablet} {
-				width: 3rem;
-			}
+		.style {
+			color: #9e9e9e;
+			margin-top: 0rem;
+		}
+
+		.price {
+			color: #9e9e9e;
+			margin-top: 0rem;
 		}
 	}
 `;

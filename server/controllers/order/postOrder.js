@@ -4,7 +4,7 @@ require("dotenv").config();
 
 module.exports = async (req, res) => {
 	const accessToken = req.cookies.accessToken;
-	const { customCaseId, quantity } = req.body;
+	const orders = req.body;
 
 	const generateRandom = function (min, max) {
 		var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -36,14 +36,13 @@ module.exports = async (req, res) => {
 			number: number,
 		});
 
-		for (let i = 0; i < customCaseId.length; i++) {
+		for (let i = 0; i < orders.length; i++) {
 			await orderList.create({
-				customCaseId: customCaseId[i],
+				customCaseId: orders[i].customCaseId,
 				orderNumberId: newOrderNumber.dataValues.id,
-				quantity: quantity[i],
+				quantity: orders[i].quantity,
 			});
 		}
-
 		res.send();
 	} catch (err) {
 		console.log(err);

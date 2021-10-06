@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { flexCenter, color } from "../components/utils/theme";
+import { getUserOrder } from "../redux/modules/users";
 import axios from "axios";
 
 // 이미지
 import cry from "../img/crying.png";
+import { useDispatch, useSelector } from "react-redux";
 
 const OrderListSection = styled.div`
 	display: flex;
@@ -69,15 +71,14 @@ const ListSemiBox = styled.ul`
 `;
 
 const OrderList = () => {
-	const [order, setOrder] = useState([]);
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_API_URL}order`)
-			.then((res) => setOrder(res.data));
+		dispatch(getUserOrder());
 	}, []);
 
-	if (order.length === 0) {
+	if (user.userOrder.length === 0) {
 		return (
 			<OrderListSection>
 				<h1 style={{ marginTop: "3rem" }}>주문내역이 없습니다</h1>
@@ -88,12 +89,12 @@ const OrderList = () => {
 
 	return (
 		<OrderListSection>
-			{order.map((data) => (
-				<OrderListBox>
+			{user.userOrder.map((data) => (
+				<OrderListBox key={data.orderNumber}>
 					<h1>{data.length === 0 && "주문"}</h1>
 					<h1>주문번호: {data.orderNumber}</h1>
 					{data.orderList.map((item) => (
-						<ListBox>
+						<ListBox key={item.customCaseId}>
 							<img src={item.img} alt={item.img} />
 							<ListSemiBox>
 								<li>
@@ -110,7 +111,7 @@ const OrderList = () => {
 								</li>
 								<li>
 									<div className="title">진행상황</div>
-									<div>배송중</div>
+									<div>{data.condition}</div>
 								</li>
 							</ListSemiBox>
 						</ListBox>

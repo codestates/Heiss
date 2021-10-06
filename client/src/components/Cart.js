@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { getUserCart } from "../redux/modules/users";
 import { flexCenter, ThumbnailSections, color, size } from "./utils/theme";
 import axios from "axios";
 import CartList from "./CartList";
 import Pay from "./Pay";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartSection = styled.div`
 	display: flex;
@@ -95,29 +97,67 @@ const Shipping = styled.div`
 `;
 
 const Cart = ({ name }) => {
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user);
 	// 총 배송비
-	const [delivery, setDelivery] = useState(0);
+	const [delivery, setDelivery] = useState(2000);
 	// 총 구매값
 	const [money, setMoney] = useState(0);
 	// 주소 창
 	const [address, setAddress] = useState(true);
 	// 주소 내용
 	const [addressName, setAddressName] = useState("");
-	// cart 배열 받을 상태
-	const [cartArr, setCartArr] = useState([]);
+	const [orders, setOrders] = useState(user.userCart);
 
 	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_API_URL}cart`)
-			.then((res) => setCartArr(res.data.data));
+		dispatch(getUserCart());
+		console.log(user.userCart);
 	}, []);
 
+	useEffect(() => {
+		if (user.userCart) {
+			console.log("실행!");
+			let arr = [];
+			for (let el of user.userCart) {
+				let payload = {
+					customCaseId: el.customCase.id,
+					quantity: el.quantity,
+				};
+				arr.push(payload);
+			}
+			setOrders(arr);
+		}
+	}, [user.userCart]);
+
 	// 가격변경 핸들러
-	const changeHandler = (moneys, deliverys) => {
+	const changeHandler = (moneys, data, toggle) => {
 		// 같은 아이디 가격 값을 변경, 같은 아이디가 없다면 새롭게 추가
 		// 체크가 풀렸을때 배열에서 해당 아이디 객체를 삭제
-		setMoney(money + moneys);
-		setDelivery(delivery + deliverys);
+		setMoney((money) => {
+			return money + moneys;
+		});
+
+		let quantity = data.quantity;
+		let customCaseId = data.customCase.id;
+		let payload = { quantity, customCaseId };
+
+		//장바구니에서 체크된 상태의 아이템만 orders에 옮기는 코드
+		//수량을 변경할때는 toggle인자에 변경할 숫자가 들어옴
+		//orders에 들어있는 customCaseId를 찾아서 수량변경.
+		if (toggle === true) {
+			setOrders(orders.filter((el) => el.customCaseId !== customCaseId));
+		} else if (typeof toggle === "number") {
+			let copyArr = orders.slice();
+			for (let i = 0; i < copyArr.length; i++) {
+				if (copyArr[i].customCaseId === customCaseId) {
+					copyArr[i].quantity = toggle;
+					setOrders([...copyArr]);
+					break;
+				}
+			}
+		} else {
+			setOrders([...orders, payload]);
+		}
 	};
 
 	// 주소
@@ -131,12 +171,9 @@ const Cart = ({ name }) => {
 		}
 	}
 
-	const customCaseId = cartArr.map((data) => data.id);
-	const quantity = cartArr.map((data) => data.quantity);
-
 	return (
 		<CartSection>
-			{cartArr.map((data, el) => (
+			{user.userCart.map((data, el) => (
 				<CartList
 					data={data}
 					key={el}
@@ -168,8 +205,7 @@ const Cart = ({ name }) => {
 				</MoneyBox>
 			</OrderBox>
 			<Pay
-				customCaseId={customCaseId}
-				quantity={quantity}
+				orders={orders}
 				address={addressName}
 				price={money + delivery}
 				name={name}

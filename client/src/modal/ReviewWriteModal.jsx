@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
 import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
-import { getUserLocker } from "../redux/modules/users";
+import { getUserLocker, getUserOrder } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -261,6 +261,10 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	]);
 
 	useEffect(() => {
+		dispatch(getUserOrder());
+	}, []);
+
+	useEffect(() => {
 		if (data) {
 			setReview({
 				caseId: data.customCase.id,
@@ -392,14 +396,14 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	};
 
 	const imgNameChange = (e, el) => {
-		setCaseName(el.phone.type);
+		setCaseName(el.phone_type);
 		setCaseChoice(false);
 		setReview({ ...review, caseId: el.id });
 		e.stopPropagation();
 	};
 
 	const liNameChange = (e, el) => {
-		setCaseName(el.phone.type);
+		setCaseName(el.phone_type);
 		setReview({ ...review, caseId: el.id });
 	};
 
@@ -482,8 +486,9 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 								<span>{caseName}</span>
 								{caseChoice ? (
 									<ul>
-										{user.userlocker.length ? (
-											user.userlocker.map((el) => {
+										{user.userOrder[0].orderList.length ? (
+											user.userOrder[0].orderList.map((el) => {
+												console.log(el);
 												return (
 													<li key={el.id} onClick={(e) => liNameChange(e, el)}>
 														<img
