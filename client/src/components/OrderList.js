@@ -90,11 +90,11 @@ const OrderList = () => {
 	return (
 		<OrderListSection>
 			{user.userOrder.map((data) => (
-				<OrderListBox>
+				<OrderListBox key={data.orderNumber}>
 					<h1>{data.length === 0 && "주문"}</h1>
 					<h1>주문번호: {data.orderNumber}</h1>
 					{data.orderList.map((item) => (
-						<ListBox>
+						<ListBox key={item.customCaseId}>
 							<img src={item.img} alt={item.img} />
 							<ListSemiBox>
 								<li>
