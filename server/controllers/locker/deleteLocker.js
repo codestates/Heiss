@@ -10,7 +10,10 @@ module.exports = async (req, res) => {
 	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
-		await customCase.update({ locker: false }, { where: { id: caseId } });
+		await customCase.update(
+			{ locker: false },
+			{ where: { id: caseId, userId: userInfo.id } }
+		);
 		return res.status(200).send();
 	} catch (err) {
 		res.status(500).send(console.log(err));
