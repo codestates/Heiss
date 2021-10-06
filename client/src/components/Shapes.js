@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
 import { listBox } from "./utils/theme";
@@ -78,8 +78,24 @@ const Shapes = ({ canvas }) => {
 		});
 	};
 
+	const rowScroll = useRef();
+
+	let offset = 0;
+
+	window.addEventListener("wheel", (e) => {
+		offset += Math.sign(e.deltaY) * 60;
+		console.log(rowScroll);
+		if (offset < 0) {
+			offset = 0;
+		} else if (offset > 10000 - window.innerWidth) {
+			offset = 10000 - window.innerWidth;
+		}
+
+		rowScroll.style.transform = `translateX(-${offset}px`;
+	});
+
 	return (
-		<ShapesSection>
+		<ShapesSection ref={rowScroll}>
 			<button onClick={() => onClick("rect")} className="rect">
 				<img src={rectIcon} alt="recIcon" />
 			</button>

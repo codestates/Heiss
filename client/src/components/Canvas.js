@@ -7,7 +7,6 @@ import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { clearJSONDATA } from "../redux/modules/review";
 import { handleLoginModal } from "../redux/modules/users";
-import ScrollMenu from "react-horizontal-scrolling-menu";
 
 // 이미지
 // import favicon from "../img/favicon.ico";

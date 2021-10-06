@@ -16,6 +16,9 @@ import galaxy21Pink from "./utils/galaxy21Pink";
 const CaseSection = styled.div`
 	${phoneList}
 	text-align: center;
+
+	@media ${(props) => props.theme.tablet} {
+	}
 `;
 
 const Case = ({ canvas, caseInfo, setCaseInfo }) => {
@@ -80,7 +83,7 @@ const Case = ({ canvas, caseInfo, setCaseInfo }) => {
 					iphone13Price();
 				}}
 			>
-				<p>iPhone13</p>
+				<p className="p-title">iPhone13</p>
 				<p>White</p>
 				<p>₩17000</p>
 			</div>

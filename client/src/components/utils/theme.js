@@ -124,6 +124,11 @@ export const phoneList = css`
 		p:nth-child(1) {
 			font-size: 1.7rem;
 			margin-top: 1.8rem;
+
+			@media ${(props) => props.theme.tablet} {
+				font-size: 1.2rem;
+				margin-top: 0.9rem;
+			}
 		}
 		p:nth-child(2) {
 			margin-top: 0.4rem;
