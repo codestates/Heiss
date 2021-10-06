@@ -5,6 +5,8 @@ import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
 import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
 import { getUserLocker, getUserOrder } from "../redux/modules/users";
+import swal from "sweetalert";
+
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -305,12 +307,12 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 					header: { "Content-Type": "multipart/form-data" },
 				})
 				.then(() => {
-					alert("리뷰작성이 완료되었습니다.");
+					swal("리뷰작성이 완료되었습니다.");
 					dispatch(handleRevieWritewModal());
 					dispatch(reviewDatas());
 				});
 		} else {
-			alert("사진을 제외한 모든 항목을 입력해주세요");
+			swal("사진을 제외한 모든 항목을 입력해주세요");
 		}
 	};
 
@@ -331,19 +333,19 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 					header: { "Content-Type": "multipart/form-data" },
 				})
 				.then((el) => {
-					alert("리뷰수정이 완료되었습니다.");
+					swal("리뷰수정이 완료되었습니다.");
 					dispatch(handleRevieWritewModal());
 					modalHandler();
 					dispatch(reviewDatas());
 				});
 		} else {
-			alert("사진을 제외한 모든 항목을 입력해주세요");
+			swal("사진을 제외한 모든 항목을 입력해주세요");
 		}
 	};
 
 	const uploadImg = (e) => {
 		if (e.target.files.length + reviewImg.length > 4) {
-			return alert("사진은 4장까지 올릴 수 있습니다.");
+			return swal("사진은 4장까지 올릴 수 있습니다.");
 		}
 		for (let i = 0; i < e.target.files.length; i++) {
 			imageLoader(e.target.files[i]);
