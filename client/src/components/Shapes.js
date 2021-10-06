@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { fabric } from "fabric";
 import { listBox } from "./utils/theme";
 import { color } from "./utils/theme";
+import HorizontalScroll from "react-scroll-horizontal";
 
 // 이미지
 import rectIcon from "../img/Rectangle.svg";
@@ -78,22 +79,26 @@ const Shapes = ({ canvas }) => {
 		});
 	};
 
+	const child = { width: `10rem`, height: `100%` };
+	const parent = { width: `100%`, height: `10rem` };
 	return (
-		<ShapesSection>
-			<button onClick={() => onClick("rect")} className="rect">
-				<img src={rectIcon} alt="recIcon" />
-			</button>
-			<button onClick={() => onClick("circle")}>
-				<img src={circleIcon} alt="circleIcon" className="circle" />
-			</button>
-			<button onClick={() => onClick("triangle")}>
-				<img src={triangleIcon} alt="triangleIcon" />
-			</button>
-			{svgArr.map((svg, num) => (
-				<button onClick={() => handleAddShape(num)}>
-					<img src={svg} alt="num" />
+		<ShapesSection style={parent}>
+			<HorizontalScroll>
+				<button onClick={() => onClick("rect")} className="rect" style={child}>
+					<img src={rectIcon} alt="recIcon" />
 				</button>
-			))}
+				<button onClick={() => onClick("circle")} style={child}>
+					<img src={circleIcon} alt="circleIcon" className="circle" />
+				</button>
+				<button onClick={() => onClick("triangle")} style={child}>
+					<img src={triangleIcon} alt="triangleIcon" />
+				</button>
+				{svgArr.map((svg, num) => (
+					<button onClick={() => handleAddShape(num)} style={child}>
+						<img src={svg} alt="num" />
+					</button>
+				))}
+			</HorizontalScroll>
 		</ShapesSection>
 	);
 };
