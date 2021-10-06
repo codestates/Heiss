@@ -11,32 +11,27 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { handleLoginModal } from "../redux/modules/users";
 import AlertModal from "../modal/AlertModal";
+import { flexCenter, color } from "./utils/theme";
 axios.defaults.withCredentials = true;
 
+
 const SigninSection = styled.form`
-	color: #ffffe7;
-	display: flex;
+	color: ${color.white};
+	${flexCenter}
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 	height: 35vh;
 	width: 100%;
 	padding: 3rem;
 	box-sizing: border-box;
-	border: 3px solid #f47676;
+	border: 3px solid ${color.point};
 	margin: 0;
-	/* background-color: #f3cdd4; */
-
-	@media ${(props) => props.theme.tablet} {
-		height: 40vh;
-	}
 
 	input {
 		margin-top: 1rem;
-		width: 30vw;
 		margin-bottom: 20px;
-		border: none;
+		width: 30vw;
 		height: 30px;
+		border: none;
 		background: #2c2c2c;
 		border-radius: 1vh;
 		@media ${(props) => props.theme.mobileL} {
@@ -51,19 +46,14 @@ const SigninSection = styled.form`
 		}
 	}
 	.warring {
-		margin-bottom: 3rem;
-		color: #ff5b4f;
-
-		@media ${(props) => props.theme.mobileL} {
-			margin-bottom: 1rem;
-			font-size: 0.3rem;
-		}
+		color: ${color.warring};
+		font-size: 0.5rem;
 	}
 	button {
 		color: #f5f5f3;
 		font-weight: bold;
 		font-size: 18px;
-		border: 3px solid #ffffe7;
+		border: 3px solid ${color.white};
 		border-radius: 1.4vh;
 		padding: 0.4rem;
 		margin: 0.7rem;
@@ -97,12 +87,10 @@ const BtnBox = styled.div`
 	}
 
 	.desktopBtn {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		${flexCenter}
 		font-size: 0.8rem;
-		background: #f47676;
-		border: 1px solid #f47676;
+		background: ${color.point};
+		border: 1px solid ${color.point};
 		color: #2c2c2c;
 		&:hover {
 			transform: scale(1.04);
@@ -128,15 +116,13 @@ const BtnBox = styled.div`
 		background: #00c300;
 	}
 	.loginBtn {
-		background: #ffffe7;
+		background: ${color.white};
 	}
 	.mobileBtn {
 		display: none;
 		margin: 3px;
 		@media ${(props) => props.theme.mobileL} {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+			${flexCenter}
 			padding: 0;
 			width: 90%;
 			height: 1.5rem;
@@ -218,7 +204,7 @@ const Signin = () => {
 				onChange={handleChange}
 				value={values.email}
 			/>
-			{touched.email && errors.email ? <div>{errors.email}</div> : null}
+			{touched.email && errors.email ? <div className='warring'>{errors.email}</div> : null}
 			<input
 				name="password"
 				type="password"
@@ -228,7 +214,7 @@ const Signin = () => {
 				value={values.password}
 			/>
 			{touched.password && errors.password ? (
-				<div>{errors.password}</div>
+				<div className="warring">{errors.password}</div>
 			) : null}
 			<BtnBox>
 				<button className="desktopBtn" type="submit">
