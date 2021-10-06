@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { flexCenter, color } from "../components/utils/theme";
+import { flexCenter, color, ImgDivs } from "../components/utils/theme";
 import { useSelector } from "react-redux";
 import Modal from "react-modal";
 import * as Yup from "yup";
@@ -53,6 +53,10 @@ const PutUserInfoBox = styled.div`
 		display: flex;
 		justify-content: center;
 
+		.btn {
+			width: 8rem;
+		}
+
 		.delUser {
 			background: ${color.point};
 			color: ${color.white};
@@ -63,33 +67,16 @@ const PutUserInfoBox = styled.div`
 			color: ${color.white};
 		}
 	}
+
+	.err {
+		color: ${color.warring};
+
+		text-align: center;
+	}
 `;
 
 const ImgDiv = styled.div`
-	width: 15rem;
-	height: 14rem;
-	position: relative;
-	border: 4px solid ${color.point};
-	border-radius: 50%;
-	overflow: hidden;
-	&:hover {
-		background-color: #f7caca;
-		border: 4px dashed ${color.point};
-	}
-	> .img {
-		width: 100%;
-		height: 100%;
-	}
-	> input {
-		position: absolute;
-		margin: 0;
-		padding: 0;
-		width: 100%;
-		height: 100%;
-		outline: none;
-		opacity: 0;
-		cursor: pointer;
-	}
+	${ImgDivs}
 `;
 
 // 모달 디자인
@@ -273,13 +260,13 @@ const PutUserInfo = () => {
 					value={values.newpassword}
 				/>
 				{touched.newpassword && errors.newpassword ? (
-					<div>{errors.newpassword}</div>
+					<div className="err">{errors.newpassword}</div>
 				) : null}
 				<div className="btnBox">
 					<button className="btn" onClick={patchUser}>
 						회원정보수정
 					</button>
-					<button className="delUser" onClick={deleteModal}>
+					<button className="btn delUser" onClick={deleteModal}>
 						회원탈퇴
 					</button>
 				</div>

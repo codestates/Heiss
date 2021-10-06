@@ -111,7 +111,7 @@ const OrderList = () => {
 								</li>
 								<li>
 									<div className="title">진행상황</div>
-									<div>{item.condition}</div>
+									<div>{data.condition}</div>
 								</li>
 							</ListSemiBox>
 						</ListBox>
