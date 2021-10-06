@@ -301,6 +301,7 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 		for (let re in review) {
 			formData.append(re, review[re]);
 		}
+		console.log(review.title, review.desc, review.score, review.caseId);
 		if (review.title && review.desc && review.score && review.caseId) {
 			axios
 				.post(`${process.env.REACT_APP_API_URL}review`, formData, {
@@ -400,13 +401,13 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	const imgNameChange = (e, el) => {
 		setCaseName(el.phone_type);
 		setCaseChoice(false);
-		setReview({ ...review, caseId: el.id });
+		setReview({ ...review, caseId: el.customCaseId });
 		e.stopPropagation();
 	};
 
 	const liNameChange = (e, el) => {
 		setCaseName(el.phone_type);
-		setReview({ ...review, caseId: el.id });
+		setReview({ ...review, caseId: el.customCaseId });
 	};
 
 	return (
