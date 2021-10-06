@@ -16,9 +16,6 @@ import galaxy21Pink from "./utils/galaxy21Pink";
 const CaseSection = styled.div`
 	${phoneList}
 	text-align: center;
-
-	@media ${(props) => props.theme.tablet} {
-	}
 `;
 
 const Case = ({ canvas, caseInfo, setCaseInfo }) => {

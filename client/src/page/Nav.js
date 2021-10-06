@@ -21,7 +21,7 @@ const NavSection = styled.div`
 	position: sticky;
 	top: 0;
 	height: 4vh;
-	background: none;
+	background: rgba(9, 8, 7, 0.23);
 	padding: 1rem;
 	#heissLogo {
 		height: 30px;
