@@ -36,6 +36,10 @@ const CanvasBox = styled.div`
 	width: 100%;
 	height: 80%;
 	background: #3d3d3d;
+
+	@media ${(props) => props.theme.mobileL} {
+		height: 65%;
+	}
 `;
 
 // 우측 메뉴바
@@ -76,10 +80,14 @@ const MenuSection = styled.ul`
 
 	@media ${(props) => props.theme.tablet} {
 		min-width: 80px;
-		width: 70px;
+		width: 60px;
 		img {
 			height: 2rem;
 		}
+	}
+
+	@media ${(props) => props.theme.mobileL} {
+		height: 65%;
 	}
 `;
 
@@ -155,16 +163,16 @@ const Canvas = () => {
 
 		// 캔버스 반응형 이벤트
 		const handleResizeEvent = () => {
-			if (document.body.clientWidth < 768) {
+			if (document.body.clientWidth <= 768) {
 				canvas.setDimensions({
 					width: 600,
 					height: 600,
 				});
 			}
 
-			if (document.body.clientWidth < 425) {
+			if (document.body.clientWidth <= 425) {
 				canvas.setDimensions({
-					width: 300,
+					width: 200,
 					height: 400,
 				});
 			}

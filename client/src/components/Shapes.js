@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { fabric } from "fabric";
 import { listBox } from "./utils/theme";
+import { color } from "./utils/theme";
 
 // 이미지
 import rectIcon from "../img/Rectangle.svg";
@@ -9,6 +10,11 @@ import circleIcon from "../img/Ellipse 3.svg";
 import triangleIcon from "../img/triangle.svg";
 import polygonIcon from "../img/Polygon1.svg";
 import Polygon from "../img/Polygon.svg";
+
+// svg 배열화
+const svgs = require.context("../img/shape", true, /\.svg$/);
+const keys = svgs.keys();
+const svgArr = keys.map((path) => svgs(path).default);
 
 const ShapesSection = styled.div`
 	${listBox}
@@ -52,21 +58,24 @@ const Shapes = ({ canvas }) => {
 					angle: 45,
 				});
 				return canvas.add(triangle);
-			case "polygon":
-				return fabric.loadSVGFromURL(Polygon, (objects, options) => {
-					objects.forEach((object) => {
-						object.set({
-							fill: "black",
-							scaleX: 200 / object.get("width"),
-							scaleY: 200 / object.get("width"),
-						});
-
-						canvas.add(object);
-					});
-				});
 			default:
 				return "";
 		}
+	};
+
+	const handleAddShape = (id) => {
+		const svgObj = svgArr[id];
+
+		fabric.loadSVGFromURL(svgObj, (objects, options) => {
+			objects.forEach((object) => {
+				object.set({
+					scaleX: 1,
+					scaleY: 1,
+				});
+
+				canvas.add(object);
+			});
+		});
 	};
 
 	return (
@@ -80,9 +89,11 @@ const Shapes = ({ canvas }) => {
 			<button onClick={() => onClick("triangle")}>
 				<img src={triangleIcon} alt="triangleIcon" />
 			</button>
-			<button onClick={() => onClick("polygon")}>
-				<img src={polygonIcon} alt="polygonIcon" />
-			</button>
+			{svgArr.map((svg, num) => (
+				<button onClick={() => handleAddShape(num)}>
+					<img src={svg} alt="num" />
+				</button>
+			))}
 		</ShapesSection>
 	);
 };

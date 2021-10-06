@@ -1,26 +1,47 @@
 @font-face {
-	/* 사용할 폰트의 이름 */
-	font-family: "BebasNeue, Birthstone-Regular";
-	font-display: fallback;
-
-	/* 
-  src: 사용할 폰트의 위치 및 형식 
-     Safari, Android, iOS => ttf
-     Modern Browsers => woff
-     IE6-IE8 => eot
-  */
+	font-family: "BebasNeue";
 	src: url("BebasNeue-Regular.ttf") format("truetype"),
 		/* url("BebasNeue-Regular.woff") format("woff"), */
-			url("BebasNeue-Regular.eot?iefix") format("embedded-opentype"),
-		url("Birthstone-Regular.ttf") format("truetype"),
-		/* url("BebasNeue-Regular.woff") format("woff"), */
-			url("Birthstone-Regular.eot?iefix") format("embedded-opentype");
-
-	/* 사용할 폰트의 기본 스타일 */
-	font-weight: 400;
-	font-style: normal;
+			url("BebasNeue-Regular.eot?iefix") format("embedded-opentype");
 }
-
-/* url("BebasNeue-Regular.ttf") format("truetype"),
-		url("BebasNeue-Regular.woff") format("woff"),
-			url("BebasNeue-Regular.eot?iefix") format("embedded-opentype") */
+@font-face {
+	font-family: "Birthstone";
+	src: url("Birthstone-Regular.ttf") format("truetype"),
+		/* url("Birthstone-Regular.woff") format("woff"), */
+			url("Birthstone-Regular.eot?iefix") format("embedded-opentype");
+}
+@font-face {
+	font-family: "Ephesis";
+	src: url("Ephesis-Regular.ttf") format("truetype"),
+		/* url("Ephesis-Regular.woff") format("woff"), */
+			url("Ephesis-Regular.eot?iefix") format("embedded-opentype");
+}
+@font-face {
+	font-family: "GothicA1";
+	src: url("GothicA1-Black.ttf") format("truetype"),
+		/* url("GothicA1-Black.woff") format("woff"), */
+			url("GothicA1-Black.eot?iefix") format("embedded-opentype");
+}
+@font-face {
+	font-family: "GothicA1-Bold";
+	src: url("GothicA1-Bold.ttf") format("truetype");
+	/* url("GothicA1-Bold.woff") format("woff"), */
+}
+@font-face {
+	font-family: "GothicA1-ExtraBold";
+	src: url("GothicA1-ExtraBold.ttf") format("truetype"),
+		/* url("GothicA1-ExtraBold.woff") format("woff"), */
+			url("GothicA1-ExtraBold.eot?iefix") format("embedded-opentype");
+}
+@font-face {
+	font-family: "GothicA1-ExtraLight";
+	src: url("GothicA1-ExtraLight.ttf") format("truetype"),
+		/* url("GothicA1-ExtraLight.woff") format("woff"), */
+			url("GothicA1-ExtraLight.eot?iefix") format("embedded-opentype");
+}
+@font-face {
+	font-family: "GothicA1-Medium";
+	src: url("GothicA1-Medium.ttf") format("truetype"),
+		/* url("GothicA1-Medium.woff") format("woff"), */
+			url("GothicA1-Medium.eot?iefix") format("embedded-opentype");
+}

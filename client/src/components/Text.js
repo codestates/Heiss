@@ -13,7 +13,7 @@ const TextSection = styled.div`
 
 const Text = ({ canvas }) => {
 	// 폰트 상태
-	const [fontFamily, setFontFamily] = useState("system-ui");
+	const [fontFamily, setFontFamily] = useState("");
 	// 폰트 굵기
 	const [fontWeight, setFontWeight] = useState(400);
 	// 테두리 굵기
@@ -21,9 +21,9 @@ const Text = ({ canvas }) => {
 
 	// 텍스트 추가 핸들러
 	const textOnClick = () => {
-		const textbox = new fabric.IText("내용을 입력하세요", {
+		const textbox = new fabric.Textbox("내용을 입력하세요", {
 			fontFamily: fontFamily,
-			fontWeight: 800,
+			fontWeight: 400,
 		});
 
 		return canvas.add(textbox);
@@ -34,10 +34,10 @@ const Text = ({ canvas }) => {
 		e.preventDefault();
 		const items = canvas.getActiveObjects();
 		items.forEach((item) => {
-			item.set({ fontFamily: e.target.value });
+			item.set("fontFamily", e.target.value);
 		});
 		setFontFamily(e.target.value);
-		console.log(e.target.value, items[0].fontFamily, fontFamily);
+
 		canvas.renderAll();
 	};
 
@@ -49,6 +49,7 @@ const Text = ({ canvas }) => {
 			item.set("fontWeight", e.target.value);
 		});
 		setFontWeight(e.target.value);
+		console.log(e.target.value, fontWeight, items);
 		canvas.renderAll();
 	};
 
@@ -84,6 +85,12 @@ const Text = ({ canvas }) => {
 						"BebasNeue",
 						"Birthstone",
 						"Arial",
+						"Ephesis",
+						"GothicA1",
+						"GothicA1-Bold",
+						"GothicA1-ExtraBold",
+						"GothicA1-ExtraLight",
+						"GothicA1-Medium",
 					].map((el, val) => (
 						<option key={val} value={el}>
 							{el}

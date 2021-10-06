@@ -6,17 +6,11 @@ const GET_REVIEW = "GET_REVIEW";
 const HANDLE_REVIEW_WRITE_MODAL = "HANDLE_REVIEW_WRITE_MODAL";
 const CANVAS_DATA = "CANVAS_DATA";
 const CANVAS_CLEAR = "CANVAS_CLEAR";
-const LOCKER_DATA = "LOCKER_DATA";
 
 // action
 export const reviewDatas = () => async (dispatch) => {
 	const reviewData = await axios.get(`${process.env.REACT_APP_API_URL}review`);
 	dispatch(getReview(reviewData.data.data));
-};
-
-export const lockerDatas = () => async (dispatch) => {
-	const lockerData = await axios.get(`${process.env.REACT_APP_API_URL}locker`);
-	dispatch(getLocker(lockerData.data.data));
 };
 
 export const getReview = (data) => {
@@ -42,13 +36,6 @@ export const onCanvasData = (data) => {
 export const clearJSONDATA = () => {
 	return {
 		type: CANVAS_CLEAR,
-	};
-};
-
-export const getLocker = (data) => {
-	return {
-		type: LOCKER_DATA,
-		payload: data,
 	};
 };
 

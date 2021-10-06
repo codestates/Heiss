@@ -169,6 +169,7 @@ const Locker = ({ data, getMyCase }) => {
 				onRequestClose={modalHandler}
 				ariaHideApp={false}
 			>
+				<img src={data.img} alt="img" />
 				<LockerModal dataId={data.id} onClick={modalHandler} />
 			</Modal>
 			<ThumbnailSection>
