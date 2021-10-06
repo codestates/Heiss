@@ -155,10 +155,10 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 					</BgnHover>
 				</HoverThumb>
 			</ThumbnailSection>
-			<div className="column">
+			{/* <div className="column">
 				<h2 className="sub_title">기종</h2>
 				<h2>{data.customCase.phone.type}</h2>
-			</div>
+			</div> */}
 			<div className="column">
 				<h2 className="sub_title">가격</h2>
 				<h2>{data.customCase.price}원</h2>
