@@ -103,7 +103,7 @@ const ThumbnailModal = {
 	},
 };
 
-const Thumbnail = ({ data, shotBtn, shareBtn }) => {
+const Thumbnail = ({ data, shareBtn }) => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);

@@ -7,6 +7,7 @@ const GET_LOGOUT = "GET_LOGOUT";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
 const GET_LOCKER = "GET_LOCKER";
 const GET_CART = "GET_CART";
+const GET_ORDER = "GET_ORDER";
 
 // action
 export const getUserInfo = () => (dispatch) => {
@@ -21,6 +22,14 @@ export const newUserInfo = () => (dispatch) => {
 	axios.get(`${process.env.REACT_APP_API_URL}user/mypage`).then((el) => {
 		if (el.data.userInfo) {
 			dispatch(getLogin(el.data.userInfo));
+		}
+	});
+};
+
+export const getUserOrder = () => (dispatch) => {
+	axios.get(`${process.env.REACT_APP_API_URL}order`).then((el) => {
+		if (el.data) {
+			dispatch(getorder(el.data));
 		}
 	});
 };
@@ -55,6 +64,13 @@ export const getLocker = (data) => {
 	};
 };
 
+export const getorder = (data) => {
+	return {
+		type: GET_ORDER,
+		payload: data,
+	};
+};
+
 export const getcart = (data) => {
 	return {
 		type: GET_CART,
@@ -80,6 +96,7 @@ const initialState = {
 	isLogin: false,
 	loginModal: false,
 	userCart: [],
+	userOrder: [],
 };
 
 // reducer
@@ -93,6 +110,9 @@ export const users = (state = initialState, action) => {
 
 		case GET_LOCKER:
 			return { ...state, userlocker: action.payload };
+
+		case GET_ORDER:
+			return { ...state, userOrder: action.payload };
 
 		case GET_CART:
 			return { ...state, userCart: action.payload };

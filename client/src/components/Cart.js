@@ -131,7 +131,7 @@ const Cart = ({ name }) => {
 		}
 	}
 
-	const customCaseId = user.userCart.map((data) => data.id);
+	const customCaseId = user.userCart.map((data) => data.customCase.id);
 	const quantity = user.userCart.map((data) => data.quantity);
 
 	return (

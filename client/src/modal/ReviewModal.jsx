@@ -271,6 +271,7 @@ const ReviewModal = ({ dataId, modalHandler }) => {
 
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_API_URL}review/${dataId}`).then((el) => {
+			console.log("으아아", el.data.data);
 			setData(el.data.data);
 			setColor(colorChange(el.data.data.score - 1));
 			setImgLength(el.data.data.sources.length);
