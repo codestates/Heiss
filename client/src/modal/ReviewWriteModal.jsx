@@ -396,14 +396,14 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	};
 
 	const imgNameChange = (e, el) => {
-		setCaseName(el.phone.type);
+		setCaseName(el.phone_type);
 		setCaseChoice(false);
 		setReview({ ...review, caseId: el.id });
 		e.stopPropagation();
 	};
 
 	const liNameChange = (e, el) => {
-		setCaseName(el.phone.type);
+		setCaseName(el.phone_type);
 		setReview({ ...review, caseId: el.id });
 	};
 
@@ -489,15 +489,15 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 										{user.userOrder[0].orderList.length ? (
 											user.userOrder[0].orderList.map((el) => {
 												console.log(el);
-												// return (
-												// 	<li key={el.id} onClick={(e) => liNameChange(e, el)}>
-												// 		<img
-												// 			onClick={(e) => imgNameChange(e, el)}
-												// 			style={{ width: "100px" }}
-												// 			src={el.img}
-												// 		/>
-												// 	</li>
-												// );
+												return (
+													<li key={el.id} onClick={(e) => liNameChange(e, el)}>
+														<img
+															onClick={(e) => imgNameChange(e, el)}
+															style={{ width: "100px" }}
+															src={el.img}
+														/>
+													</li>
+												);
 											})
 										) : (
 											<li>구매한 케이스가 없습니다</li>
