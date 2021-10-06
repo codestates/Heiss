@@ -21,6 +21,7 @@ import Case from "./Case";
 import Colorpickers from "./Colorpickers";
 import ContextMenu from "./ContextMenu";
 import Image from "./Image";
+import swal from "sweetalert";
 
 // 캔버스 전체 영역
 const CanvasSection = styled.div`
@@ -252,13 +253,13 @@ const Canvas = () => {
 				})
 				.then((el) => {
 					if (el.data.message === "새로운 저장") {
-						alert("새롭게 저장되었습니다");
+						swal("새롭게 저장되었습니다");
 					} else if (el.data.message === "ok") {
-						alert("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!");
+						swal("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!");
 					}
 				});
 		} else {
-			alert("로그인 해주세요");
+			swal("로그인 해주세요");
 			reverseBoo();
 		}
 	};
@@ -281,7 +282,7 @@ const Canvas = () => {
 					header: { "Content-Type": "multipart/form-data" },
 				}
 			)
-			.then(() => alert("수정이 완료되었습니다."));
+			.then(() => swal("수정이 완료되었습니다."));
 	};
 
 	const reverseBoo = () => {

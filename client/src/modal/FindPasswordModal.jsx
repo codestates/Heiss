@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
+import swal from "sweetalert";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -38,11 +39,11 @@ const FindPasswordModal = ({ findPasswordModal }) => {
 		axios
 			.post(`${process.env.REACT_APP_API_URL}user/find-pw`, { email })
 			.then(() => {
-				alert("임시비밀번호를 보내드렸습니다.");
+				swal("임시비밀번호를 보내드렸습니다.");
 				findPasswordModal();
 			})
 			.catch(() => {
-				alert("등록되어있지 않은 이메일입니다.");
+				swal("등록되어있지 않은 이메일입니다.");
 			});
 	};
 

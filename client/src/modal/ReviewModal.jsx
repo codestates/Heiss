@@ -9,6 +9,8 @@ import { StarTwoTone } from "@ant-design/icons";
 import { handleRevieWritewModal } from "../redux/modules/review";
 import Modal from "react-modal";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
+import swal from "sweetalert";
+
 axios.defaults.withCredentials = true;
 
 const ReviewModalSection = styled.div`
@@ -281,7 +283,7 @@ const ReviewModal = ({ dataId, modalHandler }) => {
 	const reviewDelete = (id) => {
 		if (window.confirm("정말로 삭제하시겠습니까?")) {
 			axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then(() => {
-				alert("리뷰가 삭제되었습니다!");
+				swal("리뷰가 삭제되었습니다!");
 				modalHandler();
 				dispatch(reviewDatas());
 			});

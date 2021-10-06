@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Modal from "react-modal";
 import kakao from "../img/카카오.png";
 import naver from "../img/네이버.png";
 import loginSVG from "../img/login.png";
@@ -10,8 +11,9 @@ import { getUserInfo } from "../redux/modules/users";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { handleLoginModal } from "../redux/modules/users";
-import AlertModal from "../modal/AlertModal";
+import swal from "sweetalert";
 import { flexCenter, color } from "./utils/theme";
+
 axios.defaults.withCredentials = true;
 
 
@@ -161,11 +163,11 @@ const Signin = () => {
 					values
 				);
 				if (login.data.message === "No matching users") {
-					alert("등록된 이메일이 없습니다");
+					swal("등록된 이메일이 없습니다");
 				} else if (login.data.message === "password err") {
-					alert("비밀번호가 일치하지 않습니다");
+					swal("비밀번호가 일치하지 않습니다");
 				} else {
-					alert("로그인이 완료되었습니다.");
+					swal("로그인이 완료되었습니다.");
 					dispatch(handleLoginModal());
 					let url = window.location.pathname;
 					window.location.replace(url);
