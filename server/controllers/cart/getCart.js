@@ -1,4 +1,4 @@
-const { customCase, cartList } = require("../../models");
+const { customCase, cartList, phone } = require("../../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -12,7 +12,11 @@ module.exports = async (req, res) => {
 		const findCase = await cartList.findAll({
 			attributes: ["quantity"],
 			include: [
-				{ model: customCase, attributes: ["id", "price", "img", "phoneId"] },
+				{
+					model: customCase,
+					attributes: ["id", "price", "img", "phoneId"],
+					include: [{ model: phone, attributes: ["type"] }],
+				},
 			],
 			where: { userId: userInfo.id },
 		});

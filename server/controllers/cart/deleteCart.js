@@ -14,7 +14,10 @@ module.exports = async (req, res) => {
 			where: { userId: userInfo.id, customCaseId: caseId },
 		});
 		await cartList.destroy({
-			where: { id: findCase.id, customCaseId: findCase.customCaseId },
+			where: {
+				id: findCase.dataValues.id,
+				customCaseId: findCase.dataValues.customCaseId,
+			},
 		});
 		return res.status(200).json({ message: "ok" });
 	} catch (err) {
