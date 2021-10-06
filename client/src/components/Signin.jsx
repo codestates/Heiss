@@ -10,6 +10,7 @@ import { getUserInfo } from "../redux/modules/users";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { handleLoginModal } from "../redux/modules/users";
+import AlertModal from "../modal/AlertModal";
 axios.defaults.withCredentials = true;
 
 const SigninSection = styled.form`
