@@ -10,19 +10,8 @@ module.exports = async (req, res) => {
 	}
 	try {
 		const userInfo = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
-		const cartCase = await customCase.findOne({
-			where: { id: caseId, userId: userInfo.id, locker: true },
-		});
-		if (cartCase) {
-			if (!cartCase.cart) {
-				await customCase.destroy({ where: { id: caseId } });
-				return res.status(200).json({ message: "ok" });
-			}
-			await customCase.update({ locker: false }, { where: { id: caseId } });
-			return res.status(200).send();
-		} else {
-			res.status(404).json({ message: "Not found" });
-		}
+		await customCase.update({ locker: false }, { where: { id: caseId } });
+		return res.status(200).send();
 	} catch (err) {
 		res.status(500).send(console.log(err));
 	}
