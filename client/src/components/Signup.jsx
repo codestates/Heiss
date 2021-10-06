@@ -10,6 +10,8 @@ import { color } from "./utils/theme";
 import profile from "../img/profile.png";
 import Modal from "react-modal";
 import FindPasswordModal from "../modal/FindPasswordModal";
+import swal from "sweetalert";
+
 axios.defaults.withCredentials = true;
 
 const SignupSection = styled.form`
@@ -195,7 +197,7 @@ const Singup = () => {
 						header: { "Content-Type": "multipart/form-data" },
 					})
 					.then(() => {
-						alert("회원가입이 완료되었습니다!");
+						swal("회원가입이 완료되었습니다!");
 						dispatch(handleLoginModal());
 						dispatch(getUserInfo());
 					});

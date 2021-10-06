@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Modal from "react-modal";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import swal from "sweetalert";
 
 // 컴포넌트
 import Signdel from "../modal/Signdel";
@@ -208,7 +209,7 @@ const PutUserInfo = () => {
 		if (!img.file) {
 			userInput++;
 		}
-		if (userInput === 4) return alert("수정될 정보가 없습니다.");
+		if (userInput === 4) return swal("수정될 정보가 없습니다.");
 		patchModal();
 	};
 

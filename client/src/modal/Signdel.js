@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import swal from "sweetalert";
+
 axios.defaults.withCredentials = true;
 
 const SigndelSection = styled.div`
@@ -71,9 +73,9 @@ const Signdel = ({ deleteModal }) => {
 			.then((el) => {
 				console.log(el);
 				if (el.data.message === "not found") {
-					alert("일치하지 않는 비밀번호 입니다.");
+					swal("일치하지 않는 비밀번호 입니다.");
 				} else {
-					alert("탈퇴가 완료되었습니다.");
+					swal("탈퇴가 완료되었습니다.");
 					window.location.replace("/");
 				}
 			});

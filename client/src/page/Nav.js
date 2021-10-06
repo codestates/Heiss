@@ -6,6 +6,7 @@ import ReviewWriteModal from "../modal/ReviewWriteModal";
 import { getUserInfo, getLogout } from "../redux/modules/users";
 import { handleRevieWritewModal, reviewDatas } from "../redux/modules/review";
 import { handleLoginModal } from "../redux/modules/users";
+import swal from "sweetalert";
 
 import logo from "../img/heiss.svg";
 import Sign from "../modal/Sign";
@@ -156,7 +157,7 @@ const Nav = ({ reviewBtn }) => {
 				dispatch(getLogout());
 			})
 			.then(() => {
-				alert("로그아웃 되었습니다. 다음에 또 찾아주세요!");
+				swal("로그아웃 되었습니다. 다음에 또 찾아주세요!");
 				let url = window.location.pathname;
 				window.location.replace(url);
 			});
