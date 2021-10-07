@@ -29,9 +29,7 @@
 
 
 ## Deployment Architecture
-![](https://user-images.githubusercontent.com/79843401/136426704-a187487c-766a-4073-aaa2-fef5e3be3b05.png)![스크린샷 2021-10-07 오후 11 47 04](https://user-images.githubusercontent.com/79843401/136426715-3d16de9c-a58f-451c-96e2-67707f5f6d13.png)
-
-)
+![](https://user-images.githubusercontent.com/79843401/136426704-a187487c-766a-4073-aaa2-fef5e3be3b05.png)
 
 ### Front-end Stack
 - HTML
