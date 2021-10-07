@@ -147,17 +147,16 @@ const Canvas = () => {
 		// 마우스 클릭 이벤트
 		canvas.on("mouse:down", (e) => {
 			const pointer = new fabric.Point(
-				canvas.getPointer(e.e).x,
-				canvas.getPointer(e.e).y
+				canvas.getPointer(e.e).x + 600,
+				canvas.getPointer(e.e).y + 100
 			);
-
 			if (e.button === 1) {
 				setContext(false);
 			}
 			if (e.button === 3) {
 				// context menu
-				setContext(true);
 				setPoint(pointer);
+				setContext(true);
 			}
 		});
 

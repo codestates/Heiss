@@ -31,6 +31,7 @@ const NavSection = styled.div`
 	height: 4vh;
 	background: rgba(9, 8, 7, 0.23);
 	padding: 1rem;
+	z-index: 5;
 	#heissLogo {
 		height: 30px;
 		margin-left: 10px;
