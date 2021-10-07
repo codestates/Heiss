@@ -55,10 +55,10 @@ const AlertModal = ({ alertModalHandler }) => {
 				dispatch(reviewDatas());
 				break;
 
-			case "리뷰수정이 완료되었습니다":
-				dispatch(handleRevieWritewModal());
-				dispatch(reviewDatas());
-				break;
+			// case "리뷰수정이 완료되었습니다":
+			// 	dispatch(handleRevieWritewModal());
+			// 	dispatch(reviewDatas());
+			// 	break;
 
 			case "회원가입이 완료되었습니다!":
 				dispatch(handleLoginModal());
