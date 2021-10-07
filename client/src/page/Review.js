@@ -30,7 +30,7 @@ const Review = () => {
 			<Nav reviewBtn={true} />
 			<ReviewBox>
 				{review.map((data, index) => (
-					<Thumbnail key={index} data={data} />
+					<Thumbnail key={index} data={data} shareBtn={true} />
 				))}
 			</ReviewBox>
 		</ReviewSection>

@@ -74,8 +74,8 @@ export const listBox = css`
 		img {
 			height: 5rem;
 			@media ${(props) => props.theme.tablet} {
-				min-height: 2rem;
-				height: 2rem;
+				min-height: 3rem;
+				height: 3rem;
 			}
 		}
 		select {
@@ -198,6 +198,8 @@ export const ThumbnailSections = css`
 	position: relative;
 	cursor: pointer;
 	transition: all 0.3s ease-out;
+	border-radius: 2vh;
+	box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.2);
 
 	img {
 		width: 100%;
