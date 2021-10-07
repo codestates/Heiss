@@ -14,9 +14,9 @@ import video from "../video/mainpage.mp4";
 import logo from "../img/heiss.svg";
 
 // gif
-import gif1 from "../img/gif1.gif";
 import gif2 from "../img/gif2.gif";
 import gif3 from "../img/gif3.gif";
+import startIcon from "../img/svgs/7.svg";
 
 const MainpageSection = styled.div`
 	display: flex;
@@ -73,6 +73,11 @@ const MainpageBoxFirst = styled.ul`
 
 		.giphy-embed {
 			margin: 1rem;
+			height: 32rem;
+
+			@media ${(props) => props.theme.mobileL} {
+				height: 15rem;
+			}
 		}
 	}
 
@@ -303,7 +308,7 @@ const Mainpage = () => {
 					<Link to="/make" className="startBtn">
 						<h1>시작하기</h1>
 					</Link>
-					<img src={gif1} alt="gif1" className="giphy-embed" />
+					<img src={startIcon} alt="gif1" className="giphy-embed" />
 				</li>
 			</MainpageBoxFirst>
 			<Footer />
