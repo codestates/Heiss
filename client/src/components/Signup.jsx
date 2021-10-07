@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { getUserInfo, handleLoginModal } from "../redux/modules/users";
+import { handleAlertModal } from "../redux/modules/users";
 import { flexCenter, color, ImgDivs } from "./utils/theme";
 import profile from "../img/profile.png";
 import Modal from "react-modal";
@@ -21,7 +21,7 @@ const SignupSection = styled.form`
 	margin: 0;
 	background-color: #efefd2;
 	text-align: left;
-	
+
 	.warring {
 		color: ${color.warring};
 		text-align: center;
@@ -30,7 +30,7 @@ const SignupSection = styled.form`
 
 	.btnBox {
 		display: flex;
-		justify-content: center;	
+		justify-content: center;
 	}
 
 	.btn {
@@ -76,7 +76,7 @@ const SignupSection = styled.form`
 		display: flex;
 		justify-content: space-around;
 		width: 100%;
-		
+
 		@media ${(props) => props.theme.tablet} {
 			flex-direction: column;
 			align-items: center;
@@ -92,7 +92,7 @@ const SignupSection = styled.form`
 		height: 70vh;
 	}
 
-	.inputWrap{
+	.inputWrap {
 		${flexCenter}
 		flex-direction: column;
 	}
@@ -196,9 +196,7 @@ const Singup = () => {
 						header: { "Content-Type": "multipart/form-data" },
 					})
 					.then(() => {
-						alert("회원가입이 완료되었습니다!");
-						dispatch(handleLoginModal());
-						dispatch(getUserInfo());
+						dispatch(handleAlertModal("회원가입이 완료되었습니다!"));
 					});
 			});
 	};
@@ -262,7 +260,7 @@ const Singup = () => {
 								alt="profile"
 							/>
 						</ImgDiv>
-						<div className='inputWrap'>
+						<div className="inputWrap">
 							<input
 								name="email"
 								type="text"
@@ -271,7 +269,9 @@ const Singup = () => {
 								onChange={handleChange}
 								value={values.email}
 							/>
-							{touched.email && errors.email ? <div className='warring'>{errors.email}</div> : null}
+							{touched.email && errors.email ? (
+								<div className="warring">{errors.email}</div>
+							) : null}
 							<input
 								name="userName"
 								type="text"
@@ -281,7 +281,7 @@ const Singup = () => {
 								value={values.username}
 							/>
 							{touched.userName && errors.userName ? (
-								<div className='warring'>{errors.userName}</div>
+								<div className="warring">{errors.userName}</div>
 							) : null}
 							<input
 								name="password"
@@ -292,7 +292,7 @@ const Singup = () => {
 								value={values.password}
 							/>
 							{touched.password && errors.password ? (
-								<div className='warring'>{errors.password}</div>
+								<div className="warring">{errors.password}</div>
 							) : null}
 							<input
 								name="passwordConfirm"
@@ -303,7 +303,7 @@ const Singup = () => {
 								value={values.passwordConfirm}
 							/>
 							{touched.passwordConfirm && errors.passwordConfirm ? (
-								<div className='warring'>{errors.passwordConfirm}</div>
+								<div className="warring">{errors.passwordConfirm}</div>
 							) : null}
 						</div>
 					</div>

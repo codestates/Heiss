@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { flexCenter, color, ImgDivs } from "../components/utils/theme";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-modal";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { handleAlertModal } from "../redux/modules/users";
 
 // 컴포넌트
 import Signdel from "../modal/Signdel";
@@ -135,6 +136,7 @@ const passwordModal = {
 };
 
 const PutUserInfo = () => {
+	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
 
 	const [img, setImg] = useState({});
@@ -195,7 +197,8 @@ const PutUserInfo = () => {
 		if (!img.file) {
 			userInput++;
 		}
-		if (userInput === 4) return alert("수정될 정보가 없습니다.");
+		if (userInput === 4)
+			return dispatch(handleAlertModal("수정될 정보가 없습니다"));
 		patchModal();
 	};
 

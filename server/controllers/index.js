@@ -25,6 +25,7 @@ module.exports = {
 	postCart: require("./cart/postCart"),
 	patchCart: require("./cart/patchCart"),
 	deleteCart: require("./cart/deleteCart"),
+	deleteAllCart: require("./cart/deleteAllCart"),
 
 	//* locker
 	getLocker: require("./locker/getLocker"),

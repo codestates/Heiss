@@ -5,15 +5,13 @@ import kakao from "../img/카카오.png";
 import naver from "../img/네이버.png";
 import loginSVG from "../img/login.png";
 import { withRouter } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../redux/modules/users";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { handleLoginModal } from "../redux/modules/users";
-import AlertModal from "../modal/AlertModal";
+import { handleLoginModal, handleAlertModal } from "../redux/modules/users";
 import { flexCenter, color } from "./utils/theme";
 axios.defaults.withCredentials = true;
-
 
 const SigninSection = styled.form`
 	color: ${color.white};
@@ -138,6 +136,15 @@ const BtnBox = styled.div`
 
 const Signin = () => {
 	const dispatch = useDispatch();
+	const user = useSelector((state) => state.user);
+
+	const test = async () => {
+		dispatch(await handleAlertModal("로그인이 완료되었습니다"));
+		dispatch(handleLoginModal());
+		let url = window.location.pathname;
+		window.location.replace(url);
+		dispatch(getUserInfo());
+	};
 
 	const { handleSubmit, handleChange, values, touched, errors, handleBlur } =
 		useFormik({
@@ -161,15 +168,11 @@ const Signin = () => {
 					values
 				);
 				if (login.data.message === "No matching users") {
-					alert("등록된 이메일이 없습니다");
+					dispatch(handleAlertModal("등록된 이메일이 없습니다"));
 				} else if (login.data.message === "password err") {
-					alert("비밀번호가 일치하지 않습니다");
+					dispatch(handleAlertModal("비밀번호가 일치하지 않습니다"));
 				} else {
-					alert("로그인이 완료되었습니다.");
-					dispatch(handleLoginModal());
-					let url = window.location.pathname;
-					window.location.replace(url);
-					dispatch(getUserInfo());
+					dispatch(handleAlertModal("로그인이 완료되었습니다"));
 				}
 			},
 		});
@@ -204,7 +207,9 @@ const Signin = () => {
 				onChange={handleChange}
 				value={values.email}
 			/>
-			{touched.email && errors.email ? <div className='warring'>{errors.email}</div> : null}
+			{touched.email && errors.email ? (
+				<div className="warring">{errors.email}</div>
+			) : null}
 			<input
 				name="password"
 				type="password"

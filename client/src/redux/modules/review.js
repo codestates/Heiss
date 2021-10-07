@@ -71,8 +71,7 @@ export const reviewReducer = (state = initialState, action) => {
 		case CANVAS_CLEAR:
 			return {
 				...state,
-				jsonData: false,
-				caseId: false,
+				caseInfo: false,
 			};
 
 		default:
