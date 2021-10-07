@@ -13,6 +13,20 @@
 반려동물사진, 커플사진, 이모지, 텍스트, 색상부터 도형까지 내 핸드폰 케이스안에서 작은 디자이너가 되어보세요!
 하나뿐인 나만의 케이스 하이스에서는 다 가능합니다!
 
+## 주요 기능
+
+- 렌딩페이지  
+    ![랜딩 flow](https://user-images.githubusercontent.com/68473415/136419297-3ceb23ba-38f1-49b2-b147-2b96cba12bf9.gif)
+
+- 케이스 제작
+
+
+- 주문  
+    ![주문 flow](https://user-images.githubusercontent.com/68473415/136419510-e8f20150-6ca0-47e4-b191-6ad93ffaf7cc.gif)
+
+- 리뷰  
+    ![리뷰 flow](https://user-images.githubusercontent.com/68473415/136419564-fe1a09f3-bcc2-43fd-aa90-0ce205b2a0a0.gif)
+
 
 ## Deployment Architecture
 ![](https://even-cayenne-f0c.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F1b883633-7c54-4ae6-8d42-356617949021%2FUntitled.png?table=block&id=be305410-190f-489d-af9e-2fee4c091151&spaceId=a7c83d4e-9c0f-4531-9046-057086ebca37&width=2840&userId=&cache=v2)
