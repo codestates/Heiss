@@ -157,7 +157,7 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 			</ThumbnailSection>
 			<div className="column">
 				<h2 className="sub_title">기종</h2>
-				<h2>{data.customCase.phone_type}</h2>
+				<h2>{data.customCase.phone.type}</h2>
 			</div>
 			<div className="column">
 				<h2 className="sub_title">가격</h2>
