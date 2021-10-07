@@ -39,7 +39,7 @@
 - multer
 
 ## DB Schema
-![DB Schema](https://cdn.discordapp.com/attachments/836100670565908520/891314826360533032/unknown.png)
+![DB Schema](https://cdn.discordapp.com/attachments/884333098534334486/894843541799440435/unknown.png)
 
 ## TEAM 
 
