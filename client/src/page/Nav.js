@@ -1,17 +1,25 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
-import Modal from "react-modal";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ReviewWriteModal from "../modal/ReviewWriteModal";
-import { getUserInfo, getLogout } from "../redux/modules/users";
-import { handleRevieWritewModal, reviewDatas } from "../redux/modules/review";
-import { handleLoginModal } from "../redux/modules/users";
+import styled from "styled-components";
 
-import logo from "../img/heiss.svg";
+import Modal from "react-modal";
+import ReviewWriteModal from "../modal/ReviewWriteModal";
+import AlertModal from "../modal/AlertModal";
+import ConfirmModal from "../modal/ConfirmModal";
 import Sign from "../modal/Sign";
 
+import {
+	getUserInfo,
+	getLogout,
+	handleAlertModal,
+} from "../redux/modules/users";
+import { handleRevieWritewModal } from "../redux/modules/review";
+import { handleLoginModal, handleConfirmModal } from "../redux/modules/users";
+
+import logo from "../img/heiss.svg";
+
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 axios.defaults.withCredentials = true;
 
 const NavSection = styled.div`
@@ -132,6 +140,58 @@ const reviewModal = {
 	},
 };
 
+const alertModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 10,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		background: "#ffffe7",
+		overflow: "auto",
+		top: "42vh",
+		left: "38vw",
+		right: "38vw",
+		bottom: "42vh",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "14px",
+		outline: "none",
+		zIndex: 10,
+	},
+};
+
+const confirmModal = {
+	overlay: {
+		position: "fixed",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "rgba(255, 255, 255, 0.45)",
+		zIndex: 10,
+	},
+	content: {
+		display: "flex",
+		justifyContent: "center",
+		background: "#ffffe7",
+		overflow: "auto",
+		top: "42vh",
+		left: "38vw",
+		right: "38vw",
+		bottom: "42vh",
+		WebkitOverflowScrolling: "touch",
+		borderRadius: "14px",
+		outline: "none",
+		zIndex: 10,
+	},
+};
+
 const Nav = ({ reviewBtn }) => {
 	const user = useSelector((state) => state.user);
 	const review = useSelector((state) => state.review);
@@ -149,6 +209,14 @@ const Nav = ({ reviewBtn }) => {
 		dispatch(handleRevieWritewModal());
 	};
 
+	const alertModalHandler = () => {
+		dispatch(handleAlertModal());
+	};
+
+	const confirmModalHandler = () => {
+		dispatch(handleConfirmModal());
+	};
+
 	const logout = () => {
 		axios
 			.get(`${process.env.REACT_APP_API_URL}user/signout`)
@@ -156,9 +224,7 @@ const Nav = ({ reviewBtn }) => {
 				dispatch(getLogout());
 			})
 			.then(() => {
-				alert("로그아웃 되었습니다. 다음에 또 찾아주세요!");
-				let url = window.location.pathname;
-				window.location.replace(url);
+				dispatch(handleAlertModal("로그아웃 되었습니다"));
 			});
 	};
 
@@ -180,6 +246,24 @@ const Nav = ({ reviewBtn }) => {
 				ariaHideApp={false}
 			>
 				<ReviewWriteModal />
+			</Modal>
+
+			<Modal
+				isOpen={user.alertModal}
+				style={alertModal}
+				onRequestClose={alertModalHandler}
+				ariaHideApp={false}
+			>
+				<AlertModal alertModalHandler={alertModalHandler} />
+			</Modal>
+
+			<Modal
+				isOpen={user.confirmModal}
+				style={confirmModal}
+				onRequestClose={confirmModalHandler}
+				ariaHideApp={false}
+			>
+				<ConfirmModal confirmModalHandler={confirmModalHandler} />
 			</Modal>
 
 			<Link to="/">

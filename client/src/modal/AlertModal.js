@@ -1,56 +1,104 @@
-// import React, { useState, useEffect } from "react";
-// import styled from "styled-components";
+import styled from "styled-components";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
+import {
+	handleLoginModal,
+	getUserInfo,
+	getUserLocker,
+} from "../redux/modules/users";
+axios.defaults.withCredentials = true;
 
-// const SignSection = styled.div`
-// 	display: flex;
-// 	flex-direction: column;
-// 	justify-content: center;
-// 	align-items: center;
-// 	text-align: center;
-// 	width: 100%;
-// 	height: 100%;
+const Wrap = styled.div`
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	color: #363636;
 
-// 	img {
-// 		height: 6rem;
+	p {
+		font-size: 1.3rem;
+	}
 
-// 		@media ${(props) => props.theme.mobileL} {
-// 			height: 4rem;
-// 		}
-// 	}
+	button {
+		line-height: 1.7rem;
+		font-size: 1rem;
+		width: 5rem;
+		height: 1.7rem;
+		margin-top: 2.4rem;
+		background-color: #f47676;
+		border: 1px solid #f47676;
+		border-radius: 5px;
+		color: #ffffe7;
+	}
+`;
 
-// 	@media ${(props) => props.theme.mobileL} {
-// 		padding: 0.4rem;
-// 	}
-// `;
-// const ModalBtn = styled.button`
-// 	background-color: #4000c7;
-// 	text-decoration: none;
-// 	border: none;
-// 	padding: 20px;
-// 	color: white;
-// 	border-radius: 30px;
-// 	cursor: grab;
-// `;
+const AlertModal = ({ alertModalHandler }) => {
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 
-// const AlertModal = () => {
-// 	const [isOpen, setIsOpen] = useState(false);
-// 	const handleModal = () => {
-// 		setIsOpen(!isOpen);
-// 	};
+	const option = () => {
+		let url = window.location.pathname;
+		switch (user.alertText) {
+			case "로그인이 완료되었습니다":
+				window.location.replace(url);
+				break;
 
-// 	return (
-// 		<AlertModal>
-// 			<ModalBtn></ModalBtn>
-// 		</AlertModal>
-// 	);
-// };
+			case "로그아웃 되었습니다":
+				window.location.replace(url);
+				break;
 
-// export default AlertModal;
-import React, { useState } from "react";
+			case "리뷰작성이 완료되었습니다":
+				dispatch(handleRevieWritewModal());
+				dispatch(reviewDatas());
+				break;
 
-const AlertModal = () => {
-	const [action, setAction] = useState("");
-	return;
+			case "리뷰수정이 완료되었습니다":
+				dispatch(handleRevieWritewModal());
+				dispatch(reviewDatas());
+				break;
+
+			case "회원가입이 완료되었습니다!":
+				dispatch(handleLoginModal());
+				dispatch(getUserInfo());
+				break;
+
+			case "리뷰가 삭제되었습니다":
+				dispatch(reviewDatas());
+				break;
+
+			case "결제가 완료되었습니다":
+				window.location.replace(url);
+				break;
+
+			case "탈퇴가 완료되었습니다":
+				window.location.replace("/");
+				break;
+
+			case "삭제되었습니다":
+				dispatch(getUserLocker());
+				break;
+
+			default:
+				return;
+		}
+	};
+
+	return (
+		<Wrap>
+			<p>{user.alertText}</p>
+			<button
+				onClick={() => {
+					alertModalHandler();
+					option();
+				}}
+			>
+				확인
+			</button>
+		</Wrap>
+	);
 };
 
 export default AlertModal;

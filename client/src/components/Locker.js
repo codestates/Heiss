@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { onCanvasData } from "../redux/modules/review";
-import { getUserCart } from "../redux/modules/users";
+import { getUserCart, handleAlertModal } from "../redux/modules/users";
 import LockerModal from "../modal/LockerModal";
 import axios from "axios";
 
@@ -122,8 +122,8 @@ const Locker = ({ data, getMyCase }) => {
 			axios
 				.delete(`${process.env.REACT_APP_API_URL}locker/${data.id}`)
 				.then(() => {
+					dispatch(handleAlertModal("삭제되었습니다"));
 					getMyCase();
-					alert("삭제되었습니다.");
 				});
 		}
 	};
@@ -134,7 +134,7 @@ const Locker = ({ data, getMyCase }) => {
 			.post(`${process.env.REACT_APP_API_URL}cart`, { caseId: data.id })
 			.then((el) => {
 				if (el.data.message === "conflict") {
-					alert("이미 장바구니에 있는 제품입니다.");
+					dispatch(handleAlertModal("이미 장바구니에 있는 제품입니다"));
 				}
 				dispatch(getUserCart());
 			});

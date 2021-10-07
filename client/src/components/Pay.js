@@ -1,8 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { handleAlertModal } from "../redux/modules/users";
+axios.defaults.withCredentials = true;
 
 export default function Paypal({ address, price, name, orders }) {
+	const dispatch = useDispatch();
+
 	let createOrderFn = (data, actions) => {
 		return actions.order.create({
 			intent: "CAPTURE",
@@ -34,8 +39,10 @@ export default function Paypal({ address, price, name, orders }) {
 		const order = await actions.order.capture();
 		//서버에 물건정보, 유저정보 전송
 		const url = process.env.REACT_APP_API_URL + "order";
-		axios.post(url, orders).then((response) => console.log("여기야", response));
-		console.log(orders);
+		axios.post(url, orders).then(() => {
+			dispatch(handleAlertModal("결제가 완료되었습니다"));
+			axios.delete(`${process.env.REACT_APP_API_URL}cart`);
+		});
 	};
 	let options = {
 		"client-id":

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { handleAlertModal } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -28,6 +30,7 @@ const Wrap = styled.div`
 `;
 
 const FindPasswordModal = ({ findPasswordModal }) => {
+	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
 
 	const emailHandler = (e) => {
@@ -38,11 +41,11 @@ const FindPasswordModal = ({ findPasswordModal }) => {
 		axios
 			.post(`${process.env.REACT_APP_API_URL}user/find-pw`, { email })
 			.then(() => {
-				alert("임시비밀번호를 보내드렸습니다.");
+				dispatch(handleAlertModal("임시비밀번호를 보내드렸습니다"));
 				findPasswordModal();
 			})
 			.catch(() => {
-				alert("등록되어있지 않은 이메일입니다.");
+				dispatch(handleAlertModal("등록되어있지 않은 이메일입니다"));
 			});
 	};
 

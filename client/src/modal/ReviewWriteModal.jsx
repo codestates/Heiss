@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
 import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
-import { getUserLocker, getUserOrder } from "../redux/modules/users";
+import {
+	getUserLocker,
+	getUserOrder,
+	handleAlertModal,
+} from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -244,6 +248,7 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	const [reviewImg, setReviewImg] = useState([]);
 	const [deleteImg, setDeleteImg] = useState([]);
 	const [caseChoice, setCaseChoice] = useState(false);
+	const [orderCase, setOrderCase] = useState([]);
 	const [caseName, setCaseName] = useState("케이스를 선택해 주세요.");
 	const [color, setColor] = useState([
 		"white",
@@ -263,6 +268,18 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	useEffect(() => {
 		dispatch(getUserOrder());
 	}, []);
+
+	useEffect(() => {
+		let arr = [];
+		if (user.userOrder) {
+			user.userOrder.forEach((item) => {
+				item.orderList.forEach((el) => {
+					arr.push(el);
+				});
+			});
+			setOrderCase(arr);
+		}
+	}, [user.userOrder]);
 
 	useEffect(() => {
 		if (data) {
@@ -305,12 +322,10 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 					header: { "Content-Type": "multipart/form-data" },
 				})
 				.then(() => {
-					alert("리뷰작성이 완료되었습니다.");
-					dispatch(handleRevieWritewModal());
-					dispatch(reviewDatas());
+					dispatch(handleAlertModal("리뷰작성이 완료되었습니다"));
 				});
 		} else {
-			alert("사진을 제외한 모든 항목을 입력해주세요");
+			dispatch(handleAlertModal("사진을 제외한 모든 항목을 입력해주세요"));
 		}
 	};
 
@@ -330,20 +345,17 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 				.patch(`${process.env.REACT_APP_API_URL}review/${id}`, formData, {
 					header: { "Content-Type": "multipart/form-data" },
 				})
-				.then((el) => {
-					alert("리뷰수정이 완료되었습니다.");
-					dispatch(handleRevieWritewModal());
-					modalHandler();
-					dispatch(reviewDatas());
+				.then(() => {
+					dispatch(handleAlertModal("리뷰수정이 완료되었습니다"));
 				});
 		} else {
-			alert("사진을 제외한 모든 항목을 입력해주세요");
+			dispatch(handleAlertModal("사진을 제외한 모든 항목을 입력해주세요"));
 		}
 	};
 
 	const uploadImg = (e) => {
 		if (e.target.files.length + reviewImg.length > 4) {
-			return alert("사진은 4장까지 올릴 수 있습니다.");
+			return dispatch(handleAlertModal("사진은 4장까지 올릴 수 있습니다"));
 		}
 		for (let i = 0; i < e.target.files.length; i++) {
 			imageLoader(e.target.files[i]);
@@ -398,13 +410,13 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 	const imgNameChange = (e, el) => {
 		setCaseName(el.phone_type);
 		setCaseChoice(false);
-		setReview({ ...review, caseId: el.id });
+		setReview({ ...review, caseId: el.customCaseId });
 		e.stopPropagation();
 	};
 
 	const liNameChange = (e, el) => {
 		setCaseName(el.phone_type);
-		setReview({ ...review, caseId: el.id });
+		setReview({ ...review, caseId: el.customCaseId });
 	};
 
 	return (
@@ -486,8 +498,8 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 								<span>{caseName}</span>
 								{caseChoice ? (
 									<ul>
-										{user.userOrder[0].orderList.length ? (
-											user.userOrder[0].orderList.map((el) => {
+										{orderCase.length ? (
+											orderCase.map((el) => {
 												console.log(el);
 												return (
 													<li key={el.id} onClick={(e) => liNameChange(e, el)}>
