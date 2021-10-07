@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { onCanvasData } from "../redux/modules/review";
-import { getUserCart, handleAlertModal } from "../redux/modules/users";
+import {
+	getUserCart,
+	handleAlertModal,
+	handleConfirmModal,
+} from "../redux/modules/users";
 import LockerModal from "../modal/LockerModal";
 import axios from "axios";
 
@@ -107,7 +111,7 @@ const NonData = styled.div`
 	width: 100%;
 `;
 
-const Locker = ({ data, getMyCase }) => {
+const Locker = ({ data }) => {
 	const [modal, setModal] = useState(false);
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -118,14 +122,7 @@ const Locker = ({ data, getMyCase }) => {
 
 	// locker 삭제 핸들러
 	const onDelHandler = () => {
-		if (window.confirm("삭제하시겠습니까?")) {
-			axios
-				.delete(`${process.env.REACT_APP_API_URL}locker/${data.id}`)
-				.then(() => {
-					dispatch(handleAlertModal("삭제되었습니다"));
-					getMyCase();
-				});
-		}
+		dispatch(handleConfirmModal("삭제하시겠습니까?", data.id));
 	};
 
 	// 장바구니 추가 핸들러

@@ -6,7 +6,11 @@ import Shapes from "./Shapes";
 import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { clearJSONDATA } from "../redux/modules/review";
-import { handleLoginModal, handleAlertModal } from "../redux/modules/users";
+import {
+	handleLoginModal,
+	handleAlertModal,
+	handleConfirmModal,
+} from "../redux/modules/users";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -148,17 +152,16 @@ const Canvas = () => {
 		// 마우스 클릭 이벤트
 		canvas.on("mouse:down", (e) => {
 			const pointer = new fabric.Point(
-				canvas.getPointer(e.e).x,
-				canvas.getPointer(e.e).y
+				canvas.getPointer(e.e).x + 600,
+				canvas.getPointer(e.e).y + 100
 			);
-
 			if (e.button === 1) {
 				setContext(false);
 			}
 			if (e.button === 3) {
 				// context menu
-				setContext(true);
 				setPoint(pointer);
+				setContext(true);
 			}
 		});
 
@@ -255,8 +258,10 @@ const Canvas = () => {
 						dispatch(handleAlertModal("새롭게 저장되었습니다"));
 					} else if (el.data.message === "ok") {
 						dispatch(
-							handleAlertModal(
-								"저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!"
+							handleConfirmModal(
+								"저장이 완료되었습니다",
+								0,
+								"보관함으로 이동 하시겠습니까?"
 							)
 						);
 					}

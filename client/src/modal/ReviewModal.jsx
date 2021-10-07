@@ -6,13 +6,12 @@ import { LeftCircleFilled } from "@ant-design/icons";
 import { RightCircleFilled } from "@ant-design/icons";
 import { StarTwoTone } from "@ant-design/icons";
 import { handleRevieWritewModal } from "../redux/modules/review";
-import { handleAlertModal } from "../redux/modules/users";
+import { handleConfirmModal } from "../redux/modules/users";
 import Modal from "react-modal";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
 axios.defaults.withCredentials = true;
 
 const ReviewModalSection = styled.div`
-	/* background-color: #ccc; */
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
@@ -43,8 +42,7 @@ const ReviewModalSection = styled.div`
 			position: absolute;
 			top: 50%;
 			transform: translate(0%, -50%);
-			/* color: rgba(255, 255, 255, 0.8); */
-			color: red;
+			color: #ff5f5f;
 			font-size: 2rem;
 			cursor: pointer;
 		}
@@ -91,7 +89,8 @@ const ReviewModalWrite = styled.div`
 	justify-content: space-around;
 	width: 50%;
 	margin-left: 1rem;
-	color: #ffffe7;
+	color: #fd5d5d;
+	color: #f49292;
 
 	@media ${(props) => props.theme.tablet} {
 		height: 20%;
@@ -106,8 +105,8 @@ const ReviewModalWrite = styled.div`
 	.userDiv {
 		display: flex;
 		width: 100%;
-		border-bottom: 1px solid #ffffe7;
-		padding-bottom: 1.5rem;
+		border-bottom: 0.2rem solid #ffffe7;
+		padding-bottom: 0.8rem;
 		.imgDiv {
 			width: 4rem;
 			height: 4rem;
@@ -128,55 +127,67 @@ const ReviewModalWrite = styled.div`
 	}
 
 	.name {
-		font-size: 1.4rem;
+		font-size: 1.5rem;
 		margin: 0.2rem 0rem 0rem 0.2rem;
+		font-weight: bold;
 	}
 
 	.createdAt {
 		position: relative;
-		margin-left: 1rem;
-		font-size: 1.2rem;
+		margin-left: 1.5rem;
+		font-size: 1.1rem;
+		color: #fe8888;
 	}
 	.createdAt:before {
 		position: absolute;
-		top: 2px;
-		left: -7px;
+		top: -2px;
+		left: -12px;
 		display: inline-block;
 		content: "";
-		width: 1px;
-		height: 16px;
+		width: 0.1rem;
+		height: 18px;
 		background: #ffffe7;
 	}
 
 	.title {
+		height: 4%;
 		font-size: 2.2rem;
 		font-weight: bold;
 		margin-left: 1.5rem;
 		text-align: center;
-		color: #ffffe7;
+		color: #ff5d5d;
+		/* background-color: #ffb0b0; */
+		padding: 0.5rem;
 
 		@media ${(props) => props.theme.tablet} {
 			font-size: 1.4rem;
 		}
 	}
 	.desc {
-		height: 24rem;
+		padding: 0.8rem;
+		height: 50%;
 		font-size: 1.3em;
 		margin-left: 1.5rem;
 		white-space: pre-wrap;
+		color: #ffffe7;
+		background: #bb6464;
+		/* background: #404040; */
+		/* border: 1px solid #ffb0b0; */
+		border-radius: 0.3rem;
 	}
 	.phone {
 		position: absolute;
 		left: 3%;
-		top: 16%;
-		color: #a4a4a4;
+		margin-bottom: 2rem;
+		top: 15%;
+		color: #979797;
 		font-weight: bold;
 	}
 `;
 
 const BtnBox = styled.div`
 	display: flex;
-	justify-content: center;
+	justify-content: space-evenly;
 
 	@media ${(props) => props.theme.tablet} {
 		margin-top: 15rem;
@@ -195,11 +206,11 @@ const BtnBox = styled.div`
 		background: none;
 		border: 3px solid #f47676;
 		font-size: 1.5rem;
-		width: 11rem;
-		height: 3rem;
-		margin: 0rem 1rem;
+		width: 32%;
+		height: 100%;
 		margin-bottom: 1rem;
 		border-radius: 2vh;
+		line-height: 100%;
 
 		transition: all 0.3s;
 		position: relative;
@@ -279,12 +290,7 @@ const ReviewModal = ({ dataId, modalHandler }) => {
 	}, []);
 
 	const reviewDelete = (id) => {
-		if (window.confirm("정말로 삭제하시겠습니까?")) {
-			axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then(() => {
-				modalHandler();
-				dispatch(handleAlertModal("리뷰가 삭제되었습니다"));
-			});
-		}
+		dispatch(handleConfirmModal("정말로 삭제하시겠습니까?", id));
 	};
 
 	const colorChange = (index) => {
