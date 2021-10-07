@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { flexCenter, color } from "../components/utils/theme";
 
@@ -11,9 +11,11 @@ const LoadingSection = styled.div`
 	width: 100vw;
 	height: 100vh;
 	flex-direction: column;
+
 	background: ${color.basic};
 
 	img {
+		height: 10rem;
 		margin-bottom: 5rem;
 
 		animation: rotate 2s linear infinite;
