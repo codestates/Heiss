@@ -148,6 +148,7 @@ const SaveBox = styled.div`
 
 const Mypage = () => {
 	const history = useHistory();
+	const dispatch = useDispatch();
 
 	// cart 배열 받을 상태
 	const [cartArr, setCartArr] = useState([]);
@@ -158,10 +159,8 @@ const Mypage = () => {
 				history.push("/");
 			}
 		});
-		getMyCase();
+		dispatch(getUserLocker());
 	}, []);
-
-	const [locker, setLocker] = useState([]);
 
 	const handleToShop = useCallback(() => {
 		document.querySelector(".shop").scrollIntoView({ behavior: "smooth" });
@@ -181,14 +180,8 @@ const Mypage = () => {
 			.scrollIntoView({ behavior: "smooth" });
 	}, []);
 
-	const getMyCase = () => {
-		axios
-			.get(`${process.env.REACT_APP_API_URL}locker`)
-			.then((res) => res.data)
-			.then((data) => setLocker(data.data));
-	};
-
 	const userinfo = useSelector((state) => state.user);
+	const locker = useSelector((state) => state.user.userlocker);
 
 	return (
 		<MypageSection>
@@ -211,7 +204,7 @@ const Mypage = () => {
 						<div className="title">보관함</div>
 						<SaveBox>
 							{locker.map((data) => (
-								<Locker data={data} key={data.id} getMyCase={getMyCase} />
+								<Locker data={data} key={data.id} />
 							))}
 						</SaveBox>
 					</li>

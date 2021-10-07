@@ -99,10 +99,12 @@ export const handleAlertModal = (text) => {
 	};
 };
 
-export const handleConfirmModal = (text) => {
+export const handleConfirmModal = (text, id, text_2) => {
 	return {
 		type: HANDLE_CONFIRM_MODAL,
-		text: text,
+		text,
+		id,
+		text_2,
 	};
 };
 
@@ -115,9 +117,11 @@ const initialState = {
 	alertText: "",
 	confirmModal: false,
 	confirmText: "",
-	confirmTrue: true,
+	confirmText_2: "",
+	id: 0,
 	userCart: [],
 	userOrder: [],
+	userlocker: [],
 };
 
 // reducer
@@ -156,7 +160,8 @@ export const users = (state = initialState, action) => {
 				...state,
 				confirmModal: !state.confirmModal,
 				confirmText: action.text,
-				confirmTrue: true,
+				confirmText_2: action.text_2,
+				id: action.id,
 			};
 
 		default:

@@ -7,6 +7,7 @@ import {
 	getUserInfo,
 	getUserLocker,
 } from "../redux/modules/users";
+import { useHistory } from "react-router";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -38,6 +39,7 @@ const Wrap = styled.div`
 const AlertModal = ({ alertModalHandler }) => {
 	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const option = () => {
 		let url = window.location.pathname;
@@ -55,18 +57,13 @@ const AlertModal = ({ alertModalHandler }) => {
 				dispatch(reviewDatas());
 				break;
 
-			// case "리뷰수정이 완료되었습니다":
-			// 	dispatch(handleRevieWritewModal());
-			// 	dispatch(reviewDatas());
-			// 	break;
-
 			case "회원가입이 완료되었습니다!":
 				dispatch(handleLoginModal());
 				dispatch(getUserInfo());
 				break;
 
 			case "리뷰가 삭제되었습니다":
-				dispatch(reviewDatas());
+				window.location.replace("/review");
 				break;
 
 			case "결제가 완료되었습니다":

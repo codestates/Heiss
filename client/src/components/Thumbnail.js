@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { ThumbnailSections, HoverThumbs, BgnHovers } from "./utils/theme";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { handleLoginModal } from "../redux/modules/users";
+import { handleLoginModal, handleConfirmModal } from "../redux/modules/users";
 import { reviewDatas } from "../redux/modules/review";
 import ReviewModal from "../modal/ReviewModal";
 
@@ -144,9 +144,13 @@ const Thumbnail = ({ data, shareBtn }) => {
 			return dispatch(handleLoginModal());
 		}
 		axios.post(`${process.env.REACT_APP_API_URL}case`, { id }).then(() => {
-			if (window.confirm("보관함으로 이동하시겠습니까?")) {
-				history.push("/mypage");
-			}
+			dispatch(
+				handleConfirmModal(
+					"저장이 완료되었습니다",
+					0,
+					"보관함으로 이동하시겠습니까?"
+				)
+			);
 		});
 	};
 

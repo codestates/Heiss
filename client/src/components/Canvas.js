@@ -6,7 +6,11 @@ import Shapes from "./Shapes";
 import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { clearJSONDATA } from "../redux/modules/review";
-import { handleLoginModal, handleAlertModal } from "../redux/modules/users";
+import {
+	handleLoginModal,
+	handleAlertModal,
+	handleConfirmModal,
+} from "../redux/modules/users";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -254,8 +258,10 @@ const Canvas = () => {
 						dispatch(handleAlertModal("새롭게 저장되었습니다"));
 					} else if (el.data.message === "ok") {
 						dispatch(
-							handleAlertModal(
-								"저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!"
+							handleConfirmModal(
+								"저장이 완료되었습니다",
+								0,
+								"보관함으로 이동 하시겠습니까?"
 							)
 						);
 					}
