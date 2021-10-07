@@ -1,6 +1,7 @@
 # Heiss
 
 ![로고](https://user-images.githubusercontent.com/68473415/132611328-7638a5ed-2523-4ce1-a03a-dd7d9919c37c.png)
+[Heiss 바로가기](https://heiss.shop/)
 
 ## 프로젝트 소개
 내가 마음에 드는 케이스를 친구가 사용해서 구매하지 못한 경험이 있으셨나요?
