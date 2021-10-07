@@ -69,7 +69,7 @@ const Case = ({ canvas, caseInfo, setCaseInfo }) => {
 	};
 
 	const galaxy21Price = () => {
-		setCaseInfo({ ...caseInfo, price: 15000, phoneId: 3 });
+		setCaseInfo({ ...caseInfo, price: 15000, phoneId: 6 });
 	};
 
 	const child = { width: `10rem`, height: `100%` };

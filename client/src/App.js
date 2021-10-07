@@ -77,7 +77,6 @@ const App = () => {
 				{ authorizationCode: authorizationCode, platform: platform },
 				{ "Content-Type": "application/json", withCredentials: true }
 			)
-			.then((response) => console.log(response))
 			.then((el) => {
 				window.location.replace("/");
 			});

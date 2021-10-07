@@ -316,6 +316,7 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 		for (let re in review) {
 			formData.append(re, review[re]);
 		}
+		console.log(review.title, review.desc, review.score, review.caseId);
 		if (review.title && review.desc && review.score && review.caseId) {
 			axios
 				.post(`${process.env.REACT_APP_API_URL}review`, formData, {
@@ -347,6 +348,8 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 				})
 				.then(() => {
 					dispatch(handleAlertModal("리뷰수정이 완료되었습니다"));
+					dispatch(handleRevieWritewModal());
+					modalHandler();
 				});
 		} else {
 			dispatch(handleAlertModal("사진을 제외한 모든 항목을 입력해주세요"));
