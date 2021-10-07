@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { flexCenter, color } from "../components/utils/theme";
 import HorizontalScroll from "react-scroll-horizontal";
 import Fade from "react-reveal/Fade";
-import Jump from "react-reveal/Jump";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -29,6 +28,18 @@ const MainpageSection = styled.div`
 	overflow-x: hidden;
 	&::-webkit-scrollbar {
 		display: none;
+	}
+
+	.nice {
+		box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+		margin: 1rem;
+		height: 22rem;
+	}
+
+	.nice1 {
+		box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.7);
+		margin: 1rem;
+		height: 22rem;
 	}
 `;
 
@@ -263,17 +274,17 @@ const Mainpage = () => {
 							</h1>
 							<div className="subTitle">
 								나만의 개성, 특별함이 좋아서 시중에 판매하지 않는다 생각하고
-								구매했다가 길거리에서 같은 케이스를 보면 기분이 안 좋은적이
-								있으셨나요? <br />
+								구매했다가 길거리에서 같은 케이스를 보면 흠칫하신적이
+								있으신가요? <br />
 								이쁘고 개성있는 케이스들이 많다고 생각하시나요? <br />
 							</div>
 						</div>
-						<img src={gif3} alt="gif3" />
+						<img src={gif3} alt="gif3" className="nice1" />
 					</Fade>
 				</li>
 				<li>
 					<Fade bottom>
-						<img src={gif2} alt="gif2" />
+						<img src={gif2} alt="gif2" className="nice" />
 						<div className="columnSection darkFont">
 							<div className="animationText">
 								<h2>저희 Heiss는 </h2>
