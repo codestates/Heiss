@@ -99,8 +99,9 @@ export const phoneList = css`
 	width: 100%;
 	height: 100%;
 	overflow-x: auto;
+	justify-content: flex-start;
 
-	div {
+	button {
 		cursor: pointer;
 		width: 8rem;
 		height: 8rem;
