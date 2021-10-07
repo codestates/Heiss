@@ -235,7 +235,7 @@ const Mainpage = () => {
 	const review = useSelector((state) => state.review.reviewAll);
 
 	const child = { width: `10rem`, height: `100%` };
-	const parent = { width: `100%`, height: `10rem` };
+	const parent = { width: `100%`, height: `20rem` };
 	return (
 		<MainpageSection>
 			<Nav />
@@ -296,6 +296,7 @@ const Mainpage = () => {
 									key={key}
 									shareBtn={true}
 									liked={data.liked}
+									style={child}
 								/>
 							))}
 						</HorizontalScroll>
