@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useDebugValue, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { handleAlertModal } from "../redux/modules/users";
+import { useDispatch } from "react-redux";
 axios.defaults.withCredentials = true;
 
 const SigndelSection = styled.div`
@@ -59,6 +61,7 @@ const BtnBox = styled.div`
 `;
 
 const Signdel = ({ deleteModal }) => {
+	const dispatch = useDispatch();
 	const [password, setPassword] = useState("");
 
 	const passwordHandler = (e) => {
@@ -71,10 +74,9 @@ const Signdel = ({ deleteModal }) => {
 			.then((el) => {
 				console.log(el);
 				if (el.data.message === "not found") {
-					alert("일치하지 않는 비밀번호 입니다.");
+					dispatch(handleAlertModal("일치하지 않는 비밀번호 입니다"));
 				} else {
-					alert("탈퇴가 완료되었습니다.");
-					window.location.replace("/");
+					dispatch(handleAlertModal("탈퇴가 완료되었습니다"));
 				}
 			});
 	};

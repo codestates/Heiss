@@ -5,6 +5,8 @@ axios.defaults.withCredentials = true;
 const GET_LOGIN = "GET_LOGIN";
 const GET_LOGOUT = "GET_LOGOUT";
 const HANDLE_LOGIN_MODAL = "HANDLE_LOGIN_MODAL";
+const HANDLE_ALERT_MODAL = "HANDLE_ALERT_MODAL";
+const HANDLE_CONFIRM_MODAL = "HANDLE_CONFIRM_MODAL";
 const GET_LOCKER = "GET_LOCKER";
 const GET_CART = "GET_CART";
 const GET_ORDER = "GET_ORDER";
@@ -90,11 +92,30 @@ export const handleLoginModal = () => {
 	};
 };
 
+export const handleAlertModal = (text) => {
+	return {
+		type: HANDLE_ALERT_MODAL,
+		text: text,
+	};
+};
+
+export const handleConfirmModal = (text) => {
+	return {
+		type: HANDLE_CONFIRM_MODAL,
+		text: text,
+	};
+};
+
 // initialState
 const initialState = {
 	userInfo: {},
 	isLogin: false,
 	loginModal: false,
+	alertModal: false,
+	alertText: "",
+	confirmModal: false,
+	confirmText: "",
+	confirmTrue: true,
 	userCart: [],
 	userOrder: [],
 };
@@ -121,6 +142,21 @@ export const users = (state = initialState, action) => {
 			return {
 				...state,
 				loginModal: !state.loginModal,
+			};
+
+		case HANDLE_ALERT_MODAL:
+			return {
+				...state,
+				alertModal: !state.alertModal,
+				alertText: action.text,
+			};
+
+		case HANDLE_CONFIRM_MODAL:
+			return {
+				...state,
+				confirmModal: !state.confirmModal,
+				confirmText: action.text,
+				confirmTrue: true,
 			};
 
 		default:

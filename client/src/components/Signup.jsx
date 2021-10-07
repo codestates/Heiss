@@ -5,34 +5,37 @@ import { useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { getUserInfo, handleLoginModal } from "../redux/modules/users";
-import { color } from "./utils/theme";
+import { handleAlertModal } from "../redux/modules/users";
+import { flexCenter, color, ImgDivs } from "./utils/theme";
 import profile from "../img/profile.png";
 import Modal from "react-modal";
 import FindPasswordModal from "../modal/FindPasswordModal";
 axios.defaults.withCredentials = true;
 
 const SignupSection = styled.form`
-	display: flex;
+	${flexCenter}
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 45vh;
 	width: 100%;
 	border: 3px solid ${color.white};
-	padding: 3rem;
 	box-sizing: border-box;
 	margin: 0;
 	background-color: #efefd2;
 	text-align: left;
 
+	.warring {
+		color: ${color.warring};
+		text-align: center;
+		font-size: 0.5rem;
+	}
+
 	.btnBox {
 		display: flex;
+		justify-content: center;
 	}
 
 	.btn {
-		background-color: #6c6c6c;
-		color: #ffffe7;
+		background: ${color.point};
+		color: ${color.white};
 		font-weight: bold;
 		font-size: 0.8rem;
 		border-radius: 1.4vh;
@@ -40,29 +43,12 @@ const SignupSection = styled.form`
 		width: 6rem;
 		margin: 1rem 1.5rem 0rem;
 		@media ${(props) => props.theme.mobileL} {
-			width: 4rem;
 			height: 2rem;
-			font-size: 0.3rem;
-			background: ${color.white};
-			border: 3px solid ${color.white};
-			color: black;
+			font-size: 0.2rem;
+			margin: 1rem 0.3rem 0rem;
 		}
 	}
 
-	.userWrap {
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
-		div:nth-child(1) {
-			width: 35%;
-		}
-		div:nth-child(2) {
-			width: 55%;
-		}
-	}
-	@media ${(props) => props.theme.tablet} {
-		height: 50vh;
-	}
 	input {
 		width: 20vw;
 		margin-top: 14px;
@@ -73,6 +59,9 @@ const SignupSection = styled.form`
 		&::placeholder {
 			color: ${color.white};
 		}
+		@media ${(props) => props.theme.tablet} {
+			width: 20rem;
+		}
 		@media ${(props) => props.theme.mobileL} {
 			width: 45vw;
 			height: 3px;
@@ -82,34 +71,46 @@ const SignupSection = styled.form`
 			}
 		}
 	}
+
+	.userWrap {
+		display: flex;
+		justify-content: space-around;
+		width: 100%;
+
+		@media ${(props) => props.theme.tablet} {
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
+			div {
+				width: 100%;
+			}
+		}
+	}
+
+	@media ${(props) => props.theme.tablet} {
+		height: 70vh;
+	}
+
+	.inputWrap {
+		${flexCenter}
+		flex-direction: column;
+	}
+`;
+
+const SignupBox = styled.div`
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 1rem;
 `;
 
 const ImgDiv = styled.div`
-	display: flex;
-	width: 100%;
-	height: 100%;
-	position: relative;
-	border: 4px solid #f47676;
-	height: 14rem;
-	border-radius: 50%;
-	overflow: hidden;
-	&:hover {
-		background-color: #f7caca;
-		border: 4px dashed #f47676;
-	}
-	> .img {
-		width: 100%;
-		height: 100%;
-	}
-	> input {
-		position: absolute;
-		margin: 0;
-		padding: 0;
-		width: 100%;
-		height: 100%;
-		outline: none;
-		opacity: 0;
-		cursor: pointer;
+	${ImgDivs}
+
+	@media ${(props) => props.theme.tablet} {
+		max-width: 10rem;
+		max-height: 10rem;
 	}
 `;
 
@@ -195,9 +196,7 @@ const Singup = () => {
 						header: { "Content-Type": "multipart/form-data" },
 					})
 					.then(() => {
-						alert("회원가입이 완료되었습니다!");
-						dispatch(handleLoginModal());
-						dispatch(getUserInfo());
+						dispatch(handleAlertModal("회원가입이 완료되었습니다!"));
 					});
 			});
 	};
@@ -246,7 +245,7 @@ const Singup = () => {
 				<FindPasswordModal findPasswordModal={findPasswordModal} />
 			</Modal>
 			{auth ? (
-				<>
+				<SignupBox>
 					<div className="userWrap">
 						<ImgDiv>
 							<input
@@ -261,7 +260,7 @@ const Singup = () => {
 								alt="profile"
 							/>
 						</ImgDiv>
-						<div>
+						<div className="inputWrap">
 							<input
 								name="email"
 								type="text"
@@ -270,7 +269,9 @@ const Singup = () => {
 								onChange={handleChange}
 								value={values.email}
 							/>
-							{touched.email && errors.email ? <div>{errors.email}</div> : null}
+							{touched.email && errors.email ? (
+								<div className="warring">{errors.email}</div>
+							) : null}
 							<input
 								name="userName"
 								type="text"
@@ -280,7 +281,7 @@ const Singup = () => {
 								value={values.username}
 							/>
 							{touched.userName && errors.userName ? (
-								<div>{errors.userName}</div>
+								<div className="warring">{errors.userName}</div>
 							) : null}
 							<input
 								name="password"
@@ -291,7 +292,7 @@ const Singup = () => {
 								value={values.password}
 							/>
 							{touched.password && errors.password ? (
-								<div>{errors.password}</div>
+								<div className="warring">{errors.password}</div>
 							) : null}
 							<input
 								name="passwordConfirm"
@@ -302,7 +303,7 @@ const Singup = () => {
 								value={values.passwordConfirm}
 							/>
 							{touched.passwordConfirm && errors.passwordConfirm ? (
-								<div>{errors.passwordConfirm}</div>
+								<div className="warring">{errors.passwordConfirm}</div>
 							) : null}
 						</div>
 					</div>
@@ -314,7 +315,7 @@ const Singup = () => {
 							비밀번호찾기
 						</button>
 					</div>
-				</>
+				</SignupBox>
 			) : (
 				<>
 					<h3>메일로 인증번호를 보냈습니다</h3>

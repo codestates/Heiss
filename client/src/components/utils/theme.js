@@ -30,6 +30,7 @@ export const color = {
 	darkBasic: "#171717",
 	lightBasic: "#555555",
 	white: "#ffffe7",
+	warring: "#ff5b4f",
 };
 
 // flex 디자인
@@ -98,8 +99,9 @@ export const phoneList = css`
 	width: 100%;
 	height: 100%;
 	overflow-x: auto;
+	justify-content: flex-start;
 
-	div {
+	button {
 		cursor: pointer;
 		width: 8rem;
 		height: 8rem;
@@ -123,6 +125,11 @@ export const phoneList = css`
 		p:nth-child(1) {
 			font-size: 1.7rem;
 			margin-top: 1.8rem;
+
+			@media ${(props) => props.theme.tablet} {
+				font-size: 1.2rem;
+				margin-top: 0.9rem;
+			}
 		}
 		p:nth-child(2) {
 			margin-top: 0.4rem;
@@ -190,6 +197,7 @@ export const ThumbnailSections = css`
 	margin: 1rem;
 	position: relative;
 	cursor: pointer;
+	transition: all 0.3s ease-out;
 
 	img {
 		width: 100%;
@@ -198,6 +206,8 @@ export const ThumbnailSections = css`
 	}
 
 	&:hover {
+		transform: translateY(-10px);
+
 		.hover-thumb {
 			display: flex;
 		}
@@ -241,6 +251,38 @@ export const nonHoverButton = css`
 	border: 4px solid ${color.point};
 	border-radius: 1vh;
 	transition: all 0.3s;
+`;
+
+// ImgDiv
+export const ImgDivs = css`
+	max-width: 15rem;
+	max-height: 15rem;
+	width: 15rem;
+	height: 15rem;
+	min-width: 3rem;
+	min-height: 3rem;
+	position: relative;
+	border: 4px solid ${color.point};
+	border-radius: 50%;
+	overflow: hidden;
+	&:hover {
+		background-color: #f7caca;
+		border: 4px dashed ${color.point};
+	}
+	> .img {
+		width: 100%;
+		height: 100%;
+	}
+	> input {
+		position: absolute;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		outline: none;
+		opacity: 0;
+		cursor: pointer;
+	}
 `;
 
 export default theme;

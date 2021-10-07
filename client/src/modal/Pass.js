@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { handleAlertModal } from "../redux/modules/users";
 axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
@@ -61,6 +63,7 @@ const Button = styled.button`
 `;
 
 const Pass = ({ patchModal, values, img }) => {
+	const dispatch = useDispatch();
 	const [password, setPassword] = useState("");
 
 	const passwordHandler = (e) => {
@@ -84,14 +87,16 @@ const Pass = ({ patchModal, values, img }) => {
 							header: { "Content-Type": "multipart/form-data" },
 						})
 						.then(() => {
-							alert("회원정보 수정이 완료되었습니다.");
+							dispatch(handleAlertModal("회원정보 수정이 완료되었습니다"));
 							patchModal();
 							window.location.replace("/mypage");
 						});
 				}
 			})
 			.catch(() => {
-				alert("입력하신 현재 비밀번호가 일치하지 않습니다.");
+				dispatch(
+					handleAlertModal("입력하신 현재 비밀번호가 일치하지 않습니다")
+				);
 			});
 	};
 

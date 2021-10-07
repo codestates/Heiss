@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { reviewDatas } from "../redux/modules/review";
 import { LeftCircleFilled } from "@ant-design/icons";
 import { RightCircleFilled } from "@ant-design/icons";
 import { StarTwoTone } from "@ant-design/icons";
 import { handleRevieWritewModal } from "../redux/modules/review";
+import { handleAlertModal } from "../redux/modules/users";
 import Modal from "react-modal";
 import ReviewWriteModal from "../modal/ReviewWriteModal";
 axios.defaults.withCredentials = true;
@@ -281,9 +281,8 @@ const ReviewModal = ({ dataId, modalHandler }) => {
 	const reviewDelete = (id) => {
 		if (window.confirm("정말로 삭제하시겠습니까?")) {
 			axios.delete(`${process.env.REACT_APP_API_URL}review/${id}`).then(() => {
-				alert("리뷰가 삭제되었습니다!");
 				modalHandler();
-				dispatch(reviewDatas());
+				dispatch(handleAlertModal("리뷰가 삭제되었습니다"));
 			});
 		}
 	};

@@ -6,7 +6,7 @@ import Shapes from "./Shapes";
 import { flexCenter, color } from "./utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { clearJSONDATA } from "../redux/modules/review";
-import { handleLoginModal } from "../redux/modules/users";
+import { handleLoginModal, handleAlertModal } from "../redux/modules/users";
 
 // 이미지
 // import favicon from "../img/favicon.ico";
@@ -251,13 +251,17 @@ const Canvas = () => {
 				})
 				.then((el) => {
 					if (el.data.message === "새로운 저장") {
-						alert("새롭게 저장되었습니다");
+						dispatch(handleAlertModal("새롭게 저장되었습니다"));
 					} else if (el.data.message === "ok") {
-						alert("저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!");
+						dispatch(
+							handleAlertModal(
+								"저장 되었습니다! 우측 프로필 사진을 눌러 확인해보세요!"
+							)
+						);
 					}
 				});
 		} else {
-			alert("로그인 해주세요");
+			dispatch(handleAlertModal("로그인 해주세요"));
 			reverseBoo();
 		}
 	};
@@ -280,7 +284,7 @@ const Canvas = () => {
 					header: { "Content-Type": "multipart/form-data" },
 				}
 			)
-			.then(() => alert("수정이 완료되었습니다."));
+			.then(() => dispatch(handleAlertModal("수정이 완료되었습니다")));
 	};
 
 	const reverseBoo = () => {
