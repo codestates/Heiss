@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { flexCenter, color } from "../components/utils/theme";
-
+import HorizontalScroll from "react-scroll-horizontal";
 // 컴포넌트
 import Nav from "./Nav";
 import Thumbnail from "../components/Thumbnail";
@@ -229,6 +229,8 @@ const ReviewBox = styled.div`
 const Mainpage = () => {
 	const review = useSelector((state) => state.review.reviewAll);
 
+	const child = { width: `10rem`, height: `100%` };
+	const parent = { width: `100%`, height: `10rem` };
 	return (
 		<MainpageSection>
 			<Nav />
@@ -281,15 +283,17 @@ const Mainpage = () => {
 				</li>
 				<li className="columnSection">
 					<h2>이렇게 많은 사용자분들이 리뷰를 남겨주셨습니다!</h2>
-					<ReviewBox>
-						{review.map((data, key) => (
-							<Thumbnail
-								data={data}
-								key={key}
-								shareBtn={true}
-								liked={data.liked}
-							/>
-						))}
+					<ReviewBox style={parent}>
+						<HorizontalScroll>
+							{review.map((data, key) => (
+								<Thumbnail
+									data={data}
+									key={key}
+									shareBtn={true}
+									liked={data.liked}
+								/>
+							))}
+						</HorizontalScroll>
 					</ReviewBox>
 					<Link to="/review" className="moreBtn">
 						더보기

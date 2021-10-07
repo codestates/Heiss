@@ -51,6 +51,12 @@ const GlobalStyles = createGlobalStyle`
 		background: none;
 		cursor: pointer;
 	}
+
+	#root {
+		width: 100vw;
+		height: 100vh;
+		padding: 0;
+	}
 `;
 
 const App = () => {
