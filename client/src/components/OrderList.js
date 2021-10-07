@@ -12,6 +12,7 @@ const OrderListSection = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: 100%;
 `;
 
 const OrderListBox = styled.div`
@@ -51,22 +52,42 @@ const ListBox = styled.div`
 		font-size: 2rem;
 		margin: 0.5rem 0;
 		color: ${color.point};
+
+		@media ${(props) => props.theme.mobileL} {
+			font-size: 1rem;
+		}
 	}
 `;
 
 const ListSemiBox = styled.ul`
 	display: flex;
-	flex-wrap: wrap;
+	justify-content: space-around;
 	margin: 1rem;
+
+	@media ${(props) => props.theme.tablet} {
+		flex-direction: column;
+	}
 
 	li {
 		${flexCenter}
 
 		align-items: space-between;
-		width: 150px;
-		height: 150px;
+		width: 200px;
+		height: 200px;
+		min-width: 200px;
+		min-height: 200px;
 		text-align: center;
 		font-size: 1.5rem;
+		padding: 1rem;
+
+		@media ${(props) => props.theme.tablet} {
+			width: 130px;
+			height: 130px;
+		}
+
+		@media ${(props) => props.theme.mobileL} {
+			padding: 0.5rem;
+		}
 	}
 `;
 
