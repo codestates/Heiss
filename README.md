@@ -29,7 +29,7 @@
 
 
 ## Deployment Architecture
-![](https://even-cayenne-f0c.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F1b883633-7c54-4ae6-8d42-356617949021%2FUntitled.png?table=block&id=be305410-190f-489d-af9e-2fee4c091151&spaceId=a7c83d4e-9c0f-4531-9046-057086ebca37&width=2840&userId=&cache=v2)
+![](file:///Users/A/Desktop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-10-07%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%2011.47.04.png)
 
 ### Front-end Stack
 - HTML
