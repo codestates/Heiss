@@ -520,7 +520,7 @@ const ReviewModal = ({
 									}}
 									className="reviewHeart"
 								/>
-								<span>{data1.like}</span>
+								<span className="likeCount">{data1.like}</span>
 							</div>
 						) : (
 							<div className="heartNumber">
