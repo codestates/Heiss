@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
-import { reviewDatas, handleRevieWritewModal } from "../redux/modules/review";
+import { handleRevieWritewModal } from "../redux/modules/review";
 import {
 	getUserLocker,
 	getUserOrder,
@@ -13,46 +13,81 @@ axios.defaults.withCredentials = true;
 
 const Wrap = styled.div`
 	width: 100%;
+	height: 100%;
 	position: relative;
 	display: flex;
-	flex-direction: row;
 	justify-content: center;
-	align-items: center;
 
 	.Wrap_1 {
-		width: 50%;
+		width: 100%;
+		height: 90%;
+	}
+
+	.wrap_2 {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 
 	.picWrap {
-		width: 80%;
 		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 100%;
+		width: 80%;
+		text-align: center;
 
 		.imgWrap {
-			display: flex;
+			position: relative;
+			display: inline-block;
 			border: 4px solid #f47676;
 			border-radius: 0.5vh;
-			outline: 0;
-			position: relative;
 			width: 100%;
-			height: 18.6rem;
-			overflow: hidden;
+			height: 24%;
 		}
 	}
 
 	.star {
 		font-size: 30px;
 		padding: 0rem 0.2rem;
+		margin-bottom: 0.7rem;
 	}
 
 	.starCaseDiv {
-		display: flex;
-		justify-content: space-between;
+		width: 100%;
+	}
+
+	@media (max-width: 1585px) {
+		.starCaseDiv {
+			display: block;
+		}
+		.star {
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	@media (max-width: 510px) {
+		flex-direction: column;
+		.Wrap_1 {
+			height: 40%;
+		}
+		.Wrap_2 {
+			width: 100%;
+			height: 20%;
+		}
+		.picWrap {
+			width: 100%;
+			height: 100%;
+		}
 	}
 `;
 
 const ReviewImg = styled.img`
 	width: 100%;
 	height: 100%;
+	object-fit: scale-down;
 	&:hover {
 		+ div {
 			display: block;
@@ -65,27 +100,16 @@ const ReviewImg = styled.img`
 `;
 
 const WriteSection = styled.form`
-	display: flex;
-	flex-direction: column;
+	width: 100%;
+	height: 100%;
 	position: relative;
 	input {
-		width: 30rem;
+		width: 85%;
+		height: 18%;
 		margin-top: 1.5rem;
 		border-radius: 1vh;
 		&::placeholder {
 			color: #737373;
-		}
-
-		@media ${(props) => props.theme.mobileL} {
-			width: 10rem;
-			font-size: 0.9rem;
-			&::placeholder {
-				font-size: 0.9rem;
-			}
-		}
-
-		@media ${(props) => props.theme.tablet} {
-			width: 25rem;
 		}
 	}
 
@@ -93,8 +117,8 @@ const WriteSection = styled.form`
 		background-color: #000;
 		color: #f47676;
 		resize: none;
-		width: 31.4rem;
-		height: 10rem;
+		width: 89%;
+		height: 50%;
 		margin-top: 1.5rem;
 		border-radius: 1vh;
 		border: 3px solid #f47676;
@@ -102,11 +126,71 @@ const WriteSection = styled.form`
 		font-size: 1.2rem;
 		font-weight: bold;
 	}
+
+	@media ${(props) => props.theme.mobileL} {
+		width: 10rem;
+		font-size: 0.9rem;
+		&::placeholder {
+			font-size: 0.9rem;
+		}
+	}
+
+	@media (max-width: 510px) {
+		display: flex;
+	}
+
+	@media (max-width: 424px) {
+		width: 100%;
+	}
+`;
+
+const FormRight = styled.form`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	width: 100%;
+	height: 100%;
+	input {
+		width: 85%;
+		height: 5%;
+		border-radius: 1vh;
+		&::placeholder {
+			color: #737373;
+		}
+	}
+	textarea {
+		background-color: #000;
+		width: 89%;
+		height: 100%;
+		color: #f47676;
+		resize: none;
+		height: 40%;
+		margin-top: 1.5rem;
+		border-radius: 1vh;
+		border: 3px solid #f47676;
+		padding: 0.4rem 0rem 0rem 0.4rem;
+		font-size: 1.2rem;
+		font-weight: bold;
+	}
+	.submit {
+		display: flex;
+		justify-content: center;
+		margin-right: 8%;
+	}
+
+	@media (max-width: 510px) {
+		width: 100%;
+		height: 100%;
+		input {
+			width: 92%;
+		}
+		textarea {
+			width: 97%;
+		}
+	}
 `;
 
 const ReviewBtn = styled.button`
-	position: absolute;
-	top: 80%;
 	background-color: #f47676;
 	color: #ffffe7;
 	width: 12rem;
@@ -115,6 +199,7 @@ const ReviewBtn = styled.button`
 	font-weight: bold;
 	margin-top: 2rem;
 	transition: all 0.3s;
+
 	&:hover {
 		background: #ffffe7;
 		color: #f47676;
@@ -125,7 +210,9 @@ const ImgDiv = styled.div`
 	position: relative;
 	border: 4px dashed #f47676;
 	width: 80%;
-	height: 18.6rem;
+	height: 110%;
+	display: flex;
+	align-items: center;
 	border-radius: 1vh;
 	&:hover {
 		background-color: #f7caca;
@@ -145,23 +232,31 @@ const ImgDiv = styled.div`
 	> h3 {
 		text-align: center;
 		color: #f47676;
-		padding-top: 8.8rem;
+		padding: 1.4rem;
+	}
+
+	@media (max-width: 510px) {
+		width: 100%;
+		height: 100%;
+	}
+
+	@media (max-width: 424px) {
+		width: 100%;
 	}
 `;
 
 const ChangeImg = styled.div`
 	position: absolute;
-	top: 20rem;
+	bottom: -12.5%;
 	border: 3px dashed #f47676;
 	margin-top: 0.6rem;
-	width: 8rem;
-	height: 1.4rem;
+	width: 80%;
+	height: 10%;
 	border-radius: 0.5vh;
 	&:hover {
 		background-color: #f7caca;
 		border: 3px dashed #f47676;
 	}
-
 	> input {
 		position: absolute;
 		margin: 0;
@@ -177,16 +272,31 @@ const ChangeImg = styled.div`
 		color: #f47676;
 		padding-top: 0.2rem;
 		> p {
-			font-size: 1rem;
+			font-size: 1.4rem;
 			font-weight: bold;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+
+			@media (max-width: 585px) {
+				font-size: 1rem;
+			}
 		}
+	}
+
+	@media (max-width: 510px) {
+		width: 35%;
+		height: 19%;
+		right: 1%;
+		top: 101%;
 	}
 `;
 
 const ImgDelete = styled.div`
 	position: absolute;
-	top: 0.8rem;
-	right: 10%;
+	top: 8%;
+	right: 8%;
 	width: 3.8rem;
 	height: 1.8rem;
 	background-color: rgba(0, 0, 0, 0.6);
@@ -264,6 +374,23 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 		"white",
 		"white",
 	]);
+
+	useEffect(() => {
+		if (reviewImg.length) {
+			let pic = document.querySelectorAll(".imgWrap");
+			for (let i = 0; i < reviewImg.length; i++) {
+				if (reviewImg.length === 1) {
+					pic[i].style.height = "100%";
+				} else if (reviewImg.length === 2) {
+					pic[i].style.height = "49%";
+				} else if (reviewImg.length === 3) {
+					pic[i].style.height = "32%";
+				} else if (reviewImg.length === 4) {
+					pic[i].style.height = "24%";
+				}
+			}
+		}
+	}, [reviewImg]);
 
 	useEffect(() => {
 		dispatch(getUserOrder());
@@ -475,54 +602,57 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 						)}
 					</WriteSection>
 				</div>
-				<div>
-					<div className="starCaseDiv">
-						<div>
-							{review.title.length
-								? putColor.map((el, index) => (
-										<StarTwoTone
-											className="star"
-											key={index}
-											twoToneColor={el}
-											onClick={() => colorChange(index)}
-										/>
-								  ))
-								: color.map((el, index) => (
-										<StarTwoTone
-											className="star"
-											key={index}
-											twoToneColor={el}
-											onClick={() => colorChange(index)}
-										/>
-								  ))}
+				<div className="wrap_2">
+					<FormRight onSubmit={(e) => e.preventDefault()}>
+						<div className="starCaseDiv">
+							<div>
+								{review.title.length
+									? putColor.map((el, index) => (
+											<StarTwoTone
+												className="star"
+												key={index}
+												twoToneColor={el}
+												onClick={() => colorChange(index)}
+											/>
+									  ))
+									: color.map((el, index) => (
+											<StarTwoTone
+												className="star"
+												key={index}
+												twoToneColor={el}
+												onClick={() => colorChange(index)}
+											/>
+									  ))}
+							</div>
+							{data ? null : (
+								<Select onClick={caseHandler}>
+									<span>{caseName}</span>
+									{caseChoice ? (
+										<ul>
+											{orderCase.length ? (
+												orderCase.map((el) => {
+													console.log(el);
+													return (
+														<li
+															key={el.id}
+															onClick={(e) => liNameChange(e, el)}
+														>
+															<img
+																onClick={(e) => imgNameChange(e, el)}
+																style={{ width: "100px" }}
+																src={el.img}
+															/>
+														</li>
+													);
+												})
+											) : (
+												<li>구매한 케이스가 없습니다</li>
+											)}
+										</ul>
+									) : null}
+								</Select>
+							)}
 						</div>
-						{data ? null : (
-							<Select onClick={caseHandler}>
-								<span>{caseName}</span>
-								{caseChoice ? (
-									<ul>
-										{orderCase.length ? (
-											orderCase.map((el) => {
-												console.log(el);
-												return (
-													<li key={el.id} onClick={(e) => liNameChange(e, el)}>
-														<img
-															onClick={(e) => imgNameChange(e, el)}
-															style={{ width: "100px" }}
-															src={el.img}
-														/>
-													</li>
-												);
-											})
-										) : (
-											<li>구매한 케이스가 없습니다</li>
-										)}
-									</ul>
-								) : null}
-							</Select>
-						)}
-					</div>
-					<WriteSection onSubmit={(e) => e.preventDefault()}>
 						<input
 							placeholder="제목"
 							value={review.title}
@@ -533,16 +663,18 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 							value={review.desc}
 							onChange={(e) => onChange(e, "desc")}
 						/>
-					</WriteSection>
+						<div className="submit">
+							{!data ? (
+								<ReviewBtn onClick={reviewUpload}>작성 완료</ReviewBtn>
+							) : (
+								<ReviewBtn onClick={() => patchReviewUpload(data.id)}>
+									수정 완료
+								</ReviewBtn>
+							)}
+						</div>
+					</FormRight>
 				</div>
 			</Wrap>
-			{!data ? (
-				<ReviewBtn onClick={reviewUpload}>작성 완료</ReviewBtn>
-			) : (
-				<ReviewBtn onClick={() => patchReviewUpload(data.id)}>
-					수정 완료
-				</ReviewBtn>
-			)}
 		</>
 	);
 };
