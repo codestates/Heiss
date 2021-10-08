@@ -18,7 +18,9 @@
 - 렌딩페이지  
     ![랜딩 flow](https://user-images.githubusercontent.com/68473415/136419297-3ceb23ba-38f1-49b2-b147-2b96cba12bf9.gif)
 
-- 케이스 제작
+- 케이스 제작  
+    ![고양이 전체화면](https://user-images.githubusercontent.com/68473415/136501866-4365d2e1-da80-4aa6-af9f-3128005088ac.gif)
+    ![우주인 전체](https://user-images.githubusercontent.com/68473415/136501879-13cceadc-1805-4766-8e46-073df1569a82.gif)
 
 
 - 주문  
