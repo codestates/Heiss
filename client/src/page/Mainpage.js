@@ -309,7 +309,7 @@ const Mainpage = () => {
 				<li className="columnSection">
 					<h2>이렇게 많은 사용자분들이 리뷰를 남겨주셨습니다!</h2>
 					<ReviewBox style={parent}>
-						<HorizontalScroll>
+						<HorizontalScroll reverseScroll={true}>
 							{review.map((data, key) => (
 								<Thumbnail
 									data={data}

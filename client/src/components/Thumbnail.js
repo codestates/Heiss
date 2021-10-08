@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleLoginModal, handleConfirmModal } from "../redux/modules/users";
 import { reviewDatas } from "../redux/modules/review";
 import ReviewModal from "../modal/ReviewModal";
+import "./reviewModal.css";
 
 // 이미지
 import heartIcon from "../img/heart.svg";
@@ -76,36 +77,6 @@ const HeartHowMany = styled.div`
 	}
 `;
 
-// 모달 스타일
-const ThumbnailModal = {
-	overlay: {
-		position: "fixed",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: "rgba(255, 255, 255, 0.45)",
-		zIndex: 2,
-	},
-	content: {
-		display: "flex",
-		justifyContent: "center",
-		// border: "1px solid #fb8787",
-		// background: "#fdc8c8",
-		background: "#0f0d00",
-		margin: "0 auto",
-		overflow: "auto",
-		width: "50vw",
-		top: "10vw",
-		bottom: "10vw",
-		WebkitOverflowScrolling: "touch",
-		borderRadius: "4px",
-		outline: "none",
-		padding: "1rem",
-		zIndex: 2,
-	},
-};
-
 const Thumbnail = ({ data, shareBtn }) => {
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -163,11 +134,19 @@ const Thumbnail = ({ data, shareBtn }) => {
 		<ThumbnailAllBox>
 			<Modal
 				isOpen={modal}
-				style={ThumbnailModal}
+				className="content"
+				overlayClassName="overlay"
 				onRequestClose={modalHandler}
 				ariaHideApp={false}
 			>
-				<ReviewModal dataId={data.id} modalHandler={modalHandler} />
+				<ReviewModal
+					dataId={data.id}
+					data1={data}
+					modalHandler={modalHandler}
+					toggleH={toggleH}
+					postLike={postLike}
+					scrapCase={scrapCase}
+				/>
 			</Modal>
 			<ThumbnailSection>
 				<img src={data.sources[0].imgUrl} alt="img" />

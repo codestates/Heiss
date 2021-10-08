@@ -242,7 +242,8 @@ const Nav = ({ reviewBtn }) => {
 
 			<Modal
 				isOpen={review.reviewWriteModal}
-				style={reviewModal}
+				className="content"
+				overlayClassName="overlay"
 				onRequestClose={reviewWriteHandler}
 				ariaHideApp={false}
 			>

@@ -29,8 +29,8 @@ const Review = () => {
 		<ReviewSection>
 			<Nav reviewBtn={true} />
 			<ReviewBox>
-				{review.map((data, index) => (
-					<Thumbnail key={index} data={data} shareBtn={true} />
+				{review.map((data) => (
+					<Thumbnail key={data.id} data={data} shareBtn={true} />
 				))}
 			</ReviewBox>
 		</ReviewSection>
