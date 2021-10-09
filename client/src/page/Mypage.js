@@ -174,7 +174,7 @@ const BottomNav = styled.div`
 			border-radius: 50%;
 			overflow: hidden;
 			background: ${color.darkBasic};
-			box-shadow: 3px 3px 3px ${color.darkBasic};
+			box-shadow: -3px 3px 3px ${color.darkBasic};
 			.bottomUserImg {
 				width: 5rem;
 				height: 5rem;
@@ -192,6 +192,10 @@ const BottomNav = styled.div`
 			border-radius: 50%;
 			border: none;
 			box-shadow: 3px 3px 3px ${color.darkBasic};
+
+			&:hover {
+				transform: scale(1.02);
+			}
 
 			img {
 				height: 60%;
