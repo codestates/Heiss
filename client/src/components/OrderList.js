@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { flexCenter, color } from "../components/utils/theme";
+import { flexCenter, color, ImgDivs } from "../components/utils/theme";
 import { getUserOrder } from "../redux/modules/users";
 import axios from "axios";
 
@@ -21,9 +21,9 @@ const OrderListBox = styled.div`
 	width: 100%;
 	margin-bottom: 1rem;
 
-	h1 {
+	h3 {
 		width: 100%;
-		margin: 2rem 0;
+		margin: 1rem 0;
 		border-bottom: 3px solid ${color.lightBasic};
 	}
 `;
@@ -33,29 +33,32 @@ const ListBox = styled.div`
 
 	flex-wrap: wrap;
 	width: 100%;
-	margin-bottom: 2rem;
-	border-bottom: 0.5px solid ${color.lightBasic};
 	&:last-child {
 		border: none;
 	}
 
 	img {
-		min-height: 250px;
+		/* min-height: 250px; */
 		height: 250px;
-		min-width: 170px;
+		/* min-width: 170px; */
 		width: 170px;
 		border-radius: 2vh;
 		margin-bottom: 2rem;
 	}
 
-	.title {
-		font-size: 2rem;
+	.orderTitle {
+		font-size: 1.7rem;
+		font-weight: bold;
 		margin: 0.5rem 0;
-		color: ${color.point};
+		color: #f9a1a1;
+	}
 
-		@media ${(props) => props.theme.mobileL} {
-			font-size: 1rem;
-		}
+	.orderDesc {
+		font-size: 1.2rem;
+	}
+
+	@media (max-width: 1410px) {
+		display: block;
 	}
 `;
 
@@ -64,12 +67,8 @@ const ListSemiBox = styled.ul`
 	justify-content: space-around;
 	margin: 1rem;
 
-	@media ${(props) => props.theme.tablet} {
-		flex-direction: column;
-	}
-
 	li {
-		${flexCenter}
+		/* ${flexCenter} */
 
 		align-items: space-between;
 		width: 200px;
@@ -79,15 +78,6 @@ const ListSemiBox = styled.ul`
 		text-align: center;
 		font-size: 1.5rem;
 		padding: 1rem;
-
-		@media ${(props) => props.theme.tablet} {
-			width: 130px;
-			height: 130px;
-		}
-
-		@media ${(props) => props.theme.mobileL} {
-			padding: 0.5rem;
-		}
 	}
 `;
 
@@ -112,27 +102,30 @@ const OrderList = () => {
 		<OrderListSection>
 			{user.userOrder.map((data) => (
 				<OrderListBox key={data.orderNumber}>
-					<h1>{data.length === 0 && "주문"}</h1>
-					<h1>주문번호: {data.orderNumber}</h1>
+					<h3>주문번호: {data.orderNumber}</h3>
 					{data.orderList.map((item) => (
 						<ListBox key={item.customCaseId}>
-							<img src={item.img} alt={item.img} />
 							<ListSemiBox>
-								<li>
-									<div className="title">아이템번호</div>
+								<img src={item.img} alt={item.img} />
+								{/* <li>
+									<div className="title">케이스번호</div>
 									<div>{item.customCaseId}</div>
+								</li> */}
+								<li>
+									<div className="orderTitle">기종</div>
+									<div className="orderDesc">{item.phone_type}</div>
 								</li>
 								<li>
-									<div className="title">수량</div>
-									<div>{item.quantity}개</div>
+									<div className="orderTitle">수량</div>
+									<div className="orderDesc">{item.quantity}개</div>
 								</li>
 								<li>
-									<div className="title">주문금액</div>
-									<div>{item.price}원</div>
+									<div className="orderTitle">주문금액</div>
+									<div className="orderDesc">{item.price}원</div>
 								</li>
 								<li>
-									<div className="title">진행상황</div>
-									<div>{data.condition}</div>
+									<div className="orderTitle">진행상황</div>
+									<div className="orderDesc">{data.condition}</div>
 								</li>
 							</ListSemiBox>
 						</ListBox>

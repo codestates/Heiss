@@ -1,19 +1,16 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import Modal from "react-modal";
 import axios from "axios";
-
 import { useHistory } from "react-router";
-import { flexCenter, color } from "../components/utils/theme";
+import { color } from "../components/utils/theme";
 import { useDispatch, useSelector } from "react-redux";
+import { getUserLocker } from "../redux/modules/users";
 import {
-	getUserLocker,
-	getUserInfo,
-	newUserInfo,
-	patchUserInfo,
-} from "../redux/modules/users";
-import * as Yup from "yup";
-import { useFormik } from "formik";
+	FormOutlined,
+	BookOutlined,
+	CreditCardOutlined,
+	ShoppingOutlined,
+} from "@ant-design/icons";
 
 // 컴포넌트
 import Nav from "./Nav";
@@ -35,6 +32,11 @@ const MypageSection = styled.div`
 	&::-webkit-scrollbar {
 		display: none;
 	}
+
+	.bottomNavIcon {
+		font-size: 3.5rem;
+		cursor: pointer;
+	}
 `;
 
 const MypageBox = styled.div`
@@ -43,8 +45,9 @@ const MypageBox = styled.div`
 	padding: 1rem;
 
 	.title {
-		font-size: 1.5rem;
+		font-size: 2rem;
 		font-weight: bold;
+		color: ${color.point};
 		width: 100%;
 	}
 `;
@@ -55,7 +58,7 @@ const CategoryBox = styled.div`
 	width: 220px;
 	height: 40vh;
 	position: sticky;
-	top: 0;
+	top: 10%;
 	background: ${color.basic};
 	border-radius: 1vh;
 	box-sizing: border-box;
@@ -82,13 +85,12 @@ const CategoryBox = styled.div`
 			font-weight: bold;
 		}
 
-		@media ${(props) => props.theme.tablet} {
+		@media (max-width: 1300px) {
 			flex-direction: column;
 			align-items: center;
 
 			.username {
-				margin-top: 0.8rem;
-				font-size: 1rem;
+				margin-top: 1rem;
 			}
 		}
 	}
@@ -106,11 +108,7 @@ const CategoryBox = styled.div`
 		}
 	}
 
-	@media ${(props) => props.theme.tablet} {
-		width: 13vw;
-	}
-
-	@media ${(props) => props.theme.mobileL} {
+	@media (max-width: 1280px) {
 		display: none;
 	}
 `;
@@ -131,12 +129,12 @@ const MainSection = styled.ul`
 		margin-bottom: 3rem;
 	}
 
-	@media ${(props) => props.theme.tablet} {
-		width: 76vw;
-	}
-
 	@media ${(props) => props.theme.mobileL} {
 		width: 100vw;
+	}
+
+	@media (max-width: 1280px) {
+		width: 100%;
 	}
 `;
 
@@ -144,6 +142,32 @@ const SaveBox = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	height: 100%;
+`;
+
+const BottomNav = styled.div`
+	width: 100%;
+	background: ${color.basic};
+	height: 100px;
+	position: fixed;
+	bottom: 0%;
+	display: none;
+
+	@media (max-width: 1280px) {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		.bottomUser {
+			width: 5rem;
+			height: 5rem;
+			border-radius: 50%;
+			overflow: hidden;
+			background: ${color.darkBasic};
+			.bottomUserImg {
+				width: 5rem;
+				height: 5rem;
+			}
+		}
+	}
 `;
 
 const Mypage = () => {
@@ -222,6 +246,23 @@ const Mypage = () => {
 					</li>
 				</MainSection>
 			</MypageBox>
+			<BottomNav>
+				<BookOutlined onClick={handleToSaveBox} className="bottomNavIcon" />
+				<ShoppingOutlined onClick={handleToShop} className="bottomNavIcon" />
+				<div className="bottomUser">
+					<img
+						src={userinfo.userInfo.profileImg}
+						alt="profile"
+						className="bottomUserImg"
+					/>
+					<div className="bottomUserName">{userinfo.userInfo.userName}</div>
+				</div>
+				<CreditCardOutlined
+					onClick={handleToOrderList}
+					className="bottomNavIcon"
+				/>
+				<FormOutlined onClick={handleToPutUserinfo} className="bottomNavIcon" />
+			</BottomNav>
 		</MypageSection>
 	);
 };
