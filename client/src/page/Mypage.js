@@ -19,6 +19,12 @@ import Cart from "../components/Cart";
 import PutUserInfo from "../components/PutUserInfo";
 import OrderList from "../components/OrderList";
 
+// 이미지
+import navi1 from "../img/navi1.svg";
+import navi2 from "../img/navi2.svg";
+import navi3 from "../img/navi3.svg";
+import navi4 from "../img/navi4.svg";
+
 axios.defaults.withCredentials = true;
 
 const MypageSection = styled.div`
@@ -168,6 +174,7 @@ const BottomNav = styled.div`
 			border-radius: 50%;
 			overflow: hidden;
 			background: ${color.darkBasic};
+			box-shadow: 3px 3px 3px ${color.darkBasic};
 			.bottomUserImg {
 				width: 5rem;
 				height: 5rem;
@@ -175,29 +182,22 @@ const BottomNav = styled.div`
 		}
 
 		.bottomNavIcon {
-			min-width: 3rem;
-			min-height: 3rem;
+			${flexCenter}
+			min-width: 50px;
+			min-height: 50px;
+			width: 4rem;
+			height: 4rem;
 			margin-bottom: 0.5rem;
-			background: black;
+			background: ${color.lightBasic};
 			border-radius: 50%;
 			border: none;
+			box-shadow: 3px 3px 3px ${color.darkBasic};
+
+			img {
+				height: 60%;
+				width: 60%;
+			}
 		}
-		/* .BookOutlined {
-			width: 100%;
-			height: 100%;
-		}
-		.ShoppingOutlined {
-			width: 100%;
-			height: 100%;
-		}
-		.CreditCardOutlined {
-			width: 100%;
-			height: 100%;
-		}
-		.FormOutlined {
-			width: 100%;
-			height: 100%;
-		} */
 	}
 `;
 
@@ -278,7 +278,7 @@ const Mypage = () => {
 				</MainSection>
 			</MypageBox>
 			<BottomNav>
-				<BookOutlined
+				{/* <BookOutlined
 					onClick={handleToSaveBox}
 					className="bottomNavIcon BookOutlined"
 				/>
@@ -301,7 +301,27 @@ const Mypage = () => {
 				<FormOutlined
 					onClick={handleToPutUserinfo}
 					className="bottomNavIcon FormOutlined"
-				/>
+				/> */}
+				<div className="bottomNavIcon" onClick={handleToSaveBox}>
+					<img src={navi1} />
+				</div>
+				<div className="bottomNavIcon" onClick={handleToShop}>
+					<img src={navi2} />
+				</div>
+				<div className="bottomUser">
+					<img
+						src={userinfo.userInfo.profileImg}
+						alt="profile"
+						className="bottomUserImg"
+					/>
+					<div className="bottomUserName">{userinfo.userInfo.userName}</div>
+				</div>
+				<div className="bottomNavIcon" onClick={handleToOrderList}>
+					<img src={navi3} />
+				</div>
+				<div className="bottomNavIcon" onClick={handleToPutUserinfo}>
+					<img src={navi4} />
+				</div>
 			</BottomNav>
 		</MypageSection>
 	);
