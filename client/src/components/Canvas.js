@@ -144,7 +144,6 @@ const Canvas = () => {
 			fireMiddleClick: true, // 미들클릭 활성
 			allowTaint: true,
 			foreignObjectRendering: true,
-			backgroundColor: "#343421",
 		});
 
 		setCanvas(canvas);

@@ -53,6 +53,7 @@ const PutUserInfoBox = styled.div`
 	.btnBox {
 		display: flex;
 		justify-content: center;
+		margin-bottom: 5rem;
 
 		.btn {
 			width: 8rem;
@@ -78,6 +79,7 @@ const PutUserInfoBox = styled.div`
 
 const ImgDiv = styled.div`
 	${ImgDivs}
+	margin-top:4rem;
 `;
 
 // 모달 디자인
