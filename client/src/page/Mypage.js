@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useHistory } from "react-router";
-import { color } from "../components/utils/theme";
+import { flexCenter, color } from "../components/utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserLocker } from "../redux/modules/users";
 import {
@@ -142,12 +142,16 @@ const SaveBox = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	height: 100%;
+
+	@media ${(props) => props.theme.tablet} {
+		justify-content: center;
+	}
 `;
 
 const BottomNav = styled.div`
 	width: 100%;
+	height: 90px;
 	background: ${color.basic};
-	height: 100px;
 	position: fixed;
 	bottom: 0%;
 	display: none;
@@ -155,10 +159,12 @@ const BottomNav = styled.div`
 	@media (max-width: 1280px) {
 		display: flex;
 		justify-content: space-around;
-		align-items: center;
+		align-items: flex-end;
 		.bottomUser {
 			width: 5rem;
 			height: 5rem;
+			min-width: 5rem;
+			min-height: 5rem;
 			border-radius: 50%;
 			overflow: hidden;
 			background: ${color.darkBasic};
@@ -167,6 +173,31 @@ const BottomNav = styled.div`
 				height: 5rem;
 			}
 		}
+
+		.bottomNavIcon {
+			min-width: 3rem;
+			min-height: 3rem;
+			margin-bottom: 0.5rem;
+			background: black;
+			border-radius: 50%;
+			border: none;
+		}
+		/* .BookOutlined {
+			width: 100%;
+			height: 100%;
+		}
+		.ShoppingOutlined {
+			width: 100%;
+			height: 100%;
+		}
+		.CreditCardOutlined {
+			width: 100%;
+			height: 100%;
+		}
+		.FormOutlined {
+			width: 100%;
+			height: 100%;
+		} */
 	}
 `;
 
@@ -247,8 +278,14 @@ const Mypage = () => {
 				</MainSection>
 			</MypageBox>
 			<BottomNav>
-				<BookOutlined onClick={handleToSaveBox} className="bottomNavIcon" />
-				<ShoppingOutlined onClick={handleToShop} className="bottomNavIcon" />
+				<BookOutlined
+					onClick={handleToSaveBox}
+					className="bottomNavIcon BookOutlined"
+				/>
+				<ShoppingOutlined
+					onClick={handleToShop}
+					className="bottomNavIcon ShoppingOutlined"
+				/>
 				<div className="bottomUser">
 					<img
 						src={userinfo.userInfo.profileImg}
@@ -259,9 +296,12 @@ const Mypage = () => {
 				</div>
 				<CreditCardOutlined
 					onClick={handleToOrderList}
-					className="bottomNavIcon"
+					className="bottomNavIcon CreditCardOutlined"
 				/>
-				<FormOutlined onClick={handleToPutUserinfo} className="bottomNavIcon" />
+				<FormOutlined
+					onClick={handleToPutUserinfo}
+					className="bottomNavIcon FormOutlined"
+				/>
 			</BottomNav>
 		</MypageSection>
 	);
