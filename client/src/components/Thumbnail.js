@@ -90,7 +90,6 @@ const Thumbnail = ({ data, shareBtn }) => {
 	};
 
 	useEffect(() => {
-		console.log(data);
 		if (data.liked) {
 			setToggleH(true);
 		}

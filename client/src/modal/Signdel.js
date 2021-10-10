@@ -6,56 +6,44 @@ import { useDispatch } from "react-redux";
 axios.defaults.withCredentials = true;
 
 const SigndelSection = styled.div`
-	width: 50%;
-	display: flex;
-	flex-direction: column;
-	color: #ffffe7;
-	justify-content: center;
-	align-items: center;
+	color: #3d3d3d;
+	font-weight: bold;
+
+	.wrap {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 
 	.deleteInput {
 		width: 60%;
 		height: 0.4rem;
-		margin-bottom: 1.4rem;
+		color: #3d3d3d;
+	}
+
+	.deleteInput::placeholder {
+		color: #ccc;
 	}
 
 	.title {
-		font-size: 1.1rem;
-		margin-bottom: 1rem;
-	}
-
-	.warring {
-		display: flex;
-		color: #f47676;
+		font-size: 1.4rem;
+		margin: 1.5rem 0rem;
 	}
 `;
 
 const BtnBox = styled.div`
-	display: flex;
-	justify-content: space-around;
-
 	.btn {
 		color: #f47676;
-		width: 4rem;
 		border-radius: 1vh;
 		border: 3px solid #f47676;
 		margin: 0.4rem;
-		padding: 0.5rem;
+		padding: 0.7rem;
 		font-weight: bold;
 		font-size: 1rem;
 		transition: all 0.5s;
 		&:hover {
 			background: #f47676;
 			color: #ffffe7;
-		}
-	}
-
-	.yesBtn {
-		color: #ffffe7;
-		border: 3px solid #ffffe7;
-		&:hover {
-			color: #f47676;
-			background: #fffffe;
 		}
 	}
 `;
@@ -83,21 +71,23 @@ const Signdel = ({ deleteModal }) => {
 
 	return (
 		<SigndelSection>
-			<p className="title">회원탈퇴를 진행하시겠습니까?</p>
-			<input
-				type="password"
-				onChange={(e) => passwordHandler(e)}
-				placeholder="현재 비밀번호"
-				className="deleteInput"
-			/>
-			<BtnBox>
-				<button className="btn yesBtn" onClick={deleteUser}>
-					예
-				</button>
-				<button className="btn" onClick={deleteModal}>
-					아니오
-				</button>
-			</BtnBox>
+			<div className="wrap">
+				<p className="title">회원탈퇴를 진행하시겠습니까?</p>
+				<input
+					type="password"
+					onChange={(e) => passwordHandler(e)}
+					placeholder="현재 비밀번호를 입력해주세요"
+					className="deleteInput"
+				/>
+				<BtnBox>
+					<button className="btn" onClick={deleteUser}>
+						예
+					</button>
+					<button className="btn" onClick={deleteModal}>
+						아니오
+					</button>
+				</BtnBox>
+			</div>
 		</SigndelSection>
 	);
 };

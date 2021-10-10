@@ -18,11 +18,12 @@ const Wrap = styled.div`
 const PassSection = styled.form`
 	width: 100%;
 
-	color: #ffffe7;
+	color: #3d3d3d;
 
 	.title {
 		margin-bottom: 1.4rem;
 		font-size: 1.2rem;
+		font-weight: bold;
 	}
 
 	.warring {
@@ -42,6 +43,10 @@ const BtnBox = styled.div`
 		margin-right: 1rem;
 		border-radius: 0.4rem;
 		margin-bottom: 1rem;
+	}
+
+	input::placeholder {
+		color: #ccc;
 	}
 `;
 

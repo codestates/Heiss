@@ -17,12 +17,17 @@ const Wrap = styled.div`
 
 	p {
 		font-size: 1.3rem;
+		text-align: center;
+	}
+
+	.text {
+		display: flex;
+		flex-direction: column;
 	}
 
 	div {
 		display: flex;
 		justify-content: space-evenly;
-		align-items: flex-end;
 	}
 
 	button {
