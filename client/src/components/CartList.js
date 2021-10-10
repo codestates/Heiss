@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
 
 const CartBox = styled.div`
 	${flexCenter}
-	justify-content: space-around;
+	justify-content: space-evenly;
 	width: 100%;
 	flex-wrap: wrap;
 	border-bottom: 3px solid ${color.lightBasic};
@@ -24,11 +24,11 @@ const CartBox = styled.div`
 
 	@media ${(props) => props.theme.tablet} {
 		flex-direction: column;
+		height: 400px;
 	}
 
 	.column {
 		@media ${(props) => props.theme.tablet} {
-			border-bottom: 1px solid ${color.lightBasic};
 			&:last-child {
 				border: none;
 			}
@@ -36,7 +36,19 @@ const CartBox = styled.div`
 	}
 
 	.sub_title {
-		font-size: 2rem;
+		font-size: 1.5rem;
+		color: #f9a1a1;
+		font-weight: bold;
+		@media ${(props) => props.theme.tablet} {
+			font-size: 1.2rem;
+		}
+	}
+
+	.sub_desc {
+		font-size: 1.2rem;
+		@media ${(props) => props.theme.tablet} {
+			font-size: 1rem;
+		}
 	}
 
 	.number {
@@ -165,19 +177,15 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 				</HoverThumb>
 			</ThumbnailSection>
 			<div className="column">
-				<h2 className="sub_title">기종</h2>
-				<h2>{data.customCase.phone.type}</h2>
+				<p className="sub_title">기종</p>
+				<p className="sub_desc">{data.customCase.phone.type}</p>
 			</div>
 			<div className="column">
-				<h2 className="sub_title">가격</h2>
-				<h2>{data.customCase.price}원</h2>
+				<p className="sub_title">가격</p>
+				<p>{data.customCase.price}원</p>
 			</div>
-			{/* <div className="column">
-				<h2 className="sub_title">배송비</h2>
-				<h2>2000원</h2>
-			</div> */}
 			<div className="column">
-				<h2 className="sub_title">수량</h2>
+				<p className="sub_title">수량</p>
 				<input
 					type="number"
 					value={quantity}
