@@ -16,7 +16,6 @@ const OrderListSection = styled.div`
 `;
 
 const OrderListBox = styled.div`
-	${flexCenter}
 	flex-direction: column;
 	width: 100%;
 	margin-bottom: 1rem;

@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
 						getList[i].orderLists[j].dataValues.quantity *
 						getList[i].orderLists[j].dataValues.customCase.price,
 					img: getList[i].orderLists[j].dataValues.customCase.img,
-					phone_type: getList[i].orderLists[j].dataValues.customCase.phone.type,
+					phone_type: getList[i].orderLists[j].dataValues.customCase.phone_type,
 				};
 				tmp.orderList.push(tmp2);
 			}
