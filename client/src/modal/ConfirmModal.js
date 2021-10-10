@@ -9,9 +9,9 @@ const Wrap = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
 	text-align: center;
-	/* justify-content: space-evenly; */
-	/* align-items: flex-end; */
 	font-weight: bold;
 	color: #363636;
 
@@ -28,13 +28,12 @@ const Wrap = styled.div`
 	button {
 		line-height: 1.7rem;
 		font-size: 1rem;
-		width: 5rem;
-		height: 1.7rem;
-		margin-top: 2.4rem;
 		background-color: #f47676;
 		border: 1px solid #f47676;
 		border-radius: 5px;
 		color: #ffffe7;
+		padding: 0.1rem 0.6rem;
+		margin: 1rem;
 	}
 `;
 
@@ -78,9 +77,11 @@ const ConfirmModal = ({ confirmModalHandler }) => {
 
 	return (
 		<Wrap>
-			<p>{user.confirmText}</p>
-			<p>{user.confirmText_2}</p>
-			<div>
+			<div className="text">
+				<p>{user.confirmText}</p>
+				<p>{user.confirmText_2}</p>
+			</div>
+			<div className="btn">
 				<button onClick={() => option()}>확인</button>
 				<button onClick={confirmModalHandler}>닫기</button>
 			</div>

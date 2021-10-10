@@ -1,0 +1,36 @@
+.confirmcontent {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	background: #ffffe7;
+	overflow: auto;
+	width: 400px;
+	height: 20%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	-webkit-overflow-scrolling: touch;
+	border-radius: 14px;
+	outline: none;
+	z-index: 10;
+}
+
+.confirmOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(255, 255, 255, 0.45);
+	z-index: 10;
+}
+
+@media (max-width: 500px) {
+	.confirmcontent {
+		width: 300px;
+	}
+}

@@ -8,6 +8,8 @@ import ReviewWriteModal from "../modal/ReviewWriteModal";
 import AlertModal from "../modal/AlertModal";
 import ConfirmModal from "../modal/ConfirmModal";
 import Sign from "../modal/Sign";
+import "./alertModal.css";
+import "./confirmModal.css";
 
 import {
 	getUserInfo,
@@ -141,58 +143,6 @@ const reviewModal = {
 	},
 };
 
-const alertModal = {
-	overlay: {
-		position: "fixed",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: "rgba(255, 255, 255, 0.45)",
-		zIndex: 10,
-	},
-	content: {
-		display: "flex",
-		justifyContent: "center",
-		background: "#ffffe7",
-		overflow: "auto",
-		top: "42vh",
-		left: "38vw",
-		right: "38vw",
-		bottom: "42vh",
-		WebkitOverflowScrolling: "touch",
-		borderRadius: "14px",
-		outline: "none",
-		zIndex: 10,
-	},
-};
-
-const confirmModal = {
-	overlay: {
-		position: "fixed",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: "rgba(255, 255, 255, 0.45)",
-		zIndex: 10,
-	},
-	content: {
-		display: "flex",
-		justifyContent: "center",
-		background: "#ffffe7",
-		overflow: "auto",
-		top: "42vh",
-		left: "38vw",
-		right: "38vw",
-		bottom: "42vh",
-		WebkitOverflowScrolling: "touch",
-		borderRadius: "14px",
-		outline: "none",
-		zIndex: 10,
-	},
-};
-
 const Nav = ({ reviewBtn }) => {
 	const user = useSelector((state) => state.user);
 	const review = useSelector((state) => state.review);
@@ -252,7 +202,8 @@ const Nav = ({ reviewBtn }) => {
 
 			<Modal
 				isOpen={user.alertModal}
-				style={alertModal}
+				className="logincontent"
+				overlayClassName="loginOverlay"
 				onRequestClose={alertModalHandler}
 				ariaHideApp={false}
 			>
@@ -261,7 +212,8 @@ const Nav = ({ reviewBtn }) => {
 
 			<Modal
 				isOpen={user.confirmModal}
-				style={confirmModal}
+				className="confirmcontent"
+				overlayClassName="confirmOverlay"
 				onRequestClose={confirmModalHandler}
 				ariaHideApp={false}
 			>

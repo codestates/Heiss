@@ -88,8 +88,6 @@ const Pass = ({ patchModal, values, img }) => {
 						})
 						.then(() => {
 							dispatch(handleAlertModal("회원정보 수정이 완료되었습니다"));
-							patchModal();
-							window.location.replace("/mypage");
 						});
 				}
 			})
