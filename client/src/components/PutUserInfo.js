@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { handleAlertModal } from "../redux/modules/users";
+import "./deleteUserModal.css";
 
 // 컴포넌트
 import Signdel from "../modal/Signdel";
@@ -82,34 +83,6 @@ const ImgDiv = styled.div`
 	margin-top:4rem;
 `;
 
-// 모달 디자인
-const signdelModal = {
-	overlay: {
-		position: "fixed",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: "rgba(255, 255, 255, 0.45)",
-		zIndex: 2,
-	},
-	content: {
-		display: "flex",
-		justifyContent: "center",
-		border: "1px solid #0f0d00",
-		background: "#0f0d00",
-		margin: "0 auto",
-		overflow: "auto",
-		height: "30vh",
-		width: "40vw",
-		WebkitOverflowScrolling: "touch",
-		borderRadius: "4px",
-		outline: "none",
-		padding: "0.1rem",
-		zIndex: 2,
-	},
-};
-
 const passwordModal = {
 	overlay: {
 		position: "fixed",
@@ -123,8 +96,7 @@ const passwordModal = {
 	content: {
 		display: "flex",
 		justifyContent: "center",
-		border: "1px solid #0f0d00",
-		background: "#0f0d00",
+		background: "#ffffe7",
 		margin: "0 auto",
 		overflow: "auto",
 		top: "35vh",
@@ -210,7 +182,8 @@ const PutUserInfo = () => {
 		<PutUserInfoBox>
 			<Modal
 				isOpen={deleteUserModal}
-				style={signdelModal}
+				className="userContent"
+				overlayClassName="userOverlay"
 				onRequestClose={deleteModal}
 				ariaHideApp={false}
 			>
