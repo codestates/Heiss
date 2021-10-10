@@ -27,6 +27,10 @@ const CartBox = styled.div`
 		height: 400px;
 	}
 
+	@media (max-width: 430px) {
+		height: 500px;
+	}
+
 	.column {
 		@media ${(props) => props.theme.tablet} {
 			&:last-child {

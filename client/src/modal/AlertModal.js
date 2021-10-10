@@ -78,6 +78,10 @@ const AlertModal = ({ alertModalHandler }) => {
 				dispatch(getUserLocker());
 				break;
 
+			case "회원정보 수정이 완료되었습니다":
+				window.location.replace("/mypage");
+				break;
+
 			default:
 				return;
 		}

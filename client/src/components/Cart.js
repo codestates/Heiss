@@ -67,6 +67,9 @@ const MoneyBox = styled.div`
 		@media ${(props) => props.theme.tablet} {
 			font-size: 1rem;
 		}
+		@media (max-width: 430px) {
+			text-align: center;
+		}
 	}
 
 	.plus {
@@ -79,6 +82,19 @@ const MoneyBox = styled.div`
 		color: ${color.point};
 		@media ${(props) => props.theme.tablet} {
 			font-size: 2rem;
+		}
+		@media (max-width: 430px) {
+			font-size: 1.5rem;
+		}
+	}
+
+	.allPrice {
+		font-size: 1.5rem;
+		margin-bottom: 0.8rem;
+		font-weight: bold;
+		@media (max-width: 430px) {
+			font-size: 1.2rem;
+			margin-bottom: 2rem;
 		}
 	}
 `;
@@ -208,7 +224,7 @@ const Cart = ({ name }) => {
 					)}
 				</Shipping>
 				<MoneyBox>
-					<h2>총 구매 금액</h2>
+					<p className="allPrice">총 구매 금액</p>
 					<h3>총 상품 금액 {money}원</h3>
 					<h3 className="plus">+</h3>
 					<h3>총 배송비 {money === 0 ? 0 : delivery}원</h3>
