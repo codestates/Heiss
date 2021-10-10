@@ -19,11 +19,20 @@ const CartBox = styled.div`
 	justify-content: space-around;
 	width: 100%;
 	flex-wrap: wrap;
-	border-bottom: 0.5px solid ${color.lightBasic};
+	border-bottom: 3px solid ${color.lightBasic};
 	padding: 1rem;
 
 	@media ${(props) => props.theme.tablet} {
 		flex-direction: column;
+	}
+
+	.column {
+		@media ${(props) => props.theme.tablet} {
+			border-bottom: 1px solid ${color.lightBasic};
+			&:last-child {
+				border: none;
+			}
+		}
 	}
 
 	.sub_title {

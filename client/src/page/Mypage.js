@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useHistory } from "react-router";
-import { color } from "../components/utils/theme";
+import { flexCenter, color } from "../components/utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserLocker } from "../redux/modules/users";
 import {
@@ -18,6 +18,12 @@ import Locker from "../components/Locker";
 import Cart from "../components/Cart";
 import PutUserInfo from "../components/PutUserInfo";
 import OrderList from "../components/OrderList";
+
+// 이미지
+import navi1 from "../img/navi1.svg";
+import navi2 from "../img/navi2.svg";
+import navi3 from "../img/navi3.svg";
+import navi4 from "../img/navi4.svg";
 
 axios.defaults.withCredentials = true;
 
@@ -142,12 +148,16 @@ const SaveBox = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	height: 100%;
+
+	@media ${(props) => props.theme.tablet} {
+		justify-content: center;
+	}
 `;
 
 const BottomNav = styled.div`
 	width: 100%;
+	height: 90px;
 	background: ${color.basic};
-	height: 100px;
 	position: fixed;
 	bottom: 0%;
 	display: none;
@@ -155,16 +165,41 @@ const BottomNav = styled.div`
 	@media (max-width: 1280px) {
 		display: flex;
 		justify-content: space-around;
-		align-items: center;
+		align-items: flex-end;
 		.bottomUser {
 			width: 5rem;
 			height: 5rem;
+			min-width: 5rem;
+			min-height: 5rem;
 			border-radius: 50%;
 			overflow: hidden;
 			background: ${color.darkBasic};
+			box-shadow: -3px 3px 3px ${color.darkBasic};
 			.bottomUserImg {
 				width: 5rem;
 				height: 5rem;
+			}
+		}
+
+		.bottomNavIcon {
+			${flexCenter}
+			min-width: 50px;
+			min-height: 50px;
+			width: 4rem;
+			height: 4rem;
+			margin-bottom: 0.5rem;
+			background: ${color.lightBasic};
+			border-radius: 50%;
+			border: none;
+			box-shadow: 3px 3px 3px ${color.darkBasic};
+
+			&:hover {
+				transform: scale(1.02);
+			}
+
+			img {
+				height: 60%;
+				width: 60%;
 			}
 		}
 	}
@@ -247,8 +282,14 @@ const Mypage = () => {
 				</MainSection>
 			</MypageBox>
 			<BottomNav>
-				<BookOutlined onClick={handleToSaveBox} className="bottomNavIcon" />
-				<ShoppingOutlined onClick={handleToShop} className="bottomNavIcon" />
+				{/* <BookOutlined
+					onClick={handleToSaveBox}
+					className="bottomNavIcon BookOutlined"
+				/>
+				<ShoppingOutlined
+					onClick={handleToShop}
+					className="bottomNavIcon ShoppingOutlined"
+				/>
 				<div className="bottomUser">
 					<img
 						src={userinfo.userInfo.profileImg}
@@ -259,9 +300,32 @@ const Mypage = () => {
 				</div>
 				<CreditCardOutlined
 					onClick={handleToOrderList}
-					className="bottomNavIcon"
+					className="bottomNavIcon CreditCardOutlined"
 				/>
-				<FormOutlined onClick={handleToPutUserinfo} className="bottomNavIcon" />
+				<FormOutlined
+					onClick={handleToPutUserinfo}
+					className="bottomNavIcon FormOutlined"
+				/> */}
+				<div className="bottomNavIcon" onClick={handleToSaveBox}>
+					<img src={navi1} />
+				</div>
+				<div className="bottomNavIcon" onClick={handleToShop}>
+					<img src={navi2} />
+				</div>
+				<div className="bottomUser">
+					<img
+						src={userinfo.userInfo.profileImg}
+						alt="profile"
+						className="bottomUserImg"
+					/>
+					<div className="bottomUserName">{userinfo.userInfo.userName}</div>
+				</div>
+				<div className="bottomNavIcon" onClick={handleToOrderList}>
+					<img src={navi3} />
+				</div>
+				<div className="bottomNavIcon" onClick={handleToPutUserinfo}>
+					<img src={navi4} />
+				</div>
 			</BottomNav>
 		</MypageSection>
 	);

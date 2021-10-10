@@ -46,17 +46,6 @@ const ListBox = styled.div`
 		margin-bottom: 2rem;
 	}
 
-	.orderTitle {
-		font-size: 1.7rem;
-		font-weight: bold;
-		margin: 0.5rem 0;
-		color: #f9a1a1;
-	}
-
-	.orderDesc {
-		font-size: 1.2rem;
-	}
-
 	@media (max-width: 1410px) {
 		display: block;
 	}
@@ -67,17 +56,47 @@ const ListSemiBox = styled.ul`
 	justify-content: space-around;
 	margin: 1rem;
 
+	@media ${(props) => props.theme.tablet} {
+		${flexCenter}
+
+		flex-direction: column;
+	}
+
+	.orderTitle {
+		font-size: 1.7rem;
+		font-weight: bold;
+		margin: 0.5rem 0;
+		color: #f9a1a1;
+
+		@media ${(props) => props.theme.tablet} {
+			font-size: 1.2rem;
+		}
+	}
+
+	.orderDesc {
+		font-size: 1.2rem;
+		@media ${(props) => props.theme.tablet} {
+			font-size: 1rem;
+		}
+	}
+
 	li {
 		/* ${flexCenter} */
 
 		align-items: space-between;
 		width: 200px;
 		height: 200px;
-		min-width: 200px;
-		min-height: 200px;
 		text-align: center;
 		font-size: 1.5rem;
 		padding: 1rem;
+
+		@media ${(props) => props.theme.tablet} {
+			font-size: 1rem;
+			width: 100px;
+			height: 100px;
+			border-top: 1px solid ${color.lightBasic};
+			padding: 0;
+		}
 	}
 `;
 
