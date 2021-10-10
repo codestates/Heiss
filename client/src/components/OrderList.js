@@ -28,7 +28,7 @@ const OrderListBox = styled.div`
 `;
 
 const ListBox = styled.div`
-	${flexCenter}
+	/* ${flexCenter} */
 
 	flex-wrap: wrap;
 	width: 100%;
