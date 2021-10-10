@@ -38,9 +38,7 @@ const ListBox = styled.div`
 	}
 
 	img {
-		/* min-height: 250px; */
 		height: 250px;
-		/* min-width: 170px; */
 		width: 170px;
 		border-radius: 2vh;
 		margin-bottom: 2rem;
@@ -63,7 +61,7 @@ const ListSemiBox = styled.ul`
 	}
 
 	.orderTitle {
-		font-size: 1.7rem;
+		font-size: 1.5rem;
 		font-weight: bold;
 		margin: 0.5rem 0;
 		color: #f9a1a1;
@@ -81,7 +79,7 @@ const ListSemiBox = styled.ul`
 	}
 
 	li {
-		/* ${flexCenter} */
+		${flexCenter}
 
 		align-items: space-between;
 		width: 200px;
@@ -93,8 +91,7 @@ const ListSemiBox = styled.ul`
 		@media ${(props) => props.theme.tablet} {
 			font-size: 1rem;
 			width: 100px;
-			height: 100px;
-			border-top: 1px solid ${color.lightBasic};
+			height: 40px;
 			padding: 0;
 		}
 	}
@@ -126,10 +123,6 @@ const OrderList = () => {
 						<ListBox key={item.customCaseId}>
 							<ListSemiBox>
 								<img src={item.img} alt={item.img} />
-								{/* <li>
-									<div className="title">케이스번호</div>
-									<div>{item.customCaseId}</div>
-								</li> */}
 								<li>
 									<div className="orderTitle">기종</div>
 									<div className="orderDesc">{item.phone_type}</div>

@@ -175,6 +175,7 @@ const BottomNav = styled.div`
 			overflow: hidden;
 			background: ${color.darkBasic};
 			box-shadow: -3px 3px 3px ${color.darkBasic};
+			margin-bottom: 0.3rem;
 			.bottomUserImg {
 				width: 5rem;
 				height: 5rem;
@@ -192,6 +193,7 @@ const BottomNav = styled.div`
 			border-radius: 50%;
 			border: none;
 			box-shadow: 3px 3px 3px ${color.darkBasic};
+			margin-bottom: 0.8rem;
 
 			&:hover {
 				transform: scale(1.02);
@@ -282,30 +284,6 @@ const Mypage = () => {
 				</MainSection>
 			</MypageBox>
 			<BottomNav>
-				{/* <BookOutlined
-					onClick={handleToSaveBox}
-					className="bottomNavIcon BookOutlined"
-				/>
-				<ShoppingOutlined
-					onClick={handleToShop}
-					className="bottomNavIcon ShoppingOutlined"
-				/>
-				<div className="bottomUser">
-					<img
-						src={userinfo.userInfo.profileImg}
-						alt="profile"
-						className="bottomUserImg"
-					/>
-					<div className="bottomUserName">{userinfo.userInfo.userName}</div>
-				</div>
-				<CreditCardOutlined
-					onClick={handleToOrderList}
-					className="bottomNavIcon CreditCardOutlined"
-				/>
-				<FormOutlined
-					onClick={handleToPutUserinfo}
-					className="bottomNavIcon FormOutlined"
-				/> */}
 				<div className="bottomNavIcon" onClick={handleToSaveBox}>
 					<img src={navi1} />
 				</div>
@@ -318,7 +296,6 @@ const Mypage = () => {
 						alt="profile"
 						className="bottomUserImg"
 					/>
-					<div className="bottomUserName">{userinfo.userInfo.userName}</div>
 				</div>
 				<div className="bottomNavIcon" onClick={handleToOrderList}>
 					<img src={navi3} />

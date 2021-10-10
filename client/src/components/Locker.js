@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { onCanvasData } from "../redux/modules/review";
+import "./lockerModal.css";
 import {
 	getUserCart,
 	handleAlertModal,
@@ -76,32 +77,6 @@ const HoverThumb = styled.div`
 	}
 `;
 
-const ThumbnailModal = {
-	overlay: {
-		position: "fixed",
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		backgroundColor: "rgba(255, 255, 255, 0.45)",
-		zIndex: 2,
-	},
-	content: {
-		display: "flex",
-		justifyContent: "center",
-		border: "1px solid #0f0d00",
-		background: "#0f0d00",
-		margin: "0 auto",
-		overflow: "auto",
-		width: "80vw",
-		WebkitOverflowScrolling: "touch",
-		borderRadius: "4px",
-		outline: "none",
-		padding: "0.1rem",
-		zIndex: 2,
-	},
-};
-
 const BgnHover = styled.div`
 	${BgnHovers}
 `;
@@ -162,11 +137,12 @@ const Locker = ({ data }) => {
 		<LockerAllBox>
 			<Modal
 				isOpen={modal}
-				style={ThumbnailModal}
+				className="lockerContent"
+				overlayClassName="lockerOverlay"
 				onRequestClose={modalHandler}
 				ariaHideApp={false}
 			>
-				<img src={data.img} alt="img" />
+				<img className="lockerImg" src={data.img} alt="img" />
 				<LockerModal dataId={data.id} onClick={modalHandler} />
 			</Modal>
 			<ThumbnailSection>
