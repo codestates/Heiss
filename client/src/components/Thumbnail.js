@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleLoginModal, handleConfirmModal } from "../redux/modules/users";
 import { reviewDatas } from "../redux/modules/review";
 import ReviewModal from "../modal/ReviewModal";
-import "./reviewModal.css";
+import "../css/reviewModal.css";
 
 // 이미지
 import heartIcon from "../img/heart.svg";
@@ -125,7 +125,6 @@ const Thumbnail = ({ data, shareBtn }) => {
 	};
 
 	if (!data) {
-		console.log(data);
 		return null;
 	}
 

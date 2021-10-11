@@ -130,7 +130,6 @@ const CartList = ({ data, copyKey, num, changeHandler }) => {
 
 	useEffect(() => {
 		changeHandler(data.customCase.price * data.quantity, data, toggle);
-		console.log("!!!!", data.customCase);
 	}, []);
 
 	// number 바뀔때마다 최신화 시켜줄 핸들러

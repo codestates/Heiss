@@ -6,7 +6,7 @@ import Modal from "react-modal";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { handleAlertModal } from "../redux/modules/users";
-import "./deleteUserModal.css";
+import "../css/deleteUserModal.css";
 
 // 컴포넌트
 import Signdel from "../modal/Signdel";
@@ -148,7 +148,7 @@ const PutUserInfo = () => {
 		if (e.target.files[0]) {
 			let reader = new FileReader();
 			let file = e.target.files[0];
-			console.log(file);
+
 			reader.onload = () => {
 				setImg({
 					file: file,

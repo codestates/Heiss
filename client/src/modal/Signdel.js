@@ -60,7 +60,6 @@ const Signdel = ({ deleteModal }) => {
 		axios
 			.post(`${process.env.REACT_APP_API_URL}user/withdrawal`, { password })
 			.then((el) => {
-				console.log(el);
 				if (el.data.message === "not found") {
 					dispatch(handleAlertModal("일치하지 않는 비밀번호 입니다"));
 				} else {

@@ -8,8 +8,8 @@ import ReviewWriteModal from "../modal/ReviewWriteModal";
 import AlertModal from "../modal/AlertModal";
 import ConfirmModal from "../modal/ConfirmModal";
 import Sign from "../modal/Sign";
-import "./alertModal.css";
-import "./confirmModal.css";
+import "../css/alertModal.css";
+import "../css/confirmModal.css";
 
 import {
 	getUserInfo,

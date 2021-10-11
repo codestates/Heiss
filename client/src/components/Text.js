@@ -49,7 +49,7 @@ const Text = ({ canvas }) => {
 			item.set("fontWeight", e.target.value);
 		});
 		setFontWeight(e.target.value);
-		console.log(e.target.value, fontWeight, items);
+
 		canvas.renderAll();
 	};
 
