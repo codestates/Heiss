@@ -1,33 +1,67 @@
 require("dotenv").config();
-const https = require("https");
+const { sequelize } = require("./models");
 const cors = require("cors");
-const fs = require("fs");
-
+const morgan = require("morgan");
+const multer = require("multer");
+const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
+const server = require("http").createServer(app);
+
+const userRouter = require("./route/user");
+const reviewRouter = require("./route/review");
+const cartRouter = require("./route/cart");
+const lockerRouter = require("./route/locker");
+const caseRouter = require("./route/case");
+const orderRouter = require("./route/order");
 
 app.use(express.json());
+app.use(morgan("tiny"));
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(
 	cors({
 		origin: true,
 		credentials: true,
-		methods: ["GET", "POST", "OPTIONS"],
+		methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
 	})
 );
+
+app.use("/user", userRouter);
+app.use("/review", reviewRouter);
+app.use("/cart", cartRouter);
+app.use("/locker", lockerRouter);
+app.use("/case", caseRouter);
+app.use("/order", orderRouter);
 
 app.get("/", (req, res) => {
 	res.send("hello world~~~");
 });
-const HTTPS_PORT = process.env.HTTPS_PORT || 50;
 
-let server;
-if (fs.existsSync("./key.pem") && fs.existsSync("./cert.pem")) {
-	const privateKey = fs.readFileSync(__dirname + "/key.pem", "utf8");
-	const certificate = fs.readFileSync(__dirname + "/cert.pem", "utf8");
-	const credentials = { key: privateKey, cert: certificate };
+//! socket
+const io = require("socket.io")(server, {
+	cors: {
+		origin: ["http://localhost:3000"],
+		credentials: true,
+		// methods: ["GET", "POST"],
+	},
+});
 
-	server = https.createServer(credentials, app);
-	server.listen(HTTPS_PORT, () => console.log("https server runnning"));
-} else {
-	server = app.listen(HTTPS_PORT, () => console.log("http server running "));
-}
+//* app.listen 같은게 on
+io.on("connection", (socket) => {
+	socket.on("online", (userInfo) => {
+		console.log('received: "' + userInfo + '" from client' + socket.id);
+		socket.emit("online", "Ok, i got it, " + socket.id);
+	});
+
+	socket.on("chat", () => {});
+
+	socket.on("disconnect", () => {
+		console.log(socket.id, "연결끊김");
+	});
+});
+
+const PORT = 80;
+server.listen(PORT, () => console.log("서버가 열려따..!"));
+//sequelize.sync({ alter: true }
+//console.log("서버가 열려따..!")
