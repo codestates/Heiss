@@ -138,12 +138,10 @@ const Cart = ({ name }) => {
 
 	useEffect(() => {
 		dispatch(getUserCart());
-		console.log(user.userCart);
 	}, []);
 
 	useEffect(() => {
 		if (user.userCart) {
-			console.log("실행!");
 			let arr = [];
 			for (let el of user.userCart) {
 				let payload = {

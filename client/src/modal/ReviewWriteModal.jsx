@@ -443,7 +443,7 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 		for (let re in review) {
 			formData.append(re, review[re]);
 		}
-		console.log(review.title, review.desc, review.score, review.caseId);
+		
 		if (review.title && review.desc && review.score && review.caseId) {
 			axios
 				.post(`${process.env.REACT_APP_API_URL}review`, formData, {
@@ -562,7 +562,7 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 							<>
 								<div className="picWrap">
 									{reviewImg.map((el, index) => {
-										console.log(el);
+										
 										return (
 											<div className="imgWrap" key={index}>
 												<ReviewImg src={el.imagePreviewUrl} />
@@ -631,7 +631,7 @@ const ReviewWriteModal = ({ data, modalHandler }) => {
 										<ul>
 											{orderCase.length ? (
 												orderCase.map((el) => {
-													console.log(el);
+													
 													return (
 														<li
 															key={el.id}

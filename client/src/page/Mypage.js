@@ -5,12 +5,6 @@ import { useHistory } from "react-router";
 import { flexCenter, color } from "../components/utils/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserLocker } from "../redux/modules/users";
-import {
-	FormOutlined,
-	BookOutlined,
-	CreditCardOutlined,
-	ShoppingOutlined,
-} from "@ant-design/icons";
 
 // 컴포넌트
 import Nav from "./Nav";

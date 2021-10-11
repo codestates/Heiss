@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { onCanvasData } from "../redux/modules/review";
-import "./lockerModal.css";
+import "../css/lockerModal.css";
 import {
 	getUserCart,
 	handleAlertModal,
