@@ -98,7 +98,11 @@
 <div markdown="1">       
 
 * position : Front-End
-* contribution 
+* contribution :
+    - 전체적인 디자인 및 애니메이션 구현
+    - Fabric으로 메인기능인 케이스 제작 기능 구현
+    - theme.js를 통한 CSS 코드 리팩토링
+    - 보관함, 장바구니, 주문내역 axios 구현
 </div>
 </details>
 
