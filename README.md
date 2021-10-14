@@ -18,20 +18,56 @@
 - 렌딩페이지  
     ![랜딩 flow](https://user-images.githubusercontent.com/68473415/136419297-3ceb23ba-38f1-49b2-b147-2b96cba12bf9.gif)
 
+- 마이페이지
+ 
+    ![마이페이지](https://user-images.githubusercontent.com/79984511/137337918-c71e2d6a-5619-4469-a656-437556f000ff.gif)
+
 - 케이스 제작  
     ![고양이 전체화면](https://user-images.githubusercontent.com/68473415/136501866-4365d2e1-da80-4aa6-af9f-3128005088ac.gif)
     ![우주인 전체](https://user-images.githubusercontent.com/68473415/136501879-13cceadc-1805-4766-8e46-073df1569a82.gif)
 
+- 케이스 퍼온 후 수정    
+    ![케이스 퍼오고수정](https://user-images.githubusercontent.com/79984511/137337623-bf85f945-956d-40e7-b9a1-b44715f0969d.gif)
+
+- 리뷰 전체 
+ 
+    ![리뷰전체](https://user-images.githubusercontent.com/79984511/137338560-30ee5360-522b-4a55-8558-67ff9677866e.gif)
+
+- 리뷰 디테일    
+    ![리뷰테ㅣㄹ](https://user-images.githubusercontent.com/79984511/137337563-c212846c-a994-4a23-ad11-513cbec307c1.gif)
+
+- 리뷰 작성
+ 
+    ![리뷰작성](https://user-images.githubusercontent.com/79984511/137337469-2a0c7ae8-64bc-46fc-806e-314c010f590f.gif)       
+    
+- 리뷰 수정    
+    ![리뷰수정](https://user-images.githubusercontent.com/79984511/137337533-61fd0473-1063-43f4-98b8-efe36cab39fc.gif)
+    
+- 리뷰 삭제
+ 
+    ![리뷰삭제](https://user-images.githubusercontent.com/79984511/137337597-dcf610d6-d600-41bf-95ee-325e7d1eb5ec.gif)
 
 - 주문  
-    ![주문 flow](https://user-images.githubusercontent.com/68473415/136419510-e8f20150-6ca0-47e4-b191-6ad93ffaf7cc.gif)
-
-- 리뷰  
-    ![리뷰 flow](https://user-images.githubusercontent.com/68473415/136419564-fe1a09f3-bcc2-43fd-aa90-0ce205b2a0a0.gif)
-
+    ![결제](https://user-images.githubusercontent.com/79984511/137336999-b74a630c-bdab-469d-bf89-f276a9a2adc7.gif)
+    
+- 회원정보수정
+ 
+    ![회원정보수정](https://user-images.githubusercontent.com/79984511/137338909-06ffa854-15fd-464d-9a96-961b34b91d93.gif)
 
 ## Deployment Architecture
 ![](https://user-images.githubusercontent.com/79843401/136426704-a187487c-766a-4073-aaa2-fef5e3be3b05.png)
+
+## DB Schema
+![DB Schema](https://cdn.discordapp.com/attachments/884333098534334486/894843541799440435/unknown.png)
+
+## Wire Frame
+![Wire Frame](https://user-images.githubusercontent.com/68473415/136408480-2b702eef-15b4-43f6-af0b-a5e987366922.png)
+
+## Server Flow Chart
+![Server Flow Chart](https://user-images.githubusercontent.com/68473415/136436576-2b13f32a-1891-498f-b171-277b9cb6046e.jpg)
+
+## Client Flow Chart
+![Client Flow Chart](https://cdn.discordapp.com/attachments/884333098534334486/895709678728798268/Heiss_FlowChart_1.jpg)
 
 ### Front-end Stack
 - HTML
@@ -54,9 +90,6 @@
 - JWT
 - oAuth2.0
 - multer
-
-## DB Schema
-![DB Schema](https://cdn.discordapp.com/attachments/884333098534334486/894843541799440435/unknown.png)
 
 ## TEAM 
 
@@ -83,7 +116,16 @@
 <div markdown="1">       
 
 * position : Back-End
-* contribution 
+* contribution : 
+    - [Front]
+        - 회원기능
+        - 리뷰기능구현/모달 반응형 CSS
+        - 모달구현 및 CSS
+        - 마이페이지 반응형 CSS
+    - [Back]
+        - API작성
+        - 배포
+        - Sequelize / DB구축
 </div>
 </details>
 
