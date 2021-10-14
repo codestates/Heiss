@@ -118,13 +118,13 @@
 * position : Back-End
 * contribution : 
     - [Front]
-        - 회원기능
-        - 리뷰기능구현/모달 반응형 CSS
-        - 모달구현 및 CSS
+        - 회원기능 (로그인, 회원가입, 회원정보수정, 비밀번호찾기, 회원탈퇴)
+        - 리뷰기능구현/모달 반응형 CSS (리뷰작성 및 수정 삭제, 리뷰 좋아요, 케이스 퍼가기)
+        - 모달구현 및 CSS (alert, confirm, 보관함, 회원수정, 탈퇴, 비밀번호 찾기 모달)
         - 마이페이지 반응형 CSS
     - [Back]
-        - API작성
-        - 배포
+        - API작성 (리뷰 CRUD, 케이스 CRUD, 장바구니 CRD, 보관함 CRD)
+        - 배포 (AWS를 이용한 서버, 클라이언트 배포 자동화)
         - Sequelize / DB구축
 </div>
 </details>
