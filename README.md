@@ -141,8 +141,11 @@
 * contribution :
     
     -API작성
+    
     -이미지 처리
+    
     -Paypal 결제
+    
     -이메일 인증
 
 </div>
