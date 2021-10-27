@@ -55,7 +55,7 @@
     ![회원정보수정](https://user-images.githubusercontent.com/79984511/137338909-06ffa854-15fd-464d-9a96-961b34b91d93.gif)
 
 ## Deployment Architecture
-![](https://user-images.githubusercontent.com/79843401/136426704-a187487c-766a-4073-aaa2-fef5e3be3b05.png)
+![](https://cdn.discordapp.com/attachments/836100670565908520/896719141896089650/unknown.png)
 
 ## DB Schema
 ![DB Schema](https://cdn.discordapp.com/attachments/884333098534334486/894843541799440435/unknown.png)
